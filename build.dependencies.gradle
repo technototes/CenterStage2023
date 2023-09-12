@@ -35,8 +35,8 @@ dependencies {
 
     // Freik: 16750/20403 external dependencies:
     // TechnoLib: This should be commented out to use a local source copy
-    //            yarn libflip will also comment it out
-    implementation 'com.github.technototes:TechnoLib:1.2.0' // FLIP: TechnoLibLocal
+    //            'yarn libflip' will also comment it out
+    implementation 'com.github.technototes:technolib:1.3.0-beta' // FLIP: TechnoLibLocal
 
     // RoadRunner:
     implementation 'com.acmerobotics.roadrunner:core:0.5.6'
