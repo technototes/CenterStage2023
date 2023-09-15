@@ -1,24 +1,25 @@
 package com.example.meepmeeptesting;
 
 import com.noahbres.meepmeep.MeepMeep;
-import com.noahbres.meepmeep.core.colorscheme.ColorScheme;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
+import java.io.*;
 import javax.imageio.ImageIO;
 
 public class Twenty403Testing {
 
     public static void main(String[] args) {
-        MeepMeep meepMeep = new MeepMeep(750);
+        // Make this as large as possible while still fitting on our laptop screens:
+        MeepMeep meepMeep = new MeepMeep(960);
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 .setDimensions(14, 14)
-                //Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                // Constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, trackWidth
+                // maxVel: The fastest dist/sec we'll travel (velocity)
+                // maxAcc: The fastest rate (dist/sec/sec) we'll change our velocity (acceleration)
+                // maxAngVel: the fastest degrees/sec we'll rotate (angular velocity)
+                // maxAngAcc: the fastest rate (deg/sec/sec) we'll change our rotation (angular acceleration)
+                // trackWidth: The width of our wheelbase (not clear what this really affects...)
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 9.5)
                 .followTrajectorySequence(drive ->
                         drive
@@ -29,15 +30,13 @@ public class Twenty403Testing {
                                 .addTrajectory(AutoConstantsRed.Away.BETWEEN_TO_PARK_LEFT.get())
                                 .build()
                 );
-
-        meepMeep.setBackgroundAlpha(0.95f).addEntity(myBot);
         try {
-            BufferedImage centerStage = ImageIO.read(new File("Field.jpg"));
-            meepMeep.setBackground(centerStage);
+            // Try to load the field image from the repo:
+            meepMeep.setBackground(ImageIO.read(new File("Field.jpg")));
         } catch (IOException io) {
-            meepMeep
-                    .setBackground(MeepMeep.Background.GRID_BLUE);
+            // If we can't find the field image, fall back to the gray grid
+            meepMeep.setBackground(MeepMeep.Background.GRID_GRAY);
         }
-        meepMeep.start();
+        meepMeep.setBackgroundAlpha(0.75f).addEntity(myBot).start();
     }
 }
