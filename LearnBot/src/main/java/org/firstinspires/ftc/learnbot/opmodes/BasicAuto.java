@@ -16,7 +16,15 @@ import org.firstinspires.ftc.learnbot.commands.StartSpinningCmd;
 import org.firstinspires.ftc.learnbot.commands.StopSpinningCmd;
 import org.firstinspires.ftc.learnbot.helpers.StartingPosition;
 
-@Autonomous(name = "BasicAuto")
+/*
+ * Some Emojis for opmode names:
+ * Copy them and paste them in the 'name' section of the @Autonomous tag
+ * Red alliance:  🟥
+ * Blue alliance: 🟦
+ * Wing position: 🪶
+ * Backstage pos: 🎦
+ */
+@Autonomous(name = "Basic Auto")
 @SuppressWarnings("unused")
 public class BasicAuto extends CommandOpMode implements Loggable {
 

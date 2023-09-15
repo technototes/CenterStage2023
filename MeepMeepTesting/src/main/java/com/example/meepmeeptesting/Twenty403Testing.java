@@ -23,7 +23,7 @@ public class Twenty403Testing {
             );
 
         meepMeep
-            .setBackground(MeepMeep.Background.FIELD_POWERPLAY_OFFICIAL)
+            .setBackground(MeepMeep.Background.GRID_BLUE)
             .setDarkMode(true)
             .setBackgroundAlpha(0.95f)
             .addEntity(myBot)
