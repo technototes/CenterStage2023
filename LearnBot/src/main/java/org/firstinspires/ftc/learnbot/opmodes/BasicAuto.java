@@ -12,9 +12,9 @@ import com.technototes.library.util.Alliance;
 import org.firstinspires.ftc.learnbot.Hardware;
 import org.firstinspires.ftc.learnbot.Robot;
 import org.firstinspires.ftc.learnbot.Setup;
-import org.firstinspires.ftc.learnbot.StartingPosition;
 import org.firstinspires.ftc.learnbot.commands.StartSpinningCmd;
 import org.firstinspires.ftc.learnbot.commands.StopSpinningCmd;
+import org.firstinspires.ftc.learnbot.helpers.StartingPosition;
 
 @Autonomous(name = "BasicAuto")
 @SuppressWarnings("unused")
