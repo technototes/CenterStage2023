@@ -16,9 +16,7 @@ public class Robot implements Loggable {
     public StuffSubsystem stuff;
     public TestSubsystem test;
 
-    public Robot(Hardware hw, Alliance team, StartingPosition pos) {
-        this.position = pos;
-        this.alliance = team;
+    public Robot(Hardware hw) {
         this.initialVoltage = hw.voltage();
         this.spinner = new SpinnySubsystem(hw);
         this.stuff = new StuffSubsystem(hw);
