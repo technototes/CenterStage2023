@@ -5,6 +5,7 @@ import com.technototes.library.util.Alliance;
 import org.firstinspires.ftc.learnbot.helpers.StartingPosition;
 import org.firstinspires.ftc.learnbot.subsystems.SpinnySubsystem;
 import org.firstinspires.ftc.learnbot.subsystems.StuffSubsystem;
+import org.firstinspires.ftc.learnbot.subsystems.TestSubsystem;
 
 public class Robot implements Loggable {
 
@@ -13,12 +14,12 @@ public class Robot implements Loggable {
     public double initialVoltage;
     public SpinnySubsystem spinner;
     public StuffSubsystem stuff;
+    public TestSubsystem test;
 
-    public Robot(Hardware hw, Alliance team, StartingPosition pos) {
-        this.position = pos;
-        this.alliance = team;
+    public Robot(Hardware hw) {
         this.initialVoltage = hw.voltage();
         this.spinner = new SpinnySubsystem(hw);
         this.stuff = new StuffSubsystem(hw);
+        this.test = new TestSubsystem(hw);
     }
 }

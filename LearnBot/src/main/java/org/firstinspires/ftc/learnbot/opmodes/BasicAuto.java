@@ -35,7 +35,7 @@ public class BasicAuto extends CommandOpMode implements Loggable {
     public void uponInit() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         hardware = new Hardware(hardwareMap);
-        robot = new Robot(hardware, Alliance.NONE, StartingPosition.Backstage);
+        robot = new Robot(hardware);
         CommandScheduler
             .getInstance()
             .scheduleForState(
