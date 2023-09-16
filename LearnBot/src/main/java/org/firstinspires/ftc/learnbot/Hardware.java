@@ -10,29 +10,11 @@ import com.technototes.library.hardware.sensor.ColorDistanceSensor;
 import com.technototes.library.hardware.sensor.IMU;
 import com.technototes.library.hardware.sensor.Rev2MDistanceSensor;
 import com.technototes.library.hardware.servo.Servo;
+import com.technototes.library.logger.Loggable;
 import java.util.List;
 import org.firstinspires.ftc.robotcore.external.navigation.VoltageUnit;
 
-public class Hardware {
-
-    @Config
-    public static class Connected {
-
-        public static boolean MOTOR = true;
-        public static boolean SERVO = false;
-        public static boolean DISTANCE_SENSOR = true;
-        public static boolean COLOR_SENSOR = false;
-    }
-
-    @Config
-    public static class HardwareNames {
-
-        public static String MOTOR = "m";
-        public static String SERVO = "s";
-        public static String IMU = "imu";
-        public static String DISTANCE = "d";
-        public static String COLOR = "c";
-    }
+public class Hardware implements Loggable {
 
     public List<LynxModule> hubs;
 
@@ -44,17 +26,17 @@ public class Hardware {
 
     public Hardware(HardwareMap hwmap) {
         hubs = hwmap.getAll(LynxModule.class);
-        if (Connected.MOTOR) {
-            this.theMotor = new EncodedMotor<>(HardwareNames.MOTOR);
+        if (Setup.Connected.MOTOR) {
+            this.theMotor = new EncodedMotor<>(Setup.HardwareNames.MOTOR);
         }
-        if (Connected.SERVO) {
-            this.servo = new Servo(HardwareNames.SERVO);
+        if (Setup.Connected.SERVO) {
+            this.servo = new Servo(Setup.HardwareNames.SERVO);
         }
-        if (Connected.DISTANCE_SENSOR) {
-            this.distanceSensor = new Rev2MDistanceSensor(HardwareNames.DISTANCE);
+        if (Setup.Connected.DISTANCE_SENSOR) {
+            this.distanceSensor = new Rev2MDistanceSensor(Setup.HardwareNames.DISTANCE);
         }
-        if (Connected.COLOR_SENSOR) {
-            this.colorSensor = new ColorDistanceSensor(HardwareNames.COLOR);
+        if (Setup.Connected.COLOR_SENSOR) {
+            this.colorSensor = new ColorDistanceSensor(Setup.HardwareNames.COLOR);
         }
     }
 
