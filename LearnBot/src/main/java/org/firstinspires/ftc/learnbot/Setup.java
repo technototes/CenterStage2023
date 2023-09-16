@@ -9,7 +9,7 @@ public class Setup {
 
         public static boolean MOTOR = true;
         public static boolean SERVO = false;
-        public static boolean DISTANCE_SENSOR = true;
+        public static boolean DISTANCE_SENSOR = false;
         public static boolean COLOR_SENSOR = false;
     }
 

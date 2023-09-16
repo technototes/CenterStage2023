@@ -31,9 +31,6 @@ public class TestSubsystem implements Subsystem, Loggable {
     private double curPower;
     private double zeroTicks;
 
-    // Gonna add some logging:
-    @Log(name = "Distance")
-    public volatile double dist = 0.0;
 
     @Log(name = "Power")
     public volatile double power = 0.0;
@@ -43,21 +40,24 @@ public class TestSubsystem implements Subsystem, Loggable {
 
     public TestSubsystem(Hardware hw) {
         theMotor = hw.theMotor;
-        theSensor = hw.distanceSensor;
         curPower = 0.0;
         zeroTicks = 0.0;
         resetTicks();
     }
 
-    public void enableSpinning() {
+    public void forwardSpinning() {
         running = true;
-        if (Math.abs(curPower) < DEAD_POWER) {
-            curPower = STARTING_POWER;
-        }
+        setPower(1.0);
     }
 
-    public void disableSpinning() {
-        running = false;
+    public void backwardSpinning() {
+        running = true;
+        setPower(-1.0);
+    }
+
+    public void stopSpinning() {
+        running = true;
+        setPower(0);
     }
 
     public void resetPosition() {
@@ -66,35 +66,9 @@ public class TestSubsystem implements Subsystem, Loggable {
 
     @Override
     public void periodic() {
-        stopMotor();
+        getTicks();
     }
 
-    private boolean shouldSpin() {
-        // We should only spin if we're more than 10 CM away, right?
-        return (distance() >= DISTANCE);
-    }
-
-    private void windDown() {
-        if (curPower > LOW_POWER) {
-            curPower = curPower - POWER_STEP;
-        }
-        setPower(curPower);
-    }
-
-    private void windUp() {
-        if (curPower < HIGH_POWER) {
-            curPower = curPower + POWER_STEP;
-        }
-        setPower(curPower);
-    }
-
-    private void justGo() {
-        setPower(curPower);
-    }
-
-    private void stopMotor() {
-        setPower(0);
-    }
 
     /**
      * This stuff is all for hiding the actual hardware behind fake values, so we can run
@@ -126,13 +100,4 @@ public class TestSubsystem implements Subsystem, Loggable {
         return ticks - zeroTicks;
     }
 
-    private double distance() {
-        if (theSensor == null) {
-            // Fake value if we don't have hardware
-            return 12;
-        }
-        // Read the value from the sensor
-        dist = theSensor.getDistance(DistanceUnit.CM);
-        return dist;
-    }
 }
