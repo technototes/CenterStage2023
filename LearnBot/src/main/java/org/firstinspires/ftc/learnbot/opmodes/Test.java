@@ -4,18 +4,16 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.technototes.library.structure.CommandOpMode;
-
 import org.firstinspires.ftc.learnbot.Hardware;
 import org.firstinspires.ftc.learnbot.Robot;
 import org.firstinspires.ftc.learnbot.controllers.TestController;
 
 @TeleOp(name = "Hardware TestBed")
 public class Test extends CommandOpMode {
+
     public Robot robot;
     public TestController testCtrl;
     public Hardware hardware;
-
-
 
     @Override
     public void uponInit() {

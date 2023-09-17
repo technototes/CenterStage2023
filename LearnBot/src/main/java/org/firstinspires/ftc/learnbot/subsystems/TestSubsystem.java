@@ -31,7 +31,6 @@ public class TestSubsystem implements Subsystem, Loggable {
     private double curPower;
     private double zeroTicks;
 
-
     @Log(name = "Power")
     public volatile double power = 0.0;
 
@@ -69,7 +68,6 @@ public class TestSubsystem implements Subsystem, Loggable {
         getTicks();
     }
 
-
     /**
      * This stuff is all for hiding the actual hardware behind fake values, so we can run
      * code even if the hardware isn't connected
@@ -99,5 +97,4 @@ public class TestSubsystem implements Subsystem, Loggable {
         // This reads the 'encoder' from the motor, but it's offset from our reset value
         return ticks - zeroTicks;
     }
-
 }
