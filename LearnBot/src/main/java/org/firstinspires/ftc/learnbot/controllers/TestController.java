@@ -18,9 +18,9 @@ public class TestController {
     public TestController(CommandGamepad g, Robot r){
         this.gamepad = g;
         this.robot = r;
-        this.motorForward = gamepad.triangle;
-        this.motorBackward = gamepad.cross;
-        this.motorStop = gamepad.circle;
+        this.motorForward = gamepad.ps_triangle;
+        this.motorBackward = gamepad.ps_cross;
+        this.motorStop = gamepad.ps_circle;
         this.motorForward.whenPressed(new TestMotorForwardCmd(r.test));
         this.motorBackward.whenPressed((new TestMotorBackwardCmd(r.test)));
         this.motorStop.whenPressed(new TestMotorStopCmd(r.test));
