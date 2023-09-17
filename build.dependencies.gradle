@@ -41,7 +41,7 @@ dependencies {
     // RoadRunner:
     implementation 'com.acmerobotics.roadrunner:core:0.5.6'
     // EasyOpenCv:
-    implementation 'org.openftc:easyopencv:1.5.2'
+    implementation 'org.openftc:easyopencv:1.7.0'
     // FTC Dashboard:
     implementation 'com.acmerobotics.dashboard:dashboard:0.4.12'
 
