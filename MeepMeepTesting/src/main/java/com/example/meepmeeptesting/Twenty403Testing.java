@@ -10,7 +10,7 @@ public class Twenty403Testing {
 
     public static void main(String[] args) {
         // Make this as large as possible while still fitting on our laptop screens:
-        MeepMeep meepMeep = new MeepMeep(960);
+        MeepMeep meepMeep = new MeepMeep(600);
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
             .setDimensions(14, 14)
             // Constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, trackWidth
