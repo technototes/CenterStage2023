@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.learnbot;
 
-import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.hardware.lynx.LynxModule;
-import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.technototes.library.hardware.motor.EncodedMotor;
@@ -19,6 +17,10 @@ public class Hardware implements Loggable {
     public List<LynxModule> hubs;
 
     public EncodedMotor<DcMotorEx> theMotor;
+    public EncodedMotor<DcMotorEx> flMotor;
+    public EncodedMotor<DcMotorEx> frMotor;
+    public EncodedMotor<DcMotorEx> rlMotor;
+    public EncodedMotor<DcMotorEx> rrMotor;
     public IMU imu;
     public Servo servo;
     public Rev2MDistanceSensor distanceSensor;
@@ -28,6 +30,18 @@ public class Hardware implements Loggable {
         hubs = hwmap.getAll(LynxModule.class);
         if (Setup.Connected.MOTOR) {
             this.theMotor = new EncodedMotor<>(Setup.HardwareNames.MOTOR);
+        }
+        if (Setup.Connected.frMotor) {
+            this.frMotor = new EncodedMotor<>(Setup.HardwareNames.FRMOTOR);
+        }
+        if (Setup.Connected.flMotor) {
+            this.flMotor = new EncodedMotor<>(Setup.HardwareNames.FLMOTOR);
+        }
+        if (Setup.Connected.rrMotor) {
+            this.rrMotor = new EncodedMotor<>(Setup.HardwareNames.RRMOTOR);
+        }
+        if (Setup.Connected.rlMotor) {
+            this.rlMotor = new EncodedMotor<>(Setup.HardwareNames.RLMOTOR);
         }
         if (Setup.Connected.SERVO) {
             this.servo = new Servo(Setup.HardwareNames.SERVO);
