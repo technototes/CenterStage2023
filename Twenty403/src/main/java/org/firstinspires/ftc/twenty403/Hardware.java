@@ -2,7 +2,9 @@ package org.firstinspires.ftc.twenty403;
 
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.sensor.IMU;
 import com.technototes.library.logger.Loggable;
 import java.util.List;
@@ -13,6 +15,7 @@ public class Hardware implements Loggable {
     public List<LynxModule> hubs;
 
     public IMU imu;
+    public EncodedMotor<DcMotorEx> fl, fr, rl, rr;
 
     /* TODO: Put other other here! */
 
@@ -21,9 +24,13 @@ public class Hardware implements Loggable {
         imu =
             new IMU(
                 Setup.HardwareNames.IMU,
-                RevHubOrientationOnRobot.LogoFacingDirection.BACKWARD,
-                RevHubOrientationOnRobot.UsbFacingDirection.LEFT
+                RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD
             );
+        fl = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.FLMOTOR);
+        fr = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.FRMOTOR);
+        rl = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.RLMOTOR);
+        rr = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.RRMOTOR);
     }
 
     // We can read the voltage from the different hubs for fun...
