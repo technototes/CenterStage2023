@@ -7,25 +7,23 @@ public class Setup {
     @Config
     public static class Connected {
 
-        public static boolean MOTOR = true;
-        public static boolean SERVO = false;
-        public static boolean DISTANCE_SENSOR = true;
-        public static boolean COLOR_SENSOR = false;
+        public static boolean DRIVEBASE = true;
     }
 
     @Config
     public static class HardwareNames {
 
-        public static String MOTOR = "m";
-        public static String SERVO = "s";
+        public static String FLMOTOR = "fl";
+        public static String FRMOTOR = "fr";
+        public static String RLMOTOR = "rl";
+        public static String RRMOTOR = "rr";
         public static String IMU = "imu";
-        public static String DISTANCE = "d";
-        public static String COLOR = "c";
     }
 
     @Config
     public static class OtherSettings {
 
         public static int AUTOTIME = 25;
+        public static double STRAIGHTEN_DEAD_ZONE = 0.015;
     }
 }
