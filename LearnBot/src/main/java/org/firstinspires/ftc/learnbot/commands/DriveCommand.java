@@ -21,6 +21,6 @@ public class DriveCommand implements Command, Loggable {
 
     @Override
     public void execute() {
-        subsystem.joystickDrive(x.getAsDouble(), y.getAsDouble(), r.getAsDouble());
+        subsystem.joystickDriveWithGyro(x.getAsDouble(), y.getAsDouble(), r.getAsDouble(), 0.0);
     }
 }

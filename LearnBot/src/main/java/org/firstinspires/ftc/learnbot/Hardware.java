@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.learnbot;
 
 import com.qualcomm.hardware.lynx.LynxModule;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.technototes.library.hardware.motor.EncodedMotor;
@@ -52,6 +53,12 @@ public class Hardware implements Loggable {
         if (Setup.Connected.COLOR_SENSOR) {
             this.colorSensor = new ColorDistanceSensor(Setup.HardwareNames.COLOR);
         }
+        this.imu =
+            new IMU(
+                Setup.HardwareNames.IMU,
+                RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD
+            );
     }
 
     // We can read the voltage from the different hubs for fun...
