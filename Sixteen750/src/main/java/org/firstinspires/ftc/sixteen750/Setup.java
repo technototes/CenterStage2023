@@ -21,6 +21,8 @@ public class Setup {
         public static String IMU = "imu";
         public static String DISTANCE = "d";
         public static String COLOR = "c";
+        public static String INTAKELEFT = "lwheel";
+        public static String INTAKERIGHT = "rwheel";
     }
 
     @Config
