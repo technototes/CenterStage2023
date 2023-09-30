@@ -14,9 +14,9 @@ import java.util.Arrays;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class AutoConstantsRed {
-    public static class Wing {
-        public static Pose2d START = new Pose2d(36, -66, toRadians(90));
+public class AutoConstants {
+    public static class WingRed {
+        public static Pose2d START = new Pose2d(35, -60, toRadians(90));
         public static Pose2d STACK = new Pose2d(60, -12, toRadians(0));
 
         public static Pose2d PARK_LEFT = new Pose2d(-60, -60, toRadians(180));
@@ -31,9 +31,9 @@ public class AutoConstantsRed {
         //left facing between
         public static Pose2d STACK_TO_BETWEEN = new Pose2d(37, -12, toRadians(180));
 
-        public static Pose2d LOW_TO_BETWEEN = new Pose2d(35,-60,toRadians(180));
+        public static Pose2d START2 = new Pose2d(35,-60,toRadians(180));
         public static Pose2d LOW_TO_BETWEEN2 = new Pose2d(35,-60,toRadians(90));
-        public static Pose2d LOW_JUNCTION_LEFT = new Pose2d(35,-34, toRadians(90));
+        public static Pose2d FORWARD_PUSH = new Pose2d(35,-32, toRadians(90));
         public static Pose2d LOW_JUNCTION_RIGHT = new Pose2d(48,-24, toRadians(60));
 
 
@@ -91,22 +91,22 @@ public class AutoConstantsRed {
 
 
         //Left Low Junction
-        START_TO_LEFT_LOW =
-                () -> function.apply(START).lineToLinearHeading(LOW_JUNCTION_LEFT).build(),
+        START_TO_MIDDLE_SPIKE =
+                () -> function.apply(START).lineToLinearHeading(FORWARD_PUSH).build(),
 
-        LEFT_LOW_TO_BETWEEN_LEFT =
-                () -> function.apply(LOW_JUNCTION_LEFT).lineToLinearHeading(LOW_TO_BETWEEN).build(),
-        BETWEEN_TO_PARK_LEFT =
-                () -> function.apply(LOW_TO_BETWEEN).lineToLinearHeading(PARK_LEFT).build(),
+        FORWARD_PUSH_TO_START =
+                () -> function.apply(FORWARD_PUSH).lineToLinearHeading(START2).build(),
+        START2_TO_PARK_LEFT =
+                () -> function.apply(START2).lineToLinearHeading(PARK_LEFT).build(),
 
-        LEFT_LOW_TO_PARK_MIDDLE =
+        PARK_LEFT_TO_START3 =
                 () -> function.apply(PARK_LEFT).lineToLinearHeading(LOW_TO_BETWEEN2).build(),
 
         LEFT_LOW_TO_BETWEEN_RIGHT =
-                () -> function.apply(LOW_JUNCTION_LEFT).lineToLinearHeading(PARK_MIDDLE).build(),
+                () -> function.apply(FORWARD_PUSH).lineToLinearHeading(PARK_MIDDLE).build(),
 
         //Right Low Junction
-        START_TO_RIGHT_LOW =
+         START_TO_RIGHT_LOW =
                 () -> function.apply(START).splineTo(LOW_JUNCTION_RIGHT.vec(), LOW_JUNCTION_RIGHT.getHeading()).build();
 
 

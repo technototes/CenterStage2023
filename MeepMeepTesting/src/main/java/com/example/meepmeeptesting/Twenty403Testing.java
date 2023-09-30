@@ -22,12 +22,12 @@ public class Twenty403Testing {
             .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 9.5)
             .followTrajectorySequence(drive ->
                 drive
-                    .trajectorySequenceBuilder(AutoConstantsRed.Wing.START)
-                    .addTrajectory(AutoConstantsRed.Wing.START_TO_LEFT_LOW.get())
+                    .trajectorySequenceBuilder(AutoConstants.WingRed.START)
+                    .addTrajectory(AutoConstants.WingRed.START_TO_MIDDLE_SPIKE.get())
                     //.addTrajectory(AutoConstantsRed.Away.START_TO_RIGHT_LOW.get())
-                    .addTrajectory(AutoConstantsRed.Wing.LEFT_LOW_TO_BETWEEN_LEFT.get())
-                    .addTrajectory(AutoConstantsRed.Wing.BETWEEN_TO_PARK_LEFT.get())
-                        .addTrajectory(AutoConstantsRed.Wing.LEFT_LOW_TO_PARK_MIDDLE.get())
+                    .addTrajectory(AutoConstants.WingRed.FORWARD_PUSH_TO_START.get())
+                    .addTrajectory(AutoConstants.WingRed.START2_TO_PARK_LEFT.get())
+                       // .addTrajectory(AutoConstantsRed.Wing.PARK_LEFT_TO_START3.get())
 
                         .build()
             );
