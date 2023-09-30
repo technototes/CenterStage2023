@@ -47,18 +47,18 @@ public class AutoConstants {
         // These are 'trajectory pieces' which should be named like this:
         // {STARTING_POSITION}_TO_{ENDING_POSITION}
         public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
-                START_TO_LEFT_STRIKE = b ->
+            START_TO_LEFT_STRIKE = b ->
                 b.apply(START.toPose()).lineToLinearHeading(LEFT_STRIKE.toPose()).build(),
-                START_TO_MIDDLE_STRIKE = b ->
-                        b.apply(START.toPose()).lineToLinearHeading(MIDDLE_STRIKE.toPose()).build(),
-                START_TO_RIGHT_STRIKE = b ->
-                        b.apply(START.toPose()).lineToLinearHeading(RIGHT_STRIKE.toPose()).build(),
-                LEFT_STRIKE_TO_CLEAR = b ->
-                        b.apply(LEFT_STRIKE.toPose()).lineToLinearHeading(CLEAR.toPose()).build(),
-                MIDDLE_STRIKE_TO_CLEAR = b ->
-                        b.apply(MIDDLE_STRIKE.toPose()).lineToLinearHeading(CLEAR.toPose()).build(),
-                RIGHT_STRIKE_TO_CLEAR = b ->
-                        b.apply(RIGHT_STRIKE.toPose()).lineToLinearHeading(CLEAR.toPose()).build();
+            START_TO_MIDDLE_STRIKE = b ->
+                b.apply(START.toPose()).lineToLinearHeading(MIDDLE_STRIKE.toPose()).build(),
+            START_TO_RIGHT_STRIKE = b ->
+                b.apply(START.toPose()).lineToLinearHeading(RIGHT_STRIKE.toPose()).build(),
+            LEFT_STRIKE_TO_CLEAR = b ->
+                b.apply(LEFT_STRIKE.toPose()).lineToLinearHeading(CLEAR.toPose()).build(),
+            MIDDLE_STRIKE_TO_CLEAR = b ->
+                b.apply(MIDDLE_STRIKE.toPose()).lineToLinearHeading(CLEAR.toPose()).build(),
+            RIGHT_STRIKE_TO_CLEAR = b ->
+                b.apply(RIGHT_STRIKE.toPose()).lineToLinearHeading(CLEAR.toPose()).build();
     }
 
     @Config
@@ -73,18 +73,18 @@ public class AutoConstants {
         // These are 'trajectory pieces' which should be named like this:
         // {STARTING_POSITION}_TO_{ENDING_POSITION}
         public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
-                START_TO_LEFT_STRIKE = b ->
+            START_TO_LEFT_STRIKE = b ->
                 b.apply(START.toPose()).lineToLinearHeading(LEFT_STRIKE.toPose()).build(),
-                START_TO_MIDDLE_STRIKE = b ->
-                        b.apply(START.toPose()).lineToLinearHeading(MIDDLE_STRIKE.toPose()).build(),
-                START_TO_RIGHT_STRIKE = b ->
-                        b.apply(START.toPose()).lineToLinearHeading(RIGHT_STRIKE.toPose()).build(),
-                LEFT_STRIKE_TO_CLEAR = b ->
-                        b.apply(LEFT_STRIKE.toPose()).lineToLinearHeading(CLEAR.toPose()).build(),
-                MIDDLE_STRIKE_TO_CLEAR = b ->
-                        b.apply(MIDDLE_STRIKE.toPose()).lineToLinearHeading(CLEAR.toPose()).build(),
-                RIGHT_STRIKE_TO_CLEAR = b ->
-                        b.apply(RIGHT_STRIKE.toPose()).lineToLinearHeading(CLEAR.toPose()).build();
+            START_TO_MIDDLE_STRIKE = b ->
+                b.apply(START.toPose()).lineToLinearHeading(MIDDLE_STRIKE.toPose()).build(),
+            START_TO_RIGHT_STRIKE = b ->
+                b.apply(START.toPose()).lineToLinearHeading(RIGHT_STRIKE.toPose()).build(),
+            LEFT_STRIKE_TO_CLEAR = b ->
+                b.apply(LEFT_STRIKE.toPose()).lineToLinearHeading(CLEAR.toPose()).build(),
+            MIDDLE_STRIKE_TO_CLEAR = b ->
+                b.apply(MIDDLE_STRIKE.toPose()).lineToLinearHeading(CLEAR.toPose()).build(),
+            RIGHT_STRIKE_TO_CLEAR = b ->
+                b.apply(RIGHT_STRIKE.toPose()).lineToLinearHeading(CLEAR.toPose()).build();
     }
 
     @Config
@@ -99,18 +99,18 @@ public class AutoConstants {
         // These are 'trajectory pieces' which should be named like this:
         // {STARTING_POSITION}_TO_{ENDING_POSITION}
         public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
-                START_TO_LEFT_STRIKE = b ->
+            START_TO_LEFT_STRIKE = b ->
                 b.apply(START.toPose()).lineToLinearHeading(LEFT_STRIKE.toPose()).build(),
-                START_TO_MIDDLE_STRIKE = b ->
-                        b.apply(START.toPose()).lineToLinearHeading(MIDDLE_STRIKE.toPose()).build(),
-                START_TO_RIGHT_STRIKE = b ->
-                        b.apply(START.toPose()).lineToLinearHeading(RIGHT_STRIKE.toPose()).build(),
-                LEFT_STRIKE_TO_CLEAR = b ->
-                        b.apply(LEFT_STRIKE.toPose()).lineToLinearHeading(CLEAR.toPose()).build(),
-                MIDDLE_STRIKE_TO_CLEAR = b ->
-                        b.apply(MIDDLE_STRIKE.toPose()).lineToLinearHeading(CLEAR.toPose()).build(),
-                RIGHT_STRIKE_TO_CLEAR = b ->
-                        b.apply(RIGHT_STRIKE.toPose()).lineToLinearHeading(CLEAR.toPose()).build();
+            START_TO_MIDDLE_STRIKE = b ->
+                b.apply(START.toPose()).lineToLinearHeading(MIDDLE_STRIKE.toPose()).build(),
+            START_TO_RIGHT_STRIKE = b ->
+                b.apply(START.toPose()).lineToLinearHeading(RIGHT_STRIKE.toPose()).build(),
+            LEFT_STRIKE_TO_CLEAR = b ->
+                b.apply(LEFT_STRIKE.toPose()).lineToLinearHeading(CLEAR.toPose()).build(),
+            MIDDLE_STRIKE_TO_CLEAR = b ->
+                b.apply(MIDDLE_STRIKE.toPose()).lineToLinearHeading(CLEAR.toPose()).build(),
+            RIGHT_STRIKE_TO_CLEAR = b ->
+                b.apply(RIGHT_STRIKE.toPose()).lineToLinearHeading(CLEAR.toPose()).build();
     }
 }
 
