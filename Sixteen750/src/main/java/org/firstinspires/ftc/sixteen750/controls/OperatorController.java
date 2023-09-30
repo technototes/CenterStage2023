@@ -2,13 +2,13 @@ package org.firstinspires.ftc.sixteen750.controls;
 
 import com.technototes.library.control.CommandButton;
 import com.technototes.library.control.CommandGamepad;
-
 import org.firstinspires.ftc.sixteen750.Robot;
 import org.firstinspires.ftc.sixteen750.commands.intake.EjectCommand;
 import org.firstinspires.ftc.sixteen750.commands.intake.IntakeCommand;
 import org.firstinspires.ftc.sixteen750.commands.intake.StopCommand;
 
 public class OperatorController {
+
     public Robot robot;
     public CommandGamepad gamepad;
 
@@ -27,7 +27,6 @@ public class OperatorController {
         intakeButton = gamepad.ps_triangle;
         stopButton = gamepad.ps_circle;
         ejectButton = gamepad.ps_cross;
-
     }
 
     private void bindIntakeControls() {
