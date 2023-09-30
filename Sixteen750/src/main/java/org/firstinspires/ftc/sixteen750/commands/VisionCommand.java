@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.sixteen750.commands;
 
 import com.technototes.library.command.Command;
-
 import org.firstinspires.ftc.sixteen750.subsystems.VisionSubsystem;
 
 public class VisionCommand implements Command {

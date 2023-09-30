@@ -25,7 +25,7 @@ public class TestController {
         this.gamepad = g;
         this.robot = r;
         this.servoleft = gamepad.ps_triangle;
-        this.servoright= gamepad.ps_cross;
+        this.servoright = gamepad.ps_cross;
         this.motorStop = gamepad.ps_circle;
         this.servoleft.whenPressed(new ServoLeft(r.test));
         this.servoright.whenPressed((new ServoRight(r.test)));

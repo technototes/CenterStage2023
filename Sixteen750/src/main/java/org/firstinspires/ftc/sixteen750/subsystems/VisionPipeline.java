@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.sixteen750.subsystems;
 
 import android.graphics.Bitmap;
-
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -10,7 +9,7 @@ import com.technototes.library.logger.Log;
 import com.technototes.library.logger.LogConfig;
 import com.technototes.library.logger.Loggable;
 import com.technototes.library.util.Alliance;
-
+import java.util.function.Supplier;
 import org.firstinspires.ftc.sixteen750.helpers.StartingPosition;
 import org.opencv.android.Utils;
 import org.opencv.core.Core;
@@ -19,8 +18,6 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
-
-import java.util.function.Supplier;
 
 @Config
 public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>, Loggable {
@@ -87,8 +84,8 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
     public volatile boolean rightDetected = false;
 
     @LogConfig.Run(duringRun = false, duringInit = true)
-    @Log(name="fps")
-    public volatile  double fps =0.0;
+    @Log(name = "fps")
+    public volatile double fps = 0.0;
 
     private ElapsedTime time = new ElapsedTime();
 
@@ -98,14 +95,14 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
 
     private int countColor(double hue) {
         Scalar edge1 = new Scalar(
-                hue - VisionConstants.SignalDetection.RANGE,
-                VisionConstants.SignalDetection.lowS,
-                VisionConstants.SignalDetection.lowV
+            hue - VisionConstants.SignalDetection.RANGE,
+            VisionConstants.SignalDetection.lowS,
+            VisionConstants.SignalDetection.lowV
         );
         Scalar edge2 = new Scalar(
-                hue + VisionConstants.SignalDetection.RANGE,
-                VisionConstants.SignalDetection.highS,
-                VisionConstants.SignalDetection.highV
+            hue + VisionConstants.SignalDetection.RANGE,
+            VisionConstants.SignalDetection.highS,
+            VisionConstants.SignalDetection.highV
         );
         // Check to see which pixels are between edge1 & edge2, output into a boolean matrix Cr
         Core.inRange(customColorSpace, edge1, edge2, Cr);
@@ -119,9 +116,9 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
                     if (VisionSubsystem.VisionSubsystemConstants.DEBUG_VIEW) {
                         double[] colorToDraw = ((j + i) & 3) != 0 ? edge1.val : edge2.val;
                         img.put(
-                                j + VisionConstants.SignalDetection.Y,
-                                i + VisionConstants.SignalDetection.X,
-                                colorToDraw
+                            j + VisionConstants.SignalDetection.Y,
+                            i + VisionConstants.SignalDetection.X,
+                            colorToDraw
                         );
                     }
                 }
@@ -136,12 +133,12 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
 
         // First, slice the smaller rectangle out of the overall bitmap:
         Mat rectToLookAt = input.submat(
-                // Row start to Row end
-                VisionConstants.SignalDetection.Y,
-                VisionConstants.SignalDetection.Y + VisionConstants.SignalDetection.HEIGHT,
-                // Col start to Col end
-                VisionConstants.SignalDetection.X,
-                VisionConstants.SignalDetection.X + VisionConstants.SignalDetection.WIDTH
+            // Row start to Row end
+            VisionConstants.SignalDetection.Y,
+            VisionConstants.SignalDetection.Y + VisionConstants.SignalDetection.HEIGHT,
+            // Col start to Col end
+            VisionConstants.SignalDetection.X,
+            VisionConstants.SignalDetection.X + VisionConstants.SignalDetection.WIDTH
         );
 
         // Next, convert the RGB image to HSV, because HUE is much easier to identify colors in
@@ -164,16 +161,15 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
         int w = Range.clip(VisionConstants.SignalDetection.WIDTH + 2, 1, input.width() - x);
         int h = Range.clip(VisionConstants.SignalDetection.HEIGHT + 2, 1, input.height() - y);
         Imgproc.rectangle(
-                input,
-                new Rect(x, y, w, h),
-                VisionConstants.SignalDetection.RGB_HIGHLIGHT
+            input,
+            new Rect(x, y, w, h),
+            VisionConstants.SignalDetection.RGB_HIGHLIGHT
         );
     }
 
     public void init(Mat firstFrame) {
         detectSignal(firstFrame);
     }
-
 
     @Override
     public Mat processFrame(Mat input) {

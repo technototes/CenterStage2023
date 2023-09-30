@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.twenty403.commands;
 
 import com.technototes.library.command.Command;
-
 import org.firstinspires.ftc.twenty403.subsystems.VisionSubsystem;
 
 public class VisionCommand implements Command {

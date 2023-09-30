@@ -5,7 +5,6 @@ import com.technototes.library.logger.Loggable;
 import com.technototes.library.subsystem.Subsystem;
 import com.technototes.library.util.Alliance;
 import com.technototes.vision.hardware.Webcam;
-
 import org.firstinspires.ftc.twenty403.helpers.StartingPosition;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
@@ -35,9 +34,9 @@ public class VisionSubsystem implements Subsystem, Loggable {
 
     public void startStreaming() {
         camera.startStreaming(
-                VisionSubsystemConstants.WIDTH,
-                VisionSubsystemConstants.HEIGHT,
-                VisionSubsystemConstants.ROTATION
+            VisionSubsystemConstants.WIDTH,
+            VisionSubsystemConstants.HEIGHT,
+            VisionSubsystemConstants.ROTATION
         );
     }
 

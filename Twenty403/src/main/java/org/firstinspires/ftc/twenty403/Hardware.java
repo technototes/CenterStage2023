@@ -8,7 +8,6 @@ import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.sensor.IMU;
 import com.technototes.library.logger.Loggable;
 import com.technototes.vision.hardware.Webcam;
-
 import java.util.List;
 import org.firstinspires.ftc.robotcore.external.navigation.VoltageUnit;
 
