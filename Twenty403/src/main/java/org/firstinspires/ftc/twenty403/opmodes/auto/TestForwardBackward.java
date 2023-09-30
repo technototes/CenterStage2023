@@ -8,19 +8,21 @@ import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.library.command.WaitCommand;
 import com.technototes.library.structure.CommandOpMode;
 import com.technototes.library.util.Alliance;
+
 import org.firstinspires.ftc.twenty403.AutoConstants;
 import org.firstinspires.ftc.twenty403.Hardware;
 import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
 import org.firstinspires.ftc.twenty403.commands.VisionCommand;
 import org.firstinspires.ftc.twenty403.commands.auto.red.WingPixelSelection;
+import org.firstinspires.ftc.twenty403.commands.driving.DriveStartCommand;
 import org.firstinspires.ftc.twenty403.controls.DriverController;
 import org.firstinspires.ftc.twenty403.helpers.StartingPosition;
 
 // The last 4 weird things are '🟥' and '🪶' (wing)
-@Autonomous(name = "PixelThenPark\uD83D\uDFE5\uD83E\uDEB6")
+@Autonomous(name = "Fwd/Backward")
 @SuppressWarnings("unused")
-public class PixelThenParkRedWing extends CommandOpMode {
+public class TestForwardBackward extends CommandOpMode {
 
     public Robot robot;
     public DriverController controls;
@@ -33,16 +35,23 @@ public class PixelThenParkRedWing extends CommandOpMode {
         robot = new Robot(hardware, Alliance.RED, StartingPosition.Wing);
         robot.drivebaseSubsystem.setPoseEstimate(AutoConstants.WingRed.START.toPose());
         CommandScheduler
-            .getInstance()
-            .scheduleForState(
-                new SequentialCommandGroup(
-                    new WaitCommand(15),
-                    CommandScheduler.getInstance()::terminateOpMode
-                ),
-                CommandOpMode.OpModeState.RUN
-            );
+                .getInstance()
+                .scheduleForState(
+                        new SequentialCommandGroup(
+                                new DriveStartCommand(robot.drivebaseSubsystem, 1),
+                                new WaitCommand(3),
+                                new DriveStartCommand(robot.drivebaseSubsystem, 0),
+                                new WaitCommand(3),
+                                new DriveStartCommand(robot.drivebaseSubsystem, -1),
+                                new WaitCommand(3),
+                                new DriveStartCommand(robot.drivebaseSubsystem, 0),
+                                CommandScheduler.getInstance()::terminateOpMode),
+                        OpModeState.RUN
+                );
         if (Setup.Connected.WEBCAM) {
-            CommandScheduler.getInstance().scheduleInit(new VisionCommand(robot.vision));
+            CommandScheduler
+                    .getInstance()
+                    .scheduleInit(new VisionCommand(robot.vision));
         }
     }
 }
