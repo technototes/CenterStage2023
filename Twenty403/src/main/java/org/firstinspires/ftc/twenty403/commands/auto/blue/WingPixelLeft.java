@@ -1,19 +1,19 @@
-package org.firstinspires.ftc.twenty403.commands.auto.red;
+package org.firstinspires.ftc.twenty403.commands.auto.blue;
 
 import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.path.command.TrajectorySequenceCommand;
-import org.firstinspires.ftc.twenty403.AutoConstants.WingRed;
+import org.firstinspires.ftc.twenty403.AutoConstants.WingBlue;
 import org.firstinspires.ftc.twenty403.Robot;
 
 public class WingPixelLeft extends SequentialCommandGroup {
 
     public WingPixelLeft(Robot r) {
         super(
-            new TrajectorySequenceCommand(r.drivebaseSubsystem, WingRed.START_TO_LEFT_STRIKE)
+            new TrajectorySequenceCommand(r.drivebaseSubsystem, WingBlue.START_TO_LEFT_STRIKE)
                 .andThen(
                     new TrajectorySequenceCommand(
                         r.drivebaseSubsystem,
-                        WingRed.LEFT_STRIKE_TO_CLEAR
+                        WingBlue.LEFT_STRIKE_TO_CLEAR
                     )
                 )
         );
