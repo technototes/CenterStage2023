@@ -8,6 +8,7 @@ public class Setup {
     public static class Connected {
 
         public static boolean DRIVEBASE = true;
+        public static boolean WEBCAM = false;
     }
 
     @Config
@@ -18,6 +19,7 @@ public class Setup {
         public static String RLMOTOR = "rl";
         public static String RRMOTOR = "rr";
         public static String IMU = "imu";
+        public static String CAMERA = "webcam";
     }
 
     @Config

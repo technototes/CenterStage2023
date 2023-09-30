@@ -9,6 +9,7 @@ public class Setup {
 
         public static boolean DRIVEBASE = true;
         public static boolean INTAKE = true;
+        public static boolean WEBCAM = true;
     }
 
     @Config
@@ -21,6 +22,7 @@ public class Setup {
         public static String IMU = "imu";
         public static String INTAKELEFT = "lwheel";
         public static String INTAKERIGHT = "rwheel";
+        public static String CAMERA = "webcam";
     }
 
     @Config

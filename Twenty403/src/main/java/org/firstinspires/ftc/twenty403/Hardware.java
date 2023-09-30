@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.sensor.IMU;
 import com.technototes.library.logger.Loggable;
+import com.technototes.vision.hardware.Webcam;
+
 import java.util.List;
 import org.firstinspires.ftc.robotcore.external.navigation.VoltageUnit;
 
@@ -16,6 +18,7 @@ public class Hardware implements Loggable {
 
     public IMU imu;
     public EncodedMotor<DcMotorEx> fl, fr, rl, rr;
+    public Webcam camera;
 
     /* TODO: Put other other here! */
 
@@ -27,10 +30,15 @@ public class Hardware implements Loggable {
                 RevHubOrientationOnRobot.LogoFacingDirection.UP,
                 RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD
             );
-        fl = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.FLMOTOR);
-        fr = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.FRMOTOR);
-        rl = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.RLMOTOR);
-        rr = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.RRMOTOR);
+        if (Setup.Connected.DRIVEBASE) {
+            fl = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.FLMOTOR);
+            fr = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.FRMOTOR);
+            rl = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.RLMOTOR);
+            rr = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.RRMOTOR);
+        }
+        if (Setup.Connected.WEBCAM) {
+            camera = new Webcam(Setup.HardwareNames.CAMERA);
+        }
     }
 
     // We can read the voltage from the different hubs for fun...
