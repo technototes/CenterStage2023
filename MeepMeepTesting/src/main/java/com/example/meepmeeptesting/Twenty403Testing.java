@@ -22,12 +22,14 @@ public class Twenty403Testing {
             .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 9.5)
             .followTrajectorySequence(drive ->
                 drive
-                    .trajectorySequenceBuilder(AutoConstantsRed.Away.START)
-                    .addTrajectory(AutoConstantsRed.Away.START_TO_LEFT_LOW.get())
+                    .trajectorySequenceBuilder(AutoConstantsRed.Wing.START)
+                    .addTrajectory(AutoConstantsRed.Wing.START_TO_LEFT_LOW.get())
                     //.addTrajectory(AutoConstantsRed.Away.START_TO_RIGHT_LOW.get())
-                    .addTrajectory(AutoConstantsRed.Away.LEFT_LOW_TO_BETWEEN_LEFT.get())
-                    .addTrajectory(AutoConstantsRed.Away.BETWEEN_TO_PARK_LEFT.get())
-                    .build()
+                    .addTrajectory(AutoConstantsRed.Wing.LEFT_LOW_TO_BETWEEN_LEFT.get())
+                    .addTrajectory(AutoConstantsRed.Wing.BETWEEN_TO_PARK_LEFT.get())
+                        .addTrajectory(AutoConstantsRed.Wing.LEFT_LOW_TO_PARK_MIDDLE.get())
+
+                        .build()
             );
         try {
             // Try to load the field image from the repo:

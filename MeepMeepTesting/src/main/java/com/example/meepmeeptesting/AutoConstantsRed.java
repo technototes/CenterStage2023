@@ -15,11 +15,11 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class AutoConstantsRed {
-    public static class Away {
+    public static class Wing {
         public static Pose2d START = new Pose2d(36, -66, toRadians(90));
         public static Pose2d STACK = new Pose2d(60, -12, toRadians(0));
 
-        public static Pose2d PARK_LEFT = new Pose2d(12, -36, toRadians(90));
+        public static Pose2d PARK_LEFT = new Pose2d(-60, -60, toRadians(180));
         public static Pose2d PARK_MIDDLE = new Pose2d(36, -36, toRadians(-90));
         public static Pose2d PARK_RIGHT = new Pose2d(60, -36, toRadians(180));
 
@@ -31,9 +31,9 @@ public class AutoConstantsRed {
         //left facing between
         public static Pose2d STACK_TO_BETWEEN = new Pose2d(37, -12, toRadians(180));
 
-        public static Pose2d LOW_TO_BETWEEN = new Pose2d(33,-60,toRadians(165));
-
-        public static Pose2d LOW_JUNCTION_LEFT = new Pose2d(26,-52, toRadians(120));
+        public static Pose2d LOW_TO_BETWEEN = new Pose2d(35,-60,toRadians(180));
+        public static Pose2d LOW_TO_BETWEEN2 = new Pose2d(35,-60,toRadians(90));
+        public static Pose2d LOW_JUNCTION_LEFT = new Pose2d(35,-34, toRadians(90));
         public static Pose2d LOW_JUNCTION_RIGHT = new Pose2d(48,-24, toRadians(60));
 
 
@@ -97,10 +97,10 @@ public class AutoConstantsRed {
         LEFT_LOW_TO_BETWEEN_LEFT =
                 () -> function.apply(LOW_JUNCTION_LEFT).lineToLinearHeading(LOW_TO_BETWEEN).build(),
         BETWEEN_TO_PARK_LEFT =
-                () -> function.apply(LOW_TO_BETWEEN).splineTo(PARK_LEFT.vec(),PARK_LEFT.getHeading()).build(),
+                () -> function.apply(LOW_TO_BETWEEN).lineToLinearHeading(PARK_LEFT).build(),
 
         LEFT_LOW_TO_PARK_MIDDLE =
-                () -> function.apply(LOW_JUNCTION_LEFT).lineToLinearHeading(PARK_MIDDLE).build(),
+                () -> function.apply(PARK_LEFT).lineToLinearHeading(LOW_TO_BETWEEN2).build(),
 
         LEFT_LOW_TO_BETWEEN_RIGHT =
                 () -> function.apply(LOW_JUNCTION_LEFT).lineToLinearHeading(PARK_MIDDLE).build(),
@@ -112,7 +112,7 @@ public class AutoConstantsRed {
 
     }
 
-    public static class Home {
+    public static class Stage {
         public static Pose2d START = new Pose2d(-36, 66, toRadians(-90));
         public static Pose2d STACK = new Pose2d(-62, 12, toRadians(180));
         public static Pose2d PARK_LEFT = new Pose2d(-60, -36, toRadians(0));
