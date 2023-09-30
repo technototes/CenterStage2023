@@ -30,7 +30,7 @@ public class PixelThenParkRedWing extends CommandOpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         hardware = new Hardware(hardwareMap);
         robot = new Robot(hardware, Alliance.RED, StartingPosition.Wing);
-        robot.drivebaseSubsystem.setPoseEstimate(AutoConstants.Wing.Red.START.toPose());
+        robot.drivebaseSubsystem.setPoseEstimate(AutoConstants.WingRed.START.toPose());
         CommandScheduler
             .getInstance()
             .scheduleForState(
