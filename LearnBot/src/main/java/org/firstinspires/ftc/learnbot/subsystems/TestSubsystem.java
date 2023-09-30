@@ -49,12 +49,12 @@ public class TestSubsystem implements Subsystem, Loggable {
         resetTicks();
     }
 
-    public void servoLeft(){
+    public void servoLeft() {
         running = true;
         setPosition(0.5);
     }
 
-    public void servoRight(){
+    public void servoRight() {
         running = true;
         setPosition(0.7);
     }
