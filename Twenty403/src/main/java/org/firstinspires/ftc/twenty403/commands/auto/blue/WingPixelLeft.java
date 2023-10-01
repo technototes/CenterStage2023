@@ -9,11 +9,11 @@ public class WingPixelLeft extends SequentialCommandGroup {
 
     public WingPixelLeft(Robot r) {
         super(
-            new TrajectorySequenceCommand(r.drivebaseSubsystem, WingBlue.START_TO_LEFT_STRIKE)
+            new TrajectorySequenceCommand(r.drivebaseSubsystem, WingBlue.START_TO_LEFT_SPIKE)
                 .andThen(
                     new TrajectorySequenceCommand(
                         r.drivebaseSubsystem,
-                        WingBlue.LEFT_STRIKE_TO_CLEAR
+                        WingBlue.LEFT_SPIKE_TO_CLEAR
                     )
                 )
         );

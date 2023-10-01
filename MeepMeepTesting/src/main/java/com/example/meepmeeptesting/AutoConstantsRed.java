@@ -14,9 +14,9 @@ import java.util.Arrays;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class AutoConstantsBlue {
+public class AutoConstantsRed {
+    /*
     public static class Wing {
-        /* // previous wing code
         public static Pose2d START = new Pose2d(36, -66, toRadians(90));
         public static Pose2d STACK = new Pose2d(60, -12, toRadians(0));
 
@@ -97,8 +97,8 @@ public class AutoConstantsBlue {
 
         LEFT_LOW_TO_BETWEEN_LEFT =
                 () -> function.apply(LOW_JUNCTION_LEFT).lineToLinearHeading(LOW_TO_BETWEEN).build(),
-                BETWEEN_TO_PARK_LEFT =
-                        () -> function.apply(LOW_TO_BETWEEN).splineTo(PARK_LEFT.vec(),PARK_LEFT.getHeading()).build(),
+        BETWEEN_TO_PARK_LEFT =
+                () -> function.apply(LOW_TO_BETWEEN).splineTo(PARK_LEFT.vec(),PARK_LEFT.getHeading()).build(),
 
         LEFT_LOW_TO_PARK_MIDDLE =
                 () -> function.apply(LOW_JUNCTION_LEFT).lineToLinearHeading(PARK_MIDDLE).build(),
@@ -110,20 +110,22 @@ public class AutoConstantsBlue {
         START_TO_RIGHT_LOW =
                 () -> function.apply(START).splineTo(LOW_JUNCTION_RIGHT.vec(), LOW_JUNCTION_RIGHT.getHeading()).build();
 
-        */
-        // code for wing blue
-        public static Pose2d START = new Pose2d(36, -60, toRadians(90));
-        public static Pose2d BACK = new Pose2d(36, -60, toRadians(180));
-        public static Pose2d PARK_CENTER = new Pose2d(-57, -10, toRadians(0));
+
+    }
+     */
+    public static class Wing {
+        public static Pose2d START = new Pose2d(36, 57, toRadians(-90));
+        public static Pose2d BACK = new Pose2d(36, 57, toRadians(180));
+        public static Pose2d PARK_CENTER = new Pose2d(-58, 10, toRadians(0));
         //public static Pose2d PARK_MIDDLE = new Pose2d(-36, 36, toRadians(-90));
-        public static Pose2d PARK_CORNER = new Pose2d(-60, -60, toRadians(180));
+        public static Pose2d PARK_CORNER = new Pose2d(-58, 57, toRadians(180));
         public static Pose2d E_JUNCTION = new Pose2d(-28, -4, toRadians(13));
         public static Pose2d S_JUNCTION = new Pose2d(-4, -28, toRadians(45));
         // between goes backward while rotating
         public static Pose2d BETWEEN = new Pose2d(-47, 12, toRadians(180));
-        public static Pose2d RIGHT_SPIKE = new Pose2d(54, -32, toRadians(0));
-        public static Pose2d CENTER_SPIKE = new Pose2d(36, -27, toRadians(90));
-        public static Pose2d LEFT_SPIKE = new Pose2d(22, -32, toRadians(180));
+        public static Pose2d RIGHT_SPIKE = new Pose2d(22, 36, toRadians(-90));
+        public static Pose2d CENTER_SPIKE = new Pose2d(36, 22, toRadians(-90));
+        public static Pose2d LEFT_SPIKE = new Pose2d(54, 36, toRadians(-90));
 
         // These are 'trajectory pieces' which should be named like this:
         // {STARTING_POSITION}_TO_{ENDING_POSITION}
@@ -219,20 +221,19 @@ public class AutoConstantsBlue {
                                 .build();
     }
 
-
     public static class Stage {
-        public static Pose2d START = new Pose2d(-13, -60, toRadians(90));
+        public static Pose2d START = new Pose2d(-13, 57, toRadians(-90));
         public static Pose2d STACK = new Pose2d(-62, 12, toRadians(180));
-        public static Pose2d PARK_CENTER = new Pose2d(-57, -10, toRadians(0));
+        public static Pose2d PARK_CENTER = new Pose2d(-58, 10, toRadians(0));
         //public static Pose2d PARK_MIDDLE = new Pose2d(-36, 36, toRadians(-90));
         public static Pose2d PARK_CORNER = new Pose2d(-60, -60, toRadians(-90));
         public static Pose2d E_JUNCTION = new Pose2d(-28, -4, toRadians(13));
         public static Pose2d S_JUNCTION = new Pose2d(-4, -28, toRadians(45));
         // between goes backward while rotating
         public static Pose2d BETWEEN = new Pose2d(-47, 12, toRadians(180));
-        public static Pose2d RIGHT_SPIKE = new Pose2d(-1, -32, toRadians(0));
-        public static Pose2d CENTER_SPIKE = new Pose2d(-13, -27, toRadians(90));
-        public static Pose2d LEFT_SPIKE = new Pose2d(-20, -32, toRadians(180));
+        public static Pose2d RIGHT_SPIKE = new Pose2d(-20, 36, toRadians(-90));
+        public static Pose2d CENTER_SPIKE = new Pose2d(-13, 22, toRadians(-90));
+        public static Pose2d LEFT_SPIKE = new Pose2d(-1, 36, toRadians(-90));
 
         // These are 'trajectory pieces' which should be named like this:
         // {STARTING_POSITION}_TO_{ENDING_POSITION}
