@@ -56,8 +56,8 @@ public class Sixteen750Testing {
                                 .addTrajectory(AutoConstantsBlue.Wing.START_TO_CENTER_SPIKE.get())
                                 .addTrajectory(AutoConstantsBlue.Wing.CENTER_SPIKE_TO_BACK.get())
                                 .addTrajectory(AutoConstantsBlue.Wing.BACK_TO_PARK_CORNER.get())
-                                //.addTrajectory(AutoConstantsRed.Stage.LEFT_STRIKE_TO_CENTER_STRIKE.get())
-                                //.addTrajectory(AutoConstantsRed.Stage.CENTER_STRIKE_TO_RIGHT_STRIKE.get())
+                                //.addTrajectory(AutoConstantsRed.Stage.LEFT_SPIKE_TO_CENTER_SPIKE.get())
+                                //.addTrajectory(AutoConstantsRed.Stage.CENTER_SPIKE_TO_RIGHT_SPIKE.get())
                                 .build()
                 );
         try {
@@ -89,8 +89,8 @@ public class Sixteen750Testing {
                                 .addTrajectory(AutoConstantsBlue.Stage.START_TO_CENTER_SPIKE.get())
                                 .addTrajectory(AutoConstantsBlue.Stage.CENTER_SPIKE_TO_START.get())
                                 .addTrajectory(AutoConstantsBlue.Stage.START_TO_PARK_CENTER.get())
-                                //.addTrajectory(AutoConstantsRed.Stage.LEFT_STRIKE_TO_CENTER_STRIKE.get())
-                                //.addTrajectory(AutoConstantsRed.Stage.CENTER_STRIKE_TO_RIGHT_STRIKE.get())
+                                //.addTrajectory(AutoConstantsRed.Stage.LEFT_SPIKE_TO_CENTER_SPIKE.get())
+                                //.addTrajectory(AutoConstantsRed.Stage.CENTER_SPIKE_TO_RIGHT_SPIKE.get())
                                 .build()
                 );
         try {

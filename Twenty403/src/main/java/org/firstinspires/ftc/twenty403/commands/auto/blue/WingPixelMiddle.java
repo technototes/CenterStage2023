@@ -9,11 +9,11 @@ public class WingPixelMiddle extends SequentialCommandGroup {
 
     public WingPixelMiddle(Robot r) {
         super(
-            new TrajectorySequenceCommand(r.drivebaseSubsystem, WingBlue.START_TO_MIDDLE_STRIKE)
+            new TrajectorySequenceCommand(r.drivebaseSubsystem, WingBlue.START_TO_MIDDLE_SPIKE)
                 .andThen(
                     new TrajectorySequenceCommand(
                         r.drivebaseSubsystem,
-                        WingBlue.MIDDLE_STRIKE_TO_CLEAR
+                        WingBlue.MIDDLE_SPIKE_TO_CLEAR
                     )
                 )
         );

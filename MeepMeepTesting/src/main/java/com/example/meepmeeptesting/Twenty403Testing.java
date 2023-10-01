@@ -27,8 +27,8 @@ public class Twenty403Testing {
                     .addTrajectory(AutoConstantsRed.Wing.START_TO_CENTER_SPIKE.get())
                         .addTrajectory(AutoConstantsRed.Wing.CENTER_SPIKE_TO_BACK.get())
                         .addTrajectory(AutoConstantsRed.Wing.BACK_TO_PARK_CORNER.get())
-                    //.addTrajectory(AutoConstantsRed.Stage.LEFT_STRIKE_TO_CENTER_STRIKE.get())
-                    //.addTrajectory(AutoConstantsRed.Stage.CENTER_STRIKE_TO_RIGHT_STRIKE.get())
+                    //.addTrajectory(AutoConstantsRed.Stage.LEFT_SPIKE_TO_CENTER_SPIKE.get())
+                    //.addTrajectory(AutoConstantsRed.Stage.CENTER_SPIKE_TO_RIGHT_SPIKE.get())
                     .build()
             );
         try {
@@ -60,8 +60,8 @@ public class Twenty403Testing {
                                 .addTrajectory(AutoConstantsRed.Stage.START_TO_CENTER_SPIKE.get())
                                 .addTrajectory(AutoConstantsRed.Stage.CENTER_SPIKE_TO_START.get())
                                 .addTrajectory(AutoConstantsRed.Stage.START_TO_PARK_CENTER.get())
-                                //.addTrajectory(AutoConstantsRed.Stage.LEFT_STRIKE_TO_CENTER_STRIKE.get())
-                                //.addTrajectory(AutoConstantsRed.Stage.CENTER_STRIKE_TO_RIGHT_STRIKE.get())
+                                //.addTrajectory(AutoConstantsRed.Stage.LEFT_SPIKE_TO_CENTER_SPIKE.get())
+                                //.addTrajectory(AutoConstantsRed.Stage.CENTER_SPIKE_TO_RIGHT_SPIKE.get())
                                 .build()
                 );
         try {
