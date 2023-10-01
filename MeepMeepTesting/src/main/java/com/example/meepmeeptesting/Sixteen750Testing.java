@@ -102,10 +102,7 @@ public class Sixteen750Testing {
         }
         meepMeep.setBackgroundAlpha(0.75f).addEntity(myBot).start();
     }
-     */
-
-     */
-    public static void main(String[] args) {
+    public static void othermain(String[] args) {
         // Make this as large as possible while still fitting on our laptop screens:
         MeepMeep meepMeep = new MeepMeep(600);
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
@@ -119,7 +116,7 @@ public class Sixteen750Testing {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 9.5)
                 .followTrajectorySequence(drive ->
                         drive
-                                .trajectorySequenceBuilder(AutoConstants.WingRed.START)
+                                .trajectorySequenceBuilder(AutoConstantsRed.WingRed.START)
                                 .addTrajectory(AutoConstants.WingRed.START_TO_MIDDLE_SPIKE.get())
                                 //.addTrajectory(AutoConstantsRed.Away.START_TO_RIGHT_LOW.get())
                                 .addTrajectory(AutoConstants.WingRed.FORWARD_PUSH_TO_START.get())
@@ -137,4 +134,5 @@ public class Sixteen750Testing {
         }
         meepMeep.setBackgroundAlpha(0.75f).addEntity(myBot).start();
     }
+     */
 }
