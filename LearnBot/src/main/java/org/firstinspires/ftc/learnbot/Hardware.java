@@ -29,29 +29,25 @@ public class Hardware implements Loggable {
 
     public Hardware(HardwareMap hwmap) {
         hubs = hwmap.getAll(LynxModule.class);
-        if (Setup.Connected.MOTOR) {
-            this.theMotor = new EncodedMotor<>(Setup.HardwareNames.MOTOR);
-        }
-        if (Setup.Connected.frMotor) {
+        if (Setup.Connected.DRIVEBASE) {
             this.frMotor = new EncodedMotor<>(Setup.HardwareNames.FRMOTOR);
-        }
-        if (Setup.Connected.flMotor) {
             this.flMotor = new EncodedMotor<>(Setup.HardwareNames.FLMOTOR);
-        }
-        if (Setup.Connected.rrMotor) {
             this.rrMotor = new EncodedMotor<>(Setup.HardwareNames.RRMOTOR);
-        }
-        if (Setup.Connected.rlMotor) {
             this.rlMotor = new EncodedMotor<>(Setup.HardwareNames.RLMOTOR);
         }
-        if (Setup.Connected.SERVO) {
-            this.servo = new Servo(Setup.HardwareNames.SERVO);
-        }
-        if (Setup.Connected.DISTANCE_SENSOR) {
-            this.distanceSensor = new Rev2MDistanceSensor(Setup.HardwareNames.DISTANCE);
-        }
-        if (Setup.Connected.COLOR_SENSOR) {
-            this.colorSensor = new ColorDistanceSensor(Setup.HardwareNames.COLOR);
+        if (Setup.Connected.TESTSUBSYSTEM) {
+            if (Setup.Connected.MOTOR) {
+                this.theMotor = new EncodedMotor<>(Setup.HardwareNames.MOTOR);
+            }
+            if (Setup.Connected.SERVO) {
+                this.servo = new Servo(Setup.HardwareNames.SERVO);
+            }
+            if (Setup.Connected.DISTANCE_SENSOR) {
+                this.distanceSensor = new Rev2MDistanceSensor(Setup.HardwareNames.DISTANCE);
+            }
+            if (Setup.Connected.COLOR_SENSOR) {
+                this.colorSensor = new ColorDistanceSensor(Setup.HardwareNames.COLOR);
+            }
         }
         this.imu =
             new IMU(

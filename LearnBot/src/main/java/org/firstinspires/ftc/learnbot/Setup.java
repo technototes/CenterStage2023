@@ -7,11 +7,9 @@ public class Setup {
     @Config
     public static class Connected {
 
+        public static boolean DRIVEBASE = false;
+        public static boolean TESTSUBSYSTEM = false;
         public static boolean MOTOR = false;
-        public static boolean frMotor = true;
-        public static boolean flMotor = true;
-        public static boolean rrMotor = true;
-        public static boolean rlMotor = true;
         public static boolean SERVO = false;
         public static boolean DISTANCE_SENSOR = false;
         public static boolean COLOR_SENSOR = false;
@@ -34,6 +32,7 @@ public class Setup {
     @Config
     public static class OtherSettings {
 
+        public static double STICK_DEAD_ZONE = 0.1;
         public static int AUTOTIME = 25;
     }
 }

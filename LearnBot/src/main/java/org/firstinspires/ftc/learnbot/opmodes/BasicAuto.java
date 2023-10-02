@@ -8,13 +8,9 @@ import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.library.command.WaitCommand;
 import com.technototes.library.logger.Loggable;
 import com.technototes.library.structure.CommandOpMode;
-import com.technototes.library.util.Alliance;
 import org.firstinspires.ftc.learnbot.Hardware;
 import org.firstinspires.ftc.learnbot.Robot;
 import org.firstinspires.ftc.learnbot.Setup;
-import org.firstinspires.ftc.learnbot.commands.StartSpinningCmd;
-import org.firstinspires.ftc.learnbot.commands.StopSpinningCmd;
-import org.firstinspires.ftc.learnbot.helpers.StartingPosition;
 
 /*
  * Some Emojis for opmode names:
@@ -40,10 +36,10 @@ public class BasicAuto extends CommandOpMode implements Loggable {
             .getInstance()
             .scheduleForState(
                 new SequentialCommandGroup(
-                    //new TurboCommand(robot.drivebaseSubsystem),
-                    new StartSpinningCmd(robot.spinner),
+                    // new TurboCommand(robot.drivebaseSubsystem),
+                    // new StartSpinningCmd(robot.spinner),
                     new WaitCommand(Setup.OtherSettings.AUTOTIME),
-                    new StopSpinningCmd(robot.spinner),
+                    // new StopSpinningCmd(robot.spinner),
                     CommandScheduler.getInstance()::terminateOpMode
                 ),
                 CommandOpMode.OpModeState.RUN
