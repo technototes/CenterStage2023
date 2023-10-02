@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.learnbot.commands;
 
 import com.technototes.library.command.Command;
-import org.firstinspires.ftc.learnbot.subsystems.SpinnySubsystem;
 import org.firstinspires.ftc.learnbot.subsystems.TestSubsystem;
 
 public class TestMotorForwardCmd implements Command {
