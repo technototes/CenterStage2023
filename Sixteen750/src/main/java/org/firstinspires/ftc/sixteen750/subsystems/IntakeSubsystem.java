@@ -5,9 +5,11 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.technototes.library.hardware.motor.Motor;
 import com.technototes.library.logger.Loggable;
 import com.technototes.library.subsystem.Subsystem;
+
 @Config
 public class IntakeSubsystem implements Subsystem, Loggable {
-    public static double INTAKE_SPEED = .3 ;
+
+    public static double INTAKE_SPEED = .3;
     public static double OUTPUT_SPEED = -.3;
     public Motor<DcMotorEx> leftMotor;
     public Motor<DcMotorEx> rightMotor;
@@ -30,23 +32,20 @@ public class IntakeSubsystem implements Subsystem, Loggable {
 
     public void intake() {
         spin(INTAKE_SPEED);
-
-
     }
 
     public void stop() {
         spin(0);
-
     }
 
     public void output() {
         spin(OUTPUT_SPEED);
     }
+
     private void spin(double n) {
-        if(isHardware) {
+        if (isHardware) {
             leftMotor.setSpeed(n);
             rightMotor.setSpeed(n);
         }
-
     }
 }

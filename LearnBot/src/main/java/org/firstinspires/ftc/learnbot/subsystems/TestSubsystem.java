@@ -41,6 +41,9 @@ public class TestSubsystem implements Subsystem, Loggable {
     @Log(name = "Ticks")
     public volatile double ticks = 0.0;
 
+    @Log(name = "Stop mode")
+    public String stopMode = "coast";
+
     public TestSubsystem(Hardware hw) {
         theMotor = hw.theMotor;
         curPower = 0.0;
@@ -49,12 +52,12 @@ public class TestSubsystem implements Subsystem, Loggable {
         resetTicks();
     }
 
-    public void servoLeft(){
+    public void servoLeft() {
         running = true;
         setPosition(0.5);
     }
 
-    public void servoRight(){
+    public void servoRight() {
         running = true;
         setPosition(0.7);
     }
@@ -74,6 +77,18 @@ public class TestSubsystem implements Subsystem, Loggable {
         setPower(0);
     }
 
+    public void toggleMotorStopMode() {
+        if (theMotor != null) {
+            if (stopMode.equals("coast")) {
+                theMotor.brake();
+                stopMode = "brake";
+            } else {
+                theMotor.coast();
+                stopMode = "coast";
+            }
+        }
+    }
+
     public void resetPosition() {
         resetTicks();
     }
@@ -81,6 +96,14 @@ public class TestSubsystem implements Subsystem, Loggable {
     @Override
     public void periodic() {
         getTicks();
+    }
+
+    public void setMotorPower(double d) {
+        setPower(d);
+    }
+
+    public double getMotorPosition() {
+        return getTicks();
     }
 
     /**
@@ -95,6 +118,16 @@ public class TestSubsystem implements Subsystem, Loggable {
         }
     }
 
+    private double getTicks() {
+        if (theMotor == null) {
+            // This is a fake value: Do whatever you want to 'test' your code
+            return 1500;
+        }
+        ticks = theMotor.get();
+        // This reads the 'encoder' from the motor, but it's offset from our reset value
+        return ticks - zeroTicks;
+    }
+
     private void setPosition(double d) {
         if (servo != null) {
             servo.setPosition(d);
@@ -107,15 +140,5 @@ public class TestSubsystem implements Subsystem, Loggable {
         } else {
             zeroTicks = theMotor.get();
         }
-    }
-
-    private double getTicks() {
-        if (theMotor == null) {
-            // This is a fake value: Do whatever you want to 'test' your code
-            return 1500;
-        }
-        ticks = theMotor.get();
-        // This reads the 'encoder' from the motor, but it's offset from our reset value
-        return ticks - zeroTicks;
     }
 }
