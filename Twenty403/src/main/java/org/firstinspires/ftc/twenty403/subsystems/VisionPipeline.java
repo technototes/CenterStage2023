@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.twenty403.subsystems;
 
 import android.graphics.Bitmap;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -9,7 +10,9 @@ import com.technototes.library.logger.Log;
 import com.technototes.library.logger.LogConfig;
 import com.technototes.library.logger.Loggable;
 import com.technototes.library.util.Alliance;
+
 import java.util.function.Supplier;
+
 import org.firstinspires.ftc.twenty403.helpers.StartingPosition;
 import org.opencv.android.Utils;
 import org.opencv.core.Core;
@@ -103,14 +106,14 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
 
     private int countColor(double hue, Mat rect) {
         Scalar edge1 = new Scalar(
-            hue - VisionConstants.SignalDetection.RANGE,
-            VisionConstants.SignalDetection.lowS,
-            VisionConstants.SignalDetection.lowV
+                hue - VisionConstants.SignalDetection.RANGE,
+                VisionConstants.SignalDetection.lowS,
+                VisionConstants.SignalDetection.lowV
         );
         Scalar edge2 = new Scalar(
-            hue + VisionConstants.SignalDetection.RANGE,
-            VisionConstants.SignalDetection.highS,
-            VisionConstants.SignalDetection.highV
+                hue + VisionConstants.SignalDetection.RANGE,
+                VisionConstants.SignalDetection.highS,
+                VisionConstants.SignalDetection.highV
         );
         // Check to see which pixels are between edge1 & edge2, output into a boolean matrix Cr
         Core.inRange(rect, edge1, edge2, Cr);
@@ -124,9 +127,29 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
                     if (VisionSubsystem.VisionSubsystemConstants.DEBUG_VIEW) {
                         double[] colorToDraw = ((j + i) & 3) != 0 ? edge1.val : edge2.val;
                         img.put(
-                            j + VisionConstants.SignalDetection.Middle.Y,
-                            i + VisionConstants.SignalDetection.Middle.X,
-                            colorToDraw
+                                j + VisionConstants.SignalDetection.Middle.Y,
+                                i + VisionConstants.SignalDetection.Middle.X,
+                                colorToDraw
+                        );
+                    }
+                }
+            }
+        }
+        // return count;
+        // int
+        count = 0;
+        for (int i = 0; i < Cr.width(); i++) {
+            for (int j = 0; j < Cr.height(); j++) {
+                if (Cr.get(j, i)[0] > 0) {
+                    count++;
+                    // Draw a dot on the image at this point - input was put into img
+                    // The color choice makes things stripey, which makes it easier to identify
+                    if (VisionSubsystem.VisionSubsystemConstants.DEBUG_VIEW) {
+                        double[] colorToDraw = ((j + i) & 3) != 0 ? edge1.val : edge2.val;
+                        img.put(
+                                j + VisionConstants.SignalDetection.Left.Y,
+                                i + VisionConstants.SignalDetection.Left.X,
+                                colorToDraw
                         );
                     }
                 }
@@ -139,14 +162,47 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
         // Put the input matrix in a member variable, so that other functions can draw on it
         img = input;
 
+        countPixels(input);
+        // Check which spot we should park in
+        // middleDetected = countA >= countY && countA >= countP;
+        // leftDetected = countP >= countA && countP >= countY;
+        rightDetected = !leftDetected && !middleDetected;
+
+        // Draw a rectangle around the area we're looking at, for debugging
+        int x = Range.clip(VisionConstants.SignalDetection.Middle.X - 1, 0, input.width() - 1);
+        int y = Range.clip(VisionConstants.SignalDetection.Middle.Y - 1, 0, input.height() - 1);
+        int w = Range.clip(VisionConstants.SignalDetection.Middle.WIDTH + 2, 1, input.width() - x);
+        int h = Range.clip(VisionConstants.SignalDetection.Middle.HEIGHT + 2, 1, input.height() - y);
+
+        /*
+        int x = Range.clip(VisionConstants.SignalDetection.Left.X - 1, 0, input.width() - 1);
+        int y = Range.clip(VisionConstants.SignalDetection.Left.Y - 1, 0, input.height() - 1);
+        int w = Range.clip(VisionConstants.SignalDetection.Left.WIDTH + 2, 1, input.width() - x);
+        int h = Range.clip(VisionConstants.SignalDetection.Left.HEIGHT + 2, 1, input.height() - y);
+        */
+        Imgproc.rectangle(
+                input,
+                new Rect(x, y, w, h),
+                VisionConstants.SignalDetection.RGB_HIGHLIGHT
+        );
+    }
+
+    private void countPixels(Mat input) {
         // First, slice the smaller rectangle out of the overall bitmap:
         Mat mRectToLookAt = input.submat(
-            // Row start to Row end
-            VisionConstants.SignalDetection.Middle.Y,
-            VisionConstants.SignalDetection.Middle.Y + VisionConstants.SignalDetection.Middle.HEIGHT,
-            // Col start to Col end
-            VisionConstants.SignalDetection.Middle.X,
-            VisionConstants.SignalDetection.Middle.X + VisionConstants.SignalDetection.Middle.WIDTH
+                // Row start to Row end
+                VisionConstants.SignalDetection.Middle.Y,
+                VisionConstants.SignalDetection.Middle.Y + VisionConstants.SignalDetection.Middle.HEIGHT,
+                // Col start to Col end
+                VisionConstants.SignalDetection.Middle.X,
+                VisionConstants.SignalDetection.Middle.X + VisionConstants.SignalDetection.Middle.WIDTH
+
+                // Row start to Row end
+                // VisionConstants.SignalDetection.Left.Y,
+                // VisionConstants.SignalDetection.Left.Y + VisionConstants.SignalDetection.Left.HEIGHT,
+                // Col start to Col end
+                // VisionConstants.SignalDetection.Left.X,
+                // VisionConstants.SignalDetection.Left.X + VisionConstants.SignalDetection.Left.WIDTH
         );
 
         // Next, convert the RGB image to HSV, because HUE is much easier to identify colors in
@@ -162,21 +218,6 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
             colorCount = countColor(VisionConstants.SignalDetection.RED1, rect);
             colorCount += countColor(VisionConstants.SignalDetection.RED2, rect);
         }
-        // Check which spot we should park in
-        // middleDetected = countA >= countY && countA >= countP;
-        // rightDetected = countP >= countA && countP >= countY;
-        leftDetected = !rightDetected && !middleDetected;
-
-        // Draw a rectangle around the area we're looking at, for debugging
-        int x = Range.clip(VisionConstants.SignalDetection.Middle.X - 1, 0, input.width() - 1);
-        int y = Range.clip(VisionConstants.SignalDetection.Middle.Y - 1, 0, input.height() - 1);
-        int w = Range.clip(VisionConstants.SignalDetection.Middle.WIDTH + 2, 1, input.width() - x);
-        int h = Range.clip(VisionConstants.SignalDetection.Middle.HEIGHT + 2, 1, input.height() - y);
-        Imgproc.rectangle(
-            input,
-            new Rect(x, y, w, h),
-            VisionConstants.SignalDetection.RGB_HIGHLIGHT
-        );
     }
 
     public void init(Mat firstFrame) {
