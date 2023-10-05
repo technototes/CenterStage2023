@@ -12,6 +12,7 @@ import org.firstinspires.ftc.sixteen750.Hardware;
 import org.firstinspires.ftc.sixteen750.Robot;
 import org.firstinspires.ftc.sixteen750.Setup;
 import org.firstinspires.ftc.sixteen750.commands.VisionCommand;
+import org.firstinspires.ftc.sixteen750.commands.auto.red.WingPixelMiddle;
 import org.firstinspires.ftc.sixteen750.commands.auto.red.WingPixelSelection;
 import org.firstinspires.ftc.sixteen750.controls.DriverController;
 import org.firstinspires.ftc.sixteen750.helpers.StartingPosition;
@@ -35,7 +36,7 @@ public class PixelThenParkRedWing extends CommandOpMode {
             .getInstance()
             .scheduleForState(
                 new SequentialCommandGroup(
-                    new WingPixelSelection(robot),
+                    new WingPixelMiddle(robot),
                     CommandScheduler.getInstance()::terminateOpMode
                 ),
                 OpModeState.RUN
