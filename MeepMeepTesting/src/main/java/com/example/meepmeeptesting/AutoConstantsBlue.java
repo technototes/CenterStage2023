@@ -17,8 +17,8 @@ import java.util.function.Supplier;
 public class AutoConstantsBlue {
     /*code for wing blue */ public static class Wing {
 
-        public static Pose2d START = new Pose2d(36, -60, toRadians(90));
-        public static Pose2d BACK = new Pose2d(36, -60, toRadians(180));
+        public static Pose2d START = new Pose2d(35, -60, toRadians(90));
+        public static Pose2d BACK = new Pose2d(35, -60, toRadians(180));
         public static Pose2d PARK_CENTER = new Pose2d(-57, -10, toRadians(0));
         //public static Pose2d PARK_MIDDLE = new Pose2d(-36, 36, toRadians(-90));
         public static Pose2d PARK_CORNER = new Pose2d(-60, -60, toRadians(180));
@@ -27,7 +27,7 @@ public class AutoConstantsBlue {
         // between goes backward while rotating
         public static Pose2d BETWEEN = new Pose2d(-47, 12, toRadians(180));
         public static Pose2d RIGHT_SPIKE = new Pose2d(54, -32, toRadians(0));
-        public static Pose2d CENTER_SPIKE = new Pose2d(36, -27, toRadians(90));
+        public static Pose2d CENTER_SPIKE = new Pose2d(35, -27, toRadians(90));
         public static Pose2d LEFT_SPIKE = new Pose2d(22, -32, toRadians(180));
 
         // These are 'trajectory pieces' which should be named like this:
@@ -124,10 +124,10 @@ public class AutoConstantsBlue {
                                 .build();
     }
 
-
-    /* public static class Stage {
+/*
+    public static class Stage {
         public static Pose2d START = new Pose2d(-13, -60, toRadians(90));
-        public static Pose2d STACK = new Pose2d(-62, 12, toRadians(180));
+        public static Pose2d BACK = new Pose2d(-13, -60, toRadians(90));
         public static Pose2d PARK_CENTER = new Pose2d(-57, -10, toRadians(0));
         //public static Pose2d PARK_MIDDLE = new Pose2d(-36, 36, toRadians(-90));
         public static Pose2d PARK_CORNER = new Pose2d(-60, -60, toRadians(-90));
@@ -136,7 +136,7 @@ public class AutoConstantsBlue {
         // between goes backward while rotating
         public static Pose2d BETWEEN = new Pose2d(-47, 12, toRadians(180));
         public static Pose2d RIGHT_SPIKE = new Pose2d(-1, -32, toRadians(0));
-        public static Pose2d CENTER_SPIKE = new Pose2d(-13, -27, toRadians(90));
+        public static Pose2d CENTER_SPIKE = new Pose2d(-13, -30, toRadians(90));
         public static Pose2d LEFT_SPIKE = new Pose2d(-20, -32, toRadians(180));
 
         // These are 'trajectory pieces' which should be named like this:
@@ -161,10 +161,10 @@ public class AutoConstantsBlue {
 //                        .splineTo(W_JUNCTION.vec(), W_JUNCTION.getHeading())
                         .lineToLinearHeading(CENTER_SPIKE)
                         .build(),
-                CENTER_SPIKE_TO_START =
+                CENTER_SPIKE_TO_BACK =
                         () -> function.apply(CENTER_SPIKE)
                                 //.lineToLinearHeading(STACK)
-                                .lineToLinearHeading(START)
+                                .lineToLinearHeading(BACK)
                                 .build(),
         //START_TO_S_JUNCTION=
         //   () -> function.apply(START).lineToLinearHeading().build()
@@ -174,7 +174,7 @@ public class AutoConstantsBlue {
                         .lineToLinearHeading(PARK_CENTER)
                         .build(),
                 STACK_TO_W_JUNCTION =
-                        () -> function.apply(STACK)
+                        () -> function.apply(BACK)
                                 .lineToLinearHeading(LEFT_SPIKE)
                                 .build(),
         //STACK_TO_S_JUNCTION=
@@ -213,10 +213,10 @@ public class AutoConstantsBlue {
                                 .build(),
                 BETWEEN_TO_STACK =
                         () -> function.apply(BETWEEN)
-                                .lineToLinearHeading(STACK)
+                                .lineToLinearHeading(BACK)
                                 .build(),
                 STACK_TO_BETWEEN =
-                        () -> function.apply(STACK)
+                        () -> function.apply(BACK)
                                 .lineToLinearHeading(CENTER_SPIKE)
                                 .build(),
                 BETWEEN_TO_W_JUNCTION =
@@ -232,5 +232,5 @@ public class AutoConstantsBlue {
                                 .lineToLinearHeading(LEFT_SPIKE)
                                 .build();
     }
-    */
+*/
 }
