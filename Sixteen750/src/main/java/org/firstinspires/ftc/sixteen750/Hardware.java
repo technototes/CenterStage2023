@@ -28,9 +28,9 @@ public class Hardware implements Loggable {
 
     public Motor<DcMotorEx> liftMotor;
 
-    public Servo rightservo;
+    public Servo Armservo;
 
-    public Servo leftservo;
+    public Servo ScoreServo;
 
     /* TODO: Put other other here! */
 

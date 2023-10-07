@@ -15,15 +15,28 @@ public class PlacementSubsystem implements Subsystem, Loggable {
 
     public static double INTAKE_SPEED = .3;
     public static double OUTPUT_SPEED = -.3;
-    public Servo leftservo;
 
-    public Servo rightservo;
+    public static double ScoreServo = 0.5;
+
+    public static double ArmServo = 0.5;
+    public Servo armServo;
+
+    public static double ScoreServoInput = 0.5;
+
+    public static double ArmServoInput = 0.5;
+
+    public static double ScoreServoOutput = 0.5;
+
+    public static double ArmServoOutput = 0.5;
+
+
+    public Servo scoreServo;
     public Motor<DcMotorEx> liftMotor;
     private boolean isHardware;
 
     public PlacementSubsystem(Hardware hw) {
-        leftservo = hw.leftservo;
-        rightservo = hw.rightservo;
+        armServo = hw.Armservo;
+        scoreServo = hw.ScoreServo;
         liftMotor = hw.liftMotor;
         isHardware = true;
     }
@@ -31,8 +44,8 @@ public class PlacementSubsystem implements Subsystem, Loggable {
     public PlacementSubsystem() {
         isHardware = false;
         liftMotor = null;
-        rightservo = null;
-        leftservo = null; 
+        armServo = null;
+        scoreServo = null;
     }
     
 
@@ -45,45 +58,78 @@ public class PlacementSubsystem implements Subsystem, Loggable {
         // lift to take the intake system up or down
 
         }
-
-        public void rightpixel() {
-            //servo to pick up a pixle from the lift
-        }
-
-        public void leftpixel() {
-            //servo to place the pixel on the board
-        }
     public void armliftdown(){
         // brings the intake system down
 
     }
     
-    public void armHeight1(){
+    public void LiftHeight1(){
         //takes the arm to the first level
+        liftMotor.setSpeed(0);
     }
 
-    public void armHeight2(){
+    public void liftHeight2(){
         //takes the arm to the second level
+        liftMotor.setSpeed(0);
+
     }
 
-    public void armHeight3(){
+    public void LiftHeight3(){
         //takes the arm to the third level
+        liftMotor.setSpeed(0);
+
     }
 
-    public void armReset(){
+    public void placementReset(){
         //brings the arm all the way down
+        liftMotor.setSpeed(0);
+        armServo.setPosition(0);
+        scoreServo.setPosition(0);
 
     }
 
-    private void leftServoScore(){
-        // positions the left servo to score
-        leftservo.setPosition();
+    private void ArmServoOutput(){
+        // the arm's position to score
+        armServo.setPosition(ArmServoOutput);
     }
 
-    private void rightServoScore(){
-        // positions the right servo to score
-        rightservo.setPosition();
+    private void ScoreServoOutput(){
+        // the intake system's postion to score
+        scoreServo.setPosition(ScoreServoOutput);
 
     }
+
+    public void periodic() {
+//        double ltargetSpeed = leftPidController.update(getLeftPos());
+//        double lclippedSpeed = Range.clip(ltargetSpeed, MIN_MOTOR_SPEED, MAX_MOTOR_SPEED);
+//        double rtargetSpeed = rightPidController.update(getRightPos());
+//        double rclippedSpeed = Range.clip(rtargetSpeed, MIN_MOTOR_SPEED, MAX_MOTOR_SPEED);
+//
+//        //        double leftError = Math.abs(leftPidController.getTargetPosition() - getLeftPos());
+//        //        double rightError = Math.abs(rightPidController.getTargetPosition() - getRightPos());
+//        //        if (leftError > DEAD_ZONE || rightError > DEAD_ZONE) {
+//        //        }
+//        setMotorPower(lclippedSpeed, rclippedSpeed);
+//        setLiftPosition_OVERRIDE(
+//                leftPidController.getTargetPosition(),
+//                rightPidController.getTargetPosition()
+//        );
+
+
+    }
+
+
+
+    private void ArmServoInput(){
+        // positions for the arm of the bot
+        armServo.setPosition(ArmServoInput);
+    }
+    private void ScoreServoInput(){
+        // positions for the arm of the bot
+        armServo.setPosition(ScoreServoInput);
+    }
+
+
+
 
 }
