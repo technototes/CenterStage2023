@@ -123,10 +123,13 @@ public class DrivebaseSubsystem
 
     @Log.Number(name = "FL")
     public EncodedMotor<DcMotorEx> fl2;
+
     @Log.Number(name = "FR")
     public EncodedMotor<DcMotorEx> fr2;
+
     @Log.Number(name = "RL")
     public EncodedMotor<DcMotorEx> rl2;
+
     @Log.Number(name = "RR")
     public EncodedMotor<DcMotorEx> rr2;
 

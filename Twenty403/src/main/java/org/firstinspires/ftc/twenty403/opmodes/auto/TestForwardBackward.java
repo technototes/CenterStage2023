@@ -8,7 +8,6 @@ import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.library.command.WaitCommand;
 import com.technototes.library.structure.CommandOpMode;
 import com.technototes.library.util.Alliance;
-
 import org.firstinspires.ftc.twenty403.AutoConstants;
 import org.firstinspires.ftc.twenty403.Hardware;
 import org.firstinspires.ftc.twenty403.Robot;
@@ -35,23 +34,22 @@ public class TestForwardBackward extends CommandOpMode {
         robot = new Robot(hardware, Alliance.RED, StartingPosition.Wing);
         robot.drivebaseSubsystem.setPoseEstimate(AutoConstants.WingRed.START.toPose());
         CommandScheduler
-                .getInstance()
-                .scheduleForState(
-                        new SequentialCommandGroup(
-                                new DriveStartCommand(robot.drivebaseSubsystem, 1),
-                                new WaitCommand(3),
-                                new DriveStartCommand(robot.drivebaseSubsystem, 0),
-                                new WaitCommand(3),
-                                new DriveStartCommand(robot.drivebaseSubsystem, -1),
-                                new WaitCommand(3),
-                                new DriveStartCommand(robot.drivebaseSubsystem, 0),
-                                CommandScheduler.getInstance()::terminateOpMode),
-                        OpModeState.RUN
-                );
+            .getInstance()
+            .scheduleForState(
+                new SequentialCommandGroup(
+                    new DriveStartCommand(robot.drivebaseSubsystem, 1),
+                    new WaitCommand(3),
+                    new DriveStartCommand(robot.drivebaseSubsystem, 0),
+                    new WaitCommand(3),
+                    new DriveStartCommand(robot.drivebaseSubsystem, -1),
+                    new WaitCommand(3),
+                    new DriveStartCommand(robot.drivebaseSubsystem, 0),
+                    CommandScheduler.getInstance()::terminateOpMode
+                ),
+                OpModeState.RUN
+            );
         if (Setup.Connected.WEBCAM) {
-            CommandScheduler
-                    .getInstance()
-                    .scheduleInit(new VisionCommand(robot.vision));
+            CommandScheduler.getInstance().scheduleInit(new VisionCommand(robot.vision));
         }
     }
 }
