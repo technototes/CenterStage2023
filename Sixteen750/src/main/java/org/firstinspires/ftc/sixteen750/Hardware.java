@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.motor.Motor;
 import com.technototes.library.hardware.sensor.IMU;
+import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.logger.Loggable;
 import com.technototes.vision.hardware.Webcam;
 import java.util.List;
@@ -24,6 +25,12 @@ public class Hardware implements Loggable {
 
     public Motor<DcMotorEx> leftIntake;
     public Motor<DcMotorEx> rightIntake;
+
+    public Motor<DcMotorEx> liftMotor;
+
+    public Servo Armservo;
+
+    public Servo ScoreServo;
 
     /* TODO: Put other other here! */
 
