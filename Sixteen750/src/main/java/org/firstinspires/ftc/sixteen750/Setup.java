@@ -9,7 +9,7 @@ public class Setup {
 
         public static boolean DRIVEBASE = true;
         public static boolean INTAKE = true;
-        public static boolean WEBCAM = true;
+        public static boolean WEBCAM = false;
     }
 
     @Config

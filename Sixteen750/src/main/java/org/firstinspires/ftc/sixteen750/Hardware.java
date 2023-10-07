@@ -22,8 +22,8 @@ public class Hardware implements Loggable {
 
     /* TODO: Put other other here! */
 
-    public Motor<DcMotorEx> leftIntake;
-    public Motor<DcMotorEx> rightIntake;
+    //public Motor<DcMotorEx> leftIntake;
+    //public Motor<DcMotorEx> rightIntake;
 
     /* TODO: Put other other here! */
 
@@ -32,11 +32,11 @@ public class Hardware implements Loggable {
         imu =
             new IMU(
                 Setup.HardwareNames.IMU,
-                RevHubOrientationOnRobot.LogoFacingDirection.BACKWARD,
-                RevHubOrientationOnRobot.UsbFacingDirection.LEFT
+                RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD
             );
-        leftIntake = new Motor<DcMotorEx>(Setup.HardwareNames.INTAKELEFT);
-        rightIntake = new Motor<DcMotorEx>(Setup.HardwareNames.INTAKERIGHT);
+        //leftIntake = new Motor<DcMotorEx>(Setup.HardwareNames.INTAKELEFT);
+        //rightIntake = new Motor<DcMotorEx>(Setup.HardwareNames.INTAKERIGHT);
         fl = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.FLMOTOR);
         fr = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.FRMOTOR);
         rl = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.RLMOTOR);
