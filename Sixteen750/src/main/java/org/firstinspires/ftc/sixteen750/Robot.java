@@ -22,7 +22,7 @@ public class Robot implements Loggable {
         this.position = pos;
         this.alliance = team;
         this.initialVoltage = hw.voltage();
-        intake = new IntakeSubsystem(hw.leftIntake, hw.rightIntake);
+        //intake = new IntakeSubsystem(hw.leftIntake, hw.rightIntake);
         drivebase = new DrivebaseSubsystem(hw.fl, hw.fr, hw.rl, hw.rr, hw.imu);
         this.vision = new VisionSubsystem(hw.camera, team, pos);
     }
