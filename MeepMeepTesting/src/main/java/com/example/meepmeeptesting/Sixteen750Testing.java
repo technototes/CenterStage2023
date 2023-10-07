@@ -37,7 +37,7 @@ public class Sixteen750Testing {
             .start();
     }
      */
-    public static void main(String[] args) { //runs code for Wing Blue
+    /*public static void main(String[] args) { //runs code for Wing Blue
         // Make this as large as possible while still fitting on our laptop screens:
         MeepMeep meepMeep = new MeepMeep(600);
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
