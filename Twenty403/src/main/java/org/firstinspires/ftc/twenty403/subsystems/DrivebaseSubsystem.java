@@ -108,12 +108,12 @@ public class DrivebaseSubsystem
 
         // FL - 0.82
         // FR - 0.8
-        // RL - 0.1
+        // RL - 1.0
         // RR - 0.74
         public static double AFR_SCALE = 0.9;
-        public static double AFL_SCALE = 0.9;
-        public static double ARR_SCALE = 0.9;
-        public static double ARL_SCALE = 0.9;
+        public static double AFL_SCALE = 0.95;
+        public static double ARR_SCALE = 0.85;
+        public static double ARL_SCALE = 1.0;
     }
 
     private static final boolean ENABLE_POSE_DIAGNOSTICS = true;

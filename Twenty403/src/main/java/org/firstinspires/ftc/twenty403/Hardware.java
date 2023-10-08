@@ -26,8 +26,8 @@ public class Hardware implements Loggable {
         imu =
             new IMU(
                 Setup.HardwareNames.IMU,
-                RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD
+                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+                RevHubOrientationOnRobot.UsbFacingDirection.UP
             );
         if (Setup.Connected.DRIVEBASE) {
             fl = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.FLMOTOR);
