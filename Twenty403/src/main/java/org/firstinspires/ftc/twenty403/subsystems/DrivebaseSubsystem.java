@@ -121,16 +121,19 @@ public class DrivebaseSubsystem
     @Log(name = "Pose2d: ")
     public String poseDisplay = ENABLE_POSE_DIAGNOSTICS ? "" : null;
 
-    // @Log.Number(name = "FL")
+    @Log.Number(name = "FL")
     public EncodedMotor<DcMotorEx> fl2;
-    // @Log.Number(name = "FR")
+
+    @Log.Number(name = "FR")
     public EncodedMotor<DcMotorEx> fr2;
-    // @Log.Number(name = "RL")
+
+    @Log.Number(name = "RL")
     public EncodedMotor<DcMotorEx> rl2;
-    // @Log.Number(name = "RR")
+
+    @Log.Number(name = "RR")
     public EncodedMotor<DcMotorEx> rr2;
 
-    @Log
+    // @Log
     public String locState = "none";
 
     public DrivebaseSubsystem(
