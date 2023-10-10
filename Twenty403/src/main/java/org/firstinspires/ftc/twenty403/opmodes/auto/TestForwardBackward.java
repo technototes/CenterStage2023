@@ -14,13 +14,14 @@ import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
 import org.firstinspires.ftc.twenty403.commands.VisionCommand;
 import org.firstinspires.ftc.twenty403.commands.auto.red.WingPixelSelection;
+import org.firstinspires.ftc.twenty403.commands.driving.DriveStartCommand;
 import org.firstinspires.ftc.twenty403.controls.DriverController;
 import org.firstinspires.ftc.twenty403.helpers.StartingPosition;
 
 // The last 4 weird things are '🟥' and '🪶' (wing)
-@Autonomous(name = "PixelThenPark\uD83D\uDFE5\uD83E\uDEB6")
+@Autonomous(name = "Fwd/Backward")
 @SuppressWarnings("unused")
-public class PixelThenParkRedWing extends CommandOpMode {
+public class TestForwardBackward extends CommandOpMode {
 
     public Robot robot;
     public DriverController controls;
@@ -36,10 +37,16 @@ public class PixelThenParkRedWing extends CommandOpMode {
             .getInstance()
             .scheduleForState(
                 new SequentialCommandGroup(
-                    new WaitCommand(15),
+                    new DriveStartCommand(robot.drivebaseSubsystem, 1),
+                    new WaitCommand(3),
+                    new DriveStartCommand(robot.drivebaseSubsystem, 0),
+                    new WaitCommand(3),
+                    new DriveStartCommand(robot.drivebaseSubsystem, -1),
+                    new WaitCommand(3),
+                    new DriveStartCommand(robot.drivebaseSubsystem, 0),
                     CommandScheduler.getInstance()::terminateOpMode
                 ),
-                CommandOpMode.OpModeState.RUN
+                OpModeState.RUN
             );
         if (Setup.Connected.WEBCAM) {
             CommandScheduler.getInstance().scheduleInit(new VisionCommand(robot.vision));

@@ -11,6 +11,7 @@ public class WingPixelLeft extends SequentialCommandGroup {
         super(
             new TrajectorySequenceCommand(r.drivebase, WingRed.START_TO_LEFT_SPIKE)
                 .andThen(new TrajectorySequenceCommand(r.drivebase, WingRed.LEFT_SPIKE_TO_CLEAR))
+                .andThen(new TrajectorySequenceCommand(r.drivebase, WingRed.CLEAR_TO_PARK_RIGHT))
         );
     }
 }

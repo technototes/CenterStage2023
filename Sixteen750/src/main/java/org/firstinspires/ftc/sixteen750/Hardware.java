@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.motor.Motor;
 import com.technototes.library.hardware.sensor.IMU;
+import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.logger.Loggable;
 import com.technototes.vision.hardware.Webcam;
 import java.util.List;
@@ -22,8 +23,14 @@ public class Hardware implements Loggable {
 
     /* TODO: Put other other here! */
 
-    public Motor<DcMotorEx> leftIntake;
-    public Motor<DcMotorEx> rightIntake;
+    //public Motor<DcMotorEx> leftIntake;
+    //public Motor<DcMotorEx> rightIntake;
+
+    public Motor<DcMotorEx> liftMotor;
+
+    public Servo Armservo;
+
+    public Servo ScoreServo;
 
     /* TODO: Put other other here! */
 
@@ -32,11 +39,11 @@ public class Hardware implements Loggable {
         imu =
             new IMU(
                 Setup.HardwareNames.IMU,
-                RevHubOrientationOnRobot.LogoFacingDirection.BACKWARD,
-                RevHubOrientationOnRobot.UsbFacingDirection.LEFT
+                RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD
             );
-        leftIntake = new Motor<DcMotorEx>(Setup.HardwareNames.INTAKELEFT);
-        rightIntake = new Motor<DcMotorEx>(Setup.HardwareNames.INTAKERIGHT);
+        //leftIntake = new Motor<DcMotorEx>(Setup.HardwareNames.INTAKELEFT);
+        //rightIntake = new Motor<DcMotorEx>(Setup.HardwareNames.INTAKERIGHT);
         fl = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.FLMOTOR);
         fr = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.FRMOTOR);
         rl = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.RLMOTOR);

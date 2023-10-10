@@ -3,15 +3,11 @@ package com.example.meepmeeptesting;
 import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
-
+import java.io.File;
 import java.io.File;
 import java.io.IOException;
-
+import java.io.IOException;
 import javax.imageio.ImageIO;
-
-import java.io.File;
-import java.io.IOException;
-
 import javax.imageio.ImageIO;
 
 public class Sixteen750Testing {
@@ -37,7 +33,7 @@ public class Sixteen750Testing {
             .start();
     }
      */
-    public static void main(String[] args) { //runs code for Wing Blue
+    /*public static void main(String[] args) { //runs code for Wing Blue
         // Make this as large as possible while still fitting on our laptop screens:
         MeepMeep meepMeep = new MeepMeep(600);
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
