@@ -246,9 +246,9 @@ public class AutoConstantsRed {
         public static Pose2d S_JUNCTION = new Pose2d(-4, -28, toRadians(45));
         // between goes backward while rotating
         public static Pose2d BETWEEN = new Pose2d(-47, 12, toRadians(180));
-        public static Pose2d RIGHT_SPIKE = new Pose2d(-20, 36, toRadians(-90));
+        public static Pose2d RIGHT_SPIKE = new Pose2d(-20, 36, toRadians(-105));
         public static Pose2d CENTER_SPIKE = new Pose2d(-13, 22, toRadians(-90));
-        public static Pose2d LEFT_SPIKE = new Pose2d(-1, 36, toRadians(-90));
+        public static Pose2d LEFT_SPIKE = new Pose2d(-1, 36, toRadians(-75));
 
         // These are 'trajectory pieces' which should be named like this:
         // {STARTING_POSITION}_TO_{ENDING_POSITION}
@@ -279,68 +279,40 @@ public class AutoConstantsRed {
                                 .build(),
         //START_TO_S_JUNCTION=
         //   () -> function.apply(START).lineToLinearHeading().build()
-        START_TO_PARK_CENTER =
-                () -> function.apply(START)
-                        //.lineToLinearHeading(STACK)
-                        .lineToLinearHeading(PARK_CENTER)
+
+        STACK_TO_W_JUNCTION =
+                () -> function.apply(STACK)
+                        .lineToLinearHeading(LEFT_SPIKE)
                         .build(),
-                STACK_TO_W_JUNCTION =
-                        () -> function.apply(STACK)
-                                .lineToLinearHeading(LEFT_SPIKE)
-                                .build(),
         //STACK_TO_S_JUNCTION=
         //() -> function.apply(STACK).lineToLinearHeading().build(),
-        CENTER_SPIKE_TO_RIGHT_SPIKE =
-                () -> function.apply(CENTER_SPIKE)
-                        .lineToLinearHeading(RIGHT_SPIKE)
-                        .build(),
-                W_JUNCTION_TO_PARK_RIGHT =
-                        () -> function.apply(E_JUNCTION)
-                                .lineToLinearHeading(PARK_CENTER)
-                                .build(),
-                W_JUNCTION_TO_PARK_MIDDLE =
-                        () -> function.apply(LEFT_SPIKE)
-                                .splineTo(PARK_CENTER.vec(), Math.toRadians(-90))
-                                .build(),
-                S_JUNCTION_TO_PARK_LEFT =
-                        () -> function.apply(E_JUNCTION)
-                                .lineToLinearHeading(PARK_CENTER)
-                                .build(),
-                S_JUNCTION_TO_PARK_RIGHT =
-                        () -> function.apply(E_JUNCTION)
-                                .lineToLinearHeading(PARK_CENTER)
-                                .build(),
-                S_JUNCTION_TO_PARK_MIDDLE =
-                        () -> function.apply(E_JUNCTION)
-                                .lineToLinearHeading(PARK_CENTER)
-                                .build(),
-                E_JUNCTION_TO_BETWEEN =
-                        () -> function.apply(E_JUNCTION)
-                                .lineToLinearHeading(BETWEEN)
-                                .build(),
-                W_JUNCTION_TO_BETWEEN =
-                        () -> function.apply(LEFT_SPIKE)
-                                .lineToLinearHeading(BETWEEN)
-                                .build(),
-                BETWEEN_TO_STACK =
-                        () -> function.apply(BETWEEN)
-                                .lineToLinearHeading(STACK)
-                                .build(),
-                STACK_TO_BETWEEN =
-                        () -> function.apply(STACK)
-                                .lineToLinearHeading(CENTER_SPIKE)
-                                .build(),
-                BETWEEN_TO_W_JUNCTION =
-                        () -> function.apply(CENTER_SPIKE)
-                                .lineToLinearHeading(LEFT_SPIKE)
-                                .build(),
-                START_TO_BETWEEN3 =
-                        () -> function.apply(START)
-                                .lineToLinearHeading(CENTER_SPIKE)
-                                .build(),
-                BETWEEN3_TO_W_JUNCTION =
-                        () -> function.apply(CENTER_SPIKE)
-                                .lineToLinearHeading(LEFT_SPIKE)
-                                .build();
+            START_TO_RIGHT_SPIKE =
+                    () -> function.apply(START)
+                            //                        .splineTo(W_JUNCTION.vec(), W_JUNCTION.getHeading())
+                            .lineToLinearHeading(RIGHT_SPIKE)
+                            .build(),
+                    RIGHT_SPIKE_TO_START =
+                            () -> function.apply(RIGHT_SPIKE)
+                                    //.lineToLinearHeading(STACK)
+                                    .lineToLinearHeading(START)
+                                    .build(),
+                    START_TO_PARK_CENTER =
+                            () -> function.apply(START)
+                                    //.lineToLinearHeading(STACK)
+                                    .lineToLinearHeading(PARK_CENTER)
+                                    .build(),
+            START_TO_LEFT_SPIKE =
+                    () -> function.apply(START)
+                    //                        .splineTo(W_JUNCTION.vec(), W_JUNCTION.getHeading())
+                    .lineToLinearHeading(LEFT_SPIKE)
+                            .build(),
+            LEFT_SPIKE_TO_START =
+                    () -> function.apply(LEFT_SPIKE)
+                    //.lineToLinearHeading(STACK)
+                    .lineToLinearHeading(START)
+                                    .build();
+            //START_TO_S_JUNCTION=
+            //   () -> function.apply(START).lineToLinearHeading().build()
+
     }
 }
