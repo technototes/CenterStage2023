@@ -70,6 +70,3 @@ public class Hardware implements Loggable {
         return volt / count;
     }
 }
-
-
-
