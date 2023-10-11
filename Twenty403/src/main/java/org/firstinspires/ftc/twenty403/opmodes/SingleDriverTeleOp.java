@@ -14,6 +14,7 @@ import org.firstinspires.ftc.twenty403.commands.driving.ResetGyroCommand;
 import org.firstinspires.ftc.twenty403.controls.SingleController;
 import org.firstinspires.ftc.twenty403.helpers.StartingPosition;
 
+@SuppressWarnings("unused")
 @TeleOp(name = "OneDriverTeleOp")
 public class SingleDriverTeleOp extends CommandOpMode {
 
