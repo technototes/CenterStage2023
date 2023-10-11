@@ -32,6 +32,12 @@ public class Hardware implements Loggable {
 
     public Servo ScoreServo;
 
+    public Motor<DcMotorEx> hangMotor1;
+
+    public Servo hangServo1;
+
+    public Servo hangServo2;
+
     /* TODO: Put other other here! */
 
     public Hardware(HardwareMap hwmap) {
