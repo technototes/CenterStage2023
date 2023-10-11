@@ -11,6 +11,7 @@ import java.util.function.Function;
 public class AutoConstants {
     @Config
     public static class WingRed {
+        // WING RED left and right coords wrong AHHHHHH FIX IT WING WING WING
         public static ConfigurablePoseD START = new ConfigurablePoseD(35, 60, -90);
         public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(-23, 30, -120);
         public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(35, 32, -90);
@@ -23,21 +24,22 @@ public class AutoConstants {
         // {STARTING_POSITION}_TO_{ENDING_POSITION}
         public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
                 START_TO_LEFT_SPIKE = b ->
-                //spline done
+                // NOT SPLINE
                 b.apply(START.toPose())
                         .splineTo(START.toVec(), LEFT_SPIKE.getHeading()).build(),
             START_TO_MIDDLE_SPIKE = b ->
                 b.apply(START.toPose()).lineToLinearHeading(MIDDLE_SPIKE.toPose()).build(),
             START_TO_RIGHT_SPIKE = b ->
+                    // SPLINE PLEASE
                 b.apply(START.toPose()).lineToLinearHeading(RIGHT_SPIKE.toPose()).build(),
             LEFT_SPIKE_TO_CLEAR = b ->
-                    //spline done
+                    //NOT SPLINE
                     b.apply(START.toPose())
                             .splineTo(LEFT_SPIKE.toVec(), CLEAR.getHeading()).build(),
             MIDDLE_SPIKE_TO_CLEAR = b ->
                 b.apply(MIDDLE_SPIKE.toPose()).lineToLinearHeading(CLEAR.toPose()).build(),
             RIGHT_SPIKE_TO_CLEAR = b ->
-                    //spline done
+                    //SPLINE PLEASE
                 b.apply(RIGHT_SPIKE.toPose()).lineToLinearHeading(CLEAR.toPose()).build(),
             CLEAR_TO_PARK_RIGHT = b ->
                 b.apply(CLEAR.toPose()).lineToLinearHeading(PARK_RIGHT.toPose()).build();
@@ -121,19 +123,21 @@ public class AutoConstants {
         // {STARTING_POSITION}_TO_{ENDING_POSITION}
         public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
             START_TO_LEFT_SPIKE = b ->
-                //spline
+                //NOT SPLINE
                 b.apply(START.toPose())
                         .splineTo(START.toVec(), LEFT_SPIKE.getHeading()).build(),
                 START_TO_MIDDLE_SPIKE = b ->
                 b.apply(START.toPose()).lineToLinearHeading(MIDDLE_SPIKE.toPose()).build(),
             START_TO_RIGHT_SPIKE = b ->
+                    //SPLINE
                 b.apply(START.toPose()).lineToLinearHeading(RIGHT_SPIKE.toPose()).build(),
             LEFT_SPIKE_TO_CLEAR = b ->
-                    //spline
+                    //NOT SPLINE
                     b.apply(START.toPose()).splineTo(LEFT_SPIKE.toVec(), CLEAR.getHeading()).build(),
                 MIDDLE_SPIKE_TO_CLEAR = b ->
                 b.apply(MIDDLE_SPIKE.toPose()).lineToLinearHeading(CLEAR.toPose()).build(),
             RIGHT_SPIKE_TO_CLEAR = b ->
+                    //SPLINE
                 b.apply(RIGHT_SPIKE.toPose()).lineToLinearHeading(CLEAR.toPose()).build(),
             CLEAR_TO_PARK_RIGHT = b ->
                 b.apply(CLEAR.toPose()).lineToLinearHeading(PARK_RIGHT.toPose()).build();
