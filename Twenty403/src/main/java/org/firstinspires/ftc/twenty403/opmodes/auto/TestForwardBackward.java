@@ -13,8 +13,7 @@ import org.firstinspires.ftc.twenty403.Hardware;
 import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
 import org.firstinspires.ftc.twenty403.commands.VisionCommand;
-import org.firstinspires.ftc.twenty403.commands.auto.red.WingPixelSelection;
-import org.firstinspires.ftc.twenty403.commands.driving.DriveStartCommand;
+import org.firstinspires.ftc.twenty403.commands.driving.DriveTestCommand;
 import org.firstinspires.ftc.twenty403.controls.DriverController;
 import org.firstinspires.ftc.twenty403.helpers.StartingPosition;
 
@@ -37,13 +36,13 @@ public class TestForwardBackward extends CommandOpMode {
             .getInstance()
             .scheduleForState(
                 new SequentialCommandGroup(
-                    new DriveStartCommand(robot.drivebaseSubsystem, 1),
+                    new DriveTestCommand(robot.drivebaseSubsystem, 1),
                     new WaitCommand(3),
-                    new DriveStartCommand(robot.drivebaseSubsystem, 0),
+                    new DriveTestCommand(robot.drivebaseSubsystem, 0),
                     new WaitCommand(3),
-                    new DriveStartCommand(robot.drivebaseSubsystem, -1),
+                    new DriveTestCommand(robot.drivebaseSubsystem, -1),
                     new WaitCommand(3),
-                    new DriveStartCommand(robot.drivebaseSubsystem, 0),
+                    new DriveTestCommand(robot.drivebaseSubsystem, 0),
                     CommandScheduler.getInstance()::terminateOpMode
                 ),
                 OpModeState.RUN
