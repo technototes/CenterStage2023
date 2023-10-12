@@ -80,6 +80,13 @@ public class JoystickDriveCommand implements Command, Loggable {
                 -x.getAsDouble() * subsystem.speed
             )
                 .rotated(curHeading);
+            // TODO:
+            // Calculate the magnitude of the motion to scale the speed by...
+            // then call subsystem.setMag(mag)
+            // find a student who's done physics for this one...
+            // (Also: We probably want to pick the larger of the magnitude of the drive sticks,
+            // and the rotation stick)
+            // We could also use this for implementating "snail mode" and "turbo mode"
             subsystem.setWeightedDrivePower(
                 new Pose2d(input.getX(), input.getY(), getRotation(curHeading))
             );

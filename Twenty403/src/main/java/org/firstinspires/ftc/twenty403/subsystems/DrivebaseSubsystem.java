@@ -133,8 +133,8 @@ public class DrivebaseSubsystem
     @Log.Number(name = "RR")
     public EncodedMotor<DcMotorEx> rr2;
 
-    // @Log
-    public String locState = "none";
+    @Log(name = "magnitude")
+    public String dirLen = "";
 
     public DrivebaseSubsystem(
         EncodedMotor<DcMotorEx> fl,
@@ -156,6 +156,18 @@ public class DrivebaseSubsystem
         return getPoseEstimate();
     }
 
+    private double mag;
+
+    public void setMag(double m) {
+        mag = m;
+        if (mag >= 0) {
+            dirLen = String.format("%1.2f", mag);
+        } else {
+            dirLen = "";
+            mag = -1;
+        }
+    }
+
     @Override
     public void periodic() {
         if (ENABLE_POSE_DIAGNOSTICS) {
@@ -172,10 +184,17 @@ public class DrivebaseSubsystem
     // Velocity driving, in the hopes that the bot with drive straight ;)
     @Override
     public void setMotorPowers(double v, double v1, double v2, double v3) {
+        // TODO: Use the stick position to determine how to scale these values
+        // in Turbo mode (If the robot is driving in a straight line, the values are
+        // going to max out at sqrt(2)/2, rather than: We can go faster, but we don't
+        // *always* want to scale faster, only when we're it turbo mode, and when one (or more)
+        // of the control sticks are at their limit
+        if (mag > 0) {
+            // normalize the values here
+        }
         leftFront.setVelocity(v * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.AFL_SCALE);
         leftRear.setVelocity(v1 * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.ARL_SCALE);
         rightRear.setVelocity(v2 * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.ARR_SCALE);
         rightFront.setVelocity(v3 * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.AFR_SCALE);
     }
-    // Stuff below is used for tele-op trajectory motion
 }
