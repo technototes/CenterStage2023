@@ -19,7 +19,7 @@ public class Hardware implements Loggable {
     public EncodedMotor<DcMotorEx> fl, fr, rl, rr;
     public Webcam camera;
 
-    /* TODO: Put other other here! */
+    /* Put other hardware here! */
 
     public Hardware(HardwareMap hwmap) {
         hubs = hwmap.getAll(LynxModule.class);
