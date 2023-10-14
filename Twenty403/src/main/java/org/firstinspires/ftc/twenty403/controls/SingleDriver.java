@@ -8,6 +8,10 @@ import com.technototes.library.control.Stick;
 
 import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
+import org.firstinspires.ftc.twenty403.commands.ClawCloseCommand;
+import org.firstinspires.ftc.twenty403.commands.ClawOpenCommand;
+import org.firstinspires.ftc.twenty403.commands.driving.JoystickDriveCommand;
+import org.firstinspires.ftc.twenty403.commands.driving.ResetGyroCommand;
 
 public class SingleDriver {
     public Robot robot;
@@ -16,6 +20,7 @@ public class SingleDriver {
 
     public Stick driveLeftStick, driveRightStick;
     public CommandButton resetGyroButton, driveStraight, turboButton;
+    public CommandButton clawOpenButton, clawCloseButton;
 
     public SingleDriver(CommandGamepad g, Robot r, Setup s) {
         this.robot = r;
@@ -27,6 +32,9 @@ public class SingleDriver {
 
         if (Setup.Connected.DRIVEBASE) {
             bindDriveControls();
+        }
+        if (Setup.Connected.CLAWSUBSYSTEM){
+            bindClawControls();
         }
 
         if (Setup.Connected.WEBCAM) {
@@ -41,60 +49,30 @@ public class SingleDriver {
         turboButton = gamepad.leftStickButton;
         driveStraight = gamepad.rightTrigger.getAsButton(0.5);
 
-
-        watchButton = gamepad.options;
-        // TODO: Identify other controls for
     }
 
     public void bindDriveControls() {
         CommandScheduler
                 .getInstance()
                 .scheduleJoystick(
-                        new DriveCommand(
+                        new JoystickDriveCommand(
                                 robot.drivebaseSubsystem,
                                 driveLeftStick,
-                                driveRightStick,
-                                driveStraight,
-                                watchButton,
-                                robot.visionSystem.visionPipeline
+                                driveRightStick
                         )
                 );
-        turboButton.whenPressed(new TurboCommand(robot.drivebaseSubsystem));
-        turboButton.whenReleased(new SlowCommand(robot.drivebaseSubsystem));
-        // TODO: We probably want buttons to reset the Gyro...
+        //turboButton.whenPressed(new TurboCommand(robot.drivebaseSubsystem));
+        //turboButton.whenReleased(new SlowCommand(robot.drivebaseSubsystem));
         resetGyroButton.whenPressed(new ResetGyroCommand(robot.drivebaseSubsystem));
     }
 
     public void bindClawControls() {
-        // TODO: Name & Bind claw controls
         clawOpenButton.whenPressed(new ClawOpenCommand(robot.clawSubsystem));
         clawCloseButton.whenReleased(new ClawCloseCommand(robot.clawSubsystem));
     }
 
     public void bindLiftControls() {
         // TODO: Name & Bind lift controls
-        liftUpButton.whenPressed(new LiftUpCommand(robot.liftSubsystem));
-        liftDownButton.whenPressed(new LiftDownCommand(robot.liftSubsystem));
-        liftIntakePos.whenPressed(new LiftIntakeCommand(robot.liftSubsystem));
-        liftOverrideZeroButton.whenPressed(
-                new ConditionalCommand(override, new LiftSetZeroCommand(robot.liftSubsystem))
-        );
 
-        liftGroundOrOverrideDown.whenPressed(
-                new ConditionalCommand(
-                        override,
-                        new LiftMoveDownOverrideCommand(robot.liftSubsystem),
-                        new LiftGroundJunctionCommand(robot.liftSubsystem)
-                )
-        );
-        liftLowOrOverrideUp.whenPressed(
-                new ConditionalCommand(
-                        override,
-                        new LiftMoveUpOverrideCommand(robot.liftSubsystem),
-                        new LiftLowJunctionCommand(robot.liftSubsystem)
-                )
-        );
-        liftMedium.whenPressed(new LiftMidJunctionCommand(robot.liftSubsystem));
-        liftHigh.whenPressed(new LiftHighJunctionCommand(robot.liftSubsystem));
     }
 }
