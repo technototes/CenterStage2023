@@ -26,9 +26,11 @@ public class Twenty403Testing {
                 drive
                     .trajectorySequenceBuilder(AutoConstantsRed.Wing.START)
                     //.addTrajectory(AutoConstantsRed.Stage.START_TO_LEFT_LOW.get())
-                    .addTrajectory(AutoConstantsRed.Wing.START_TO_CENTER_SPIKE.get())
-                        .addTrajectory(AutoConstantsRed.Wing.CENTER_SPIKE_TO_BACK.get())
-                        .addTrajectory(AutoConstantsRed.Wing.BACK_TO_PARK_CORNER.get())
+                    .addTrajectory(AutoConstantsRed.Wing.START_TO_MIDSPIKE.get())
+                       .addTrajectory(AutoConstantsRed.Wing.MIDSPIKE_TO_RIGHT_SPIKE.get())
+                        .addTrajectory(AutoConstantsRed.Wing.RIGHT_SPIKE_TO_MIDSPIKE.get())
+                        .addTrajectory(AutoConstantsRed.Wing.MIDSPIKE_TO_BACK.get())
+                      //  .addTrajectory(AutoConstantsRed.Wing.BACK_TO_PARK_CORNER.get())
                     //.addTrajectory(AutoConstantsRed.Stage.LEFT_SPIKE_TO_CENTER_SPIKE.get())
                     //.addTrajectory(AutoConstantsRed.Stage.CENTER_SPIKE_TO_RIGHT_SPIKE.get())
                     .build()
@@ -42,7 +44,8 @@ public class Twenty403Testing {
         }
         meepMeep.setBackgroundAlpha(0.75f).addEntity(myBot).start();
     } //Wing Red
-/*
+    /*
+
     public static void main(String[] args) {
         // Make this as large as possible while still fitting on our laptop screens:
         MeepMeep meepMeep = new MeepMeep(600);
@@ -76,7 +79,7 @@ public class Twenty403Testing {
         meepMeep.setBackgroundAlpha(0.75f).addEntity(myBot).start();
     } //Wing Blue
 
-
+/*
     public static void main(String[] args) {
         // Make this as large as possible while still fitting on our laptop screens:
         MeepMeep meepMeep = new MeepMeep(600);

@@ -19,7 +19,7 @@ public class AutoConstantsRed {
     /*code for wing blue */ public static class Wing {
 
         public static Pose2d START = new Pose2d(36, 60, toRadians(-90));
-        public static Pose2d BACK = new Pose2d(36, 60, toRadians(180));
+        public static Pose2d BACK = new Pose2d(36, 60.1, toRadians(180));
         public static Pose2d PARK_CENTER = new Pose2d(-57, 10, toRadians(0));
         //public static Pose2d PARK_MIDDLE = new Pose2d(-36, 36, toRadians(-90));
         public static Pose2d PARK_CORNER = new Pose2d(-60, 60, toRadians(180));
@@ -27,7 +27,9 @@ public class AutoConstantsRed {
         public static Pose2d S_JUNCTION = new Pose2d(-4, -28, toRadians(45));
         // between goes backward while rotating
         public static Pose2d BETWEEN = new Pose2d(-47, 12, toRadians(180));
-        public static Pose2d RIGHT_SPIKE = new Pose2d(32, 27, toRadians(-90));
+        public static Pose2d RIGHT_SPIKE = new Pose2d(25, 32, toRadians(180));
+        public static Pose2d MIDSPIKE = new Pose2d(36, 32, toRadians(180));
+
         public static Pose2d CENTER_SPIKE = new Pose2d(36, 27, toRadians(-90));
         public static Pose2d LEFT_SPIKE = new Pose2d(40, -32, toRadians(180));
 
@@ -53,11 +55,23 @@ public class AutoConstantsRed {
 //                        .splineTo(W_JUNCTION.vec(), W_JUNCTION.getHeading())
                         .lineToLinearHeading(CENTER_SPIKE)
                         .build(),
-                CENTER_SPIKE_TO_BACK =
-                        () -> function.apply(CENTER_SPIKE)
-                                //.lineToLinearHeading(STACK)
+                START_TO_MIDSPIKE =
+                        () -> function.apply(START)
+                                .lineToLinearHeading(MIDSPIKE)
+                                .build(),
+                MIDSPIKE_TO_RIGHT_SPIKE =
+                        () -> function.apply(MIDSPIKE)
+                                .lineToLinearHeading(RIGHT_SPIKE)
+                                .build(),
+                RIGHT_SPIKE_TO_MIDSPIKE =
+                        () -> function.apply(RIGHT_SPIKE)
+                                .lineToLinearHeading(MIDSPIKE)
+                                .build(),
+                MIDSPIKE_TO_BACK =
+                        () -> function.apply(MIDSPIKE)
                                 .lineToLinearHeading(BACK)
                                 .build(),
+
         //START_TO_S_JUNCTION=
         //   () -> function.apply(START).lineToLinearHeading().build()
         BACK_TO_PARK_CORNER =
