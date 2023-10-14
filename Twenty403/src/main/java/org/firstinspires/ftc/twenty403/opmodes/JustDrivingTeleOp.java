@@ -11,6 +11,7 @@ import org.firstinspires.ftc.twenty403.Hardware;
 import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.commands.driving.ResetGyroCommand;
 import org.firstinspires.ftc.twenty403.controls.DriverController;
+import org.firstinspires.ftc.twenty403.controls.OperatorController;
 import org.firstinspires.ftc.twenty403.helpers.StartingPosition;
 
 @TeleOp(name = "Just Driving")
@@ -19,7 +20,7 @@ public class JustDrivingTeleOp extends CommandOpMode {
 
     public Robot robot;
     public DriverController controlsDriver;
-    // public ControlOperator controlsOperator;
+    public OperatorController controlsOperator;
     public Hardware hardware;
 
     @Override
@@ -28,7 +29,7 @@ public class JustDrivingTeleOp extends CommandOpMode {
         hardware = new Hardware(hardwareMap);
         robot = new Robot(hardware, Alliance.BLUE, StartingPosition.Unspecified);
         controlsDriver = new DriverController(driverGamepad, robot);
-        // controlsOperator = new ControlOperator(codriverGamepad, robot);
+        controlsOperator = new OperatorController(codriverGamepad, robot);
         robot.drivebaseSubsystem.setPoseEstimate(AutoConstants.WingRed.START.toPose());
         CommandScheduler
             .getInstance()

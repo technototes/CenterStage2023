@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.twenty403.controls;
 
 import com.technototes.library.command.CommandScheduler;
-import com.technototes.library.command.ConditionalCommand;
 import com.technototes.library.control.CommandButton;
 import com.technototes.library.control.CommandGamepad;
 import com.technototes.library.control.Stick;
@@ -13,7 +12,7 @@ import org.firstinspires.ftc.twenty403.commands.ClawOpenCommand;
 import org.firstinspires.ftc.twenty403.commands.driving.JoystickDriveCommand;
 import org.firstinspires.ftc.twenty403.commands.driving.ResetGyroCommand;
 
-public class SingleDriver {
+public class SingleController {
     public Robot robot;
     public Setup setup;
     public CommandGamepad gamepad;
@@ -22,7 +21,7 @@ public class SingleDriver {
     public CommandButton resetGyroButton, driveStraight, turboButton;
     public CommandButton clawOpenButton, clawCloseButton;
 
-    public SingleDriver(CommandGamepad g, Robot r, Setup s) {
+    public SingleController(CommandGamepad g, Robot r, Setup s) {
         this.robot = r;
         this.setup = s;
         gamepad = g;
@@ -48,6 +47,9 @@ public class SingleDriver {
         driveRightStick = gamepad.rightStick;
         turboButton = gamepad.leftStickButton;
         driveStraight = gamepad.rightTrigger.getAsButton(0.5);
+
+        clawOpenButton = gamepad.leftBumper;
+        clawCloseButton = gamepad.rightBumper;
 
     }
 
