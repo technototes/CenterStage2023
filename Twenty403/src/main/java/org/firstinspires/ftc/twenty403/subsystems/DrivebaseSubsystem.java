@@ -183,18 +183,22 @@ public class DrivebaseSubsystem
 
     // Velocity driving, in the hopes that the bot with drive straight ;)
     @Override
-    public void setMotorPowers(double v, double v1, double v2, double v3) {
+    public void setMotorPowers(double lfv, double lrv, double rrv, double rfv) {
         // TODO: Use the stick position to determine how to scale these values
         // in Turbo mode (If the robot is driving in a straight line, the values are
         // going to max out at sqrt(2)/2, rather than: We can go faster, but we don't
         // *always* want to scale faster, only when we're it turbo mode, and when one (or more)
         // of the control sticks are at their limit
+        double maxlfvlrv = Math.max(Math.abs(lfv), Math.abs(lrv));
+        double maxrfvrrv = Math.max(Math.abs(rfv), Math.abs(rrv));
+        double maxall = Math.max(maxlfvlrv, maxrfvrrv);
         if (mag > 0) {
             // normalize the values here
         }
-        leftFront.setVelocity(v * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.AFL_SCALE);
-        leftRear.setVelocity(v1 * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.ARL_SCALE);
-        rightRear.setVelocity(v2 * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.ARR_SCALE);
-        rightFront.setVelocity(v3 * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.AFR_SCALE);
+        leftFront.setVelocity(lfv * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.AFL_SCALE / maxall);
+        leftRear.setVelocity(lrv * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.ARL_SCALE / maxall);
+        rightRear.setVelocity(rrv * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.ARR_SCALE / maxall);
+        rightFront.setVelocity(rfv * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.AFR_SCALE / maxall);
+
     }
 }
