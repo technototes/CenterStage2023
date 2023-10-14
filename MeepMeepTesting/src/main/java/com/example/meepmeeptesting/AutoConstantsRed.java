@@ -16,7 +16,7 @@ import java.util.function.Supplier;
 
 public class AutoConstantsRed {
 
-    /*code for wing blue */ /*public static class Wing {
+    /*code for wing blue */ public static class Wing {
 
         public static Pose2d START = new Pose2d(36, 60, toRadians(-90));
         public static Pose2d BACK = new Pose2d(36, 60, toRadians(180));
@@ -79,10 +79,10 @@ public class AutoConstantsRed {
                         () -> function.apply(RIGHT_SPIKE)
                                 .lineToLinearHeading(BACK)
                                 .build(),
-                BACK_TO_PARK_CORNER =
-                        () -> function.apply(BACK)
-                                .lineToLinearHeading(PARK_CORNER)
-                                .build(),
+                //BACK_TO_PARK_CORNER =
+                       // () -> function.apply(BACK)
+                            //    .lineToLinearHeading(PARK_CORNER)
+                              //  .build(),
                 S_JUNCTION_TO_PARK_LEFT =
                         () -> function.apply(E_JUNCTION)
                                 .lineToLinearHeading(PARK_CENTER)
@@ -124,9 +124,8 @@ public class AutoConstantsRed {
                                 .lineToLinearHeading(LEFT_SPIKE)
                                 .build();
     }
-    */
-     /*
-    public static class Wing {
+
+    public static class WingRed {
         public static Pose2d START = new Pose2d(36, 57, toRadians(-90));
         public static Pose2d BACK = new Pose2d(36, 57, toRadians(180));
         public static Pose2d PARK_CENTER = new Pose2d(-58, 10, toRadians(0));
@@ -233,7 +232,7 @@ public class AutoConstantsRed {
                                 .lineToLinearHeading(LEFT_SPIKE)
                                 .build();
     }
-    */
+
 
 
     public static class Stage {
