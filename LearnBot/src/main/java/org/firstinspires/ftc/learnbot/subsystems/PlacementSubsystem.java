@@ -1,14 +1,14 @@
-package org.firstinspires.ftc.sixteen750.subsystems;
+package org.firstinspires.ftc.learnbot.subsystems;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.technototes.library.hardware.motor.Motor;
 import com.technototes.library.hardware.servo.Servo;
+import com.technototes.library.logger.Log;
 import com.technototes.library.logger.Loggable;
 import com.technototes.library.subsystem.Subsystem;
+
 import org.firstinspires.ftc.sixteen750.Hardware;
-import org.firstinspires.ftc.sixteen750.Robot;
 
 @Config
 public class PlacementSubsystem implements Subsystem, Loggable {
@@ -32,10 +32,12 @@ public class PlacementSubsystem implements Subsystem, Loggable {
     public Servo scoreServo;
     public DcMotorEx liftMotor;
     private boolean isHardware;
+    @Log(name = "ticks")
+    public int ticks;
 
     public PlacementSubsystem(Hardware hw) {
-        armServo = hw.Armservo;
-        scoreServo = hw.ScoreServo;
+        //armServo = hw.Armservo;
+        //scoreServo = hw.ScoreServo;
         // TODO:
         // For Bavjot and Laksh:
         // We need to configure the liftMotor to work like a servo.
@@ -74,7 +76,7 @@ public class PlacementSubsystem implements Subsystem, Loggable {
 
     }
 
-    public void LiftHeightLow() {
+    public void liftHeightLow() {
         //takes the arm to the first level
         liftMotor.setTargetPosition(10);
     }
@@ -84,7 +86,7 @@ public class PlacementSubsystem implements Subsystem, Loggable {
         liftMotor.setTargetPosition(20);
     }
 
-    public void LiftHeightHigh() {
+    public void liftHeightHigh() {
         //takes the arm to the third level
         liftMotor.setTargetPosition(30);
     }
@@ -121,7 +123,7 @@ public class PlacementSubsystem implements Subsystem, Loggable {
         //                leftPidController.getTargetPosition(),
         //                rightPidController.getTargetPosition()
         //        );
-
+        ticks = liftMotor.getCurrentPosition();
     }
 
     private void ArmServoInput() {
