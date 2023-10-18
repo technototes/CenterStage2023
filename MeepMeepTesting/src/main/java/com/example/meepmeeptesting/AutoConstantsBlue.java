@@ -15,7 +15,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class AutoConstantsBlue {
-    /*code for wing blue */ /*public static class Wing {
+    /*code for wing blue */ public static class Wing {
 
         public static Pose2d START = new Pose2d(35, -60, toRadians(90));
         public static Pose2d BACK = new Pose2d(35, -60, toRadians(180));
@@ -123,7 +123,7 @@ public class AutoConstantsBlue {
                                 .lineToLinearHeading(LEFT_SPIKE)
                                 .build();
     }
-    */
+
 
     public static class Stage {
         public static Pose2d START = new Pose2d(-13, -60, toRadians(90));

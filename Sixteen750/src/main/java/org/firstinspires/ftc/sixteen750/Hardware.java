@@ -10,7 +10,9 @@ import com.technototes.library.hardware.sensor.IMU;
 import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.logger.Loggable;
 import com.technototes.vision.hardware.Webcam;
+
 import java.util.List;
+
 import org.firstinspires.ftc.robotcore.external.navigation.VoltageUnit;
 
 public class Hardware implements Loggable {
@@ -41,17 +43,19 @@ public class Hardware implements Loggable {
     public Hardware(HardwareMap hwmap) {
         hubs = hwmap.getAll(LynxModule.class);
         imu =
-            new IMU(
-                Setup.HardwareNames.IMU,
-                RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD
-            );
-        //leftIntake = new Motor<DcMotorEx>(Setup.HardwareNames.INTAKELEFT);
-        //rightIntake = new Motor<DcMotorEx>(Setup.HardwareNames.INTAKERIGHT);
-        fl = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.FLMOTOR);
-        fr = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.FRMOTOR);
-        rl = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.RLMOTOR);
-        rr = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.RRMOTOR);
+                new IMU(
+                        Setup.HardwareNames.IMU,
+                        RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                        RevHubOrientationOnRobot.UsbFacingDirection.FORWARD
+                );
+        // leftIntake = new Motor<DcMotorEx>(Setup.HardwareNames.INTAKELEFT);
+        // rightIntake = new Motor<DcMotorEx>(Setup.HardwareNames.INTAKERIGHT);
+        if (Setup.Connected.DRIVEBASE) {
+            fl = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.FLMOTOR);
+            fr = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.FRMOTOR);
+            rl = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.RLMOTOR);
+            rr = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.RRMOTOR);
+        }
         if (Setup.Connected.WEBCAM) {
             camera = new Webcam(Setup.HardwareNames.CAMERA);
         }
