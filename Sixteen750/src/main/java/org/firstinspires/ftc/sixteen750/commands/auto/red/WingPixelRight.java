@@ -29,16 +29,16 @@ public class WingPixelRight extends SequentialCommandGroup {
                 new TrajectorySequenceCommand(r.drivebase, AutoConstants.WingRed.START_TO_MID_CLEAR)
                         .andThen(
                                 new TrajectorySequenceCommand(r.drivebase,
-                                        AutoConstants.WingRed.MID_CLEAR_TO_RIGHT_SPIKE2))
+                                        AutoConstants.WingRed.MID_CLEAR_TO_RIGHT_SPIKE))
                         .andThen(
                                 new TrajectorySequenceCommand(r.drivebase,
-                                        WingRed.RIGHT_SPIKE_2_TO_MID_CLEAR))
+                                        WingRed.RIGHT_SPIKE_TO_MID_CLEAR))
                         .andThen(
                                 new TrajectorySequenceCommand(r.drivebase,
                                         WingRed.MID_CLEAR_TO_CLEAR))
                         .andThen(
                                 new TrajectorySequenceCommand(r.drivebase,
-                                        WingRed.CLEAR_TO_PARK_RIGHT))
+                                        WingRed.CLEAR_TO_PARK_CORNER))
                         );
 }
 }
