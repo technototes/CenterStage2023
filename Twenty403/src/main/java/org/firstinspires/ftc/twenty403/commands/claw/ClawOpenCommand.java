@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.twenty403.commands;
+package org.firstinspires.ftc.twenty403.commands.claw;
 
 import com.technototes.library.command.Command;
 

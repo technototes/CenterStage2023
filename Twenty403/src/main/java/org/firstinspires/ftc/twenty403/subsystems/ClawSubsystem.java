@@ -9,6 +9,7 @@ import com.technototes.library.subsystem.Subsystem;
 public class ClawSubsystem implements Subsystem, Loggable {
     public static double OPEN_CLAW_POS = 0;
     public static double CLOSE_CLAW_POS = 1;
+    public static double ARM_INTAKE = 1;
     public static double FIRST_LINE_SCORING = 1;
     public static double SECOND_LINE_SCORING = 1;
     public static double THIRD_LINE_SCORING = 1;
@@ -40,17 +41,16 @@ public class ClawSubsystem implements Subsystem, Loggable {
     public void close(){
         setClawServo(CLOSE_CLAW_POS);
     }
-    public void backIntake(){
-    }
-    public void secondLineScoring(){
-    }
-    public void firstLineScoring(){
-        //TODO: Update code when Servo Class updated in library
-    }
-    @Override
-    public void periodic(){
+    public void intake(){setElbowServo(ARM_INTAKE);}
+    public void firstLineScoring(){setElbowServo(FIRST_LINE_SCORING);}
+    public void secondLineScoring(){setElbowServo(SECOND_LINE_SCORING);}
+    public void thirdLineScoring(){setElbowServo(THIRD_LINE_SCORING);}
 
-    }
+
+//    @Override
+//    public void periodic(){
+//
+//    }
     private void setElbowServo(double e){
         if (elbowServo != null){
             elbowServo.setPosition(e);
