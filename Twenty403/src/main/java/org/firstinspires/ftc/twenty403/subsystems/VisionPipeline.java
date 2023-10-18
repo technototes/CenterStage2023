@@ -37,16 +37,16 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
         @Config
         public static class Left {
 
-            public static int X = 100;
-            public static int Y = 150;
+            public static int X = 0;
+            public static int Y = 130;
             public static int WIDTH = 60;
             public static int HEIGHT = 60;
         }
-
+@Config
         public static class Middle {
 
-            public static int X = 165;
-            public static int Y = 136;
+            public static int X = 185;
+            public static int Y = 116;
             public static int WIDTH = 60;
             public static int HEIGHT = 60;
         }
@@ -102,7 +102,7 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
     public Mat Cr = new Mat();
     public Mat img = null;
 
-    private int countColor(double hue, Mat rect) {
+    private int countColor(double hue, Mat rect, int xoff, int yoff) {
         Scalar edge1 = new Scalar(
             hue - VisionConstants.RANGE,
             VisionConstants.lowS,
@@ -125,8 +125,8 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
                     if (VisionSubsystem.VisionSubsystemConstants.DEBUG_VIEW) {
                         double[] colorToDraw = ((j + i) & 3) != 0 ? edge1.val : edge2.val;
                         img.put(
-                            j + VisionConstants.Middle.Y,
-                            i + VisionConstants.Middle.X,
+                            j + yoff,
+                            i + xoff,
                             colorToDraw
                         );
                     }
@@ -184,16 +184,16 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
         int colorCountL = 0;
         int colorCountM = 0;
         if (this.alliance == Alliance.BLUE) {
-            colorCountM = countColor(VisionConstants.BLUE, rectM);
+            colorCountM = countColor(VisionConstants.BLUE, rectM, VisionConstants.Middle.X, VisionConstants.Middle.Y);
         } else {
-            colorCountM = countColor(VisionConstants.RED1, rectM);
-            colorCountM += countColor(VisionConstants.RED2, rectM);
+            colorCountM = countColor(VisionConstants.RED1, rectM, VisionConstants.Middle.X, VisionConstants.Middle.Y);
+            colorCountM += countColor(VisionConstants.RED2, rectM, VisionConstants.Middle.X, VisionConstants.Middle.Y);
         }
         if (this.alliance == Alliance.BLUE) {
-            colorCountL = countColor(VisionConstants.BLUE, rectL);
+            colorCountL = countColor(VisionConstants.BLUE, rectL, VisionConstants.Left.X, VisionConstants.Left.Y);
         } else {
-            colorCountL = countColor(VisionConstants.RED1, rectL);
-            colorCountL += countColor(VisionConstants.RED2, rectL);
+            colorCountL = countColor(VisionConstants.RED1, rectL, VisionConstants.Left.X, VisionConstants.Left.Y);
+            colorCountL += countColor(VisionConstants.RED2, rectL, VisionConstants.Left.X, VisionConstants.Left.Y);
         }
         pickLocation(colorCountL, colorCountM);
     }

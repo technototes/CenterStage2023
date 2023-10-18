@@ -8,7 +8,7 @@ public class Setup {
     public static class Connected {
 
         public static boolean DRIVEBASE = true;
-        public static boolean WEBCAM = false;
+        public static boolean WEBCAM = true;
     }
 
     @Config
