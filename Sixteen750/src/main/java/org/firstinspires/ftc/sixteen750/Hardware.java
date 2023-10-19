@@ -10,9 +10,7 @@ import com.technototes.library.hardware.sensor.IMU;
 import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.logger.Loggable;
 import com.technototes.vision.hardware.Webcam;
-
 import java.util.List;
-
 import org.firstinspires.ftc.robotcore.external.navigation.VoltageUnit;
 
 public class Hardware implements Loggable {
@@ -40,15 +38,14 @@ public class Hardware implements Loggable {
 
     public Servo hangServo2;
 
-
     public Hardware(HardwareMap hwmap) {
         hubs = hwmap.getAll(LynxModule.class);
         imu =
-                new IMU(
-                        Setup.HardwareNames.IMU,
-                        RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                        RevHubOrientationOnRobot.UsbFacingDirection.FORWARD
-                );
+            new IMU(
+                Setup.HardwareNames.IMU,
+                RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD
+            );
         if (Setup.Connected.DRIVEBASE) {
             fl = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.FLMOTOR);
             fr = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.FRMOTOR);
@@ -59,8 +56,8 @@ public class Hardware implements Loggable {
             camera = new Webcam(Setup.HardwareNames.CAMERA);
         }
         if (Setup.Connected.INTAKE) {
-             leftIntake = new Motor<DcMotorEx>(Setup.HardwareNames.INTAKELEFT);
-             rightIntake = new Motor<DcMotorEx>(Setup.HardwareNames.INTAKERIGHT);
+            leftIntake = new Motor<DcMotorEx>(Setup.HardwareNames.INTAKELEFT);
+            rightIntake = new Motor<DcMotorEx>(Setup.HardwareNames.INTAKERIGHT);
         }
     }
 

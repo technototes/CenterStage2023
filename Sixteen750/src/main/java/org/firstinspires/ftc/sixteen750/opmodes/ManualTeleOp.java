@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.technototes.library.command.CommandScheduler;
 import com.technototes.library.structure.CommandOpMode;
 import com.technototes.library.util.Alliance;
-
 import org.firstinspires.ftc.sixteen750.AutoConstants;
 import org.firstinspires.ftc.sixteen750.Hardware;
 import org.firstinspires.ftc.sixteen750.Robot;
@@ -31,13 +30,13 @@ public class ManualTeleOp extends CommandOpMode {
         hardware = new Hardware(hardwareMap);
         robot = new Robot(hardware, Alliance.NONE, StartingPosition.Unspecified);
         controlsOperator = new OperatorController(driverGamepad, robot);
-        if (Setup.Connected.DRIVEBASE){
+        if (Setup.Connected.DRIVEBASE) {
             controlsDriver = new DriverController(driverGamepad, robot);
             // Just pick a starting point
             robot.drivebase.setPoseEstimate(AutoConstants.WingRed.START.toPose());
             CommandScheduler
-                    .getInstance()
-                    .scheduleForState(new ResetGyroCommand(robot.drivebase), OpModeState.INIT);
+                .getInstance()
+                .scheduleForState(new ResetGyroCommand(robot.drivebase), OpModeState.INIT);
         }
     }
 }

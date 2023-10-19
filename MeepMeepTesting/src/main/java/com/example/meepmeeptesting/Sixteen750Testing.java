@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageIO;
-
 //public class Sixteen750Testing {
 //     // preexisting code from powerplay
 //    public static void main (String[] args) {
