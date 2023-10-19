@@ -35,14 +35,14 @@ public class PixelThenParkRedStage extends CommandOpMode {
         robot = new Robot(hardware, Alliance.RED, StartingPosition.Backstage);
         robot.drivebase.setPoseEstimate(AutoConstants.StageRed.START.toPose());
         CommandScheduler
-                .getInstance()
-                .scheduleForState(
-                        new SequentialCommandGroup(
-                                new StagePixelMiddle(robot),
-                                CommandScheduler.getInstance()::terminateOpMode
-                        ),
-                        OpModeState.RUN
-                );
+            .getInstance()
+            .scheduleForState(
+                new SequentialCommandGroup(
+                    new StagePixelMiddle(robot),
+                    CommandScheduler.getInstance()::terminateOpMode
+                ),
+                OpModeState.RUN
+            );
         //if (Setup.Connected.WEBCAM) {
         //  CommandScheduler.getInstance().scheduleInit(new VisionCommand(robot.vision));
         //       }
