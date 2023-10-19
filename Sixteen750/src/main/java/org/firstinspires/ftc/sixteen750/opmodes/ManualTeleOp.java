@@ -6,8 +6,11 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.technototes.library.command.CommandScheduler;
 import com.technototes.library.structure.CommandOpMode;
 import com.technototes.library.util.Alliance;
+
+import org.firstinspires.ftc.sixteen750.AutoConstants;
 import org.firstinspires.ftc.sixteen750.Hardware;
 import org.firstinspires.ftc.sixteen750.Robot;
+import org.firstinspires.ftc.sixteen750.Setup;
 import org.firstinspires.ftc.sixteen750.commands.driving.ResetGyroCommand;
 import org.firstinspires.ftc.sixteen750.controls.DriverController;
 import org.firstinspires.ftc.sixteen750.controls.OperatorController;
@@ -28,10 +31,13 @@ public class ManualTeleOp extends CommandOpMode {
         hardware = new Hardware(hardwareMap);
         robot = new Robot(hardware, Alliance.NONE, StartingPosition.Unspecified);
         controlsOperator = new OperatorController(driverGamepad, robot);
-        controlsDriver = new DriverController(driverGamepad, robot);
-        // robot.drivebase.setPoseEstimate(AutoConstants.RED.START.toPose());
-        CommandScheduler
-            .getInstance()
-            .scheduleForState(new ResetGyroCommand(robot.drivebase), OpModeState.INIT);
+        if (Setup.Connected.DRIVEBASE){
+            controlsDriver = new DriverController(driverGamepad, robot);
+            // Just pick a starting point
+            robot.drivebase.setPoseEstimate(AutoConstants.WingRed.START.toPose());
+            CommandScheduler
+                    .getInstance()
+                    .scheduleForState(new ResetGyroCommand(robot.drivebase), OpModeState.INIT);
+        }
     }
 }

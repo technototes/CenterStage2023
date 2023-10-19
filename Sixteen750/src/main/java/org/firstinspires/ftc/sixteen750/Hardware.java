@@ -25,8 +25,8 @@ public class Hardware implements Loggable {
 
     /* Put other hardware here! */
 
-    // public Motor<DcMotorEx> leftIntake;
-    // public Motor<DcMotorEx> rightIntake;
+    public Motor<DcMotorEx> leftIntake;
+    public Motor<DcMotorEx> rightIntake;
 
     public Motor<DcMotorEx> liftMotor;
 
@@ -40,6 +40,7 @@ public class Hardware implements Loggable {
 
     public Servo hangServo2;
 
+
     public Hardware(HardwareMap hwmap) {
         hubs = hwmap.getAll(LynxModule.class);
         imu =
@@ -48,8 +49,6 @@ public class Hardware implements Loggable {
                         RevHubOrientationOnRobot.LogoFacingDirection.UP,
                         RevHubOrientationOnRobot.UsbFacingDirection.FORWARD
                 );
-        // leftIntake = new Motor<DcMotorEx>(Setup.HardwareNames.INTAKELEFT);
-        // rightIntake = new Motor<DcMotorEx>(Setup.HardwareNames.INTAKERIGHT);
         if (Setup.Connected.DRIVEBASE) {
             fl = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.FLMOTOR);
             fr = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.FRMOTOR);
@@ -58,6 +57,10 @@ public class Hardware implements Loggable {
         }
         if (Setup.Connected.WEBCAM) {
             camera = new Webcam(Setup.HardwareNames.CAMERA);
+        }
+        if (Setup.Connected.INTAKE) {
+             leftIntake = new Motor<DcMotorEx>(Setup.HardwareNames.INTAKELEFT);
+             rightIntake = new Motor<DcMotorEx>(Setup.HardwareNames.INTAKERIGHT);
         }
     }
 
