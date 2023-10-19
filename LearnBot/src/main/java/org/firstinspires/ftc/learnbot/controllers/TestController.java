@@ -31,8 +31,6 @@ public class TestController implements Loggable {
 
     public CommandButton liftLow, liftMid, liftHigh;
 
-
-
     public MotorMovementCommand motorMovement;
 
     public TestController(CommandGamepad g, Robot r) {

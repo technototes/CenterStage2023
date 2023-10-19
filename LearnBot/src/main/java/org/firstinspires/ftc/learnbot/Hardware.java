@@ -28,6 +28,7 @@ public class Hardware implements Loggable {
     public ColorDistanceSensor colorSensor;
 
     public DcMotorEx liftMotor;
+
     public Hardware(HardwareMap hwmap) {
         hubs = hwmap.getAll(LynxModule.class);
         if (Setup.Connected.DRIVEBASE) {

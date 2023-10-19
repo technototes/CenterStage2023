@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.learnbot.commands;
 
 import com.technototes.library.command.Command;
-
 import org.firstinspires.ftc.learnbot.subsystems.PlacementSubsystem;
 
 public class LiftMidCommand implements Command {
@@ -14,5 +13,7 @@ public class LiftMidCommand implements Command {
     }
 
     @Override
-    public void execute() {ss.liftHeightMedium();}
+    public void execute() {
+        ss.liftHeightMedium();
+    }
 }

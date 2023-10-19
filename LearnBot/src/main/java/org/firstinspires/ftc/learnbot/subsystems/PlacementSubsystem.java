@@ -7,8 +7,7 @@ import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.logger.Log;
 import com.technototes.library.logger.Loggable;
 import com.technototes.library.subsystem.Subsystem;
-
-import org.firstinspires.ftc.sixteen750.Hardware;
+import org.firstinspires.ftc.learnbot.Hardware;
 
 @Config
 public class PlacementSubsystem implements Subsystem, Loggable {
@@ -32,6 +31,7 @@ public class PlacementSubsystem implements Subsystem, Loggable {
     public Servo scoreServo;
     public DcMotorEx liftMotor;
     private boolean isHardware;
+
     @Log(name = "ticks")
     public int ticks;
 
@@ -42,7 +42,7 @@ public class PlacementSubsystem implements Subsystem, Loggable {
         // For Bavjot and Laksh:
         // We need to configure the liftMotor to work like a servo.
         // This entails switching to "RunMode.RUN_TO_POSITION" and then tuning PID(F) constants
-        liftMotor = hw.liftMotor.getDevice();
+        liftMotor = hw.liftMotor;
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         isHardware = true;
     }

@@ -1,9 +1,7 @@
 package org.firstinspires.ftc.learnbot.commands;
 
 import com.technototes.library.command.Command;
-
 import org.firstinspires.ftc.learnbot.subsystems.PlacementSubsystem;
-
 
 public class LiftHighCommand implements Command {
 
@@ -15,6 +13,7 @@ public class LiftHighCommand implements Command {
     }
 
     @Override
-    public void execute() {ss.liftHeightHigh();}
+    public void execute() {
+        ss.liftHeightHigh();
+    }
 }
-
