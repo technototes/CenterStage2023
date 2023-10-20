@@ -13,7 +13,10 @@ public class WingPixelMiddle extends SequentialCommandGroup {
                 .andThen(
                     new TrajectorySequenceCommand(r.drivebase, WingBlue.MIDDLE_SPIKE_TO_CLEAR)
                         .andThen(
-                            new TrajectorySequenceCommand(r.drivebase, WingBlue.CLEAR_TO_PARK_LEFT)
+                            new TrajectorySequenceCommand(
+                                r.drivebase,
+                                WingBlue.CLEAR_TO_PARK_CORNER
+                            )
                         )
                 )
         );

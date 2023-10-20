@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 public class Twenty403Testing {
 
     //Wing Red
-    /*
+
     public static void main(String[] args) {
         // Make this as large as possible while still fitting on our laptop screens:
         MeepMeep meepMeep = new MeepMeep(600);
@@ -26,9 +26,11 @@ public class Twenty403Testing {
                 drive
                     .trajectorySequenceBuilder(AutoConstantsRed.Wing.START)
                     //.addTrajectory(AutoConstantsRed.Stage.START_TO_LEFT_LOW.get())
-                    .addTrajectory(AutoConstantsRed.Wing.START_TO_RIGHT_SPIKE.get())
-                        .addTrajectory(AutoConstantsRed.Wing.RIGHT_SPIKE_TO_BACK.get())
-                        .addTrajectory(AutoConstantsRed.Wing.BACK_TO_PARK_CORNER.get())
+                    .addTrajectory(AutoConstantsRed.Wing.START_TO_MIDSPIKE.get())
+                    .addTrajectory(AutoConstantsRed.Wing.MIDSPIKE_TO_RIGHT_SPIKE.get())
+                    .addTrajectory(AutoConstantsRed.Wing.RIGHT_SPIKE_TO_MIDSPIKE.get())
+                    .addTrajectory(AutoConstantsRed.Wing.MIDSPIKE_TO_BACK.get())
+                    //  .addTrajectory(AutoConstantsRed.Wing.BACK_TO_PARK_CORNER.get())
                     //.addTrajectory(AutoConstantsRed.Stage.LEFT_SPIKE_TO_CENTER_SPIKE.get())
                     //.addTrajectory(AutoConstantsRed.Stage.CENTER_SPIKE_TO_RIGHT_SPIKE.get())
                     .build()
@@ -41,8 +43,9 @@ public class Twenty403Testing {
             meepMeep.setBackground(MeepMeep.Background.GRID_GRAY);
         }
         meepMeep.setBackgroundAlpha(0.75f).addEntity(myBot).start();
-    } *///Wing Red
+    } //Wing Red
     /*
+
     public static void main(String[] args) {
         // Make this as large as possible while still fitting on our laptop screens:
         MeepMeep meepMeep = new MeepMeep(600);
@@ -74,9 +77,9 @@ public class Twenty403Testing {
             meepMeep.setBackground(MeepMeep.Background.GRID_GRAY);
         }
         meepMeep.setBackgroundAlpha(0.75f).addEntity(myBot).start();
-    } *///Wing Blue
+    } //Wing Blue
 
-    /*
+/*
     public static void main(String[] args) {
         // Make this as large as possible while still fitting on our laptop screens:
         MeepMeep meepMeep = new MeepMeep(600);
@@ -108,8 +111,8 @@ public class Twenty403Testing {
             meepMeep.setBackground(MeepMeep.Background.GRID_GRAY);
         }
         meepMeep.setBackgroundAlpha(0.75f).addEntity(myBot).start();
-    } *///Stage Red Center -> done 10/10/23
-    /*public static void main(String[] args) {
+    } //Stage Red Center -> done 10/10/23
+    public static void main(String[] args) {
         // Make this as large as possible while still fitting on our laptop screens:
         MeepMeep meepMeep = new MeepMeep(600);
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
@@ -140,8 +143,8 @@ public class Twenty403Testing {
             meepMeep.setBackground(MeepMeep.Background.GRID_GRAY);
         }
         meepMeep.setBackgroundAlpha(0.75f).addEntity(myBot).start();
-    } *///Stage Red Right -> done 10/10/23
-    /*public static void main(String[] args) {
+    } //Stage Red Right -> done 10/10/23
+    public static void main(String[] args) {
         // Make this as large as possible while still fitting on our laptop screens:
         MeepMeep meepMeep = new MeepMeep(600);
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
@@ -172,9 +175,9 @@ public class Twenty403Testing {
             meepMeep.setBackground(MeepMeep.Background.GRID_GRAY);
         }
         meepMeep.setBackgroundAlpha(0.75f).addEntity(myBot).start();
-    }*///Stage Red Left -> done 10/10/23
+    }//Stage Red Left -> done 10/10/23
 
-    /*
+
     public static void main(String[] args) {
         // Make this as large as possible while still fitting on our laptop screens:
         MeepMeep meepMeep = new MeepMeep(600);
@@ -207,8 +210,8 @@ public class Twenty403Testing {
         }
         meepMeep.setBackgroundAlpha(0.75f).addEntity(myBot).start();
     }
- *///Stage Blue Center -> done 10/10/23
-    /*public static void main(String[] args) {
+ //Stage Blue Center -> done 10/10/23
+    public static void main(String[] args) {
         // Make this as large as possible while still fitting on our laptop screens:
         MeepMeep meepMeep = new MeepMeep(600);
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
@@ -239,8 +242,8 @@ public class Twenty403Testing {
             meepMeep.setBackground(MeepMeep.Background.GRID_GRAY);
         }
         meepMeep.setBackgroundAlpha(0.75f).addEntity(myBot).start();
-    }*///Stage Blue Right -> done 10/10/23
-    /*public static void main(String[] args) {
+    }//Stage Blue Right -> done 10/10/23
+    public static void main(String[] args) {
         // Make this as large as possible while still fitting on our laptop screens:
         MeepMeep meepMeep = new MeepMeep(600);
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
@@ -271,7 +274,7 @@ public class Twenty403Testing {
             meepMeep.setBackground(MeepMeep.Background.GRID_GRAY);
         }
         meepMeep.setBackgroundAlpha(0.75f).addEntity(myBot).start();
-    }*///Stage Blue Left -> done 10/10/23
+    }//Stage Blue Left -> done 10/10/23
 
-
+*/
 }

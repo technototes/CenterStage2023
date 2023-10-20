@@ -12,17 +12,15 @@ import org.firstinspires.ftc.sixteen750.Hardware;
 import org.firstinspires.ftc.sixteen750.Robot;
 import org.firstinspires.ftc.sixteen750.Setup;
 import org.firstinspires.ftc.sixteen750.commands.VisionCommand;
-import org.firstinspires.ftc.sixteen750.commands.auto.red.WingPixelLeft;
-import org.firstinspires.ftc.sixteen750.commands.auto.red.WingPixelMiddle;
-import org.firstinspires.ftc.sixteen750.commands.auto.red.WingPixelRight;
-import org.firstinspires.ftc.sixteen750.commands.auto.red.WingPixelSelection;
+import org.firstinspires.ftc.sixteen750.commands.auto.blue.WingPixelMiddle;
+import org.firstinspires.ftc.sixteen750.commands.auto.blue.WingPixelSelection;
 import org.firstinspires.ftc.sixteen750.controls.DriverController;
 import org.firstinspires.ftc.sixteen750.helpers.StartingPosition;
 
 // The last 4 weird things are '🟥' and '🪶' (wing)
-@Autonomous(name = "PixelThenPark\uD83D\uDFE5\uD83E\uDEB6")
+@Autonomous(name = "PixelParkBlueWing")
 @SuppressWarnings("unused")
-public class PixelThenParkRedWing extends CommandOpMode {
+public class PixelThenParkBlueWing extends CommandOpMode {
 
     public Robot robot;
     public DriverController controls;
@@ -32,19 +30,19 @@ public class PixelThenParkRedWing extends CommandOpMode {
     public void uponInit() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         hardware = new Hardware(hardwareMap);
-        robot = new Robot(hardware, Alliance.RED, StartingPosition.Wing);
-        robot.drivebase.setPoseEstimate(AutoConstants.WingRed.START.toPose());
+        robot = new Robot(hardware, Alliance.BLUE, StartingPosition.Wing);
+        robot.drivebase.setPoseEstimate(AutoConstants.WingBlue.START.toPose());
         CommandScheduler
             .getInstance()
             .scheduleForState(
                 new SequentialCommandGroup(
-                    new WingPixelRight(robot),
+                    new WingPixelMiddle(robot),
                     CommandScheduler.getInstance()::terminateOpMode
                 ),
                 OpModeState.RUN
             );
-        if (Setup.Connected.WEBCAM) {
-            CommandScheduler.getInstance().scheduleInit(new VisionCommand(robot.vision));
-        }
+        //if (Setup.Connected.WEBCAM) {
+        //  CommandScheduler.getInstance().scheduleInit(new VisionCommand(robot.vision));
+        //       }
     }
 }
