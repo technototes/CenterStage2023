@@ -26,7 +26,7 @@ public class OperatorController {
 
     private void AssignNamedControllerButton() {
         clawOpenButton = gamepad.leftBumper;
-        clawCloseButton = gamepad.rightBumper;
+        clawCloseButton = gamepad.leftBumper;
     }
 
     public void bindClawControls() {
