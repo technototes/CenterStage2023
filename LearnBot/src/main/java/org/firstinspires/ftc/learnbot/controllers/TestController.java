@@ -31,6 +31,9 @@ public class TestController implements Loggable {
 
     public CommandButton liftLow, liftMid, liftHigh;
 
+    public CommandAxis trigger;
+    public CommandButton threshold;
+
     public MotorMovementCommand motorMovement;
 
     public TestController(CommandGamepad g, Robot r) {
@@ -39,13 +42,15 @@ public class TestController implements Loggable {
         this.liftLow = gamepad.ps_triangle;
         this.liftMid = gamepad.ps_cross;
         this.liftHigh = gamepad.ps_circle;
-        this.servoleft.whenPressed(new ServoLeft(r.test));
-        this.servoright.whenPressed((new ServoRight(r.test)));
+//        this.servoleft.whenPressed(new ServoLeft(r.test));
+//        this.servoright.whenPressed((new ServoRight(r.test)));
         this.motorAxis = gamepad.rightStickY;
         this.modeToggle = gamepad.rightStickButton;
         this.motorMovement = new MotorMovementCommand(r.test, this.motorAxis);
-        this.modeToggle.whenPressed(new ToggleMotorStopModeCommand(r.test));
-        CommandScheduler.getInstance().scheduleJoystick(motorMovement);
+//        this.modeToggle.whenPressed(new ToggleMotorStopModeCommand(r.test));
+//        CommandScheduler.getInstance().scheduleJoystick(motorMovement);
+        this.trigger = gamepad.leftTrigger;
+        this.threshold = gamepad.rightTrigger.getAsButton(0.5);
     }
 
     public void bindControls() {
