@@ -20,9 +20,11 @@ public class PlacementSubsystem implements Subsystem, Loggable {
 
     public static double INTAKE_SPEED = .3;
     public static double OUTPUT_SPEED = -.3;
-    public static double LOW_POS = 0.3;
-    public static double MEDIUM_POS = 0.6;
-    public static double HIGH_POS = 0.9;
+
+    // numbers need to be calibrated for the lift
+    public static double LOW_POS = 0;
+    public static double MEDIUM_POS = 1000;
+    public static double HIGH_POS = 3000;
     public static double INTAKELIFT_POS = 0;
     public static double MIN_MOTOR_SPEED = -0.3;
     public static double MAX_MOTOR_SPEED = 1;

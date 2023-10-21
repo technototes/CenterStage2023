@@ -38,7 +38,7 @@ public class OperatorController {
         gamepad = g;
         AssignNamedControllerButton();
         bindIntakeControls();
-        if (Setup.Connected.HANG){
+        if (Setup.Connected.HANG) {
             bindHangControls();
         }
     }
@@ -67,6 +67,7 @@ public class OperatorController {
         placementLowButton.whenPressed(new LiftLowCommand(robot.placement));
         placementIntakeButton.whenPressed(new LiftIntakeCommand(robot.placement));
     }
+
     private void bindHangControls() {
         hangUpButton.whenPressed(new HangUp(robot.hang));
         screwUpButton.whenPressed(new LeadScrewUp(robot.hang));

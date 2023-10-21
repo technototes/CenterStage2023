@@ -66,8 +66,9 @@ public class HangSubsystem implements Subsystem, Loggable {
             hangMotor1.setSpeed(retractScrew);
         }
     }
-    public void neutralPosition(){
-            if (isHardware == true){
+
+    public void neutralPosition() {
+        if (isHardware == true) {
             hangServo1.setPosition(neutralPositionNumber);
         }
     }
