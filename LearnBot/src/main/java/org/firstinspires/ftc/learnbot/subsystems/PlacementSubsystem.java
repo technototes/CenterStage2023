@@ -1,33 +1,19 @@
-package org.firstinspires.ftc.sixteen750.subsystems;
+package org.firstinspires.ftc.learnbot.subsystems;
 
 import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.roadrunner.control.PIDCoefficients;
-import com.acmerobotics.roadrunner.control.PIDFController;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.util.Range;
-import com.technototes.library.hardware.motor.EncodedMotor;
-import com.technototes.library.hardware.motor.Motor;
 import com.technototes.library.hardware.servo.Servo;
+import com.technototes.library.logger.Log;
 import com.technototes.library.logger.Loggable;
 import com.technototes.library.subsystem.Subsystem;
-import org.firstinspires.ftc.sixteen750.Hardware;
-import org.firstinspires.ftc.sixteen750.Robot;
-import org.firstinspires.ftc.sixteen750.Setup;
+import org.firstinspires.ftc.learnbot.Hardware;
 
 @Config
 public class PlacementSubsystem implements Subsystem, Loggable {
 
     public static double INTAKE_SPEED = .3;
     public static double OUTPUT_SPEED = -.3;
-
-    // numbers need to be calibrated for the lift
-    public static double LOW_POS = 0;
-    public static double MEDIUM_POS = 1000;
-    public static double HIGH_POS = 3000;
-    public static double INTAKELIFT_POS = 0;
-    public static double MIN_MOTOR_SPEED = -0.3;
-    public static double MAX_MOTOR_SPEED = 1;
 
     public static double ScoreServo = 0.5;
 
@@ -42,23 +28,23 @@ public class PlacementSubsystem implements Subsystem, Loggable {
 
     public static double ArmServoOutput = 0.5;
 
-    public static PIDCoefficients PID = new PIDCoefficients(0.0027, 0.0, 0.00015);
-
     public Servo scoreServo;
-    public EncodedMotor<DcMotorEx> liftMotor;
+    public DcMotorEx liftMotor;
     private boolean isHardware;
-    private PIDFController leftPidController;
+
+    @Log(name = "ticks")
+    public int ticks;
 
     public PlacementSubsystem(Hardware hw) {
-        armServo = hw.Armservo;
-        scoreServo = hw.ScoreServo;
+        //armServo = hw.Armservo;
+        //scoreServo = hw.ScoreServo;
         // TODO:
         // For Bavjot and Laksh:
         // We need to configure the liftMotor to work like a servo.
         // This entails switching to "RunMode.RUN_TO_POSITION" and then tuning PID(F) constants
         liftMotor = hw.liftMotor;
+        liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         isHardware = true;
-        leftPidController = new PIDFController(PID, 0, 0, 0, (x, y) -> 0.1);
     }
 
     public PlacementSubsystem() {
@@ -69,19 +55,15 @@ public class PlacementSubsystem implements Subsystem, Loggable {
     }
 
     private int getLiftCurrentPosition() {
-        if (Setup.Connected.PLACEMENT) {
-            return (int) liftMotor.getSensorValue();
-        } else {
-            return 0;
-        }
+        return liftMotor.getCurrentPosition();
     }
 
     private int getLiftTargetPosition() {
-        return (int) leftPidController.getTargetPosition();
+        return liftMotor.getTargetPosition();
     }
 
     private void setLiftTargetPostion(int p) {
-        leftPidController.setTargetPosition(p);
+        liftMotor.setTargetPosition(p);
     }
 
     public void armliftup() {
@@ -94,53 +76,54 @@ public class PlacementSubsystem implements Subsystem, Loggable {
 
     }
 
-    public void LiftHeightLow() {
+    public void liftHeightLow() {
         //takes the arm to the first level
-        leftPidController.setTargetPosition(LOW_POS);
+        liftMotor.setTargetPosition(10);
     }
 
-    public void LiftHeightHigh() {
+    public void liftHeightMedium() {
+        //takes the arm to the second level
+        liftMotor.setTargetPosition(20);
+    }
+
+    public void liftHeightHigh() {
         //takes the arm to the third level
-        leftPidController.setTargetPosition(HIGH_POS);
+        liftMotor.setTargetPosition(30);
     }
 
-    public void LiftHeightMedium() {
-        //takes the arm to the third level
-        leftPidController.setTargetPosition(MEDIUM_POS);
-    }
-
-    public void LiftHeightIntake() {
+    public void placementReset() {
         //brings the arm all the way down
-        leftPidController.setTargetPosition(INTAKELIFT_POS);
-        //        armServo.setPosition(0);
-        //        scoreServo.setPosition(0);
+        liftMotor.setTargetPosition(0);
+        armServo.setPosition(0);
+        scoreServo.setPosition(0);
     }
 
     private void ArmServoOutput() {
         // the arm's position to score
-        //        armServo.setPosition(ArmServoOutput);
+        armServo.setPosition(ArmServoOutput);
     }
 
     private void ScoreServoOutput() {
         // the intake system's postion to score
-        //        scoreServo.setPosition(ScoreServoOutput);
+        scoreServo.setPosition(ScoreServoOutput);
     }
 
     public void periodic() {
-        double targetSpeed = leftPidController.update(getLiftCurrentPosition());
-        double clippedSpeed = Range.clip(targetSpeed, MIN_MOTOR_SPEED, MAX_MOTOR_SPEED);
-        setLiftMotorPower(clippedSpeed);
+        //        double ltargetSpeed = leftPidController.update(getLeftPos());
+        //        double lclippedSpeed = Range.clip(ltargetSpeed, MIN_MOTOR_SPEED, MAX_MOTOR_SPEED);
+        //        double rtargetSpeed = rightPidController.update(getRightPos());
+        //        double rclippedSpeed = Range.clip(rtargetSpeed, MIN_MOTOR_SPEED, MAX_MOTOR_SPEED);
+        //
+        //        //        double leftError = Math.abs(leftPidController.getTargetPosition() - getLeftPos());
+        //        //        double rightError = Math.abs(rightPidController.getTargetPosition() - getRightPos());
+        //        //        if (leftError > DEAD_ZONE || rightError > DEAD_ZONE) {
+        //        //        }
+        //        setMotorPower(lclippedSpeed, rclippedSpeed);
         //        setLiftPosition_OVERRIDE(
         //                leftPidController.getTargetPosition(),
         //                rightPidController.getTargetPosition()
         //        );
-
-    }
-
-    private void setLiftMotorPower(double speed) {
-        if (isHardware) {
-            liftMotor.setSpeed(speed);
-        }
+        ticks = liftMotor.getCurrentPosition();
     }
 
     private void ArmServoInput() {

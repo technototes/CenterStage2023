@@ -26,7 +26,7 @@ public class Hardware implements Loggable {
     public Motor<DcMotorEx> leftIntake;
     public Motor<DcMotorEx> rightIntake;
 
-    public Motor<DcMotorEx> liftMotor;
+    public EncodedMotor<DcMotorEx> liftMotor;
 
     public Servo Armservo;
 
@@ -49,6 +49,10 @@ public class Hardware implements Loggable {
             fr = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.FRMOTOR);
             rl = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.RLMOTOR);
             rr = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.RRMOTOR);
+        }
+        if (Setup.Connected.PLACEMENT) {
+            liftMotor = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.LIFTMOTOR);
+            // this.Armservo = new Servo(Setup.HardwareNames.)
         }
         if (Setup.Connected.WEBCAM) {
             camera = new Webcam(Setup.HardwareNames.CAMERA);

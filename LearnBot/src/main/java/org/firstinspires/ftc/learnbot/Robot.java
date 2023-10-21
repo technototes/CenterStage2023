@@ -4,6 +4,7 @@ import com.technototes.library.logger.Loggable;
 import com.technototes.library.util.Alliance;
 import org.firstinspires.ftc.learnbot.helpers.StartingPosition;
 import org.firstinspires.ftc.learnbot.subsystems.DrivebaseSubsystem;
+import org.firstinspires.ftc.learnbot.subsystems.PlacementSubsystem;
 import org.firstinspires.ftc.learnbot.subsystems.TestSubsystem;
 
 public class Robot implements Loggable {
@@ -13,6 +14,8 @@ public class Robot implements Loggable {
     public double initialVoltage;
     public TestSubsystem test;
     public DrivebaseSubsystem drivebaseSubsystem;
+
+    public PlacementSubsystem placementSubsystem;
 
     public Robot(Hardware hw) {
         this.initialVoltage = hw.voltage();
