@@ -14,10 +14,13 @@ public class OperatorController {
 
 
     public CommandButton clawOpenButton, clawCloseButton;
+    public CommandButton override;
 
     public OperatorController(CommandGamepad g, Robot r) {
         this.robot = r;
         gamepad = g;
+        override = g.leftTrigger.getAsButton(0.5);
+
         AssignNamedControllerButton();
         if (Setup.Connected.CLAWSUBSYSTEM) {
             bindClawControls();
@@ -26,12 +29,12 @@ public class OperatorController {
 
     private void AssignNamedControllerButton() {
         clawOpenButton = gamepad.leftBumper;
-        clawCloseButton = gamepad.leftBumper;
+        clawCloseButton = gamepad.rightBumper;
     }
 
 
     public void bindClawControls() {
         clawOpenButton.whenPressed(new ClawOpenCommand(robot.clawSubsystem));
-        clawCloseButton.whenReleased(new ClawCloseCommand(robot.clawSubsystem));
+        clawCloseButton.whenPressed(new ClawCloseCommand(robot.clawSubsystem));
     }
 }
