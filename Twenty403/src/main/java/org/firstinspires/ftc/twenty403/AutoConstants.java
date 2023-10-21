@@ -17,7 +17,7 @@ public class AutoConstants {
         public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(0, 0, 0);
         // This is "clear of the pixels, ready to go somewhere else"
         public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(0, 0, 0);
-        
+        public static ConfigurablePoseD TELESTART = new ConfigurablePoseD(0,0,90);
         // These are 'trajectory pieces' which should be named like this:
         // {STARTING_POSITION}_TO_{ENDING_POSITION}
         public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
@@ -43,6 +43,7 @@ public class AutoConstants {
         public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(0, 0, 0);
         // This is "clear of the pixels, ready to go somewhere else"
         public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(0, 0, 0);
+        public static ConfigurablePoseD TELESTART = new ConfigurablePoseD(0,0,90);
 
         // These are 'trajectory pieces' which should be named like this:
         // {STARTING_POSITION}_TO_{ENDING_POSITION}

@@ -9,28 +9,26 @@ import com.technototes.library.util.Alliance;
 import org.firstinspires.ftc.twenty403.AutoConstants;
 import org.firstinspires.ftc.twenty403.Hardware;
 import org.firstinspires.ftc.twenty403.Robot;
+import org.firstinspires.ftc.twenty403.Setup;
 import org.firstinspires.ftc.twenty403.commands.driving.ResetGyroCommand;
-import org.firstinspires.ftc.twenty403.controls.DriverController;
-import org.firstinspires.ftc.twenty403.controls.OperatorController;
+import org.firstinspires.ftc.twenty403.controls.SingleController;
 import org.firstinspires.ftc.twenty403.helpers.StartingPosition;
 
-@TeleOp(name = "Just Driving")
-@SuppressWarnings("unused")
-public class JustDrivingTeleOp extends CommandOpMode {
+@TeleOp(name = "OneDriverTeleOp")
+public class SingleDriverTeleOp extends CommandOpMode {
 
     public Robot robot;
-    public DriverController controlsDriver;
-    public OperatorController controlsOperator;
+    public Setup setup;
+    public SingleController controls;
     public Hardware hardware;
 
     @Override
     public void uponInit() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         hardware = new Hardware(hardwareMap);
-        robot = new Robot(hardware, Alliance.BLUE, StartingPosition.Unspecified);
-        controlsDriver = new DriverController(driverGamepad, robot);
-        controlsOperator = new OperatorController(codriverGamepad, robot);
-        robot.drivebaseSubsystem.setPoseEstimate(AutoConstants.WingRed.START.toPose());
+        robot = new Robot(hardware, Alliance.NONE, StartingPosition.Unspecified);
+        controls = new SingleController(driverGamepad, robot, setup);
+        robot.drivebaseSubsystem.setPoseEstimate(AutoConstants.WingRed.TELESTART.toPose());
         CommandScheduler
             .getInstance()
             .scheduleForState(new ResetGyroCommand(robot.drivebaseSubsystem), OpModeState.INIT);
