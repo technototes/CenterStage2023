@@ -2,6 +2,7 @@ package org.firstinspires.ftc.twenty403.subsystems;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.logger.Loggable;
 import com.technototes.library.subsystem.Subsystem;
@@ -9,18 +10,21 @@ import com.technototes.library.subsystem.Subsystem;
 @Config
 public class ClawSubsystem implements Subsystem, Loggable {
 
+    // TODO: Create claw real values
+
     public static double OPEN_CLAW_POS = 0;
     public static double CLOSE_CLAW_POS = 1;
+    public static double ARM_INTAKE = 1;
     public static double FIRST_LINE_SCORING = 1;
     public static double SECOND_LINE_SCORING = 1;
     public static double THIRD_LINE_SCORING = 1;
 
     private Servo clawServo;
     private Servo elbowServo;
-    private DcMotorEx swingMotor;
+    private EncodedMotor<DcMotorEx> swingMotor;
     private boolean haveHardware;
 
-    public ClawSubsystem(Servo claw, Servo elbow, DcMotorEx swing) {
+    public ClawSubsystem(Servo claw, Servo elbow, EncodedMotor<DcMotorEx> swing) {
         clawServo = claw;
         elbowServo = elbow;
         swingMotor = swing;
@@ -42,16 +46,26 @@ public class ClawSubsystem implements Subsystem, Loggable {
         setClawServo(CLOSE_CLAW_POS);
     }
 
-    public void backIntake() {}
-
-    public void secondLineScoring() {}
-
-    public void firstLineScoring() {
-        //TODO: Update code when Servo Class updated in library
+    public void intake() {
+        setElbowServo(ARM_INTAKE);
     }
 
-    @Override
-    public void periodic() {}
+    public void firstLineScoring() {
+        setElbowServo(FIRST_LINE_SCORING);
+    }
+
+    public void secondLineScoring() {
+        setElbowServo(SECOND_LINE_SCORING);
+    }
+
+    public void thirdLineScoring() {
+        setElbowServo(THIRD_LINE_SCORING);
+    }
+
+    //    @Override
+    //    public void periodic(){
+    //
+    //    }
 
     private void setElbowServo(double e) {
         if (elbowServo != null) {

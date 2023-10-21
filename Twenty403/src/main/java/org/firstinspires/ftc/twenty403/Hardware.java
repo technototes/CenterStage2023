@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.sensor.IMU;
+import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.logger.Loggable;
 import com.technototes.vision.hardware.Webcam;
 import java.util.List;
@@ -18,6 +19,9 @@ public class Hardware implements Loggable {
     public IMU imu;
     public EncodedMotor<DcMotorEx> fl, fr, rl, rr;
     public Webcam camera;
+    public Servo clawServo;
+    public Servo elbowServo;
+    public EncodedMotor<DcMotorEx> swingMotor;
 
     /* Put other hardware here! */
 
@@ -30,13 +34,18 @@ public class Hardware implements Loggable {
                 RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD
             );
         if (Setup.Connected.DRIVEBASE) {
-            fl = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.FLMOTOR);
-            fr = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.FRMOTOR);
-            rl = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.RLMOTOR);
-            rr = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.RRMOTOR);
+            fl = new EncodedMotor<>(Setup.HardwareNames.FLMOTOR);
+            fr = new EncodedMotor<>(Setup.HardwareNames.FRMOTOR);
+            rl = new EncodedMotor<>(Setup.HardwareNames.RLMOTOR);
+            rr = new EncodedMotor<>(Setup.HardwareNames.RRMOTOR);
         }
         if (Setup.Connected.WEBCAM) {
             camera = new Webcam(Setup.HardwareNames.CAMERA);
+        }
+        if (Setup.Connected.CLAWSUBSYSTEM) {
+            clawServo = new Servo(Setup.HardwareNames.CLAWSERVO);
+            elbowServo = new Servo(Setup.HardwareNames.ELBOWSERVO);
+            swingMotor = new EncodedMotor<>(Setup.HardwareNames.SHOULDERMOTOR);
         }
     }
 

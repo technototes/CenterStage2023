@@ -2,6 +2,7 @@ package org.firstinspires.ftc.sixteen750.controls;
 
 import com.technototes.library.control.CommandButton;
 import com.technototes.library.control.CommandGamepad;
+import java.util.Set;
 import org.firstinspires.ftc.sixteen750.Robot;
 import org.firstinspires.ftc.sixteen750.Setup;
 import org.firstinspires.ftc.sixteen750.commands.hang.HangUp;
@@ -29,7 +30,7 @@ public class OperatorController {
         gamepad = g;
         AssignNamedControllerButton();
         bindIntakeControls();
-        if (Setup.Connected.HANG){
+        if (Setup.Connected.HANG) {
             bindHangControls();
         }
     }
@@ -48,6 +49,7 @@ public class OperatorController {
         stopButton.whenPressed(new StopCommand(robot.intake));
         ejectButton.whenPressed(new EjectCommand(robot.intake));
     }
+
     private void bindHangControls() {
         hangUpButton.whenPressed(new HangUp(robot.hang));
         screwUpButton.whenPressed(new LeadScrewUp(robot.hang));

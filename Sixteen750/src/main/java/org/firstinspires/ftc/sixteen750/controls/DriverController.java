@@ -15,12 +15,14 @@ public class DriverController {
     public CommandGamepad gamepad;
 
     public Stick driveLeftStick, driveRightStick;
-    public CommandButton resetGyroButton;
-    public CommandButton straighten;
+    public CommandButton resetGyroButton, straighten;
+    public CommandButton override;
 
     public DriverController(CommandGamepad g, Robot r) {
         this.robot = r;
         gamepad = g;
+        override = g.leftTrigger.getAsButton(0.5);
+
         AssignNamedControllerButton();
         if (Setup.Connected.DRIVEBASE) {
             bindDriveControls();
