@@ -61,7 +61,7 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
         public static double RED1 = 0;
 
         public static double RED2 = 179;
-        public static double BLUE = 120;
+        public static double BLUE = 105;
 
         // The low saturation point for color identification
         public static double lowS = 70;
@@ -79,7 +79,7 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
         public static Scalar RGB_HIGHLIGHT = new Scalar(255, 128, 255);
 
         // the mininum amount of pixels needed in order to find a pixel
-        public static int MINPIXELCOUNT = 130;
+        public static int MINPIXELCOUNT = 1500;
     }
 
     @LogConfig.Run(duringRun = false, duringInit = true)
@@ -282,11 +282,13 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
         if (countL > VisionConstants.MINPIXELCOUNT && countL > countM) {
             leftDetected = true;
             middleDetected = false;
+            rightDetected = false;
         } else if (
             countM <= VisionConstants.MINPIXELCOUNT && countL <= VisionConstants.MINPIXELCOUNT
         ) {
             rightDetected = true;
             middleDetected = false;
+            leftDetected = false;
         } else {
             leftDetected = false;
             middleDetected = true;
