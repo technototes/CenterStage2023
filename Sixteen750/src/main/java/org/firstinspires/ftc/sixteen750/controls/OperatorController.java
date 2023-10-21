@@ -3,9 +3,12 @@ package org.firstinspires.ftc.sixteen750.controls;
 import com.technototes.library.control.CommandButton;
 import com.technototes.library.control.CommandGamepad;
 import org.firstinspires.ftc.sixteen750.Robot;
+import org.firstinspires.ftc.sixteen750.Setup;
 import org.firstinspires.ftc.sixteen750.commands.intake.EjectCommand;
 import org.firstinspires.ftc.sixteen750.commands.intake.IntakeCommand;
 import org.firstinspires.ftc.sixteen750.commands.intake.StopCommand;
+
+import java.util.Set;
 
 public class OperatorController {
 
@@ -20,7 +23,8 @@ public class OperatorController {
         robot = r;
         gamepad = g;
         AssignNamedControllerButton();
-        bindIntakeControls();
+        if (Setup.Connected.INTAKE){
+        bindIntakeControls();}
     }
 
     private void AssignNamedControllerButton() {
