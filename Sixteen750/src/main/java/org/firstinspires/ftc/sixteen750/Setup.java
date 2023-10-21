@@ -10,6 +10,8 @@ public class Setup {
         public static boolean DRIVEBASE = false;
         public static boolean INTAKE = false;
         public static boolean WEBCAM = false;
+
+        public static boolean HANG = false;
     }
 
     @Config
@@ -23,6 +25,10 @@ public class Setup {
         public static String INTAKELEFT = "lwheel";
         public static String INTAKERIGHT = "rwheel";
         public static String CAMERA = "webcam";
+
+        public static String HANGSERVO = "hangS";
+
+        public static String HANGMOTOR = "hangM";
     }
 
     @Config

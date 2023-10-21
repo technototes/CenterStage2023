@@ -36,7 +36,6 @@ public class Hardware implements Loggable {
 
     public Servo hangServo1;
 
-    public Servo hangServo2;
 
     public Hardware(HardwareMap hwmap) {
         hubs = hwmap.getAll(LynxModule.class);
@@ -58,6 +57,10 @@ public class Hardware implements Loggable {
         if (Setup.Connected.INTAKE) {
             leftIntake = new Motor<DcMotorEx>(Setup.HardwareNames.INTAKELEFT);
             rightIntake = new Motor<DcMotorEx>(Setup.HardwareNames.INTAKERIGHT);
+        }
+        if (Setup.Connected.HANG) {
+            hangServo1 = new Servo(Setup.HardwareNames.HANGSERVO);
+            hangMotor1 = new Motor<DcMotorEx>(Setup.HardwareNames.HANGMOTOR);
         }
     }
 
