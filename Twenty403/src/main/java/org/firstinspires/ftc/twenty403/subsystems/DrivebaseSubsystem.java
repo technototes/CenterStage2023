@@ -26,7 +26,7 @@ public class DrivebaseSubsystem
 
         public static double SLOW_MOTOR_SPEED = 0.6;
         public static double FAST_MOTOR_SPEED = 1.0;
-        public static double AUTO_MOTOR_SPEED = 0.9;
+        public static double NORMAL_MOTOR_SPEED = 0.9;
 
         @TicksPerRev
         public static final double TICKS_PER_REV = 537.6; // 2021: 28;
@@ -135,6 +135,10 @@ public class DrivebaseSubsystem
 
     @Log(name = "magnitude")
     public String dirLen = "";
+    @Log(name="Turbo")
+    public boolean Turbo = false;
+    @Log(name="Snail")
+    public boolean Snail = false;
 
     public DrivebaseSubsystem(
         EncodedMotor<DcMotorEx> fl,
@@ -181,6 +185,8 @@ public class DrivebaseSubsystem
         }
     }
 
+    @Log(name="Speed Mult")
+    public double maxall = 1.0;
     // Velocity driving, in the hopes that the bot with drive straight ;)
     @Override
     public void setMotorPowers(double lfv, double lrv, double rrv, double rfv) {
@@ -191,14 +197,29 @@ public class DrivebaseSubsystem
         // of the control sticks are at their limit
         double maxlfvlrv = Math.max(Math.abs(lfv), Math.abs(lrv));
         double maxrfvrrv = Math.max(Math.abs(rfv), Math.abs(rrv));
-        double maxall = Math.max(maxlfvlrv, maxrfvrrv);
-        if (mag > 0) {
-            // normalize the values here
+        maxall = Math.max(maxlfvlrv, maxrfvrrv);
+        if (Snail==true) {
+            maxall = 1.0 / DriveConstants.SLOW_MOTOR_SPEED;
+        }
+        if (Turbo==false && Snail==false) {
+            maxall = 1.0 / DriveConstants.NORMAL_MOTOR_SPEED;
         }
         leftFront.setVelocity(lfv * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.AFL_SCALE / maxall);
         leftRear.setVelocity(lrv * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.ARL_SCALE / maxall);
         rightRear.setVelocity(rrv * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.ARR_SCALE / maxall);
         rightFront.setVelocity(rfv * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.AFR_SCALE / maxall);
 
+    }
+    public void setSnailMode(){
+        Snail = true;
+        Turbo = false;
+    }
+    public void setTurboMode(){
+        Turbo = true;
+        Snail = false;
+    }
+    public void setNormalMode(){
+        Snail = false;
+        Turbo = false;
     }
 }

@@ -7,7 +7,10 @@ import com.technototes.library.control.Stick;
 import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
 import org.firstinspires.ftc.twenty403.commands.driving.JoystickDriveCommand;
+import org.firstinspires.ftc.twenty403.commands.driving.NormalModeCommand;
 import org.firstinspires.ftc.twenty403.commands.driving.ResetGyroCommand;
+import org.firstinspires.ftc.twenty403.commands.driving.SnailModeCommand;
+import org.firstinspires.ftc.twenty403.commands.driving.TurboModeCommand;
 
 public class DriverController {
 
@@ -17,6 +20,9 @@ public class DriverController {
     public Stick driveLeftStick, driveRightStick;
     public CommandButton resetGyroButton;
     public CommandButton straighten;
+    public CommandButton turboButton;
+    public CommandButton snailButton;
+
 
     public DriverController(CommandGamepad g, Robot r) {
         this.robot = r;
@@ -32,6 +38,8 @@ public class DriverController {
         driveLeftStick = gamepad.leftStick;
         driveRightStick = gamepad.rightStick;
         straighten = gamepad.ps_share;
+        turboButton = gamepad.rightBumper;
+        snailButton = gamepad.leftBumper;
     }
 
     public void bindDriveControls() {
@@ -45,10 +53,14 @@ public class DriverController {
                     () -> straighten.getAsBoolean()
                 )
             );
-        /*
-            turboButton.whenPressed(new TurboCommand(robot.drivebaseSubsystem));
-            turboButton.whenReleased(new SlowCommand(robot.drivebaseSubsystem));
-            */
+
+            turboButton.whenPressed(new TurboModeCommand(robot.drivebaseSubsystem));
+            turboButton.whenReleased(new NormalModeCommand(robot.drivebaseSubsystem));
+
+            snailButton.whenPressed(new SnailModeCommand(robot.drivebaseSubsystem));
+            snailButton.whenReleased(new NormalModeCommand(robot.drivebaseSubsystem));
+
+
         resetGyroButton.whenPressed(new ResetGyroCommand(robot.drivebaseSubsystem));
     }
 }
