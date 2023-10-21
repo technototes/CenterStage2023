@@ -4,6 +4,7 @@ import com.technototes.library.logger.Loggable;
 import com.technototes.library.util.Alliance;
 import org.firstinspires.ftc.sixteen750.helpers.StartingPosition;
 import org.firstinspires.ftc.sixteen750.subsystems.DrivebaseSubsystem;
+import org.firstinspires.ftc.sixteen750.subsystems.HangSubsystem;
 import org.firstinspires.ftc.sixteen750.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.sixteen750.subsystems.VisionSubsystem;
 
@@ -17,6 +18,7 @@ public class Robot implements Loggable {
     public IntakeSubsystem intake;
     public DrivebaseSubsystem drivebase;
     public VisionSubsystem vision;
+    public HangSubsystem hang;
 
     public Robot(Hardware hw, Alliance team, StartingPosition pos) {
         this.position = pos;
@@ -33,6 +35,9 @@ public class Robot implements Loggable {
             this.intake = new IntakeSubsystem(hw.leftIntake, hw.rightIntake);
         } else {
             this.intake = new IntakeSubsystem();
+        }
+        if (Setup.Connected.HANG) {
+            this.hang = new HangSubsystem();
         }
     }
 }

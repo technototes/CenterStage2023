@@ -12,27 +12,63 @@ import org.firstinspires.ftc.sixteen750.Robot;
 @Config
 public class HangSubsystem implements Subsystem, Loggable {
 
-    //needs 2 servos and needs 1 motor. change the names of the variable later.
+    //this code sets the arm position of the hang subsystem.
+
+    public static double upPositionNumber = 0;
+    public static double downPositionNumber = 0;
+    public static double neutralPositionNumber = 0;
+
+    // one of the 2 variables below are going to be negative and the other is going to be positive
+    public static double extendScrew = 0;
+
+    public static double retractScrew = 0;
 
     public static Motor<DcMotorEx> hangMotor1;
 
     public static Servo hangServo1;
 
-    public static Servo hangServo2;
-
     private boolean isHardware;
 
     public HangSubsystem(Hardware hw) {
         hangServo1 = hw.hangServo1;
-        hangServo2 = hw.hangServo2;
+
         hangMotor1 = hw.hangMotor1;
         isHardware = true;
     }
 
     public HangSubsystem() {
         hangServo1 = null;
-        hangServo2 = null;
+
         hangMotor1 = null;
         isHardware = false;
+    }
+
+    public void servoHangPosition() {
+        if (isHardware == true) {
+            hangServo1.setPosition(upPositionNumber);
+        }
+    }
+
+    public void servoPushPosition() {
+        if (isHardware == true) {
+            hangServo1.setPosition(downPositionNumber);
+        }
+    }
+
+    public void leadScrewExtended() {
+        if (isHardware == true) {
+            hangMotor1.setSpeed(extendScrew);
+        }
+    }
+
+    public void leadScrewRetract() {
+        if (isHardware == true) {
+            hangMotor1.setSpeed(retractScrew);
+        }
+    }
+    public void neutralPosition(){
+            if (isHardware == true){
+            hangServo1.setPosition(neutralPositionNumber);
+        }
     }
 }
