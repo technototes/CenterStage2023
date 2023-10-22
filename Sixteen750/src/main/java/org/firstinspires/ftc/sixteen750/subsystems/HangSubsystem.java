@@ -29,47 +29,55 @@ public class HangSubsystem implements Subsystem, Loggable {
 
     private boolean isHardware;
 
+    // @Log(name="HangServo")
+    public double servoPos;
+
+    // @Log(name="HangMotor")
+    public double motorSpeed;
+
     public HangSubsystem(Hardware hw) {
         hangServo1 = hw.hangServo1;
-
         hangMotor1 = hw.hangMotor1;
         isHardware = true;
     }
 
     public HangSubsystem() {
         hangServo1 = null;
-
         hangMotor1 = null;
         isHardware = false;
     }
 
     public void servoHangPosition() {
-        if (isHardware == true) {
-            hangServo1.setPosition(upPositionNumber);
-        }
+        setServoPosition(upPositionNumber);
     }
 
     public void servoPushPosition() {
-        if (isHardware == true) {
-            hangServo1.setPosition(downPositionNumber);
-        }
+        setServoPosition(downPositionNumber);
     }
 
     public void leadScrewExtended() {
-        if (isHardware == true) {
-            hangMotor1.setSpeed(extendScrew);
-        }
+        setMotorSpeed(extendScrew);
     }
 
     public void leadScrewRetract() {
-        if (isHardware == true) {
-            hangMotor1.setSpeed(retractScrew);
-        }
+        setMotorSpeed(retractScrew);
     }
 
     public void neutralPosition() {
+        setServoPosition(neutralPositionNumber);
+    }
+
+    private void setServoPosition(double pos) {
         if (isHardware == true) {
-            hangServo1.setPosition(neutralPositionNumber);
+            hangServo1.setPosition(pos);
         }
+        servoPos = pos;
+    }
+
+    private void setMotorSpeed(double speed) {
+        if (isHardware == true) {
+            hangMotor1.setSpeed(speed);
+        }
+        motorSpeed = speed;
     }
 }

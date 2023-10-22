@@ -49,6 +49,8 @@ public class Robot implements Loggable {
             this.intake = new IntakeSubsystem();
         }
         if (Setup.Connected.HANG) {
+            this.hang = new HangSubsystem(hw);
+        } else {
             this.hang = new HangSubsystem();
         }
     }
