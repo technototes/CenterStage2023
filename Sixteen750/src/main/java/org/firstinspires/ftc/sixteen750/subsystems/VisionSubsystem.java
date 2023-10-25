@@ -32,6 +32,11 @@ public class VisionSubsystem implements Subsystem, Loggable {
         pipeline = new VisionPipeline(alliance, side);
     }
 
+    public VisionSubsystem() {
+        camera = null;
+        pipeline = null;
+    }
+
     public void startStreaming() {
         camera.startStreaming(
             VisionSubsystemConstants.WIDTH,

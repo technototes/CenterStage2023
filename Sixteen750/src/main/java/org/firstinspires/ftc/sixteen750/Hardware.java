@@ -32,9 +32,13 @@ public class Hardware implements Loggable {
 
     public Servo ScoreServo;
 
+    public Servo DroneServo;
+
     public Motor<DcMotorEx> hangMotor1;
 
     public Servo hangServo1;
+
+
 
     public Hardware(HardwareMap hwmap) {
         hubs = hwmap.getAll(LynxModule.class);
@@ -64,6 +68,10 @@ public class Hardware implements Loggable {
         if (Setup.Connected.HANG) {
             hangServo1 = new Servo(Setup.HardwareNames.HANGSERVO);
             hangMotor1 = new Motor<DcMotorEx>(Setup.HardwareNames.HANGMOTOR);
+        }
+
+        if (Setup.Connected.DRONE) {
+            DroneServo = new Servo(Setup.HardwareNames.DRONESERVO);
         }
     }
 
