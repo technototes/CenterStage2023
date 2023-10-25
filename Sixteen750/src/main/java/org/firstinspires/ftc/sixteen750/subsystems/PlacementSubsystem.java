@@ -53,7 +53,7 @@ public class PlacementSubsystem implements Subsystem, Loggable {
         armServo = hw.Armservo;
         scoreServo = hw.ScoreServo;
         // TODO:
-        // For Bavjot and Laksh:
+        // For bhavjot and Laksh:
         // We need to configure the liftMotor to work like a servo.
         // This entails switching to "RunMode.RUN_TO_POSITION" and then tuning PID(F) constants
         liftMotor = hw.liftMotor;

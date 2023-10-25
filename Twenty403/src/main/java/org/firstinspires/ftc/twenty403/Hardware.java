@@ -5,6 +5,7 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.technototes.library.hardware.motor.EncodedMotor;
+import com.technototes.library.hardware.motor.Motor;
 import com.technototes.library.hardware.sensor.IMU;
 import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.logger.Loggable;
@@ -23,6 +24,11 @@ public class Hardware implements Loggable {
     public Servo clawServo;
     public Servo elbowServo;
     public EncodedMotor<DcMotorEx> swingMotor;
+
+    public Motor<DcMotorEx> hangMotor1;
+
+    public Servo hangServo1;
+
 
     /* Put other hardware here! */
 
