@@ -31,7 +31,8 @@ public class VisionSubsystem implements Subsystem, Loggable {
         camera = c;
         pipeline = new VisionPipeline(alliance, side);
     }
-    public VisionSubsystem (){
+
+    public VisionSubsystem() {
         camera = null;
         pipeline = null;
     }

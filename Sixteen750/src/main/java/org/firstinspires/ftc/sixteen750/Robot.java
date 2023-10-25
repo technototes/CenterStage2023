@@ -18,8 +18,6 @@ public class Robot implements Loggable {
 
     public double initialVoltage;
 
-
-
     public IntakeSubsystem intake;
     public DrivebaseSubsystem drivebase;
     public VisionSubsystem vision;
@@ -38,7 +36,7 @@ public class Robot implements Loggable {
 
         if (Setup.Connected.DRONE) {
             Drone = new DroneSubsystem(hw);
-        }else{
+        } else {
             this.Drone = new DroneSubsystem();
         }
         if (Setup.Connected.WEBCAM) {

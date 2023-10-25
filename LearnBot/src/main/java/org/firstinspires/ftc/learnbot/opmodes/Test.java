@@ -7,7 +7,6 @@ import com.technototes.library.command.Command;
 import com.technototes.library.command.CommandScheduler;
 import com.technototes.library.logger.Loggable;
 import com.technototes.library.structure.CommandOpMode;
-
 import org.firstinspires.ftc.learnbot.Hardware;
 import org.firstinspires.ftc.learnbot.Robot;
 import org.firstinspires.ftc.learnbot.commands.TriggerTestCommand;
@@ -28,10 +27,11 @@ public class Test extends CommandOpMode implements Loggable {
         hardware = new Hardware(hardwareMap);
         robot = new Robot(hardware);
         testCtrl = new TestController(driverGamepad, robot);
-        trigTest = new TriggerTestCommand(
+        trigTest =
+            new TriggerTestCommand(
                 driverGamepad.leftTrigger,
-                driverGamepad.leftTrigger.getAsButton(.5));
-        CommandScheduler.getInstance()
-                .scheduleJoystick(trigTest);
+                driverGamepad.leftTrigger.getAsButton(.5)
+            );
+        CommandScheduler.getInstance().scheduleJoystick(trigTest);
     }
 }

@@ -2,7 +2,6 @@ package org.firstinspires.ftc.twenty403.commands.auto.blue;
 
 import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.path.command.TrajectorySequenceCommand;
-
 import org.firstinspires.ftc.twenty403.AutoConstants;
 import org.firstinspires.ftc.twenty403.Robot;
 
@@ -10,7 +9,10 @@ public class StagePixelRight extends SequentialCommandGroup {
 
     public StagePixelRight(Robot r) {
         super(
-            new TrajectorySequenceCommand(r.drivebaseSubsystem, AutoConstants.StageBlue.START_TO_MID_CLEAR)
+            new TrajectorySequenceCommand(
+                r.drivebaseSubsystem,
+                AutoConstants.StageBlue.START_TO_MID_CLEAR
+            )
                 .andThen(
                     new TrajectorySequenceCommand(
                         r.drivebaseSubsystem,

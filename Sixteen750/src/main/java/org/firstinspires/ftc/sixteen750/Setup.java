@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.sixteen750;
 
 import com.acmerobotics.dashboard.config.Config;
-
 import org.firstinspires.ftc.sixteen750.subsystems.DroneSubsystem;
 
 public class Setup {
@@ -17,7 +16,6 @@ public class Setup {
         public static boolean HANG = false;
 
         public static boolean DRONE = true;
-
     }
 
     @Config

@@ -105,14 +105,14 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
 
     private int countColor(double hue, Mat rect, int xoff, int yoff) {
         Scalar edge1 = new Scalar(
-                hue - VisionConstants.RANGE,
-                VisionConstants.lowS,
-                VisionConstants.lowV
+            hue - VisionConstants.RANGE,
+            VisionConstants.lowS,
+            VisionConstants.lowV
         );
         Scalar edge2 = new Scalar(
-                hue + VisionConstants.RANGE,
-                VisionConstants.highS,
-                VisionConstants.highV
+            hue + VisionConstants.RANGE,
+            VisionConstants.highS,
+            VisionConstants.highV
         );
         // Check to see which pixels are between edge1 & edge2, output into a boolean matrix Cr
         Core.inRange(rect, edge1, edge2, Cr);
@@ -154,21 +154,21 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
     private void countPixels(Mat input) {
         // First, slice the smaller rectangle out of the overall bitmap:
         Mat mRectToLookAtM = input.submat(
-                // Row start to Row end
-                VisionConstants.Middle.Y,
-                VisionConstants.Middle.Y + VisionConstants.Middle.HEIGHT,
-                // Col start to Col end
-                VisionConstants.Middle.X,
-                VisionConstants.Middle.X + VisionConstants.Middle.WIDTH
+            // Row start to Row end
+            VisionConstants.Middle.Y,
+            VisionConstants.Middle.Y + VisionConstants.Middle.HEIGHT,
+            // Col start to Col end
+            VisionConstants.Middle.X,
+            VisionConstants.Middle.X + VisionConstants.Middle.WIDTH
         );
 
         Mat mRectToLookAtL = input.submat(
-                // Row start to Row end
-                VisionConstants.Left.Y,
-                VisionConstants.Left.Y + VisionConstants.Left.HEIGHT,
-                // Col start to Col end
-                VisionConstants.Left.X,
-                VisionConstants.Left.X + VisionConstants.Left.WIDTH
+            // Row start to Row end
+            VisionConstants.Left.Y,
+            VisionConstants.Left.Y + VisionConstants.Left.HEIGHT,
+            // Col start to Col end
+            VisionConstants.Left.X,
+            VisionConstants.Left.X + VisionConstants.Left.WIDTH
         );
 
         // Next, convert the RGB image to HSV, because HUE is much easier to identify colors in
@@ -182,46 +182,46 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
         int colorCountM = 0;
         if (this.alliance == Alliance.BLUE) {
             colorCountM =
-                    countColor(
-                            VisionConstants.BLUE,
-                            rectM,
-                            VisionConstants.Middle.X,
-                            VisionConstants.Middle.Y
-                    );
+                countColor(
+                    VisionConstants.BLUE,
+                    rectM,
+                    VisionConstants.Middle.X,
+                    VisionConstants.Middle.Y
+                );
         } else {
             colorCountM =
-                    countColor(
-                            VisionConstants.RED1,
-                            rectM,
-                            VisionConstants.Middle.X,
-                            VisionConstants.Middle.Y
-                    );
+                countColor(
+                    VisionConstants.RED1,
+                    rectM,
+                    VisionConstants.Middle.X,
+                    VisionConstants.Middle.Y
+                );
             colorCountM +=
-                    countColor(
-                            VisionConstants.RED2,
-                            rectM,
-                            VisionConstants.Middle.X,
-                            VisionConstants.Middle.Y
-                    );
+            countColor(
+                VisionConstants.RED2,
+                rectM,
+                VisionConstants.Middle.X,
+                VisionConstants.Middle.Y
+            );
         }
         if (this.alliance == Alliance.BLUE) {
             colorCountL =
-                    countColor(
-                            VisionConstants.BLUE,
-                            rectL,
-                            VisionConstants.Left.X,
-                            VisionConstants.Left.Y
-                    );
+                countColor(
+                    VisionConstants.BLUE,
+                    rectL,
+                    VisionConstants.Left.X,
+                    VisionConstants.Left.Y
+                );
         } else {
             colorCountL =
-                    countColor(
-                            VisionConstants.RED1,
-                            rectL,
-                            VisionConstants.Left.X,
-                            VisionConstants.Left.Y
-                    );
+                countColor(
+                    VisionConstants.RED1,
+                    rectL,
+                    VisionConstants.Left.X,
+                    VisionConstants.Left.Y
+                );
             colorCountL +=
-                    countColor(VisionConstants.RED2, rectL, VisionConstants.Left.X, VisionConstants.Left.Y);
+            countColor(VisionConstants.RED2, rectL, VisionConstants.Left.X, VisionConstants.Left.Y);
         }
         pickLocation(colorCountL, colorCountM);
     }
@@ -283,7 +283,7 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
             leftDetected = true;
             middleDetected = false;
         } else if (
-                countM <= VisionConstants.MINPIXELCOUNT && countL <= VisionConstants.MINPIXELCOUNT
+            countM <= VisionConstants.MINPIXELCOUNT && countL <= VisionConstants.MINPIXELCOUNT
         ) {
             rightDetected = true;
             middleDetected = false;

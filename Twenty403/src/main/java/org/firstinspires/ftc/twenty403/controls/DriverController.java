@@ -23,7 +23,6 @@ public class DriverController {
     public CommandButton turboButton;
     public CommandButton snailButton;
 
-
     public DriverController(CommandGamepad g, Robot r) {
         this.robot = r;
         gamepad = g;
@@ -54,12 +53,11 @@ public class DriverController {
                 )
             );
 
-            turboButton.whenPressed(new TurboModeCommand(robot.drivebaseSubsystem));
-            turboButton.whenReleased(new NormalModeCommand(robot.drivebaseSubsystem));
+        turboButton.whenPressed(new TurboModeCommand(robot.drivebaseSubsystem));
+        turboButton.whenReleased(new NormalModeCommand(robot.drivebaseSubsystem));
 
-            snailButton.whenPressed(new SnailModeCommand(robot.drivebaseSubsystem));
-            snailButton.whenReleased(new NormalModeCommand(robot.drivebaseSubsystem));
-
+        snailButton.whenPressed(new SnailModeCommand(robot.drivebaseSubsystem));
+        snailButton.whenReleased(new NormalModeCommand(robot.drivebaseSubsystem));
 
         resetGyroButton.whenPressed(new ResetGyroCommand(robot.drivebaseSubsystem));
     }

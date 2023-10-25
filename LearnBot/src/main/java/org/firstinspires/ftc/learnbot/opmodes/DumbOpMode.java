@@ -36,7 +36,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-
 /*
  * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
  * the autonomous or the teleop period of an FTC match. The names of OpModes appear on the menu
@@ -50,7 +49,7 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Basic: Linear OpMode", group="Linear OpMode")
+@TeleOp(name = "Basic: Linear OpMode", group = "Linear OpMode")
 @Disabled
 public class DumbOpMode extends LinearOpMode {
 
@@ -72,7 +71,6 @@ public class DumbOpMode extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-
             // Show the elapsed game time and wheel power.
             telemetry.addData("Left Trigger", "Value " + Float.toString(gamepad1.left_trigger));
             telemetry.addData("Right Trigger", "Value " + Float.toString(gamepad1.right_trigger));

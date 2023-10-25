@@ -38,8 +38,6 @@ public class Hardware implements Loggable {
 
     public Servo hangServo1;
 
-
-
     public Hardware(HardwareMap hwmap) {
         hubs = hwmap.getAll(LynxModule.class);
         imu =

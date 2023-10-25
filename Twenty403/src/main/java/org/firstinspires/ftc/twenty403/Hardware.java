@@ -11,7 +11,6 @@ import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.logger.Loggable;
 import com.technototes.vision.hardware.Webcam;
 import java.util.List;
-
 import org.firstinspires.ftc.robotcore.external.navigation.VoltageUnit;
 
 public class Hardware implements Loggable {
@@ -28,7 +27,6 @@ public class Hardware implements Loggable {
     public Motor<DcMotorEx> hangMotor1;
 
     public Servo hangServo1;
-
 
     /* Put other hardware here! */
 
@@ -67,4 +65,3 @@ public class Hardware implements Loggable {
         return volt / count;
     }
 }
-

@@ -38,7 +38,7 @@ public class OperatorController {
         robot = r;
         gamepad = g;
         AssignNamedControllerButton();
-        if (Setup.Connected.INTAKE){
+        if (Setup.Connected.INTAKE) {
             bindIntakeControls();
         }
         if (Setup.Connected.HANG) {

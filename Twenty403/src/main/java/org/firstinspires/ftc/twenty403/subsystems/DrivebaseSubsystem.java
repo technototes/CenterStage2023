@@ -135,9 +135,11 @@ public class DrivebaseSubsystem
 
     @Log(name = "magnitude")
     public String dirLen = "";
-    @Log(name="Turbo")
+
+    @Log(name = "Turbo")
     public boolean Turbo = false;
-    @Log(name="Snail")
+
+    @Log(name = "Snail")
     public boolean Snail = false;
 
     public DrivebaseSubsystem(
@@ -185,8 +187,9 @@ public class DrivebaseSubsystem
         }
     }
 
-    @Log(name="Speed Mult")
+    @Log(name = "Speed Mult")
     public double maxall = 1.0;
+
     // Velocity driving, in the hopes that the bot with drive straight ;)
     @Override
     public void setMotorPowers(double lfv, double lrv, double rrv, double rfv) {
@@ -198,27 +201,37 @@ public class DrivebaseSubsystem
         double maxlfvlrv = Math.max(Math.abs(lfv), Math.abs(lrv));
         double maxrfvrrv = Math.max(Math.abs(rfv), Math.abs(rrv));
         maxall = Math.max(maxlfvlrv, maxrfvrrv);
-        if (Snail==true) {
+        if (Snail == true) {
             maxall = 1.0 / DriveConstants.SLOW_MOTOR_SPEED;
         }
-        if (Turbo==false && Snail==false) {
+        if (Turbo == false && Snail == false) {
             maxall = 1.0 / DriveConstants.NORMAL_MOTOR_SPEED;
         }
-        leftFront.setVelocity(lfv * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.AFL_SCALE / maxall);
-        leftRear.setVelocity(lrv * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.ARL_SCALE / maxall);
-        rightRear.setVelocity(rrv * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.ARR_SCALE / maxall);
-        rightFront.setVelocity(rfv * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.AFR_SCALE / maxall);
-
+        leftFront.setVelocity(
+            (lfv * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.AFL_SCALE) / maxall
+        );
+        leftRear.setVelocity(
+            (lrv * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.ARL_SCALE) / maxall
+        );
+        rightRear.setVelocity(
+            (rrv * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.ARR_SCALE) / maxall
+        );
+        rightFront.setVelocity(
+            (rfv * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.AFR_SCALE) / maxall
+        );
     }
-    public void setSnailMode(){
+
+    public void setSnailMode() {
         Snail = true;
         Turbo = false;
     }
-    public void setTurboMode(){
+
+    public void setTurboMode() {
         Turbo = true;
         Snail = false;
     }
-    public void setNormalMode(){
+
+    public void setNormalMode() {
         Snail = false;
         Turbo = false;
     }

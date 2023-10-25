@@ -5,7 +5,6 @@ import com.technototes.library.hardware.motor.Motor;
 import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.logger.Loggable;
 import com.technototes.library.subsystem.Subsystem;
-
 import org.firstinspires.ftc.twenty403.Hardware;
 
 public class HangSubsystem implements Subsystem, Loggable {
@@ -71,4 +70,3 @@ public class HangSubsystem implements Subsystem, Loggable {
         }
     }
 }
-
