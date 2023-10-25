@@ -35,40 +35,51 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
     public static class VisionConstants {
 
         @Config
-        public static class SignalDetection {
+        public static class Left {
 
-            public enum Position {
-                LEFT,
-                CENTER,
-                RIGHT,
-            }
-
-            // Yellow is around 25 (50 degrees)
-            public static double YELLOW = 30;
-            // Aqua is at 100 (200 degrees)
-            public static double AQUA = 100;
-            // Purple is at 170 (340 degrees)
-            public static double PINK = 170;
-
-            // The low saturation point for color identification
-            public static double lowS = 70;
-            // The high saturation point for color identification
-            public static double highS = 255;
-            // The low value for color ID
-            public static double lowV = 50;
-            // The high value for color ID
-            public static double highV = 255;
-            // The 'range' around the hue that we're looking for
-            public static double RANGE = 10;
-
-            // In the 160x120 bitmap, where are we looking?
-            public static int X = 165;
-            public static int Y = 136;
+            public static int X = 0;
+            public static int Y = 130;
             public static int WIDTH = 60;
             public static int HEIGHT = 60;
-
-            public static Scalar RGB_HIGHLIGHT = new Scalar(255, 128, 255);
         }
+
+        @Config
+        public static class Middle {
+
+            public static int X = 185;
+            public static int Y = 116;
+            public static int WIDTH = 60;
+            public static int HEIGHT = 60;
+        }
+
+        public enum Position {
+            LEFT,
+            CENTER,
+            RIGHT,
+        }
+
+        public static double RED1 = 0;
+
+        public static double RED2 = 179;
+        public static double BLUE = 120;
+
+        // The low saturation point for color identification
+        public static double lowS = 70;
+        // The high saturation point for color identification
+        public static double highS = 255;
+        // The low value for color ID
+        public static double lowV = 50;
+        // The high value for color ID
+        public static double highV = 255;
+        // The 'range' around the hue that we're looking for
+        public static double RANGE = 10;
+
+        // In the 160x120 bitmap, where are we looking?
+
+        public static Scalar RGB_HIGHLIGHT = new Scalar(255, 128, 255);
+
+        // the mininum amount of pixels needed in order to find a pixel
+        public static int MINPIXELCOUNT = 130;
     }
 
     @LogConfig.Run(duringRun = false, duringInit = true)
@@ -89,23 +100,22 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
 
     private ElapsedTime time = new ElapsedTime();
 
-    public Mat customColorSpace = new Mat();
     public Mat Cr = new Mat();
     public Mat img = null;
 
-    private int countColor(double hue) {
+    private int countColor(double hue, Mat rect, int xoff, int yoff) {
         Scalar edge1 = new Scalar(
-            hue - VisionConstants.SignalDetection.RANGE,
-            VisionConstants.SignalDetection.lowS,
-            VisionConstants.SignalDetection.lowV
+                hue - VisionConstants.RANGE,
+                VisionConstants.lowS,
+                VisionConstants.lowV
         );
         Scalar edge2 = new Scalar(
-            hue + VisionConstants.SignalDetection.RANGE,
-            VisionConstants.SignalDetection.highS,
-            VisionConstants.SignalDetection.highV
+                hue + VisionConstants.RANGE,
+                VisionConstants.highS,
+                VisionConstants.highV
         );
         // Check to see which pixels are between edge1 & edge2, output into a boolean matrix Cr
-        Core.inRange(customColorSpace, edge1, edge2, Cr);
+        Core.inRange(rect, edge1, edge2, Cr);
         int count = 0;
         for (int i = 0; i < Cr.width(); i++) {
             for (int j = 0; j < Cr.height(); j++) {
@@ -115,56 +125,129 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
                     // The color choice makes things stripey, which makes it easier to identify
                     if (VisionSubsystem.VisionSubsystemConstants.DEBUG_VIEW) {
                         double[] colorToDraw = ((j + i) & 3) != 0 ? edge1.val : edge2.val;
-                        img.put(
-                            j + VisionConstants.SignalDetection.Y,
-                            i + VisionConstants.SignalDetection.X,
-                            colorToDraw
-                        );
+                        img.put(j + yoff, i + xoff, colorToDraw);
                     }
                 }
             }
         }
         return count;
+        //        count = 0;
+        //        for (int i = 0; i < Cr.width(); i++) {
+        //            for (int j = 0; j < Cr.height(); j++) {
+        //                if (Cr.get(j, i)[0] > 0) {
+        //                    count++;
+        //                    // Draw a dot on the image at this point - input was put into img
+        //                    // The color choice makes things stripey, which makes it easier to identify
+        //                    if (VisionSubsystem.VisionSubsystemConstants.DEBUG_VIEW) {
+        //                        double[] colorToDraw = ((j + i) & 3) != 0 ? edge1.val : edge2.val;
+        //                        img.put(
+        //                                j + VisionConstants.Left.Y,
+        //                                i + VisionConstants.Left.X,
+        //                                colorToDraw
+        //                        );
+        //                    }
+        //            }
+        //        }
+        //        return count;
+    }
+
+    private void countPixels(Mat input) {
+        // First, slice the smaller rectangle out of the overall bitmap:
+        Mat mRectToLookAtM = input.submat(
+                // Row start to Row end
+                VisionConstants.Middle.Y,
+                VisionConstants.Middle.Y + VisionConstants.Middle.HEIGHT,
+                // Col start to Col end
+                VisionConstants.Middle.X,
+                VisionConstants.Middle.X + VisionConstants.Middle.WIDTH
+        );
+
+        Mat mRectToLookAtL = input.submat(
+                // Row start to Row end
+                VisionConstants.Left.Y,
+                VisionConstants.Left.Y + VisionConstants.Left.HEIGHT,
+                // Col start to Col end
+                VisionConstants.Left.X,
+                VisionConstants.Left.X + VisionConstants.Left.WIDTH
+        );
+
+        // Next, convert the RGB image to HSV, because HUE is much easier to identify colors in
+        // The output is in 'customColorSpace'
+        Mat rectM = new Mat();
+        Mat rectL = new Mat();
+        Imgproc.cvtColor(mRectToLookAtM, rectM, Imgproc.COLOR_RGB2HSV);
+        Imgproc.cvtColor(mRectToLookAtL, rectL, Imgproc.COLOR_RGB2HSV);
+        // Check to see which colors occur:
+        int colorCountL = 0;
+        int colorCountM = 0;
+        if (this.alliance == Alliance.BLUE) {
+            colorCountM =
+                    countColor(
+                            VisionConstants.BLUE,
+                            rectM,
+                            VisionConstants.Middle.X,
+                            VisionConstants.Middle.Y
+                    );
+        } else {
+            colorCountM =
+                    countColor(
+                            VisionConstants.RED1,
+                            rectM,
+                            VisionConstants.Middle.X,
+                            VisionConstants.Middle.Y
+                    );
+            colorCountM +=
+                    countColor(
+                            VisionConstants.RED2,
+                            rectM,
+                            VisionConstants.Middle.X,
+                            VisionConstants.Middle.Y
+                    );
+        }
+        if (this.alliance == Alliance.BLUE) {
+            colorCountL =
+                    countColor(
+                            VisionConstants.BLUE,
+                            rectL,
+                            VisionConstants.Left.X,
+                            VisionConstants.Left.Y
+                    );
+        } else {
+            colorCountL =
+                    countColor(
+                            VisionConstants.RED1,
+                            rectL,
+                            VisionConstants.Left.X,
+                            VisionConstants.Left.Y
+                    );
+            colorCountL +=
+                    countColor(VisionConstants.RED2, rectL, VisionConstants.Left.X, VisionConstants.Left.Y);
+        }
+        pickLocation(colorCountL, colorCountM);
     }
 
     public void detectSignal(Mat input) {
         // Put the input matrix in a member variable, so that other functions can draw on it
         img = input;
 
-        // First, slice the smaller rectangle out of the overall bitmap:
-        Mat rectToLookAt = input.submat(
-            // Row start to Row end
-            VisionConstants.SignalDetection.Y,
-            VisionConstants.SignalDetection.Y + VisionConstants.SignalDetection.HEIGHT,
-            // Col start to Col end
-            VisionConstants.SignalDetection.X,
-            VisionConstants.SignalDetection.X + VisionConstants.SignalDetection.WIDTH
-        );
-
-        // Next, convert the RGB image to HSV, because HUE is much easier to identify colors in
-        // The output is in 'customColorSpace'
-        Imgproc.cvtColor(rectToLookAt, customColorSpace, Imgproc.COLOR_RGB2HSV);
-
-        // Check to see which colors occur:
-        int countY = countColor(VisionConstants.SignalDetection.YELLOW);
-        int countA = countColor(VisionConstants.SignalDetection.AQUA);
-        int countP = countColor(VisionConstants.SignalDetection.PINK);
-
+        countPixels(input);
         // Check which spot we should park in
-        middleDetected = countA >= countY && countA >= countP;
-        rightDetected = countP >= countA && countP >= countY;
-        leftDetected = !rightDetected && !middleDetected;
+        // middleDetected = countA >= countY && countA >= countP;
+        // leftDetected = countP >= countA && countP >= countY;
+        rightDetected = !leftDetected && !middleDetected;
 
         // Draw a rectangle around the area we're looking at, for debugging
-        int x = Range.clip(VisionConstants.SignalDetection.X - 1, 0, input.width() - 1);
-        int y = Range.clip(VisionConstants.SignalDetection.Y - 1, 0, input.height() - 1);
-        int w = Range.clip(VisionConstants.SignalDetection.WIDTH + 2, 1, input.width() - x);
-        int h = Range.clip(VisionConstants.SignalDetection.HEIGHT + 2, 1, input.height() - y);
-        Imgproc.rectangle(
-            input,
-            new Rect(x, y, w, h),
-            VisionConstants.SignalDetection.RGB_HIGHLIGHT
-        );
+        int x = Range.clip(VisionConstants.Middle.X - 1, 0, input.width() - 1);
+        int y = Range.clip(VisionConstants.Middle.Y - 1, 0, input.height() - 1);
+        int w = Range.clip(VisionConstants.Middle.WIDTH + 2, 1, input.width() - x);
+        int h = Range.clip(VisionConstants.Middle.HEIGHT + 2, 1, input.height() - y);
+
+        int xl = Range.clip(VisionConstants.Left.X - 1, 0, input.width() - 1);
+        int yl = Range.clip(VisionConstants.Left.Y - 1, 0, input.height() - 1);
+        int wl = Range.clip(VisionConstants.Left.WIDTH + 2, 1, input.width() - x);
+        int hl = Range.clip(VisionConstants.Left.HEIGHT + 2, 1, input.height() - y);
+        Imgproc.rectangle(input, new Rect(x, y, w, h), VisionConstants.RGB_HIGHLIGHT);
+        Imgproc.rectangle(input, new Rect(xl, yl, wl, hl), VisionConstants.RGB_HIGHLIGHT);
     }
 
     public void init(Mat firstFrame) {
@@ -177,12 +260,38 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
         // As of October 2022, it runs between 10 and 14 FPS.
         fps = 1000 / time.milliseconds();
         time.reset();
-
-        detectSignal(input);
+        countPixels(input);
         if (VisionSubsystem.VisionSubsystemConstants.DEBUG_VIEW) {
             sendBitmap();
         }
         return input;
+    }
+
+    private void pickLocation(int countL, int countM) {
+        /*
+        First we have to create a rectangle from teh view that the camera sees.
+        Then we have to convert RGB to HSV.
+        Then we check for specific colors (in this case, red and blue)
+        create another rectangle and do the same stuff
+
+        If there is more of that color than a specific value in either of the rectangles(left and middle) then the pixel is there.
+        If neither of the rectangles have more of that color, then it is in the 3rd position (right)
+        If there is more blue than red or vice versa, then that color is your alliance yay :)
+         */
+
+        if (countL > VisionConstants.MINPIXELCOUNT && countL > countM) {
+            leftDetected = true;
+            middleDetected = false;
+        } else if (
+                countM <= VisionConstants.MINPIXELCOUNT && countL <= VisionConstants.MINPIXELCOUNT
+        ) {
+            rightDetected = true;
+            middleDetected = false;
+        } else {
+            leftDetected = false;
+            middleDetected = true;
+            rightDetected = false;
+        }
     }
 
     @Override
