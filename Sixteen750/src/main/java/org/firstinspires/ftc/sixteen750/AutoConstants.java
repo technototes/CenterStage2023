@@ -17,7 +17,7 @@ public class AutoConstants {
         public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(35, 32, -90);
         public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(36, 32, -180);
         public static ConfigurablePoseD RIGHT_SPIKE =  new ConfigurablePoseD(25, 32, -180);
-
+        public static ConfigurablePoseD TELESTART = new ConfigurablePoseD(0,0,90);
 
         // This is "clear of the pixels, ready to somewhere else
         public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(35,60.1,-180);

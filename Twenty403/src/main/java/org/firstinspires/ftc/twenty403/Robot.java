@@ -8,7 +8,7 @@ import org.firstinspires.ftc.twenty403.subsystems.ClawSubsystem;
 import org.firstinspires.ftc.twenty403.subsystems.DrivebaseSubsystem;
 import org.firstinspires.ftc.twenty403.subsystems.VisionSubsystem;
 
-import java.util.Set;
+
 
 public class Robot implements Loggable {
 
@@ -27,12 +27,15 @@ public class Robot implements Loggable {
         if (Setup.Connected.DRIVEBASE) {
             this.drivebaseSubsystem = new DrivebaseSubsystem(hw.fl, hw.fr, hw.rl, hw.rr, hw.imu);
         }
+
         if (Setup.Connected.WEBCAM) {
             this.vision = new VisionSubsystem(hw.camera, team, pos);
+        } else{
+            this.vision = new VisionSubsystem();
         }
         if (Setup.Connected.CLAWSUBSYSTEM) {
             this.clawSubsystem = new ClawSubsystem(hw.clawServo, hw.elbowServo, hw.swingMotor);
-        }
+        } else{ this.clawSubsystem = new ClawSubsystem();
     }
 
-}
+}}

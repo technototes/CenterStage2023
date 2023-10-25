@@ -15,9 +15,9 @@ import org.firstinspires.ftc.sixteen750.controls.DriverController;
 import org.firstinspires.ftc.sixteen750.controls.OperatorController;
 import org.firstinspires.ftc.sixteen750.helpers.StartingPosition;
 
-@TeleOp(name = "Manual Ctrl")
+@TeleOp(name = "Dual Control")
 @SuppressWarnings("unused")
-public class ManualTeleOp extends CommandOpMode {
+public class DualTeleOp extends CommandOpMode {
 
     public Robot robot;
     public OperatorController controlsOperator;
@@ -33,7 +33,7 @@ public class ManualTeleOp extends CommandOpMode {
         if (Setup.Connected.DRIVEBASE) {
             controlsDriver = new DriverController(driverGamepad, robot);
             // Just pick a starting point
-            // robot.drivebase.setPoseEstimate(AutoConstants.WingRed.START.toPose());
+            robot.drivebase.setPoseEstimate(AutoConstants.WingRed.START.toPose());
             CommandScheduler
                 .getInstance()
                 .scheduleForState(new ResetGyroCommand(robot.drivebase), OpModeState.INIT);
