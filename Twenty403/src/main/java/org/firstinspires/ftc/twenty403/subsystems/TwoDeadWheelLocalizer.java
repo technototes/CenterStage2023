@@ -1,9 +1,8 @@
-package com.technototes.path.subsystem;
+package org.firstinspires.ftc.twenty403.subsystems;
 
 import static com.technototes.path.subsystem.DeadWheelConstants.*;
 
 import androidx.annotation.NonNull;
-
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.localization.ThreeTrackingWheelLocalizer;
@@ -11,7 +10,7 @@ import com.acmerobotics.roadrunner.localization.TwoTrackingWheelLocalizer;
 import com.technototes.library.hardware.sensor.IMU;
 import com.technototes.library.hardware.sensor.encoder.MotorEncoder;
 import com.technototes.library.subsystem.Subsystem;
-
+import com.technototes.path.subsystem.DeadWheelConstants;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -33,14 +32,18 @@ import java.util.List;
  *
  */
 public class TwoDeadWheelLocalizer extends TwoTrackingWheelLocalizer implements Subsystem {
-@Config
-    public abstract static class OdoDeadWheelConstants implements DeadWheelConstants{
-        public static double LateralDistance = 152.4;//mm
 
-        public static double ForwardOffset = 63.5;// mm
+    @Config
+    public abstract static class OdoDeadWheelConstants implements DeadWheelConstants {
 
-        public static double EncoderOverflow;
+        public static double LateralDistance = 152.4; //mm
 
+        public static double ForwardOffset = 63.5; // mm
+
+        // No idea what this is getting at
+        public static boolean EncoderOverflow = false;
+
+        // This may be wrong
         public static double GearRatio = 1;
 
         public static double TicksPerRev = 8192; // Might be 2048
@@ -48,31 +51,31 @@ public class TwoDeadWheelLocalizer extends TwoTrackingWheelLocalizer implements 
         public static double WheelRadius = 17.5; // millimeters?
     }
 
-    protected MotorEncoder /*leftEncoder,*/ rightEncoder, frontEncoder;
+    protected MotorEncoder /*leftEncoder,*/rightEncoder, frontEncoder;
     protected double lateralDistance, forwardOffset, gearRatio, wheelRadius, ticksPerRev;
     protected IMU imu;
 
     protected boolean encoderOverflow;
 
-    public TwoDeadWheelLocalizer(/*MotorEncoder l*/ MotorEncoder r, MotorEncoder f, IMU i, DeadWheelConstants constants) {
+    public TwoDeadWheelLocalizer(/*MotorEncoder l*/MotorEncoder r, MotorEncoder f, IMU i) {
         super(
-                Arrays.asList(
-                        //new Pose2d(0, constants.getDouble(LateralDistance.class) / 2, 0), // left
-                        new Pose2d(0, -constants.getDouble(LateralDistance.class) / 2, 0), // right
-                        new Pose2d(constants.getDouble(ForwardOffset.class), 0, Math.toRadians(90)) // front
-                )
+            Arrays.asList(
+                //new Pose2d(0, constants.getDouble(LateralDistance.class) / 2, 0), // left
+                new Pose2d(0, -OdoDeadWheelConstants.LateralDistance / 2, 0), // right
+                new Pose2d(OdoDeadWheelConstants.ForwardOffset, 0, Math.toRadians(90)) // front
+            )
         );
         //leftEncoder = l;
         rightEncoder = r;
         frontEncoder = f;
 
         imu = i;
-        lateralDistance = constants.getDouble(LateralDistance.class);
-        forwardOffset = constants.getDouble(ForwardOffset.class);
-        encoderOverflow = constants.getBoolean(EncoderOverflow.class);
-        gearRatio = constants.getDouble(GearRatio.class);
-        ticksPerRev = constants.getDouble(TicksPerRev.class);
-        wheelRadius = constants.getDouble(WheelRadius.class);
+        lateralDistance = OdoDeadWheelConstants.LateralDistance;
+        forwardOffset = OdoDeadWheelConstants.ForwardOffset;
+        encoderOverflow = OdoDeadWheelConstants.EncoderOverflow;
+        gearRatio = OdoDeadWheelConstants.GearRatio;
+        ticksPerRev = OdoDeadWheelConstants.TicksPerRev;
+        wheelRadius = OdoDeadWheelConstants.WheelRadius;
     }
 
     public double encoderTicksToInches(double ticks) {
@@ -83,9 +86,9 @@ public class TwoDeadWheelLocalizer extends TwoTrackingWheelLocalizer implements 
     @Override
     public List<Double> getWheelPositions() {
         return Arrays.asList(
-                //encoderTicksToInches(leftEncoder.getCurrentPosition()),
-                encoderTicksToInches(rightEncoder.getCurrentPosition()),
-                encoderTicksToInches(frontEncoder.getCurrentPosition())
+            //encoderTicksToInches(leftEncoder.getCurrentPosition()),
+            encoderTicksToInches(rightEncoder.getCurrentPosition()),
+            encoderTicksToInches(frontEncoder.getCurrentPosition())
         );
     }
 
@@ -97,9 +100,9 @@ public class TwoDeadWheelLocalizer extends TwoTrackingWheelLocalizer implements 
         //  compensation method
 
         return Arrays.asList(
-                //encoderTicksToInches(leftEncoder.getCorrectedVelocity()),
-                encoderTicksToInches(rightEncoder.getCorrectedVelocity()),
-                encoderTicksToInches(frontEncoder.getCorrectedVelocity())
+            //encoderTicksToInches(leftEncoder.getCorrectedVelocity()),
+            encoderTicksToInches(rightEncoder.getCorrectedVelocity()),
+            encoderTicksToInches(frontEncoder.getCorrectedVelocity())
         );
     }
 
