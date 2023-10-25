@@ -9,10 +9,10 @@ public class Setup {
     @Config
     public static class Connected {
 
-        public static boolean DRIVEBASE = false;
+        public static boolean DRIVEBASE = true;
         public static boolean INTAKE = false;
         public static boolean WEBCAM = false;
-        public static boolean PLACEMENT = true;
+        public static boolean PLACEMENT = false;
 
         public static boolean HANG = false;
 
