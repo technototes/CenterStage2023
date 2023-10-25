@@ -2,6 +2,8 @@ package org.firstinspires.ftc.twenty403;
 
 import com.technototes.library.logger.Loggable;
 import com.technototes.library.util.Alliance;
+import com.technototes.path.subsystem.TwoDeadWheelLocalizer;
+
 import java.util.Set;
 import org.firstinspires.ftc.twenty403.helpers.StartingPosition;
 import org.firstinspires.ftc.twenty403.subsystems.ClawSubsystem;
@@ -22,6 +24,8 @@ public class Robot implements Loggable {
     public HangSubsystem hangSubsystem;
     public DroneSubsystem droneSubsystem;
 
+    public TwoDeadWheelLocalizer localizer;
+
     public Robot(Hardware hw, Alliance team, StartingPosition pos) {
         this.position = pos;
         this.alliance = team;
@@ -29,7 +33,6 @@ public class Robot implements Loggable {
         if (Setup.Connected.DRIVEBASE) {
             this.drivebaseSubsystem = new DrivebaseSubsystem(hw.fl, hw.fr, hw.rl, hw.rr, hw.imu);
         }
-
         if (Setup.Connected.WEBCAM) {
             this.vision = new VisionSubsystem(hw.camera, team, pos);
         } else {
@@ -49,6 +52,9 @@ public class Robot implements Loggable {
             this.droneSubsystem = new DroneSubsystem(hw.launchServo);
         } else {
             this.droneSubsystem = new DroneSubsystem();
+        }
+        if (Setup.Connected.ODOSUBSYSTEM) {
+            this.localizer = new TwoDeadWheelLocalizer(hw.odoR, hw.odoF, hw.imu);
         }
     }
 }

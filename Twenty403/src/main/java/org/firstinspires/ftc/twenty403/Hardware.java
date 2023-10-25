@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.motor.Motor;
 import com.technototes.library.hardware.sensor.IMU;
+import com.technototes.library.hardware.sensor.encoder.MotorEncoder;
 import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.logger.Loggable;
 import com.technototes.vision.hardware.Webcam;
@@ -25,6 +26,7 @@ public class Hardware implements Loggable {
     public Servo clawServo;
     public Servo launchServo;
     public EncodedMotor<DcMotorEx> swingMotor;
+    public MotorEncoder odoF, odoR;
 
     public Motor<DcMotorEx> hangMotor1;
 
@@ -59,6 +61,10 @@ public class Hardware implements Loggable {
         }
         if (Setup.Connected.DRONESUBSYSTEM) {
             launchServo = new Servo(Setup.HardwareNames.DRONESERVO);
+        }
+        if (Setup.Connected.ODOSUBSYSTEM) {
+            odoR = new MotorEncoder(Setup.HardwareNames.ODOR);
+            odoF = new MotorEncoder(Setup.HardwareNames.ODOF);
         }
     }
 
