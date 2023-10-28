@@ -17,8 +17,12 @@ public class OperatorController {
     public Robot robot;
     public CommandGamepad gamepad;
 
-    public CommandButton clawOpenButton, clawCloseButton, armIntakeButton, armFirstLine;
-    // public CommandButton armThirdLine, armSecondLine;
+    public CommandButton clawOpenButton;
+    public CommandButton clawCloseButton;
+    public CommandButton armIntakeButton;
+    public CommandButton armFirstLine;
+    // public CommandButton armSecondLine;
+    // public CommandButton armThirdLine;
     public CommandButton override;
 
     public OperatorController(CommandGamepad g, Robot r) {
