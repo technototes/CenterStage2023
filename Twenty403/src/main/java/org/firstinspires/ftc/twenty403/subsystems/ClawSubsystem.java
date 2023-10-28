@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.control.PIDFController;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.util.Range;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.logger.Loggable;
@@ -22,29 +23,30 @@ public class ClawSubsystem implements Subsystem, Loggable {
     public static double FIRST_LINE_SCORING = 1;
     public static double SECOND_LINE_SCORING = 1;
     public static double THIRD_LINE_SCORING = 1;
-    public static PIDCoefficients PID = new PIDCoefficients(0.0027, 0.0, 0.00015);
-    private PIDFController PidController;
 
+    public static double MIN_MOTOR_SPEED = -0.5;
+    public static double MAX_MOTOR_SPEED = 0.5;
 
     private Servo clawServo;
-    private Servo elbowServo;
     private EncodedMotor<DcMotorEx> swingMotor;
     private boolean haveHardware;
+    public static PIDCoefficients PID = new PIDCoefficients(0.0027, 0.0, 0.00015);
+    private PIDFController swingPidController;
 
     public ClawSubsystem(Servo claw, EncodedMotor<DcMotorEx> swing) {
         clawServo = claw;
-        elbowServo = null;
         swingMotor = swing;
         haveHardware = true;
-        PidController = new PIDFController(PID, 0, 0, 0, (x, y) -> 0.1);
-
+        swingMotor = swing;
+        haveHardware = true;
+        swingPidController = new PIDFController(PID, 0, 0, 0, (x, y) -> 0.0);
     }
 
     public ClawSubsystem() {
         clawServo = null;
-        elbowServo = null;
         swingMotor = null;
         haveHardware = false;
+        swingPidController = new PIDFController(PID, 0, 0, 0, (x, y) -> 0.0);
     }
     private int getLiftCurrentPosition() {
         if (Setup.Connected.CLAWSUBSYSTEM) {
@@ -55,44 +57,63 @@ public class ClawSubsystem implements Subsystem, Loggable {
     }
 
     public void open() {
-        setClawServo(OPEN_CLAW_POS);
+        setClawPos(OPEN_CLAW_POS);
     }
 
     public void close() {
-        setClawServo(CLOSE_CLAW_POS);
+        setClawPos(CLOSE_CLAW_POS);
     }
 
     public void intake() {
-        setElbowServo(ARM_INTAKE);
+        setElbowPos(ARM_INTAKE);
     }
 
     public void firstLineScoring() {
-        setElbowServo(FIRST_LINE_SCORING);
+        setElbowPos(FIRST_LINE_SCORING);
     }
 
     public void secondLineScoring() {
-        setElbowServo(SECOND_LINE_SCORING);
+        setElbowPos(SECOND_LINE_SCORING);
     }
 
     public void thirdLineScoring() {
-        setElbowServo(THIRD_LINE_SCORING);
+        setElbowPos(THIRD_LINE_SCORING);
     }
 
+    @Override
+    public void periodic() {
+        double targetSpeed = swingPidController.update(getSwingCurrentPosition());
+        setSwingMotorPower(targetSpeed);
 
-    //    @Override
-    //    public void periodic(){
-    //
-    //    }
+        //        setLiftPosition_OVERRIDE(
+        //                leftPidController.getTargetPosition(),
+        //                rightPidController.getTargetPosition()
+        //        );
 
-    private void setElbowServo(double e) {
-        if (elbowServo != null) {
-            elbowServo.setPosition(e);
+    }
+
+    private void setElbowPos(double e) {
+        if (swingMotor != null) {
+            swingMotor.setPosition(e);
         }
     }
 
-    private void setClawServo(double c) {
+    private void setClawPos(double c) {
         if (clawServo != null) {
             clawServo.setPosition(c);
+        }
+    }
+    private int getSwingCurrentPosition() {
+        if (haveHardware) {
+            return (int) swingMotor.getSensorValue();
+        } else {
+            return 0;
+        }
+    }
+    private void setSwingMotorPower(double speed) {
+        if (haveHardware) {
+            double clippedSpeed = Range.clip(speed, MIN_MOTOR_SPEED, MAX_MOTOR_SPEED);
+            swingMotor.setSpeed(clippedSpeed);
         }
     }
 }
