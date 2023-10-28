@@ -9,6 +9,7 @@ public class Setup {
 
         public static boolean DRIVEBASE = true;
         public static boolean CLAWSUBSYSTEM = false;
+        public static boolean DRONESUBSYSTEM = true;
         public static boolean WEBCAM = true;
     }
 
@@ -24,6 +25,7 @@ public class Setup {
         public static String CLAWSERVO = "clawservo";
         public static String ELBOWSERVO = "elbowservo";
         public static String SHOULDERMOTOR = "shouldermotor";
+        public static String DRONESERVO = "droneservo";
     }
 
     @Config
