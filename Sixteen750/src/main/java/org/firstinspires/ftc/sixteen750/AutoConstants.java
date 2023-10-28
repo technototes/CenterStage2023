@@ -11,7 +11,7 @@ import java.util.function.Function;
 public class AutoConstants {
     @Config
     public static class WingRed {
-        // WING RED
+        // robot relative spike positions (right spike is near the metal)
         public static ConfigurablePoseD START = new ConfigurablePoseD(35, 60, -90);
         public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(45, 30, -60);
         public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(35, 32, -90);
@@ -73,14 +73,15 @@ public class AutoConstants {
     }
     @Config
     public static class WingBlue {
-        public static ConfigurablePoseD START = new ConfigurablePoseD(35, -60, 90);
-        public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(23, -30, 180);
+        //robot relative positions of the spikes (left spike is near the metal)
+        public static ConfigurablePoseD START = new ConfigurablePoseD(36, -60, 90);
+        public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(25, -32, 180);
         public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(35, -32, 90);
-        public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(46, -30, 60);
+        public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(45, -30, 60);
         public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(36, -32, 180);
 
         // This is "clear of the pixels, ready to somewhere else
-        public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(35,-60.1,180);
+        public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(35,-55,180);
         public static ConfigurablePoseD PARK_CORNER = new ConfigurablePoseD(-60,-60,180);
         // These are 'trajectory pieces' which should be named like this:
         // {STARTING_POSITION}_TO_{ENDING_POSITION}
