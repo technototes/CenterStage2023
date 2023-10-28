@@ -11,7 +11,7 @@ import java.util.function.Function;
 public class AutoConstants {
     @Config
     public static class WingRed {
-        // WING RED
+        // WING RED constants need to be configured: all of them
         public static ConfigurablePoseD START = new ConfigurablePoseD(35, 60, -90);
         public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(45, 30, -60);
         public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(35, 32, -90);
