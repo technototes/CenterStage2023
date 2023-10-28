@@ -22,6 +22,10 @@ public class AutoConstants {
         // This is "clear of the pixels, ready to somewhere else
         public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(35,60.1,-180);
         public static ConfigurablePoseD PARK_CORNER = new ConfigurablePoseD(-60,60,-180);
+        public static ConfigurablePoseD FORWARD = new ConfigurablePoseD(3,1,-180);
+        public static ConfigurablePoseD BACKWARD = new ConfigurablePoseD(47, 0, -180);
+        public static ConfigurablePoseD SIDE_RIGHT = new ConfigurablePoseD(47,48,-180);
+        public static ConfigurablePoseD SIDE_LEFT = new ConfigurablePoseD(47,0,-180);
 
         // These are 'trajectory pieces' which should be named like this:
         // {STARTING_POSITION}_TO_{ENDING_POSITION}
