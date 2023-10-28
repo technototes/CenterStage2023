@@ -54,6 +54,7 @@ public class ClawSubsystem implements Subsystem, Loggable {
         setElbowServo(FIRST_LINE_SCORING);
     }
 
+    /*
     public void secondLineScoring() {
         setElbowServo(SECOND_LINE_SCORING);
     }
@@ -66,7 +67,7 @@ public class ClawSubsystem implements Subsystem, Loggable {
     //    public void periodic(){
     //
     //    }
-
+*/
     private void setElbowServo(double e) {
         if (elbowServo != null) {
             elbowServo.setPosition(e);
