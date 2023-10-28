@@ -35,5 +35,6 @@ public class OperatorController {
     public void bindClawControls() {
         clawOpenButton.whenPressed(new ClawOpenCommand(robot.clawSubsystem));
         clawCloseButton.whenPressed(new ClawCloseCommand(robot.clawSubsystem));
+
     }
 }
