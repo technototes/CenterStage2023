@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.twenty403.hang;
+package org.firstinspires.ftc.twenty403.commands.hang;
 
 import com.technototes.library.command.Command;
 import org.firstinspires.ftc.twenty403.subsystems.HangSubsystem;
