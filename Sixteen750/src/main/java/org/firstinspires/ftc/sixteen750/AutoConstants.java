@@ -20,7 +20,7 @@ public class AutoConstants {
         public static ConfigurablePoseD TELESTART = new ConfigurablePoseD(0,0,90);
 
         // This is "clear of the pixels, ready to somewhere else
-        public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(35,60.1,-180);
+        public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(35,55,-180);
         public static ConfigurablePoseD PARK_CORNER = new ConfigurablePoseD(-60,60,-180);
 
         // These are 'trajectory pieces' which should be named like this:
