@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.Range;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.servo.Servo;
+import com.technototes.library.logger.Log;
 import com.technototes.library.logger.Loggable;
 import com.technototes.library.subsystem.Subsystem;
 
@@ -19,13 +20,20 @@ public class ClawSubsystem implements Subsystem, Loggable {
 
     public static double OPEN_CLAW_POS = 0.1; //Tested as of 10/27
     public static double CLOSE_CLAW_POS = 0.4; //Tested as of 10/27
-    public static double ARM_INTAKE = 0;
-    public static double FIRST_LINE_SCORING = 1;
+    public static double ARM_INTAKE = 650;
+    public static double FIRST_LINE_SCORING = 420;
     public static double SECOND_LINE_SCORING = 1;
     public static double THIRD_LINE_SCORING = 1;
 
     public static double MIN_MOTOR_SPEED = -0.5;
     public static double MAX_MOTOR_SPEED = 0.5;
+    @Log(name = "elbowPos")
+    public int elbowPos;
+    @Log(name = "elbowPow")
+    public double elbowPow;
+
+    @Log(name = "elbowTarget")
+    public double targetPos;
 
     private Servo clawServo;
     private EncodedMotor<DcMotorEx> swingMotor;
@@ -82,8 +90,11 @@ public class ClawSubsystem implements Subsystem, Loggable {
 
     @Override
     public void periodic() {
-        double targetSpeed = swingPidController.update(getSwingCurrentPosition());
+        int swingPos = getSwingCurrentPosition();
+        double targetSpeed = swingPidController.update(swingPos);
         setSwingMotorPower(targetSpeed);
+        elbowPos = swingPos;
+        elbowPow = targetSpeed;
 
         //        setLiftPosition_OVERRIDE(
         //                leftPidController.getTargetPosition(),
@@ -93,9 +104,8 @@ public class ClawSubsystem implements Subsystem, Loggable {
     }
 
     private void setElbowPos(double e) {
-        if (swingMotor != null) {
-            swingMotor.setPosition(e);
-        }
+        swingPidController.setTargetPosition(e);
+        targetPos = e;
     }
 
     private void setClawPos(double c) {
