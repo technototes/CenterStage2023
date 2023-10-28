@@ -22,7 +22,7 @@ public class Setup {
         public static String IMU = "imu";
         public static String CAMERA = "webcam";
         public static String CLAWSERVO = "clawservo";
-        public static String ELBOWSERVO = "elbowservo";
+//        public static String ELBOWSERVO = "elbowservo";
         public static String SHOULDERMOTOR = "shouldermotor";
     }
 

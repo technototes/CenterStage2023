@@ -19,7 +19,7 @@ public class SingleController {
 
     public Stick driveLeftStick, driveRightStick;
     public CommandButton resetGyroButton, driveStraight, turboButton;
-    public CommandButton clawOpenButton, clawCloseButton;
+    public CommandButton clawOpenButton, clawCloseButton, armFirstLineButton, armSecondLineButton, armThirdLineButton;
 
     public SingleController(CommandGamepad g, Robot r, Setup s) {
         this.robot = r;
@@ -64,7 +64,8 @@ public class SingleController {
 
     public void bindClawControls() {
         clawOpenButton.whenPressed(new ClawOpenCommand(robot.clawSubsystem));
-        clawCloseButton.whenReleased(new ClawCloseCommand(robot.clawSubsystem));
+        clawCloseButton.whenPressed(new ClawCloseCommand(robot.clawSubsystem));
+//        armFirstLineButton.whenPressed(new 6)
     }
 
     public void bindLiftControls() {

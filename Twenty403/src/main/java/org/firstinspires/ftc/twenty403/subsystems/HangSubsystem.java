@@ -11,14 +11,14 @@ public class HangSubsystem implements Subsystem, Loggable {
 
     //this code sets the arm position of the hang subsystem.
 
-    public static double upPositionNumber = 0;
-    public static double downPositionNumber = 0;
-    public static double neutralPositionNumber = 0;
+    public static double upPositionNumber = 0.4;
+    public static double downPositionNumber = 0.2;
+    public static double neutralPositionNumber = 0.3;
 
     // one of the 2 variables below are going to be negative and the other is going to be positive
-    public static double extendScrew = 0;
+    public static double extendScrew = 0.4;
 
-    public static double retractScrew = 0;
+    public static double retractScrew = -0.3;
 
     public static Motor<DcMotorEx> hangMotor1;
 

@@ -49,7 +49,7 @@ public class Hardware implements Loggable {
         }
         if (Setup.Connected.CLAWSUBSYSTEM) {
             clawServo = new Servo(Setup.HardwareNames.CLAWSERVO);
-            elbowServo = new Servo(Setup.HardwareNames.ELBOWSERVO);
+//            elbowServo = new Servo(Setup.HardwareNames.ELBOWSERVO);
             swingMotor = new EncodedMotor<>(Setup.HardwareNames.SHOULDERMOTOR);
         }
     }
