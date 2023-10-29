@@ -22,7 +22,7 @@
     "format20": "prettier --write Twenty403/src/**/*.java",
     "formatlb": "prettier --write LearnBot/src/**/*.java",
     "formatmm": "prettier --write MeepMeepTesting/src/**/*.java",
-    "formatjs": "prettier --write *.json scripts/*.js",
+    "formatjs": "prettier --write *.json scripts/*.js scripts/*.md scripts/*.ts",
     "formatall": "yarn format && yarn formatjs && yarn formatmm && yarn formatlb",
     "- // d": "This will toggle using TechnoLib locally or from Maven",
     "libflip": "node scripts/flip.js lib",
@@ -45,12 +45,18 @@
     "open": "run-script-os",
     "open:win32": "start \"\"",
     "open:macos": "open",
-    "open:linux": "xdg-open"
+    "open:linux": "xdg-open",
+    "work": "ts-node scripts/workflow.ts"
   },
   "devDependencies": {
+    "@types/node": "^20.8.9",
     "prettier": "^3.0.3",
     "prettier-plugin-java": "^2.3.1",
     "run-script-os": "^1.1.6",
     "simple-git": "^3.19.1"
+  },
+  "dependencies": {
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
   }
 }
