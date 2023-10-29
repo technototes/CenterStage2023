@@ -6,6 +6,7 @@ import { promises as dns } from 'dns';
 import { networkInterfaces } from 'os';
 import { simpleGit } from 'simple-git';
 import { Error, Menu, Ask } from './menu';
+import { Clean } from './cleaner';
 
 const DEFAULT_BRANCH_NAME = 'main';
 const git = simpleGit();
@@ -56,6 +57,51 @@ function onlyRobotConnection(): boolean {
   );
 }
 
+const NAME_PROMPT = "What's your name?";
+const TASK_PROMPT = "What are you working on today (1-2 words)?";
+
+async function GetBranchName(): Promise<string | undefined> {
+  let task = await Ask(TASK_PROMPT);
+  let user = await Ask(NAME_PROMPT);
+  const today = new Date();
+  const yr = today.getFullYear();
+  const mo = today.getMonth();
+  const dy = today.getDate();
+  let branch = '';
+  let done = false;
+  let abandon = true;
+  async function nameChange() {
+    user = await Ask(NAME_PROMPT);
+    return true;
+  }
+  async function taskChange() {
+    task = await Ask(TASK_PROMPT)
+    return true;
+  }
+  async function allDone() {
+    done = true;
+    abandon = false;
+    return Promise.resolve(true);
+  }
+  async function abort() {
+    done = true;
+    return Promise.resolve(true);
+  }
+  do {
+    branch = `${yr}-${mo}-${dy}-${Clean(user)}-${Clean(task)}`;
+    console.log();
+    console.log(`Branch name: ${branch}`);
+    console.log();
+    await Menu("Does that look like a good branch name?", [
+      ["Yup: Start coding!", allDone],
+      ["No: Change my name.", nameChange],
+      ["No: Change the work description", taskChange],
+      ["No: Nevermind, just stop", abort]
+    ]);
+  } while (!done);
+  return abandon ? undefined : branch;
+}
+
 async function workflow() {
   await Menu('What do you want to do?', [
     ['Start some work', startWork],
@@ -76,12 +122,13 @@ async function startWork(): Promise<boolean> {
   // - Pull from main
   // - Create a new branch for the work
   // - Open up Android Studio
-  console.log('Starting work');
+
   // Repo dirty check:
   const status = await git.status();
   if (!status.isClean()) {
     return Error("You appear to have some work that isn't yet committed.");
   }
+
   // GitHub access check
   if (!(await hasGithubAccess())) {
     if (onlyRobotConnection()) {
@@ -94,15 +141,19 @@ async function startWork(): Promise<boolean> {
       );
     }
   }
+
   // Check out main
   console.log(await git.checkout(DEFAULT_BRANCH_NAME));
   const cur = await git.branch();
   if (cur.current !== DEFAULT_BRANCH_NAME) {
-    return Error(`Unable to check out the ${DEFAULT_BRANCH_NAME} branch`);
+    return Error(`Unable to check out the ${DEFAULT_BRANCH_NAME} branch.`);
   }
   // Pull from github
   const res = await git.pull();
   console.log(res);
+  // Get the name for the new branch
+  const branchName = await GetBranchName();
+
   return false;
 }
 
