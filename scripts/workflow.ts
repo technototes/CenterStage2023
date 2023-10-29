@@ -2,7 +2,7 @@
  * This should be invokable by ts-node. I might migrate the other 2 scripts to ts-node
  * as well
  */
-import { argv } from 'process';
+import { networkInterfaces } from 'os';
 import readline from 'readline';
 import { simpleGit } from 'simple-git';
 
@@ -12,6 +12,32 @@ const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
+
+
+function getAddresses(): { [key: string]: string[] } {
+
+  const nets = networkInterfaces();
+  const results: { [key: string]: string[] } = {};
+
+  for (const name of Object.keys(nets)) {
+    if (nets[name] === undefined) {
+      continue;
+    }
+    for (const net of nets[name]!) {
+      // Skip over non-IPv4 and internal (i.e. 127.0.0.1) addresses
+      // 'IPv4' is in Node <= 17, from 18 it's a number 4 or 6
+      const familyV4Value = typeof net.family === 'string' ? 'IPv4' : 4
+      if (net.family === familyV4Value && !net.internal) {
+        if (!results[name]) {
+          results[name] = [];
+        }
+        results[name].push(net.address);
+      }
+    }
+  }
+  return results;
+}
+
 
 type MenuItem = { prompt: string; func: () => Promise<boolean> };
 function mnu(prompt: string, func: () => Promise<boolean>): MenuItem {
@@ -67,7 +93,14 @@ async function startWork(): Promise<boolean> {
   // - Create a new branch for the work
   // - Open up Android Studio
   console.log('Starting work');
-  return Promise.resolve(false);
+  const status = await git.status();
+  if (!status.isClean()) {
+    console.error("You appear to have some work that isn't yet commited.");
+    return false;
+  }
+  const addrs = getAddresses();
+  console.log(addrs);
+  return false
 }
 
 async function finishWork(): Promise<boolean> {
