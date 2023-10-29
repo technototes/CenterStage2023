@@ -2,6 +2,7 @@
  * This should be invokable by ts-node. I might migrate the other 2 scripts to ts-node
  * as well
  */
+import { promises as dns } from 'dns';
 import { networkInterfaces } from 'os';
 import readline from 'readline';
 import { simpleGit } from 'simple-git';
@@ -13,10 +14,8 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-
 // Gets a map of interfaces and ip addresses
 function getAddresses(): [Map<string, string[]>, string[]] {
-
   const nets = networkInterfaces();
   const results: Map<string, string[]> = new Map();
   const arrRes: string[] = [];
@@ -27,7 +26,7 @@ function getAddresses(): [Map<string, string[]>, string[]] {
     for (const net of nets[name]!) {
       // Skip over non-IPv4 and internal (i.e. 127.0.0.1) addresses
       // 'IPv4' is in Node <= 17, from 18 it's a number 4 or 6
-      const familyV4Value = typeof net.family === 'string' ? 'IPv4' : 4
+      const familyV4Value = typeof net.family === 'string' ? 'IPv4' : 4;
       if (net.family === familyV4Value && !net.internal) {
         if (!results.has(name)) {
           results.set(name, []);
@@ -40,6 +39,22 @@ function getAddresses(): [Map<string, string[]>, string[]] {
   return [results, arrRes];
 }
 
+async function hasGithubAccess(): Promise<boolean> {
+  const res = await dns.resolve('github.com');
+  if (!Array.isArray(res) || res.length === 0 || typeof res[0] !== 'string') {
+    console.error('Nope');
+    return false;
+  }
+  const addr = res[0]
+    .split('.')
+    .map(Number.parseInt)
+    .filter((val) => !isNaN(val) && val >= 0 && val <= 255);
+  if (addr.length !== 4) {
+    console.error('No');
+    return false;
+  }
+  return true;
+}
 
 type MenuItem = { prompt: string; func: () => Promise<boolean> };
 function mnu(prompt: string, func: () => Promise<boolean>): MenuItem {
@@ -98,16 +113,18 @@ async function startWork(): Promise<boolean> {
   // Repo dirty check:
   const status = await git.status();
   if (!status.isClean()) {
-    console.error("You appear to have some work that isn't yet commited.");
+    console.error("You appear to have some work that isn't yet committed.");
     return false;
   }
   // Robot network check
-  const [,addrs] = getAddresses();
-  if (addrs.filter((addr)=>!addr.startsWith("192.168.43.")).length === 0) {
-    console.error("It looks like you're connected to the robot. Please fix that before continuing.");
+  const [, addrs] = getAddresses();
+  if (addrs.filter((addr) => !addr.startsWith('192.168.43.')).length === 0) {
+    console.error(
+      "It looks like you're connected to the robot. Please fix that before continuing.",
+    );
     return false;
   }
-  return false
+  return false;
 }
 
 async function finishWork(): Promise<boolean> {
@@ -118,7 +135,12 @@ async function finishWork(): Promise<boolean> {
   // - Push the code to github
   // - Try to build
   // - If the build succeeded, offer to open a PR
-  console.log('Finishing work');
+  // Repo dirty check:
+  const status = await git.status();
+  if (!status.isClean()) {
+    console.error("You appear to have some work that isn't yet committed!");
+    return false;
+  }
   return Promise.resolve(false);
 }
 
@@ -126,6 +148,7 @@ async function configureStuff(): Promise<boolean> {
   // This should:
   // Add my silly things to .gitconfig
   console.log('Configuring stuff');
+  await hasGithubAccess();
   return Promise.resolve(false);
 }
 
