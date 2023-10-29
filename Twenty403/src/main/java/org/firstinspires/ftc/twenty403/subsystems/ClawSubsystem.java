@@ -80,6 +80,7 @@ public class ClawSubsystem implements Subsystem, Loggable {
         setElbowPos(FIRST_LINE_SCORING);
     }
 
+    /*
     public void secondLineScoring() {
         setElbowPos(SECOND_LINE_SCORING);
     }
@@ -87,6 +88,7 @@ public class ClawSubsystem implements Subsystem, Loggable {
     public void thirdLineScoring() {
         setElbowPos(THIRD_LINE_SCORING);
     }
+    */
 
     @Override
     public void periodic() {

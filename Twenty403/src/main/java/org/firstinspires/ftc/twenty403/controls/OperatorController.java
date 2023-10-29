@@ -10,6 +10,7 @@ import org.firstinspires.ftc.twenty403.commands.claw.ArmFirstLineCommand;
 import org.firstinspires.ftc.twenty403.commands.claw.ArmIntakeCommand;
 // import org.firstinspires.ftc.twenty403.commands.claw.ArmSecondLineScoring;
 // import org.firstinspires.ftc.twenty403.commands.claw.ArmThirdLineScoring;
+import org.firstinspires.ftc.twenty403.commands.DroneCommand;
 import org.firstinspires.ftc.twenty403.commands.claw.ClawCloseCommand;
 import org.firstinspires.ftc.twenty403.commands.claw.ClawOpenCommand;
 import org.firstinspires.ftc.twenty403.commands.hang.HangDown;
@@ -29,6 +30,7 @@ public class OperatorController {
 
     public CommandButton clawOpenButton;
     public CommandButton clawCloseButton;
+    public CommandButton launchDroneButton;
     public CommandButton armIntakeButton;
     public CommandButton armFirstLine;
     public CommandButton ScrewExtend;
@@ -51,6 +53,9 @@ public class OperatorController {
         if (Setup.Connected.HANGSUBSYSTEM) {
             bindHangControls();
         }
+        if (Setup.Connected.DRONESUBSYSTEM) {
+            bindDroneControls();
+        }
     }
 
     private void AssignNamedControllerButton() {
@@ -65,6 +70,7 @@ public class OperatorController {
         ScrewRetract = gamepad.ps_cross;
         HangUp = gamepad.ps_circle;
         HangDown = gamepad.ps_square;
+        launchDroneButton = gamepad.ps_share;
     }
 
     public void bindClawControls() {
@@ -85,5 +91,9 @@ public class OperatorController {
         HangDown.whenPressed(new HangDown(robot.hangSubsystem));
         HangUp.whenReleased(new HangStop(robot.hangSubsystem));
         HangDown.whenReleased(new HangStop(robot.hangSubsystem));
+    }
+    
+    public void bindDroneControls() {
+        launchDroneButton.whenPressed(new DroneCommand(robot.droneSubsystem));
     }
 }

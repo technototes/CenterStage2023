@@ -6,6 +6,7 @@ import com.technototes.library.control.CommandGamepad;
 import com.technototes.library.control.Stick;
 import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
+import org.firstinspires.ftc.twenty403.commands.DroneCommand;
 import org.firstinspires.ftc.twenty403.commands.claw.ClawCloseCommand;
 import org.firstinspires.ftc.twenty403.commands.claw.ClawOpenCommand;
 import org.firstinspires.ftc.twenty403.commands.driving.JoystickDriveCommand;
@@ -19,7 +20,7 @@ public class SingleController {
 
     public Stick driveLeftStick, driveRightStick;
     public CommandButton resetGyroButton, driveStraight, turboButton;
-    public CommandButton clawOpenButton, clawCloseButton, armFirstLineButton, armSecondLineButton, armThirdLineButton;
+    public CommandButton clawOpenButton, clawCloseButton, armFirstLineButton, armSecondLineButton, armThirdLineButton, launchDroneButton;
 
     public SingleController(CommandGamepad g, Robot r, Setup s) {
         this.robot = r;
@@ -35,8 +36,8 @@ public class SingleController {
             bindClawControls();
         }
 
-        if (Setup.Connected.WEBCAM) {
-            // TODO: bindAlignControls();
+        if (Setup.Connected.DRONESUBSYSTEM) {
+            bindDroneControls();
         }
     }
 
@@ -49,6 +50,7 @@ public class SingleController {
 
         clawOpenButton = gamepad.leftBumper;
         clawCloseButton = gamepad.rightBumper;
+        launchDroneButton = gamepad.ps_share;
     }
 
     public void bindDriveControls() {
@@ -66,6 +68,9 @@ public class SingleController {
         clawOpenButton.whenPressed(new ClawOpenCommand(robot.clawSubsystem));
         clawCloseButton.whenPressed(new ClawCloseCommand(robot.clawSubsystem));
 //        armFirstLineButton.whenPressed(new 6)
+    }
+    public void bindDroneControls() {
+        launchDroneButton.whenPressed(new DroneCommand(robot.droneSubsystem));
     }
 
     public void bindLiftControls() {

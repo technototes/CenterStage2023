@@ -24,6 +24,7 @@ public class Hardware implements Loggable {
     public EncodedMotor<DcMotorEx> fl, fr, rl, rr;
     public Webcam camera;
     public Servo clawServo;
+    public Servo launchServo;
     public EncodedMotor<DcMotorEx> swingMotor;
 
     public Motor<DcMotorEx> hangMotor1;
@@ -56,6 +57,9 @@ public class Hardware implements Loggable {
         if (Setup.Connected.HANGSUBSYSTEM) {
             hangServo1 = hwmap.get(CRServo.class, Setup.HardwareNames.HANG_CRSERVO);
             hangMotor1 = new Motor<DcMotorEx>(Setup.HardwareNames.HANG_MOTOR);
+        }
+        if (Setup.Connected.DRONESUBSYSTEM) {
+            launchServo = new Servo(Setup.HardwareNames.DRONESERVO);
         }
     }
 

@@ -7,6 +7,7 @@ import org.firstinspires.ftc.twenty403.helpers.StartingPosition;
 import org.firstinspires.ftc.twenty403.subsystems.ClawSubsystem;
 import org.firstinspires.ftc.twenty403.subsystems.DrivebaseSubsystem;
 import org.firstinspires.ftc.twenty403.subsystems.HangSubsystem;
+import org.firstinspires.ftc.twenty403.subsystems.DroneSubsystem;
 import org.firstinspires.ftc.twenty403.subsystems.VisionSubsystem;
 
 public class Robot implements Loggable {
@@ -19,6 +20,7 @@ public class Robot implements Loggable {
     public ClawSubsystem clawSubsystem;
     public VisionSubsystem vision;
     public HangSubsystem hangSubsystem;
+    public DroneSubsystem droneSubsystem;
 
     public Robot(Hardware hw, Alliance team, StartingPosition pos) {
         this.position = pos;
@@ -42,6 +44,11 @@ public class Robot implements Loggable {
             this.hangSubsystem = new HangSubsystem(hw);
         } else {
             this.hangSubsystem = new HangSubsystem();
+        }
+        if (Setup.Connected.DRONESUBSYSTEM) {
+            this.droneSubsystem = new DroneSubsystem(hw.launchServo);
+        } else {
+            this.droneSubsystem = new DroneSubsystem();
         }
     }
 }
