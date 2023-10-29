@@ -7,6 +7,12 @@ import { networkInterfaces } from 'os';
 import readline from 'readline';
 import { simpleGit } from 'simple-git';
 
+
+const DEFAULT_BRANCH_NAME = "main";
+
+
+
+
 const git = simpleGit();
 
 const rl = readline.createInterface({
@@ -124,7 +130,16 @@ async function startWork(): Promise<boolean> {
     );
     return false;
   }
-  return false;
+  // Check out main
+  console.log(await git.checkout(DEFAULT_BRANCH_NAME));
+  const cur = await git.branch();
+  if (cur.current !== DEFAULT_BRANCH_NAME) {
+    console.error(`Unable to check out the ${DEFAULT_BRANCH_NAME} branch`);
+    return false;
+  }
+  const res = await git.pull();
+  console.log(res);
+  return false
 }
 
 async function finishWork(): Promise<boolean> {
