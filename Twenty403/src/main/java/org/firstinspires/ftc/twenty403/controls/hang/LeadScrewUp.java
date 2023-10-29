@@ -1,6 +1,7 @@
-package org.firstinspires.ftc.twenty403.hang;
+package org.firstinspires.ftc.twenty403.controls.hang;
 
 import com.technototes.library.command.Command;
+
 import org.firstinspires.ftc.twenty403.subsystems.HangSubsystem;
 
 public class LeadScrewUp implements Command {
