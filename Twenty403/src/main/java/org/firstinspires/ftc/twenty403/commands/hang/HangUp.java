@@ -1,7 +1,6 @@
-package org.firstinspires.ftc.twenty403.controls.hang;
+package org.firstinspires.ftc.twenty403.commands.hang;
 
 import com.technototes.library.command.Command;
-
 import org.firstinspires.ftc.twenty403.subsystems.HangSubsystem;
 
 public class HangUp implements Command {
@@ -17,4 +16,5 @@ public class HangUp implements Command {
     public void execute() {
         hang.hingeUp();
     }
+
 }
