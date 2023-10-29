@@ -5,8 +5,8 @@
 import { promises as dns } from 'dns';
 import { networkInterfaces } from 'os';
 import { simpleGit } from 'simple-git';
-import { Error, Menu, Ask } from './menu';
-import { Clean } from './cleaner';
+import { Error, Menu } from './menu';
+import { GetBranchName } from './branch';
 
 const DEFAULT_BRANCH_NAME = 'main';
 const git = simpleGit();
@@ -57,51 +57,6 @@ function onlyRobotConnection(): boolean {
   );
 }
 
-const NAME_PROMPT = "What's your name?";
-const TASK_PROMPT = "What are you working on today (1-2 words)?";
-
-async function GetBranchName(): Promise<string | undefined> {
-  let task = await Ask(TASK_PROMPT);
-  let user = await Ask(NAME_PROMPT);
-  const today = new Date();
-  const yr = today.getFullYear();
-  const mo = today.getMonth();
-  const dy = today.getDate();
-  let branch = '';
-  let done = false;
-  let abandon = true;
-  async function nameChange() {
-    user = await Ask(NAME_PROMPT);
-    return true;
-  }
-  async function taskChange() {
-    task = await Ask(TASK_PROMPT)
-    return true;
-  }
-  async function allDone() {
-    done = true;
-    abandon = false;
-    return Promise.resolve(true);
-  }
-  async function abort() {
-    done = true;
-    return Promise.resolve(true);
-  }
-  do {
-    branch = `${yr}-${mo}-${dy}-${Clean(user)}-${Clean(task)}`;
-    console.log();
-    console.log(`Branch name: ${branch}`);
-    console.log();
-    await Menu("Does that look like a good branch name?", [
-      ["Yup: Start coding!", allDone],
-      ["No: Change my name.", nameChange],
-      ["No: Change the work description", taskChange],
-      ["No: Nevermind, just stop", abort]
-    ]);
-  } while (!done);
-  return abandon ? undefined : branch;
-}
-
 async function workflow() {
   await Menu('What do you want to do?', [
     ['Start some work', startWork],
@@ -149,11 +104,22 @@ async function startWork(): Promise<boolean> {
     return Error(`Unable to check out the ${DEFAULT_BRANCH_NAME} branch.`);
   }
   // Pull from github
-  const res = await git.pull();
-  console.log(res);
+  const pullRes = await git.pull();
+  console.log(pullRes);
   // Get the name for the new branch
   const branchName = await GetBranchName();
-
+  if (typeof branchName !== 'string') {
+    return false;
+  }
+  // Let's create & configure the branch
+  const coRes = await git.checkout(['-b', branchName]);
+  console.log(coRes);
+  // And now push it so it's wired up properly
+  const pushRes = await git.push(['-u', 'origin', branchName]);
+  console.log(pushRes);
+  // Open up android studio, now?
+  return false;
+  // Open up android studio, now?
   return false;
 }
 
