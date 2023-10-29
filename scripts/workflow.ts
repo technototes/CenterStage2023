@@ -14,11 +14,12 @@ const rl = readline.createInterface({
 });
 
 
-function getAddresses(): { [key: string]: string[] } {
+// Gets a map of interfaces and ip addresses
+function getAddresses(): [Map<string, string[]>, string[]] {
 
   const nets = networkInterfaces();
-  const results: { [key: string]: string[] } = {};
-
+  const results: Map<string, string[]> = new Map();
+  const arrRes: string[] = [];
   for (const name of Object.keys(nets)) {
     if (nets[name] === undefined) {
       continue;
@@ -28,14 +29,15 @@ function getAddresses(): { [key: string]: string[] } {
       // 'IPv4' is in Node <= 17, from 18 it's a number 4 or 6
       const familyV4Value = typeof net.family === 'string' ? 'IPv4' : 4
       if (net.family === familyV4Value && !net.internal) {
-        if (!results[name]) {
-          results[name] = [];
+        if (!results.has(name)) {
+          results.set(name, []);
         }
-        results[name].push(net.address);
+        results.get(name)?.push(net.address);
+        arrRes.push(net.address);
       }
     }
   }
-  return results;
+  return [results, arrRes];
 }
 
 
@@ -93,13 +95,18 @@ async function startWork(): Promise<boolean> {
   // - Create a new branch for the work
   // - Open up Android Studio
   console.log('Starting work');
+  // Repo dirty check:
   const status = await git.status();
   if (!status.isClean()) {
     console.error("You appear to have some work that isn't yet commited.");
     return false;
   }
-  const addrs = getAddresses();
-  console.log(addrs);
+  // Robot network check
+  const [,addrs] = getAddresses();
+  if (addrs.filter((addr)=>!addr.startsWith("192.168.43.")).length === 0) {
+    console.error("It looks like you're connected to the robot. Please fix that before continuing.");
+    return false;
+  }
   return false
 }
 
