@@ -11,22 +11,21 @@ import java.util.function.Function;
 public class AutoConstants {
     @Config
     public static class WingRed {
-        // WING RED constants need to be configured: all of them
+        // robot relative spike positions (right spike is near the metal)
         public static ConfigurablePoseD START = new ConfigurablePoseD(35, 60, -90);
         public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(45, 30, -60);
         public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(35, 32, -90);
-        public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(36, 32, -180);
-        public static ConfigurablePoseD RIGHT_SPIKE =  new ConfigurablePoseD(25, 35, -180);
-        public static ConfigurablePoseD TELESTART = new ConfigurablePoseD(0,0,90);
+        public static ConfigurablePoseD MID_CLEAR = new ConfigurablePoseD(36, 32, -180);
+        public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(25, 32, -180);
+        public static ConfigurablePoseD TELESTART = new ConfigurablePoseD(0, 0, 90);
 
         // This is "clear of the pixels, ready to somewhere else
-        public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(35,60.1,-180);
-        public static ConfigurablePoseD PARK_CORNER = new ConfigurablePoseD(-60,47,-180);
-        public static ConfigurablePoseD FORWARD = new ConfigurablePoseD(3,1,-180);
+        public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(35, 60.1, -180);
+        public static ConfigurablePoseD PARK_CORNER = new ConfigurablePoseD(-60, 60, -180);
+        public static ConfigurablePoseD FORWARD = new ConfigurablePoseD(3, 1, -180);
         public static ConfigurablePoseD BACKWARD = new ConfigurablePoseD(47, 0, -180);
-        public static ConfigurablePoseD SIDE_RIGHT = new ConfigurablePoseD(47,48,-180);
-        public static ConfigurablePoseD SIDE_LEFT = new ConfigurablePoseD(47,0,-180);
-
+        public static ConfigurablePoseD SIDE_RIGHT = new ConfigurablePoseD(47, 48, -180);
+        public static ConfigurablePoseD SIDE_LEFT = new ConfigurablePoseD(47, 0, -180);
 
         // These are 'trajectory pieces' which should be named like this:
         // {STARTING_POSITION}_TO_{ENDING_POSITION}
@@ -88,17 +87,19 @@ public class AutoConstants {
                 SIDE_RIGHT_TO_SIDE_LEFT = b ->
                 b.apply(SIDE_RIGHT.toPose()).lineToLinearHeading(SIDE_LEFT.toPose()).build();
     }
+
     @Config
     public static class WingBlue {
-        public static ConfigurablePoseD START = new ConfigurablePoseD(35, -60, 90);
-        public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(23, -30, 180);
+        //robot relative positions of the spikes (left spike is near the metal)
+        public static ConfigurablePoseD START = new ConfigurablePoseD(36, -60, 90);
+        public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(25, -32, 180);
         public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(35, -32, 90);
-        public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(46, -30, 60);
-        public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(36, -32, 180);
+        public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(45, -30, 60);
+        public static ConfigurablePoseD MID_CLEAR = new ConfigurablePoseD(36, -32, 180);
 
         // This is "clear of the pixels, ready to somewhere else
-        public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(35,-60.1,180);
-        public static ConfigurablePoseD PARK_CORNER = new ConfigurablePoseD(-60,-60,180);
+        public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(35, -55, 180);
+        public static ConfigurablePoseD PARK_CORNER = new ConfigurablePoseD(-60, -60, 180);
         // These are 'trajectory pieces' which should be named like this:
         // {STARTING_POSITION}_TO_{ENDING_POSITION}
         public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
@@ -140,10 +141,10 @@ public class AutoConstants {
         public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(-12, 25, -90);
         public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(-23, 30, -120);
         // This is "clear of the pixels, ready to somewhere else
-        public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(-12,60.1,-180);
-        public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(-12, 32, 0);
+        public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(-12, 60.1, -180);
+        public static ConfigurablePoseD MID_CLEAR = new ConfigurablePoseD(-12, 32, 0);
 
-        public static ConfigurablePoseD PARK_CENTER = new ConfigurablePoseD(-60,14,-180);
+        public static ConfigurablePoseD PARK_CENTER = new ConfigurablePoseD(-60, 14, -180);
 
         // These are 'trajectory pieces' which should be named like this:
         // {STARTING_POSITION}_TO_{ENDING_POSITION}
@@ -177,6 +178,7 @@ public class AutoConstants {
                 CLEAR_TO_PARK_CENTER = b ->
                         b.apply(CLEAR.toPose()).lineToLinearHeading(PARK_CENTER.toPose()).build();
     }
+
     @Config
     public static class StageBlue {
         public static ConfigurablePoseD START = new ConfigurablePoseD(-12, -60, 90);
@@ -185,10 +187,10 @@ public class AutoConstants {
         //right spike next to metal
         public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(0, -30, 0);
         // This is "clear of the pixels, ready to somewhere else
-        public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(-12,-60.1,180);
-        public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(-12, -32, 0);
+        public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(-12, -60.1, 180);
+        public static ConfigurablePoseD MID_CLEAR = new ConfigurablePoseD(-12, -32, 0);
 
-        public static ConfigurablePoseD PARK_CENTER = new ConfigurablePoseD(-60,-12,0);
+        public static ConfigurablePoseD PARK_CENTER = new ConfigurablePoseD(-60, -12, 0);
 
 
         // These are 'trajectory pieces' which should be named like this:

@@ -51,7 +51,7 @@ public class DrivebaseSubsystem
         public static double WHEEL_RADIUS = 1.88976; // in
 
         @GearRatio
-        public static double GEAR_RATIO = 1; // 2021: / 19.2; // output (wheel) speed / input (motor) speed
+        public static double GEAR_RATIO = 0.921; // 2021: / 19.2; // output (wheel) speed / input (motor) speed
 
         @TrackWidth
         public static double TRACK_WIDTH = 9.1875; // 2021: 10; // in
@@ -92,7 +92,7 @@ public class DrivebaseSubsystem
         public static PIDCoefficients HEADING_PID = new PIDCoefficients(8, 0, 0);
 
         @LateralMult
-        public static double LATERAL_MULTIPLIER = 1.14; // Lateral position is off by 14%
+        public static double LATERAL_MULTIPLIER = 1.05; // Lateral position is off by 14%
 
         @VXWeight
         public static double VX_WEIGHT = 1;
