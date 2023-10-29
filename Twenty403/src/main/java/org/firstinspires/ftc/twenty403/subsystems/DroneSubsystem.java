@@ -14,10 +14,12 @@ public class DroneSubsystem implements Subsystem, Loggable {
         launchServo = l;
         haveHardware = true;
     }
-    public DroneSubsystem(){
+
+    public DroneSubsystem() {
         launchServo = null;
         haveHardware = false;
     }
+
     public void launch() {
         setDroneServo(launch_pos);
     }

@@ -16,5 +16,4 @@ public class HangUp implements Command {
     public void execute() {
         hang.hingeUp();
     }
-
 }

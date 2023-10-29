@@ -4,13 +4,14 @@ import com.technototes.library.command.Command;
 import com.technototes.library.control.CommandButton;
 import com.technototes.library.control.CommandGamepad;
 import com.technototes.library.control.Stick;
+import java.util.Set;
 import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
-import org.firstinspires.ftc.twenty403.commands.claw.ArmFirstLineCommand;
-import org.firstinspires.ftc.twenty403.commands.claw.ArmIntakeCommand;
 // import org.firstinspires.ftc.twenty403.commands.claw.ArmSecondLineScoring;
 // import org.firstinspires.ftc.twenty403.commands.claw.ArmThirdLineScoring;
 import org.firstinspires.ftc.twenty403.commands.DroneCommand;
+import org.firstinspires.ftc.twenty403.commands.claw.ArmFirstLineCommand;
+import org.firstinspires.ftc.twenty403.commands.claw.ArmIntakeCommand;
 import org.firstinspires.ftc.twenty403.commands.claw.ClawCloseCommand;
 import org.firstinspires.ftc.twenty403.commands.claw.ClawOpenCommand;
 import org.firstinspires.ftc.twenty403.commands.hang.HangDown;
@@ -20,8 +21,6 @@ import org.firstinspires.ftc.twenty403.commands.hang.LeadScrewDown;
 import org.firstinspires.ftc.twenty403.commands.hang.LeadScrewStop;
 import org.firstinspires.ftc.twenty403.commands.hang.LeadScrewUp;
 import org.firstinspires.ftc.twenty403.subsystems.HangSubsystem;
-
-import java.util.Set;
 
 public class OperatorController {
 
@@ -82,6 +81,7 @@ public class OperatorController {
         // armThirdLine.whenPressed(new ArmThirdLineScoring((robot.clawSubsystem)));
         armFirstLine.whenPressed(new ArmFirstLineCommand(robot.clawSubsystem));
     }
+
     public void bindHangControls() {
         ScrewExtend.whenPressed(new LeadScrewUp(robot.hangSubsystem));
         ScrewRetract.whenPressed(new LeadScrewDown(robot.hangSubsystem));
@@ -92,7 +92,7 @@ public class OperatorController {
         HangUp.whenReleased(new HangStop(robot.hangSubsystem));
         HangDown.whenReleased(new HangStop(robot.hangSubsystem));
     }
-    
+
     public void bindDroneControls() {
         launchDroneButton.whenPressed(new DroneCommand(robot.droneSubsystem));
     }

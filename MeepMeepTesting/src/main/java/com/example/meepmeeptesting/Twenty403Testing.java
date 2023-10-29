@@ -5,7 +5,6 @@ import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.DriveShim;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 import com.noahbres.meepmeep.roadrunner.trajectorysequence.TrajectorySequence;
-
 import java.io.*;
 import javax.imageio.ImageIO;
 
@@ -25,9 +24,7 @@ public class Twenty403Testing {
             // maxAngAcc: the fastest rate (deg/sec/sec) we'll change our rotation (angular acceleration)
             // trackWidth: The width of our wheelbase (not clear what this really affects...)
             .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 9.5)
-            .followTrajectorySequence(drive ->
-                    getRedTrayectory(drive)
-            );
+            .followTrajectorySequence(drive -> getRedTrayectory(drive));
         try {
             // Try to load the field image from the repo:
             meepMeep.setBackground(ImageIO.read(new File("Field.jpg")));
@@ -40,29 +37,30 @@ public class Twenty403Testing {
 
     private static TrajectorySequence getRedTrayectory(DriveShim drive) {
         return drive
-                .trajectorySequenceBuilder(AutoConstantsRed.Wing.START)
-                //.addTrajectory(AutoConstantsRed.Stage.START_TO_LEFT_LOW.get())
-                .addTrajectory(AutoConstantsRed.Wing.START_TO_MIDSPIKE.get())
-                .addTrajectory(AutoConstantsRed.Wing.MIDSPIKE_TO_RIGHT_SPIKE.get())
-                .addTrajectory(AutoConstantsRed.Wing.RIGHT_SPIKE_TO_MIDSPIKE.get())
-                .addTrajectory(AutoConstantsRed.Wing.MIDSPIKE_TO_BACK.get())
-                //  .addTrajectory(AutoConstantsRed.Wing.BACK_TO_PARK_CORNER.get())
-                //.addTrajectory(AutoConstantsRed.Stage.LEFT_SPIKE_TO_CENTER_SPIKE.get())
-                //.addTrajectory(AutoConstantsRed.Stage.CENTER_SPIKE_TO_RIGHT_SPIKE.get())
-                .build();
+            .trajectorySequenceBuilder(AutoConstantsRed.Wing.START)
+            //.addTrajectory(AutoConstantsRed.Stage.START_TO_LEFT_LOW.get())
+            .addTrajectory(AutoConstantsRed.Wing.START_TO_MIDSPIKE.get())
+            .addTrajectory(AutoConstantsRed.Wing.MIDSPIKE_TO_RIGHT_SPIKE.get())
+            .addTrajectory(AutoConstantsRed.Wing.RIGHT_SPIKE_TO_MIDSPIKE.get())
+            .addTrajectory(AutoConstantsRed.Wing.MIDSPIKE_TO_BACK.get())
+            //  .addTrajectory(AutoConstantsRed.Wing.BACK_TO_PARK_CORNER.get())
+            //.addTrajectory(AutoConstantsRed.Stage.LEFT_SPIKE_TO_CENTER_SPIKE.get())
+            //.addTrajectory(AutoConstantsRed.Stage.CENTER_SPIKE_TO_RIGHT_SPIKE.get())
+            .build();
     }
+
     private static TrajectorySequence getBlueTrayectory(DriveShim drive) {
         return drive
-                .trajectorySequenceBuilder(AutoConstantsRed.Wing.START)
-                //.addTrajectory(AutoConstantsRed.Stage.START_TO_LEFT_LOW.get())
-                .addTrajectory(AutoConstantsRed.Wing.START_TO_MIDSPIKE.get())
-                .addTrajectory(AutoConstantsRed.Wing.MIDSPIKE_TO_RIGHT_SPIKE.get())
-                .addTrajectory(AutoConstantsRed.Wing.RIGHT_SPIKE_TO_MIDSPIKE.get())
-                .addTrajectory(AutoConstantsRed.Wing.MIDSPIKE_TO_BACK.get())
-                //  .addTrajectory(AutoConstantsRed.Wing.BACK_TO_PARK_CORNER.get())
-                //.addTrajectory(AutoConstantsRed.Stage.LEFT_SPIKE_TO_CENTER_SPIKE.get())
-                //.addTrajectory(AutoConstantsRed.Stage.CENTER_SPIKE_TO_RIGHT_SPIKE.get())
-                .build();
+            .trajectorySequenceBuilder(AutoConstantsRed.Wing.START)
+            //.addTrajectory(AutoConstantsRed.Stage.START_TO_LEFT_LOW.get())
+            .addTrajectory(AutoConstantsRed.Wing.START_TO_MIDSPIKE.get())
+            .addTrajectory(AutoConstantsRed.Wing.MIDSPIKE_TO_RIGHT_SPIKE.get())
+            .addTrajectory(AutoConstantsRed.Wing.RIGHT_SPIKE_TO_MIDSPIKE.get())
+            .addTrajectory(AutoConstantsRed.Wing.MIDSPIKE_TO_BACK.get())
+            //  .addTrajectory(AutoConstantsRed.Wing.BACK_TO_PARK_CORNER.get())
+            //.addTrajectory(AutoConstantsRed.Stage.LEFT_SPIKE_TO_CENTER_SPIKE.get())
+            //.addTrajectory(AutoConstantsRed.Stage.CENTER_SPIKE_TO_RIGHT_SPIKE.get())
+            .build();
     }
     /*
 

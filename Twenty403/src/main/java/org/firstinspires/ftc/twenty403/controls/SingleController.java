@@ -67,8 +67,9 @@ public class SingleController {
     public void bindClawControls() {
         clawOpenButton.whenPressed(new ClawOpenCommand(robot.clawSubsystem));
         clawCloseButton.whenPressed(new ClawCloseCommand(robot.clawSubsystem));
-//        armFirstLineButton.whenPressed(new 6)
+        //        armFirstLineButton.whenPressed(new 6)
     }
+
     public void bindDroneControls() {
         launchDroneButton.whenPressed(new DroneCommand(robot.droneSubsystem));
     }

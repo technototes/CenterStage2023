@@ -16,6 +16,4 @@ public class HangDown implements Command {
     public void execute() {
         hang.hingeDown();
     }
-
 }
-

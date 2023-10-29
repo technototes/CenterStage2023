@@ -53,6 +53,7 @@ public class HangSubsystem implements Subsystem, Loggable {
             hangServo1.setPower(DOWN_SERVO_POWER);
         }
     }
+
     public void hingeStop() {
         if (isHardware == true) {
             hangServo1.setPower(0);
@@ -70,14 +71,14 @@ public class HangSubsystem implements Subsystem, Loggable {
             hangMotor1.setSpeed(retractScrew);
         }
     }
+
     public void leadScrewStop() {
         if (isHardware == true) {
             hangMotor1.setSpeed(0);
         }
     }
-//    public void neutralPosition() {
-//        if (isHardware == true) {
-//            hangServo1.setPosition(neutralPositionNumber);
-//        }
-    }
-
+    //    public void neutralPosition() {
+    //        if (isHardware == true) {
+    //            hangServo1.setPosition(neutralPositionNumber);
+    //        }
+}

@@ -10,7 +10,6 @@ import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.logger.Log;
 import com.technototes.library.logger.Loggable;
 import com.technototes.library.subsystem.Subsystem;
-
 import org.firstinspires.ftc.twenty403.Setup;
 
 @Config
@@ -27,8 +26,10 @@ public class ClawSubsystem implements Subsystem, Loggable {
 
     public static double MIN_MOTOR_SPEED = -0.5;
     public static double MAX_MOTOR_SPEED = 0.5;
+
     @Log(name = "elbowPos")
     public int elbowPos;
+
     @Log(name = "elbowPow")
     public double elbowPow;
 
@@ -56,6 +57,7 @@ public class ClawSubsystem implements Subsystem, Loggable {
         haveHardware = false;
         swingPidController = new PIDFController(PID, 0, 0, 0, (x, y) -> 0.0);
     }
+
     private int getLiftCurrentPosition() {
         if (Setup.Connected.CLAWSUBSYSTEM) {
             return (int) swingMotor.getSensorValue();
@@ -97,7 +99,6 @@ public class ClawSubsystem implements Subsystem, Loggable {
         setSwingMotorPower(targetSpeed);
         elbowPos = swingPos;
         elbowPow = targetSpeed;
-
         //        setLiftPosition_OVERRIDE(
         //                leftPidController.getTargetPosition(),
         //                rightPidController.getTargetPosition()
@@ -115,6 +116,7 @@ public class ClawSubsystem implements Subsystem, Loggable {
             clawServo.setPosition(c);
         }
     }
+
     private int getSwingCurrentPosition() {
         if (haveHardware) {
             return (int) swingMotor.getSensorValue();
@@ -122,6 +124,7 @@ public class ClawSubsystem implements Subsystem, Loggable {
             return 0;
         }
     }
+
     private void setSwingMotorPower(double speed) {
         if (haveHardware) {
             double clippedSpeed = Range.clip(speed, MIN_MOTOR_SPEED, MAX_MOTOR_SPEED);

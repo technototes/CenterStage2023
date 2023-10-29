@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.twenty403.controls.hang;
 
 import com.technototes.library.command.Command;
-
 import org.firstinspires.ftc.twenty403.subsystems.HangSubsystem;
 
 public class HangUp implements Command {

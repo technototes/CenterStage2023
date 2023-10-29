@@ -7,7 +7,6 @@ import com.technototes.library.command.CommandScheduler;
 import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.library.structure.CommandOpMode;
 import com.technototes.library.util.Alliance;
-
 import org.firstinspires.ftc.twenty403.AutoConstants;
 import org.firstinspires.ftc.twenty403.Hardware;
 import org.firstinspires.ftc.twenty403.Robot;
@@ -33,14 +32,14 @@ public class ForwardBackwardSide extends CommandOpMode {
         robot = new Robot(hardware, Alliance.RED, StartingPosition.Wing);
         robot.drivebaseSubsystem.setPoseEstimate(AutoConstants.WingRed.SIDE_LEFT.toPose());
         CommandScheduler
-                .getInstance()
-                .scheduleForState(
-                        new SequentialCommandGroup(
-                                new ForwardBackwardCommand(robot),
-                                CommandScheduler.getInstance()::terminateOpMode
-                        ),
-                        OpModeState.RUN
-                );
+            .getInstance()
+            .scheduleForState(
+                new SequentialCommandGroup(
+                    new ForwardBackwardCommand(robot),
+                    CommandScheduler.getInstance()::terminateOpMode
+                ),
+                OpModeState.RUN
+            );
         if (Setup.Connected.WEBCAM) {
             CommandScheduler.getInstance().scheduleInit(new VisionCommand(robot.vision));
         }
