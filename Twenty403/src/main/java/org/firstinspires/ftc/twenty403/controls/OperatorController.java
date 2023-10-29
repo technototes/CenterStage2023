@@ -71,10 +71,10 @@ public class OperatorController {
         clawOpenButton.whenPressed(new ClawOpenCommand(robot.clawSubsystem));
         clawCloseButton.whenPressed(new ClawCloseCommand(robot.clawSubsystem));
 
-        armIntakeButton.whenPressed(new ArmIntakeCommand((robot.clawSubsystem)));
+        armIntakeButton.whenPressed(new ArmIntakeCommand(robot.clawSubsystem));
         // armSecondLine.whenPressed(new ArmSecondLineScoring((robot.clawSubsystem)));
         // armThirdLine.whenPressed(new ArmThirdLineScoring((robot.clawSubsystem)));
-        armFirstLine.whenPressed(new ArmFirstLineCommand((robot.clawSubsystem)));
+        armFirstLine.whenPressed(new ArmFirstLineCommand(robot.clawSubsystem));
     }
     public void bindHangControls() {
         ScrewExtend.whenPressed(new LeadScrewUp(robot.hangSubsystem));

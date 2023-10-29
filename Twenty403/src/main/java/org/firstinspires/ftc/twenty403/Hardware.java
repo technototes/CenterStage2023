@@ -24,7 +24,6 @@ public class Hardware implements Loggable {
     public EncodedMotor<DcMotorEx> fl, fr, rl, rr;
     public Webcam camera;
     public Servo clawServo;
-    public Servo elbowServo;
     public EncodedMotor<DcMotorEx> swingMotor;
 
     public Motor<DcMotorEx> hangMotor1;
@@ -52,7 +51,6 @@ public class Hardware implements Loggable {
         }
         if (Setup.Connected.CLAWSUBSYSTEM) {
             clawServo = new Servo(Setup.HardwareNames.CLAWSERVO);
-//            elbowServo = new Servo(Setup.HardwareNames.ELBOWSERVO);
             swingMotor = new EncodedMotor<>(Setup.HardwareNames.SHOULDERMOTOR);
         }
         if (Setup.Connected.HANGSUBSYSTEM) {
