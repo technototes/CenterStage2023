@@ -16,6 +16,7 @@ const DEFAULT_BRANCH_NAME = 'main';
 const git = simpleGit();
 
 async function workflow() {
+  console.clear();
   await Menu('What do you want to do?', [
     ['Start work for the day', startWork],
     ['Finish work for the day', finishWork],
