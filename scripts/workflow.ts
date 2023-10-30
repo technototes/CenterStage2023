@@ -105,7 +105,7 @@ async function startWork(): Promise<boolean> {
   }
   // Pull from github
   const pullRes = await git.pull();
-  console.log(pullRes);
+  // console.log(pullRes);
   // Get the name for the new branch
   const branchName = await GetBranchName();
   if (typeof branchName !== 'string') {
@@ -117,8 +117,6 @@ async function startWork(): Promise<boolean> {
   // And now push it so it's wired up properly
   const pushRes = await git.push(['-u', 'origin', branchName]);
   console.log(pushRes);
-  // Open up android studio, now?
-  return false;
   // Open up android studio, now?
   return false;
 }
