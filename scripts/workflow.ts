@@ -2,70 +2,28 @@
  * This should be invokable by ts-node. I might migrate the other 2 scripts to ts-node
  * as well
  */
-import { promises as dns } from 'dns';
-import { networkInterfaces } from 'os';
 import { simpleGit } from 'simple-git';
-import { Error, Menu } from './menu';
-import { GetBranchName } from './branch';
+import { Error, Menu, Sleep } from './helpers/menu';
+import { GetBranchName } from './helpers/branch';
+import { invoke } from './helpers/invoke';
+import {
+  hasGithubAccess,
+  onlyRobotConnection,
+  anyRobotConnection,
+} from './helpers/connectivity';
 
 const DEFAULT_BRANCH_NAME = 'main';
 const git = simpleGit();
 
-// Gets an array of interface and ip address pairs
-function getAddresses(): [string, string][] {
-  const nets = networkInterfaces();
-  const results: [string, string][] = [];
-  for (const name of Object.keys(nets)) {
-    if (nets[name] === undefined) {
-      continue;
-    }
-    for (const net of nets[name]!) {
-      // Skip over non-IPv4 and internal (i.e. 127.0.0.1) addresses
-      // 'IPv4' is in Node <= 17, from 18 it's a number 4 or 6
-      const familyV4Value = typeof net.family === 'string' ? 'IPv4' : 4;
-      if (net.family === familyV4Value && !net.internal) {
-        results.push([name, net.address]);
-      }
-    }
-  }
-  return results;
-}
-
-// Return true if we can find an address for github
-// This may not work on networks with dns redirection...
-async function hasGithubAccess(): Promise<boolean> {
-  const res = await dns.resolve('github.com');
-  if (!Array.isArray(res) || res.length === 0 || typeof res[0] !== 'string') {
-    return Error('Nope');
-  }
-  const addr = res[0]
-    .split('.')
-    .map((expr) => Number.parseInt(expr, 10))
-    .filter((val) => !isNaN(val) && val >= 0 && val <= 255);
-  if (addr.length !== 4) {
-    return Error('No');
-  }
-  return true;
-}
-
-// Return true if the only network address we find is a robot-like address
-// TODO: This may not work for android phone usage (which changes 43 to 48?)
-function onlyRobotConnection(): boolean {
-  const addrs = getAddresses();
-  return (
-    addrs.filter((addr) => !addr[1].startsWith('192.168.43.')).length === 0
-  );
-}
-
 async function workflow() {
   await Menu('What do you want to do?', [
-    ['Start some work', startWork],
-    ['Finish some work', finishWork],
-    ['Configure stuff', configureStuff],
+    ['Start work for the day', startWork],
+    ['Finish work for the day', finishWork],
+    // ['Configure stuff', configureStuff],
     ['Connect to the control hub', connect],
     ['Disconnect from control hub', disconnect],
     ['Launch the dashboard', launchDash],
-    ['Call it a day', () => Promise.resolve(true)],
+    ['Quit', () => Promise.resolve(true)],
   ]);
 }
 
@@ -104,7 +62,7 @@ async function startWork(): Promise<boolean> {
     return Error(`Unable to check out the ${DEFAULT_BRANCH_NAME} branch.`);
   }
   // Pull from github
-  const pullRes = await git.pull();
+  /* const pullRes = */ await git.pull();
   // console.log(pullRes);
   // Get the name for the new branch
   const branchName = await GetBranchName();
@@ -112,12 +70,26 @@ async function startWork(): Promise<boolean> {
     return false;
   }
   // Let's create & configure the branch
-  const coRes = await git.checkout(['-b', branchName]);
-  console.log(coRes);
+  /* const coRes = */ await git.checkout(['-b', branchName]);
+  // console.log(coRes);
   // And now push it so it's wired up properly
   const pushRes = await git.push(['-u', 'origin', branchName]);
-  console.log(pushRes);
-  // Open up android studio, now?
+  // A little sanity check for the new branch
+  if (
+    pushRes.pushed.length !== 1 ||
+    !pushRes.pushed[0].branch ||
+    !pushRes.pushed[0].new ||
+    pushRes.pushed[0].alreadyUpdated ||
+    pushRes.pushed[0].deleted
+  ) {
+    console.log(pushRes);
+    return Error('Unexpected result. Ask for help please.');
+  }
+  console.log(
+    "You're ready to code! Come back to this window when you're done.",
+  );
+  await Sleep(3000);
+  // Maybe open android studio automatically?
   return false;
 }
 
@@ -138,6 +110,7 @@ async function finishWork(): Promise<boolean> {
   return Promise.resolve(false);
 }
 
+// Nothign in here yet...
 async function configureStuff(): Promise<boolean> {
   // This should:
   // Add my silly things to .gitconfig
@@ -147,21 +120,27 @@ async function configureStuff(): Promise<boolean> {
 }
 
 async function connect(): Promise<boolean> {
-  // yarn connect
-  console.log('connect');
-  return Promise.resolve(false);
+  if (!anyRobotConnection()) {
+    return Error("You don't appear to be connected to a robot.");
+  }
+  const res = await invoke('yarn connect');
+  console.log(res.stdout);
+  console.log(res.stderr);
+  return false;
 }
 
 async function disconnect(): Promise<boolean> {
-  // yarn discall
-  console.log('disconnect');
-  return Promise.resolve(false);
+  const res = await invoke('yarn discall');
+  console.log(res.stdout);
+  console.log(res.stderr);
+  return false;
 }
 
 async function launchDash(): Promise<boolean> {
-  // yarn dash
-  console.log('launch dash');
-  return Promise.resolve(false);
+  const res = await invoke('yarn dash');
+  console.log(res.stdout);
+  console.log(res.stderr);
+  return false;
 }
 
 workflow()

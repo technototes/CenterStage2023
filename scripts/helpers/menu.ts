@@ -36,15 +36,16 @@ export async function Menu(
   }
 }
 
+export function Sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
 export async function Error(message: string): Promise<boolean> {
   console.error('>>>> ');
   console.error('>>>>', message);
   console.error('>>>> ');
-  function sleep(ms: number) {
-    return new Promise((resolve) => {
-      setTimeout(resolve, ms);
-    });
-  }
-  await sleep(3000);
+  await Sleep(3000);
   return false;
 }
