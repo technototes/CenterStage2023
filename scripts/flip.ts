@@ -17,8 +17,10 @@
  * released copy of TechnoLib
  */
 
-const { readFile, writeFile } = require('fs/promises');
-const { argv } = require('process');
+import { promises } from 'fs';
+import { argv } from 'process';
+
+const { readFile, writeFile } = promises;
 
 // This is a map of keys (the argument to call flip.js with) to objects that
 // are a name (the tag at the end of the comment) and an array of files to
@@ -45,7 +47,7 @@ const fileList = new Map([
 
 // For any line that ends with '// FLIP: id',
 // toggle the line comment 'status'
-function toggleLine(lineFull, str) {
+function toggleLine(lineFull: string, str: string) {
   const commentMarker = '// FLIP: ' + str;
   const line = lineFull.trimEnd();
   // If the line doesn't end with the comment marker, don't change it at all
@@ -64,7 +66,7 @@ function toggleLine(lineFull, str) {
 }
 
 // Read the file, flip the comments for lines with markers, the write it back
-async function toggleFile(file, str) {
+async function toggleFile(file: string, str: string) {
   try {
     const contents = await readFile(file, 'utf-8');
     const resultArray = contents.split('\n');
@@ -77,7 +79,7 @@ async function toggleFile(file, str) {
   }
 }
 
-async function toggleLinesWithComments(arg) {
+async function toggleLinesWithComments(arg: string) {
   const elem = fileList.get(arg);
   if (elem === undefined) {
     throw Error("Only use this script with the 'lib' or 'bot' argument");
