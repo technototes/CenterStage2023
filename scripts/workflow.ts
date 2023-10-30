@@ -93,7 +93,7 @@ async function startWork(): Promise<boolean> {
   return false;
 }
 
-async function addFiles(files: string[], message:string): Promise<boolean> {
+async function addFiles(files: string[], message: string): Promise<boolean> {
   console.log(await git.add(files).commit(message));
   return true;
 }
@@ -117,12 +117,24 @@ async function finishWork(): Promise<boolean> {
   // Un-added file check
   if (status.not_added.length !== 0) {
     let abort = false;
-    console.log("These files:");
+    console.log('These files:');
     console.log(status.not_added);
-    await Menu("What should be done with those untracked files?", [
-      ["Ignore them: It's fine. Trust me. I know what I'm doing.", () => Promise.resolve(true)],
-      ["Please add them to the repository.", () => addFiles(status.not_added, "Oops, missed some files!")],
-      ["Abort! Abort! Abort!", () => { abort = true; return Promise.resolve(true); }]
+    await Menu('What should be done with those untracked files?', [
+      [
+        "Ignore them: It's fine. Trust me. I know what I'm doing.",
+        () => Promise.resolve(true),
+      ],
+      [
+        'Please add them to the repository.',
+        () => addFiles(status.not_added, 'Oops, missed some files!'),
+      ],
+      [
+        'Abort! Abort! Abort!',
+        () => {
+          abort = true;
+          return Promise.resolve(true);
+        },
+      ],
     ]);
     if (abort) {
       return false;
@@ -143,10 +155,10 @@ async function finishWork(): Promise<boolean> {
   }
 
   // Run the code formatting
-  await invoke("yarn format");
+  await invoke('yarn format');
   const fmtStat = await git.status();
   if (!fmtStat.isClean()) {
-    await addFiles(fmtStat.modified, "Auto-formatted files");
+    await addFiles(fmtStat.modified, 'Auto-formatted files');
   }
 
   // Push the code
