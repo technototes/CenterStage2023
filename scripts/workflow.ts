@@ -1,6 +1,6 @@
-/* This is my workflow script. See the readme.md file for what it's supposed to do
- * This should be invokable by ts-node. I might migrate the other 2 scripts to ts-node
- * as well
+/* 
+ * This is the 'student workflow' script.
+ * See the readme.md file for what it's supposed to do.
  */
 import { simpleGit } from 'simple-git';
 import { Error, Menu, Sleep } from './helpers/menu';
@@ -159,11 +159,18 @@ async function finishWork(): Promise<boolean> {
   await invoke('yarn format');
   const fmtStat = await git.status();
   if (!fmtStat.isClean()) {
+    console.log("Some files were re-formatted. Commiting the change.");
     await addFiles(fmtStat.modified, 'Auto-formatted files');
   }
 
   // Push the code
-  console.log(await git.push());
+  const pullRes = await git.push();
+  
+  // Finally, pop up the page for a pull request
+  if (pullRes.repo && pullRes.update && pullRes.update.head.local) {
+    const branch = pullRes.update.head.local.replace(/.*\/([^\/]+)$/, '$1');
+    await invoke(`yarn open ${pullRes.repo}/compare/${branch}?expand=1`);
+  }
   return false;
 }
 
