@@ -10,7 +10,9 @@ import org.firstinspires.ftc.twenty403.Setup;
 // import org.firstinspires.ftc.twenty403.commands.claw.ArmSecondLineScoring;
 // import org.firstinspires.ftc.twenty403.commands.claw.ArmThirdLineScoring;
 import org.firstinspires.ftc.twenty403.commands.DroneCommand;
+import org.firstinspires.ftc.twenty403.commands.claw.ArmDecrementCommand;
 import org.firstinspires.ftc.twenty403.commands.claw.ArmFirstLineCommand;
+import org.firstinspires.ftc.twenty403.commands.claw.ArmIncrementCommand;
 import org.firstinspires.ftc.twenty403.commands.claw.ArmIntakeCommand;
 import org.firstinspires.ftc.twenty403.commands.claw.ClawCloseCommand;
 import org.firstinspires.ftc.twenty403.commands.claw.ClawOpenCommand;
@@ -31,6 +33,8 @@ public class OperatorController {
     public CommandButton clawCloseButton;
     public CommandButton launchDroneButton;
     public CommandButton armIntakeButton;
+    public CommandButton armDecrementButton;
+    public CommandButton armIncrementButton;
     public CommandButton armFirstLine;
     public CommandButton ScrewExtend;
     public CommandButton ScrewRetract;
@@ -63,7 +67,9 @@ public class OperatorController {
         armIntakeButton = gamepad.ps_cross;
         // armSecondLine = gamepad.dpadLeft;
         // armThirdLine = gamepad.dpadUp;
-        armFirstLine = gamepad.dpadDown;
+        armFirstLine = gamepad.ps_circle;
+        armDecrementButton = gamepad.dpadDown;
+        armIncrementButton = gamepad.dpadUp;
 
         ScrewExtend = gamepad.ps_triangle;
         ScrewRetract = gamepad.ps_cross;
@@ -80,6 +86,8 @@ public class OperatorController {
         // armSecondLine.whenPressed(new ArmSecondLineScoring((robot.clawSubsystem)));
         // armThirdLine.whenPressed(new ArmThirdLineScoring((robot.clawSubsystem)));
         armFirstLine.whenPressed(new ArmFirstLineCommand(robot.clawSubsystem));
+        armIncrementButton.whenPressed(new ArmIncrementCommand(robot.clawSubsystem));
+        armDecrementButton.whenPressed(new ArmDecrementCommand(robot.clawSubsystem));
     }
 
     public void bindHangControls() {
