@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.technototes.library.hardware.motor.Motor;
 import com.technototes.library.hardware.servo.Servo;
+import com.technototes.library.logger.Log;
 import com.technototes.library.logger.Loggable;
 import com.technototes.library.subsystem.Subsystem;
 import org.firstinspires.ftc.sixteen750.Hardware;
@@ -18,10 +19,14 @@ public class HangSubsystem implements Subsystem, Loggable {
     public static double downPositionNumber = 0;
     public static double neutralPositionNumber = 0;
 
-    // one of the 2 variables below are going to be negative and the other is going to be positive
-    public static double extendScrew = 0;
 
-    public static double retractScrew = 0;
+
+
+
+    // one of the 2 variables below are going to be negative and the other is going to be positive
+    public static double extendScrewSpeed = .5;
+
+    public static double retractScrewSpeed = -.5;
 
     public static Motor<DcMotorEx> hangMotor1;
 
@@ -32,12 +37,15 @@ public class HangSubsystem implements Subsystem, Loggable {
     // @Log(name="HangServo")
     public double servoPos;
 
-    // @Log(name="HangMotor")
+    @Log(name="Hang Motor")
     public double motorSpeed;
 
+    // @Log(name="HangMotor")
+//    public double motorSpeed;
+
     public HangSubsystem(Hardware hw) {
-        hangServo1 = hw.hangServo1;
-        hangMotor1 = hw.hangMotor1;
+        hangServo1 = hw.hangS;
+        hangMotor1 = hw.hangM;
         isHardware = true;
     }
 
@@ -56,12 +64,16 @@ public class HangSubsystem implements Subsystem, Loggable {
     }
 
     public void leadScrewExtended() {
-        setMotorSpeed(extendScrew);
+        setMotorSpeed(extendScrewSpeed);
     }
 
     public void leadScrewRetract() {
-        setMotorSpeed(retractScrew);
+        setMotorSpeed(retractScrewSpeed);
     }
+    public void leadScrewStop() {
+        setMotorSpeed(0);
+    }
+
 
     public void neutralPosition() {
         setServoPosition(neutralPositionNumber);

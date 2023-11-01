@@ -44,11 +44,6 @@ public class Robot implements Loggable {
         } else {
             this.vision = new VisionSubsystem();
         }
-        if (Setup.Connected.INTAKE) {
-            this.intake = new IntakeSubsystem(hw.leftIntake, hw.rightIntake);
-        } else {
-            this.intake = new IntakeSubsystem();
-        }
         if (Setup.Connected.PLACEMENT) {
             this.placement = new PlacementSubsystem(hw);
         } else {
