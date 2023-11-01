@@ -19,15 +19,17 @@ public class ClawSubsystem implements Subsystem, Loggable {
 
     public static double OPEN_CLAW_POS = 0.1; //Tested as of 10/27
     public static double CLOSE_CLAW_POS = 0.4; //Tested as of 10/27
+
     public static double ARM_INTAKE = 602;
     public static double MANUAL_STEP = 5;
     public static double FIRST_LINE_SCORING = 401;
+
+    public static double NEUTERAL_ARM_POSITION = 0;
     public static double SECOND_LINE_SCORING = 1;
     public static double THIRD_LINE_SCORING = 1;
 
     public static double MIN_MOTOR_SPEED = -0.5;
     public static double MAX_MOTOR_SPEED = 0.5;
-
     @Log(name = "elbowPos")
     public int elbowPos;
 
@@ -95,6 +97,8 @@ public class ClawSubsystem implements Subsystem, Loggable {
     public void firstLineScoring() {
         setElbowPos(FIRST_LINE_SCORING);
     }
+
+    public void neutralArmPosition() { setElbowPos(NEUTERAL_ARM_POSITION);}
 
     /*
     public void secondLineScoring() {
