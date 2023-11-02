@@ -19,8 +19,9 @@ public class ClawSubsystem implements Subsystem, Loggable {
 
     public static double OPEN_CLAW_POS = 0.1; //Tested as of 10/27
     public static double CLOSE_CLAW_POS = 0.4; //Tested as of 10/27
-    public static double ARM_INTAKE = 650;
-    public static double FIRST_LINE_SCORING = 420;
+    public static double ARM_INTAKE = 602;
+    public static double MANUAL_STEP = 5;
+    public static double FIRST_LINE_SCORING = 401;
     public static double SECOND_LINE_SCORING = 1;
     public static double THIRD_LINE_SCORING = 1;
 
@@ -74,8 +75,21 @@ public class ClawSubsystem implements Subsystem, Loggable {
         setClawPos(CLOSE_CLAW_POS);
     }
 
+
+    //add setZero method
     public void intake() {
         setElbowPos(ARM_INTAKE);
+    }
+
+    public void arm_increment() {
+        double curPos = getSwingCurrentPosition();
+        curPos += MANUAL_STEP;
+        setElbowPos(curPos);
+    }
+    public void arm_decrement() {
+        double curPos = getSwingCurrentPosition();
+        curPos += MANUAL_STEP;
+        setElbowPos(curPos);
     }
 
     public void firstLineScoring() {
