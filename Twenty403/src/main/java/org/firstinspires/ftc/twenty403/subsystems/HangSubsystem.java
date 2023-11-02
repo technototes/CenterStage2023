@@ -12,7 +12,7 @@ import org.firstinspires.ftc.twenty403.Hardware;
 @Config
 public class HangSubsystem implements Subsystem, Loggable {
 
-    //this code sets the arm position of the hang subsystem.
+    //this code sets the arm position of the hang subsystem
 
     public static double UP_SERVO_POWER = 0.5;
     public static double DOWN_SERVO_POWER = -0.5;

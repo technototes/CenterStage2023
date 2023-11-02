@@ -14,6 +14,7 @@ import org.firstinspires.ftc.twenty403.commands.claw.ArmDecrementCommand;
 import org.firstinspires.ftc.twenty403.commands.claw.ArmFirstLineCommand;
 import org.firstinspires.ftc.twenty403.commands.claw.ArmIncrementCommand;
 import org.firstinspires.ftc.twenty403.commands.claw.ArmIntakeCommand;
+import org.firstinspires.ftc.twenty403.commands.claw.ArmNeuteralPosition;
 import org.firstinspires.ftc.twenty403.commands.claw.ClawCloseCommand;
 import org.firstinspires.ftc.twenty403.commands.claw.ClawOpenCommand;
 import org.firstinspires.ftc.twenty403.commands.hang.HangDown;
@@ -40,6 +41,7 @@ public class OperatorController {
     public CommandButton ScrewRetract;
     public CommandButton HangUp;
     public CommandButton HangDown;
+    public CommandButton armNeutralButton;
     // public CommandButton armSecondLine;
     // public CommandButton armThirdLine;
     public CommandButton override;
@@ -64,12 +66,14 @@ public class OperatorController {
     private void AssignNamedControllerButton() {
         clawOpenButton = gamepad.leftBumper;
         clawCloseButton = gamepad.rightBumper;
-        armIntakeButton = gamepad.ps_cross;
+        armFirstLine = gamepad.ps_circle;
         // armSecondLine = gamepad.dpadLeft;
         // armThirdLine = gamepad.dpadUp;
-        armFirstLine = gamepad.ps_circle;
+        armIntakeButton = gamepad.dpadLeft;
         armDecrementButton = gamepad.dpadDown;
         armIncrementButton = gamepad.dpadUp;
+        armNeutralButton = gamepad.dpadRight;
+
 
         ScrewExtend = gamepad.ps_triangle;
         ScrewRetract = gamepad.ps_cross;
@@ -83,6 +87,7 @@ public class OperatorController {
         clawCloseButton.whenPressed(new ClawCloseCommand(robot.clawSubsystem));
 
         armIntakeButton.whenPressed(new ArmIntakeCommand(robot.clawSubsystem));
+        armNeutralButton.whenPressed(new ArmNeuteralPosition(robot.clawSubsystem));
         // armSecondLine.whenPressed(new ArmSecondLineScoring((robot.clawSubsystem)));
         // armThirdLine.whenPressed(new ArmThirdLineScoring((robot.clawSubsystem)));
         armFirstLine.whenPressed(new ArmFirstLineCommand(robot.clawSubsystem));
