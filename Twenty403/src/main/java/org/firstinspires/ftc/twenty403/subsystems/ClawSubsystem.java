@@ -21,9 +21,8 @@ public class ClawSubsystem implements Subsystem, Loggable {
     public static double CLOSE_CLAW_POS = 0.4; //Tested as of 10/27
 
     public static double ARM_INTAKE = 602;
-    public static double MANUAL_STEP = 5;
+    public static double MANUAL_STEP = 15;
     public static double FIRST_LINE_SCORING = 401;
-
     public static double NEUTERAL_ARM_POSITION = 0;
     public static double SECOND_LINE_SCORING = 1;
     public static double THIRD_LINE_SCORING = 1;
@@ -44,6 +43,7 @@ public class ClawSubsystem implements Subsystem, Loggable {
     private boolean haveHardware;
     public static PIDCoefficients PID = new PIDCoefficients(0.0027, 0.0, 0.00015);
     private PIDFController swingPidController;
+    public double armResetPos;
 
     public ClawSubsystem(Servo claw, EncodedMotor<DcMotorEx> swing) {
         clawServo = claw;
@@ -52,6 +52,7 @@ public class ClawSubsystem implements Subsystem, Loggable {
         swingMotor = swing;
         haveHardware = true;
         swingPidController = new PIDFController(PID, 0, 0, 0, (x, y) -> 0.0);
+        armResetPos = getSwingUnmodifiedPosition();
     }
 
     public ClawSubsystem() {
@@ -84,13 +85,13 @@ public class ClawSubsystem implements Subsystem, Loggable {
     }
 
     public void arm_increment() {
-        double curPos = getSwingCurrentPosition();
+        double curPos = swingPidController.getTargetPosition();
         curPos += MANUAL_STEP;
         setElbowPos(curPos);
     }
     public void arm_decrement() {
-        double curPos = getSwingCurrentPosition();
-        curPos += MANUAL_STEP;
+        double curPos = swingPidController.getTargetPosition();
+        curPos -= MANUAL_STEP;
         setElbowPos(curPos);
     }
 
@@ -136,6 +137,13 @@ public class ClawSubsystem implements Subsystem, Loggable {
     }
 
     private int getSwingCurrentPosition() {
+        if (haveHardware) {
+            return (int) (swingMotor.getSensorValue() - armResetPos);
+        } else {
+            return 0;
+        }
+    }
+    private int getSwingUnmodifiedPosition() {
         if (haveHardware) {
             return (int) swingMotor.getSensorValue();
         } else {

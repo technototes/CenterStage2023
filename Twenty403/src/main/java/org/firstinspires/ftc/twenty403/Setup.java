@@ -11,7 +11,7 @@ public class Setup {
         public static boolean CLAWSUBSYSTEM = true;
         public static boolean DRONESUBSYSTEM = true;
         public static boolean WEBCAM = true;
-        public static boolean HANGSUBSYSTEM = true;
+        public static boolean HANGSUBSYSTEM = false;
     }
 
     @Config
