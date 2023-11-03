@@ -1,10 +1,7 @@
 package org.firstinspires.ftc.twenty403.controls;
 
-import com.technototes.library.command.Command;
 import com.technototes.library.control.CommandButton;
 import com.technototes.library.control.CommandGamepad;
-import com.technototes.library.control.Stick;
-import java.util.Set;
 import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
 // import org.firstinspires.ftc.twenty403.commands.claw.ArmSecondLineScoring;
@@ -14,7 +11,7 @@ import org.firstinspires.ftc.twenty403.commands.claw.ArmDecrementCommand;
 import org.firstinspires.ftc.twenty403.commands.claw.ArmFirstLineCommand;
 import org.firstinspires.ftc.twenty403.commands.claw.ArmIncrementCommand;
 import org.firstinspires.ftc.twenty403.commands.claw.ArmIntakeCommand;
-import org.firstinspires.ftc.twenty403.commands.claw.ArmNeuteralPosition;
+import org.firstinspires.ftc.twenty403.commands.claw.ArmNeutralPosition;
 import org.firstinspires.ftc.twenty403.commands.claw.ClawCloseCommand;
 import org.firstinspires.ftc.twenty403.commands.claw.ClawOpenCommand;
 import org.firstinspires.ftc.twenty403.commands.hang.HangDown;
@@ -23,7 +20,6 @@ import org.firstinspires.ftc.twenty403.commands.hang.HangUp;
 import org.firstinspires.ftc.twenty403.commands.hang.LeadScrewDown;
 import org.firstinspires.ftc.twenty403.commands.hang.LeadScrewStop;
 import org.firstinspires.ftc.twenty403.commands.hang.LeadScrewUp;
-import org.firstinspires.ftc.twenty403.subsystems.HangSubsystem;
 
 public class OperatorController {
 
@@ -74,7 +70,6 @@ public class OperatorController {
         armIncrementButton = gamepad.dpadUp;
         armNeutralButton = gamepad.dpadRight;
 
-
         ScrewExtend = gamepad.ps_triangle;
         ScrewRetract = gamepad.ps_cross;
         HangUp = gamepad.ps_circle;
@@ -87,7 +82,7 @@ public class OperatorController {
         clawCloseButton.whenPressed(new ClawCloseCommand(robot.clawSubsystem));
 
         armIntakeButton.whenPressed(new ArmIntakeCommand(robot.clawSubsystem));
-        armNeutralButton.whenPressed(new ArmNeuteralPosition(robot.clawSubsystem));
+        armNeutralButton.whenPressed(new ArmNeutralPosition(robot.clawSubsystem));
         // armSecondLine.whenPressed(new ArmSecondLineScoring((robot.clawSubsystem)));
         // armThirdLine.whenPressed(new ArmThirdLineScoring((robot.clawSubsystem)));
         armFirstLine.whenPressed(new ArmFirstLineCommand(robot.clawSubsystem));

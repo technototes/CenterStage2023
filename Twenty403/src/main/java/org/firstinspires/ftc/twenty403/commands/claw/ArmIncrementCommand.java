@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.twenty403.commands.claw;
 
 import com.technototes.library.command.Command;
-
 import org.firstinspires.ftc.twenty403.subsystems.ClawSubsystem;
 
 public class ArmIncrementCommand implements Command {
