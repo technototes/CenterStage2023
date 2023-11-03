@@ -10,7 +10,7 @@ public class VisionCommand implements Command {
     public VisionCommand(VisionSubsystem s) {
         subsystem = s;
         addRequirements(subsystem);
-    }  
+    }
 
     @Override
     public void initialize() {
