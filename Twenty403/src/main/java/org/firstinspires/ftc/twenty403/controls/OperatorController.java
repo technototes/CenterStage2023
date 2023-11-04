@@ -63,16 +63,15 @@ public class OperatorController {
         clawOpenButton = gamepad.leftBumper;
         clawCloseButton = gamepad.rightBumper;
         armFirstLine = gamepad.ps_circle;
-        // armSecondLine = gamepad.dpadLeft;
-        // armThirdLine = gamepad.dpadUp;
-        armIntakeButton = gamepad.dpadLeft;
+
+        armIntakeButton = gamepad.ps_cross;
         armDecrementButton = gamepad.dpadDown;
         armIncrementButton = gamepad.dpadUp;
         armNeutralButton = gamepad.dpadRight;
 
-        ScrewExtend = gamepad.ps_triangle;
-        ScrewRetract = gamepad.ps_cross;
-        HangUp = gamepad.ps_circle;
+        ScrewExtend = gamepad.leftTrigger.getAsButton();
+        ScrewRetract = gamepad.rightTrigger.getAsButton();
+        HangUp = gamepad.ps_triangle;
         HangDown = gamepad.ps_square;
         launchDroneButton = gamepad.ps_share;
     }
