@@ -28,14 +28,26 @@ public class StagePixelLeft extends SequentialCommandGroup {
                 .andThen(
                     new TrajectorySequenceCommand(
                         r.drivebaseSubsystem,
-                        AutoConstants.StageBlue.MID_CLEAR_TO_CLEAR
+                        AutoConstants.StageRed.MID_CLEAR_TO_CLEAR
                     )
                 )
                 .andThen(
-                    new TrajectorySequenceCommand(
-                        r.drivebaseSubsystem,
-                        AutoConstants.StageBlue.CLEAR_TO_PARK_CENTER
-                    )
+                        new TrajectorySequenceCommand(
+                                r.drivebaseSubsystem,
+                                AutoConstants.StageRed.CLEAR_TO_RIGHT_CLEAR
+                        )
+                )
+                .andThen(
+                        new TrajectorySequenceCommand(
+                                r.drivebaseSubsystem,
+                                AutoConstants.StageRed.RIGHT_CLEAR_TO_MID_PARK_CENTER
+                        )
+                )
+                .andThen(
+                        new TrajectorySequenceCommand(
+                                r.drivebaseSubsystem,
+                                AutoConstants.StageRed.MID_PARK_CENTER_TO_PARK_CENTER
+                        )
                 )
         );
     }

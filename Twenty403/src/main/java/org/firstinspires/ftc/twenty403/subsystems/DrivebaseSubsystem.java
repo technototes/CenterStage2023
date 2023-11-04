@@ -51,7 +51,7 @@ public class DrivebaseSubsystem
         public static double WHEEL_RADIUS = 1.88976; // in
 
         @GearRatio
-        public static double GEAR_RATIO = 0.921; // 2021: / 19.2; // output (wheel) speed / input (motor) speed
+        public static double GEAR_RATIO = 0.93; // 2021: / 19.2; // output (wheel) speed / input (motor) speed
 
         @TrackWidth
         public static double TRACK_WIDTH = 9.1875; // 2021: 10; // in

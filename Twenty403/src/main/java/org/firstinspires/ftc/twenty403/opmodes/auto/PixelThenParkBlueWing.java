@@ -13,6 +13,7 @@ import org.firstinspires.ftc.twenty403.Hardware;
 import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
 import org.firstinspires.ftc.twenty403.commands.VisionCommand;
+import org.firstinspires.ftc.twenty403.commands.auto.blue.WingPixelMiddle;
 import org.firstinspires.ftc.twenty403.controls.DriverController;
 import org.firstinspires.ftc.twenty403.helpers.StartingPosition;
 
@@ -35,7 +36,7 @@ public class PixelThenParkBlueWing extends CommandOpMode {
             .getInstance()
             .scheduleForState(
                 new SequentialCommandGroup(
-                    new WaitCommand(15),
+                    new WingPixelMiddle(robot),
                     CommandScheduler.getInstance()::terminateOpMode
                 ),
                 OpModeState.RUN
