@@ -37,7 +37,7 @@ public class PixelThenParkRedWing extends CommandOpMode {
             .getInstance()
             .scheduleForState(
                 new SequentialCommandGroup(
-                    new WingPixelMiddle(robot),
+                    new WingPixelSelection(robot),
                     CommandScheduler.getInstance()::terminateOpMode
                 ),
                 CommandOpMode.OpModeState.RUN
