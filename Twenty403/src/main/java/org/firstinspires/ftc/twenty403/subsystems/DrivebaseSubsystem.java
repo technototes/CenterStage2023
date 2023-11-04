@@ -92,7 +92,7 @@ public class DrivebaseSubsystem
         public static PIDCoefficients HEADING_PID = new PIDCoefficients(8, 0, 0);
 
         @LateralMult
-        public static double LATERAL_MULTIPLIER = 1.05; // Lateral position is off by 14%
+        public static double LATERAL_MULTIPLIER = 1.025; // Lateral position is off by 14%
 
         @VXWeight
         public static double VX_WEIGHT = 1;

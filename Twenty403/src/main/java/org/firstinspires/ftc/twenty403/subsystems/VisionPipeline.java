@@ -38,9 +38,9 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
         public static class Left {
 
             public static int X = 0;
-            public static int Y = 130;
-            public static int WIDTH = 60;
-            public static int HEIGHT = 60;
+            public static int Y = 120;
+            public static int WIDTH = 90;
+            public static int HEIGHT = 90;
         }
 
         @Config
@@ -48,8 +48,8 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
 
             public static int X = 185;
             public static int Y = 116;
-            public static int WIDTH = 60;
-            public static int HEIGHT = 60;
+            public static int WIDTH = 90;
+            public static int HEIGHT = 90;
         }
 
         public enum Position {

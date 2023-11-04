@@ -13,10 +13,8 @@ public class ForwardBackwardCommand extends SequentialCommandGroup {
         //                        .andThen(new TrajectorySequenceCommand(r.drivebase, WingRed.FORWARD_TO_BACKWARD))
         //        );
         super(
-            new TrajectorySequenceCommand(r.drivebase, WingRed.SIDE_LEFT_TO_SIDE_RIGHT)
-                .andThen(
-                    new TrajectorySequenceCommand(r.drivebase, WingRed.SIDE_RIGHT_TO_SIDE_LEFT)
-                )
+            new TrajectorySequenceCommand(r.drivebase, WingRed.BACKWARD_TO_FORWARD)
+                .andThen(new TrajectorySequenceCommand(r.drivebase, WingRed.FORWARD_TO_BACKWARD))
         );
     }
 }

@@ -5,7 +5,7 @@
   "proseWrap": "always",
   "tabWidth": 2,
   "useTabs": false,
-  "endOfLine": "lf",
+  "endOfLine": "crlf",
   "plugins": [ "prettier-plugin-java" ],
   "overrides": [
     {
