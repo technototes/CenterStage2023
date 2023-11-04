@@ -13,6 +13,7 @@ import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
 import org.firstinspires.ftc.twenty403.commands.VisionCommand;
 import org.firstinspires.ftc.twenty403.commands.auto.blue.StagePixelMiddle;
+import org.firstinspires.ftc.twenty403.commands.auto.red.StagePixelSelection;
 import org.firstinspires.ftc.twenty403.controls.DriverController;
 import org.firstinspires.ftc.twenty403.helpers.StartingPosition;
 
@@ -35,7 +36,7 @@ public class PixelThenParkBlueStage extends CommandOpMode {
             .getInstance()
             .scheduleForState(
                 new SequentialCommandGroup(
-                    new StagePixelMiddle(robot),
+                    new StagePixelSelection(robot),
                     CommandScheduler.getInstance()::terminateOpMode
                 ),
                 OpModeState.RUN
