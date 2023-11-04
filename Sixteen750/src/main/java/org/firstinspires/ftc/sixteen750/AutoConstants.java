@@ -20,7 +20,7 @@ public class AutoConstants {
         public static ConfigurablePoseD TELESTART = new ConfigurablePoseD(0, 0, 90);
 
         // This is "clear of the pixels, ready to somewhere else
-        public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(35, 60.1, -180);
+        public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(35, 55, -180);
         public static ConfigurablePoseD PARK_CORNER = new ConfigurablePoseD(-60, 60, -180);
         public static ConfigurablePoseD FORWARD = new ConfigurablePoseD(3, 1, -180);
         public static ConfigurablePoseD BACKWARD = new ConfigurablePoseD(47, 0, -180);
@@ -91,7 +91,7 @@ public class AutoConstants {
     @Config
     public static class WingBlue {
         //robot relative positions of the spikes (left spike is near the metal)
-        public static ConfigurablePoseD START = new ConfigurablePoseD(36, -60, 90);
+        public static ConfigurablePoseD START = new ConfigurablePoseD(35, -60, 90);
         public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(25, -32, 180);
         public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(35, -32, 90);
         public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(45, -30, 60);
@@ -138,10 +138,10 @@ public class AutoConstants {
         public static ConfigurablePoseD START = new ConfigurablePoseD(-12, 60, -90);
         //left spike next to metal
         public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(0, 30, 0);
-        public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(-12, 25, -90);
+        public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(-12, 32, -90);
         public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(-23, 30, -120);
         // This is "clear of the pixels, ready to somewhere else
-        public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(-12, 60.1, -180);
+        public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(-12, 55, -180);
         public static ConfigurablePoseD MID_CLEAR = new ConfigurablePoseD(-12, 32, 0);
 
         public static ConfigurablePoseD PARK_CENTER = new ConfigurablePoseD(-60, 14, -180);
@@ -183,11 +183,11 @@ public class AutoConstants {
     public static class StageBlue {
         public static ConfigurablePoseD START = new ConfigurablePoseD(-12, -60, 90);
         public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(-23, -30, 120);
-        public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(-12, -25, 90);
+        public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(-12, -32, 90);
         //right spike next to metal
         public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(0, -30, 0);
         // This is "clear of the pixels, ready to somewhere else
-        public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(-12, -60.1, 180);
+        public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(-12, -55, 180);
         public static ConfigurablePoseD MID_CLEAR = new ConfigurablePoseD(-12, -32, 0);
 
         public static ConfigurablePoseD PARK_CENTER = new ConfigurablePoseD(-60, -12, 0);

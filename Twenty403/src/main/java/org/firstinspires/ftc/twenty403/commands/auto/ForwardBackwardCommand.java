@@ -9,11 +9,11 @@ public class ForwardBackwardCommand extends SequentialCommandGroup {
 
     public ForwardBackwardCommand(Robot r) {
         super(
-            new TrajectorySequenceCommand(r.drivebaseSubsystem, WingRed.SIDE_LEFT_TO_SIDE_RIGHT)
+            new TrajectorySequenceCommand(r.drivebaseSubsystem, WingRed.BACKWARD_TO_FORWARD)
                 .andThen(
                     new TrajectorySequenceCommand(
                         r.drivebaseSubsystem,
-                        WingRed.SIDE_RIGHT_TO_SIDE_LEFT
+                        WingRed.FORWARD_TO_BACKWARD
                     )
                 )
         );
