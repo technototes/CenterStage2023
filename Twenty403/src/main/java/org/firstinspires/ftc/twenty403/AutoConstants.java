@@ -123,15 +123,15 @@ public class AutoConstants {
     @Config
     public static class StageRed {
         public static ConfigurablePoseD START = new ConfigurablePoseD(-12, 60, -90);
-        public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(4, 40, 0);
+        public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(0, 40, 0);
         public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(-12, 33, -90);
         public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(-18, 40, -120);
         // This is "clear of the pixels, ready to go somewhere else"
-        public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(-12,60.1,-180);
-        public static ConfigurablePoseD RIGHT_CLEAR = new ConfigurablePoseD(-35,60.1,-180);
-        public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(-12, 32, 0);
-        public static ConfigurablePoseD PARK_CENTER = new ConfigurablePoseD(-59,9,-90); // may need to be 180 (0 needs test)
-        public static ConfigurablePoseD MID_PARK_CENTER = new ConfigurablePoseD(-35,9,-180);
+        public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(-12,60.1,-90);
+        public static ConfigurablePoseD RIGHT_CLEAR = new ConfigurablePoseD(-35,60.1,-90);
+        public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(-12, 40, 0);
+        public static ConfigurablePoseD PARK_CENTER = new ConfigurablePoseD(-59,12,-90); // may need to be 180 (0 needs test)
+        public static ConfigurablePoseD MID_PARK_CENTER = new ConfigurablePoseD(-35,12,-90);
 
 
 
@@ -169,7 +169,7 @@ public class AutoConstants {
                 CLEAR_TO_RIGHT_CLEAR = b ->
                         b.apply(CLEAR.toPose()).lineToLinearHeading(RIGHT_CLEAR.toPose()).build(),
                 RIGHT_CLEAR_TO_MID_PARK_CENTER = b ->
-                        b.apply(CLEAR.toPose()).lineToLinearHeading(RIGHT_CLEAR.toPose()).build(),
+                        b.apply(RIGHT_CLEAR.toPose()).lineToLinearHeading(MID_PARK_CENTER.toPose()).build(),
         MID_PARK_CENTER_TO_PARK_CENTER = b ->
                 b.apply(MID_PARK_CENTER.toPose()).lineToLinearHeading(PARK_CENTER.toPose()).build();
     }
