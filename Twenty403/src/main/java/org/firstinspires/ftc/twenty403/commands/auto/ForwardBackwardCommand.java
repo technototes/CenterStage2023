@@ -11,10 +11,7 @@ public class ForwardBackwardCommand extends SequentialCommandGroup {
         super(
             new TrajectorySequenceCommand(r.drivebaseSubsystem, WingRed.BACKWARD_TO_FORWARD)
                 .andThen(
-                    new TrajectorySequenceCommand(
-                        r.drivebaseSubsystem,
-                        WingRed.FORWARD_TO_BACKWARD
-                    )
+                    new TrajectorySequenceCommand(r.drivebaseSubsystem, WingRed.FORWARD_TO_BACKWARD)
                 )
         );
         //        super(

@@ -19,10 +19,6 @@ public class HangSubsystem implements Subsystem, Loggable {
     public static double downPositionNumber = -.5;
     public static double neutralPositionNumber = 0;
 
-
-
-
-
     // one of the 2 variables below are going to be negative and the other is going to be positive
     public static double extendScrewSpeed = .5;
 
@@ -37,11 +33,11 @@ public class HangSubsystem implements Subsystem, Loggable {
     // @Log(name="HangServo")
     public double servoPos;
 
-    @Log(name="Hang Motor")
+    @Log(name = "Hang Motor")
     public double motorSpeed;
 
     // @Log(name="HangMotor")
-//    public double motorSpeed;
+    //    public double motorSpeed;
 
     public HangSubsystem(Hardware hw) {
         hangServo1 = hw.hangS;
@@ -70,10 +66,10 @@ public class HangSubsystem implements Subsystem, Loggable {
     public void leadScrewRetract() {
         setMotorSpeed(retractScrewSpeed);
     }
+
     public void leadScrewStop() {
         setMotorSpeed(0);
     }
-
 
     public void neutralPosition() {
         setServoPosition(neutralPositionNumber);
