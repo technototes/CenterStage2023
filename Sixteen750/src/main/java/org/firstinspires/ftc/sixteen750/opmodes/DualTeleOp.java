@@ -29,7 +29,7 @@ public class DualTeleOp extends CommandOpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         hardware = new Hardware(hardwareMap);
         robot = new Robot(hardware, Alliance.NONE, StartingPosition.Unspecified);
-        controlsOperator = new OperatorController(driverGamepad, robot);
+        controlsOperator = new OperatorController(codriverGamepad, robot);
         if (Setup.Connected.DRIVEBASE) {
             controlsDriver = new DriverController(driverGamepad, robot);
             // Just pick a starting point

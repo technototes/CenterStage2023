@@ -34,17 +34,17 @@ public class Hardware implements Loggable {
 
     public Servo DroneServo;
 
-    public Motor<DcMotorEx> hangMotor1;
+    public Motor<DcMotorEx> hangM;
 
-    public Servo hangServo1;
+    public Servo hangS;
 
     public Hardware(HardwareMap hwmap) {
         hubs = hwmap.getAll(LynxModule.class);
         imu =
             new IMU(
                 Setup.HardwareNames.IMU,
-                RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD
+                RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
+                RevHubOrientationOnRobot.UsbFacingDirection.UP
             );
         if (Setup.Connected.DRIVEBASE) {
             fl = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.FLMOTOR);
@@ -64,8 +64,8 @@ public class Hardware implements Loggable {
             rightIntake = new Motor<DcMotorEx>(Setup.HardwareNames.INTAKERIGHT);
         }
         if (Setup.Connected.HANG) {
-            hangServo1 = new Servo(Setup.HardwareNames.HANGSERVO);
-            hangMotor1 = new Motor<DcMotorEx>(Setup.HardwareNames.HANGMOTOR);
+            hangS= new Servo(Setup.HardwareNames.HANGSERVO);
+            hangM = new Motor<DcMotorEx>(Setup.HardwareNames.HANGMOTOR);
         }
 
         if (Setup.Connected.DRONE) {

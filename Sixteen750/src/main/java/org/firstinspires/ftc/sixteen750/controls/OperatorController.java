@@ -5,6 +5,7 @@ import com.technototes.library.control.CommandGamepad;
 import java.util.Set;
 import org.firstinspires.ftc.sixteen750.Robot;
 import org.firstinspires.ftc.sixteen750.Setup;
+import org.firstinspires.ftc.sixteen750.commands.hang.HangStop;
 import org.firstinspires.ftc.sixteen750.commands.hang.HangUp;
 import org.firstinspires.ftc.sixteen750.commands.hang.LeadScrewDown;
 import org.firstinspires.ftc.sixteen750.commands.hang.LeadScrewUp;
@@ -33,6 +34,8 @@ public class OperatorController {
     public CommandButton hangUpButton;
     public CommandButton screwUpButton;
     public CommandButton screwDownButton;
+
+    public CommandButton HangUpButton;
 
     public OperatorController(CommandGamepad g, Robot r) {
         robot = r;
@@ -75,5 +78,7 @@ public class OperatorController {
         hangUpButton.whenPressed(new HangUp(robot.hang));
         screwUpButton.whenPressed(new LeadScrewUp(robot.hang));
         screwDownButton.whenPressed(new LeadScrewDown(robot.hang));
+        screwDownButton.whenReleased(new HangStop(robot.hang));
+        screwUpButton.whenReleased(new HangStop(robot.hang));
     }
 }
