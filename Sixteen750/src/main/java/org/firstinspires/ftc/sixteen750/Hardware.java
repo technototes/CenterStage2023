@@ -61,7 +61,7 @@ public class Hardware implements Loggable {
         }
         if (Setup.Connected.INTAKE) {
             leftIntake = new Motor<DcMotorEx>(Setup.HardwareNames.INTAKELEFT);
-            rightIntake = new Motor<DcMotorEx>(Setup.HardwareNames.INTAKERIGHT);
+            //rightIntake = new Motor<DcMotorEx>(Setup.HardwareNames.INTAKERIGHT);
         }
         if (Setup.Connected.HANG) {
             hangS = new Servo(Setup.HardwareNames.HANGSERVO);
