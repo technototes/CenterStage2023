@@ -147,6 +147,15 @@ public class DrivebaseSubsystem
         rr2 = rr;
         speed = DriveConstants.SLOW_MOTOR_SPEED;
     }
+    public void fast() {
+        speed = DriveConstants.FAST_MOTOR_SPEED;
+    }
+    public void slow() {
+        speed = DriveConstants.SLOW_MOTOR_SPEED;
+    }
+    public void auto() {
+        speed = DriveConstants.AUTO_MOTOR_SPEED;
+    }
 
     @Override
     public Pose2d get() {

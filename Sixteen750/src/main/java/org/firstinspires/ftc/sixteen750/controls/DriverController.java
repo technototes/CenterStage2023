@@ -8,6 +8,8 @@ import org.firstinspires.ftc.sixteen750.Robot;
 import org.firstinspires.ftc.sixteen750.Setup;
 import org.firstinspires.ftc.sixteen750.commands.driving.JoystickDriveCommand;
 import org.firstinspires.ftc.sixteen750.commands.driving.ResetGyroCommand;
+import org.firstinspires.ftc.sixteen750.commands.driving.SlowCommand;
+import org.firstinspires.ftc.sixteen750.commands.driving.TurboCommand;
 
 public class DriverController {
 
@@ -15,7 +17,7 @@ public class DriverController {
     public CommandGamepad gamepad;
 
     public Stick driveLeftStick, driveRightStick;
-    public CommandButton resetGyroButton, straighten;
+    public CommandButton resetGyroButton, straighten, turboButton;
     public CommandButton override;
 
     public DriverController(CommandGamepad g, Robot r) {
@@ -47,10 +49,10 @@ public class DriverController {
                     () -> straighten.getAsBoolean()
                 )
             );
-        /*
-            turboButton.whenPressed(new TurboCommand(robot.drivebaseSubsystem));
-            turboButton.whenReleased(new SlowCommand(robot.drivebaseSubsystem));
-            */
+
+        turboButton.whenPressed(new TurboCommand(robot.drivebase));
+        turboButton.whenReleased(new SlowCommand(robot.drivebase));
+
         resetGyroButton.whenPressed(new ResetGyroCommand(robot.drivebase));
     }
 }

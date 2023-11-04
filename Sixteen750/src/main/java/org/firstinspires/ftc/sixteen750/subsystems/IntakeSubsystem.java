@@ -9,25 +9,25 @@ import com.technototes.library.subsystem.Subsystem;
 @Config
 public class IntakeSubsystem implements Subsystem, Loggable {
 
-    public static double INTAKE_SPEED = .3;
-    public static double OUTPUT_SPEED = -.3;
+    public static double INTAKE_SPEED = .5;
+    public static double OUTPUT_SPEED = -.5;
     public Motor<DcMotorEx> leftMotor;
-    public Motor<DcMotorEx> rightMotor;
+    //public Motor<DcMotorEx> rightMotor;
     private boolean isHardware;
 
-    public IntakeSubsystem(Motor<DcMotorEx> left, Motor<DcMotorEx> right) {
+    public IntakeSubsystem(Motor<DcMotorEx> left) {
         leftMotor = left;
-        rightMotor = right;
+        //rightMotor = right;
         // This function is dumb. Note to mentor or programmer who wants to:
         // Deprecate this one, and make a "setReverse()" function.
-        rightMotor.setInverted(false);
+        //rightMotor.setInverted(false);
         isHardware = true;
     }
 
     public IntakeSubsystem() {
         isHardware = false;
         leftMotor = null;
-        rightMotor = null;
+        //rightMotor = null;
     }
 
     public void intake() {
@@ -45,7 +45,7 @@ public class IntakeSubsystem implements Subsystem, Loggable {
     private void spin(double n) {
         if (isHardware) {
             leftMotor.setSpeed(n);
-            rightMotor.setSpeed(n);
+            //rightMotor.setSpeed(n);
         }
     }
 }

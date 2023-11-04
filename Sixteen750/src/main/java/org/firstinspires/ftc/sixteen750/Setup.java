@@ -9,7 +9,7 @@ public class Setup {
     public static class Connected {
 
         public static boolean DRIVEBASE = true;
-        public static boolean INTAKE = false;
+        public static boolean INTAKE = true;
         public static boolean WEBCAM = false;
         public static boolean PLACEMENT = false;
 
@@ -27,7 +27,7 @@ public class Setup {
         public static String RRMOTOR = "rr";
         public static String IMU = "imu";
         public static String INTAKELEFT = "lwheel";
-        public static String INTAKERIGHT = "rwheel";
+        //public static String INTAKERIGHT = "rwheel";
         public static String CAMERA = "webcam";
         public static String LIFTMOTOR = "liftmotor";
         public static String HANGSERVO = "hangS";

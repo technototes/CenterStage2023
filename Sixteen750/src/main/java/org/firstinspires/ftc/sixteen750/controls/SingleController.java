@@ -8,6 +8,8 @@ import org.firstinspires.ftc.sixteen750.Robot;
 import org.firstinspires.ftc.sixteen750.Setup;
 import org.firstinspires.ftc.sixteen750.commands.driving.JoystickDriveCommand;
 import org.firstinspires.ftc.sixteen750.commands.driving.ResetGyroCommand;
+import org.firstinspires.ftc.sixteen750.commands.driving.SlowCommand;
+import org.firstinspires.ftc.sixteen750.commands.driving.TurboCommand;
 import org.firstinspires.ftc.sixteen750.commands.intake.EjectCommand;
 import org.firstinspires.ftc.sixteen750.commands.intake.IntakeCommand;
 import org.firstinspires.ftc.sixteen750.commands.intake.StopCommand;
@@ -20,10 +22,9 @@ public class SingleController {
 
     public Stick driveLeftStick, driveRightStick;
     public CommandButton resetGyroButton, driveStraight, turboButton;
-    public CommandButton clawOpenButton, clawCloseButton;
     public CommandButton intakeButton;
     public CommandButton ejectButton;
-    public CommandButton stopButton;
+    public CommandButton stopButton, pauseButton;
 
     public SingleController(CommandGamepad g, Robot r, Setup s) {
         this.robot = r;
@@ -48,12 +49,13 @@ public class SingleController {
         resetGyroButton = gamepad.rightStickButton;
         driveLeftStick = gamepad.leftStick;
         driveRightStick = gamepad.rightStick;
-        turboButton = gamepad.leftStickButton;
-        driveStraight = gamepad.rightTrigger.getAsButton(0.5);
+        turboButton = gamepad.rightBumper;
+        driveStraight = gamepad.leftBumper;
 
         intakeButton = gamepad.ps_triangle;
-        stopButton = gamepad.ps_circle;
         ejectButton = gamepad.ps_cross;
+        stopButton = gamepad.ps_cross;
+        pauseButton = gamepad.ps_triangle;
     }
 
     public void bindDriveControls() {
@@ -62,15 +64,16 @@ public class SingleController {
             .scheduleJoystick(
                 new JoystickDriveCommand(robot.drivebase, driveLeftStick, driveRightStick)
             );
-        //turboButton.whenPressed(new TurboCommand(robot.drivebaseSubsystem));
-        //turboButton.whenReleased(new SlowCommand(robot.drivebaseSubsystem));
+        turboButton.whenPressed(new TurboCommand(robot.drivebase));
+        turboButton.whenReleased(new SlowCommand(robot.drivebase));
         resetGyroButton.whenPressed(new ResetGyroCommand(robot.drivebase));
     }
 
     private void bindIntakeControls() {
         intakeButton.whenPressed(new IntakeCommand(robot.intake));
-        stopButton.whenPressed(new StopCommand(robot.intake));
+        stopButton.whenReleased(new StopCommand(robot.intake));
         ejectButton.whenPressed(new EjectCommand(robot.intake));
+        pauseButton.whenReleased(new StopCommand(robot.intake));
     }
 
     public void bindLiftControls() {
