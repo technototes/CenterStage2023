@@ -15,8 +15,8 @@ public class HangSubsystem implements Subsystem, Loggable {
 
     //this code sets the arm position of the hang subsystem.
 
-    public static double upPositionNumber = 0;
-    public static double downPositionNumber = 0;
+    public static double upPositionNumber = .5;
+    public static double downPositionNumber = -.5;
     public static double neutralPositionNumber = 0;
 
 
