@@ -33,10 +33,10 @@ public class DriverController {
     }
 
     private void AssignNamedControllerButton() {
-        resetGyroButton = gamepad.ps_options;
+        resetGyroButton = gamepad.ps_share;
         driveLeftStick = gamepad.leftStick;
         driveRightStick = gamepad.rightStick;
-        straighten = gamepad.ps_share;
+        straighten = gamepad.ps_options;
         turboButton = gamepad.rightBumper;
         snailButton = gamepad.leftBumper;
     }
