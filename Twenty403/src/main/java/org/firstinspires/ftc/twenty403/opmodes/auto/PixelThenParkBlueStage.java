@@ -10,6 +10,8 @@ import com.technototes.library.util.Alliance;
 import org.firstinspires.ftc.twenty403.AutoConstants;
 import org.firstinspires.ftc.twenty403.Hardware;
 import org.firstinspires.ftc.twenty403.Robot;
+import org.firstinspires.ftc.twenty403.Setup;
+import org.firstinspires.ftc.twenty403.commands.VisionCommand;
 import org.firstinspires.ftc.twenty403.commands.auto.blue.StagePixelMiddle;
 import org.firstinspires.ftc.twenty403.controls.DriverController;
 import org.firstinspires.ftc.twenty403.helpers.StartingPosition;
@@ -38,8 +40,8 @@ public class PixelThenParkBlueStage extends CommandOpMode {
                 ),
                 OpModeState.RUN
             );
-        //if (Setup.Connected.WEBCAM) {
-        //  CommandScheduler.getInstance().scheduleInit(new VisionCommand(robot.vision));
-        //       }
+        if (Setup.Connected.WEBCAM) {
+          CommandScheduler.getInstance().scheduleInit(new VisionCommand(robot.vision));
+              }
     }
 }

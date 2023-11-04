@@ -16,6 +16,12 @@ public class WingPixelMiddle extends SequentialCommandGroup {
                         WingBlue.MIDDLE_SPIKE_TO_CLEAR
                     )
                 )
+                    .andThen(
+                            new TrajectorySequenceCommand(
+                                    r.drivebaseSubsystem,
+                                    WingBlue.CLEAR_TO_PARK_CORNER
+                            )
+                    )
         );
     }
 }
