@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.sixteen750.commands.placement;
 
 import com.technototes.library.command.Command;
-
 import org.firstinspires.ftc.sixteen750.subsystems.PlacementSubsystem;
 
 public class ArmServoInputCommand implements Command {
@@ -16,6 +15,5 @@ public class ArmServoInputCommand implements Command {
     @Override
     public void execute() {
         placement.ArmServoInput();
-
     }
 }

@@ -48,8 +48,8 @@ public class SingleController {
         if (Setup.Connected.INTAKE) {
             bindIntakeControls();
         }
-            if (Setup.Connected.PLACEMENT) {
-                bindLiftControls();
+        if (Setup.Connected.PLACEMENT) {
+            bindLiftControls();
         }
         if (Setup.Connected.WEBCAM) {
             // TODO: bindAlignControls();
@@ -63,7 +63,6 @@ public class SingleController {
         driveRightStick = gamepad.rightStick;
         turboButton = gamepad.leftStickButton;
         driveStraight = gamepad.rightTrigger.getAsButton(0.5);
-
 
         //lift buttons
         placementHighButton = gamepad.dpadUp;
@@ -99,6 +98,5 @@ public class SingleController {
         placementMediumButton.whenPressed(new LiftMediumCommand(robot.placement));
         placementLowButton.whenPressed(new LiftLowCommand(robot.placement));
         placementIntakeButton.whenPressed(new LiftIntakeCommand(robot.placement));
-
     }
 }

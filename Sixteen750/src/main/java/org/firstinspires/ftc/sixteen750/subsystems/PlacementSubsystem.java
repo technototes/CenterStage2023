@@ -45,7 +45,7 @@ public class PlacementSubsystem implements Subsystem, Loggable {
     public static PIDCoefficients PID = new PIDCoefficients(0.0027, 0.0, 0.00015);
 
     public Servo scoreServo;
-    public EncodedMotor <DcMotorEx> liftMotor;
+    public EncodedMotor<DcMotorEx> liftMotor;
     private boolean isHardware;
     private PIDFController leftPidController;
 
@@ -118,12 +118,12 @@ public class PlacementSubsystem implements Subsystem, Loggable {
 
     public void ArmServoOutput() {
         // the arm's position to score
-                armServo.setPosition(ArmServoOutput);
+        armServo.setPosition(ArmServoOutput);
     }
 
     public void ScoreServoOutput() {
         // the intake system's postion to score
-                scoreServo.setPosition(ScoreServoOutput);
+        scoreServo.setPosition(ScoreServoOutput);
     }
 
     public void periodic() {

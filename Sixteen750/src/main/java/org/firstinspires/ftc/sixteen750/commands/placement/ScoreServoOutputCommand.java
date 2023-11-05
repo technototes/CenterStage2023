@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.sixteen750.commands.placement;
 
 import com.technototes.library.command.Command;
-
 import org.firstinspires.ftc.sixteen750.subsystems.PlacementSubsystem;
 
 public class ScoreServoOutputCommand implements Command {

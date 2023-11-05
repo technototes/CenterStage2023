@@ -75,8 +75,6 @@ public class OperatorController {
         //screwUpButton = gamepad.rightBumper;
         //screwDownButton = gamepad.leftBumper;
 
-
-
     }
 
     private void bindIntakeControls() {
@@ -84,7 +82,6 @@ public class OperatorController {
         stopButton.whenReleased(new StopCommand(robot.intake));
         ejectButton.whenPressed(new EjectCommand(robot.intake));
         pauseButton.whenReleased(new StopCommand(robot.intake));
-
     }
 
     private void bindPlacementControls() {
