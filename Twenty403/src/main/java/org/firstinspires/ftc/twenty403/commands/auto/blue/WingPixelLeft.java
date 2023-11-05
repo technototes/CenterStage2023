@@ -17,22 +17,19 @@ public class WingPixelLeft extends SequentialCommandGroup {
                     )
                 )
                 .andThen(
-                        new TrajectorySequenceCommand(
-                                r.drivebaseSubsystem,
-                                WingBlue.LEFT_SPIKE_TO_MID_CLEAR
-                        )
+                    new TrajectorySequenceCommand(
+                        r.drivebaseSubsystem,
+                        WingBlue.LEFT_SPIKE_TO_MID_CLEAR
+                    )
                 )
                 .andThen(
-                        new TrajectorySequenceCommand(
-                                r.drivebaseSubsystem,
-                                WingBlue.MID_CLEAR_TO_CLEAR
-                        )
+                    new TrajectorySequenceCommand(r.drivebaseSubsystem, WingBlue.MID_CLEAR_TO_CLEAR)
                 )
                 .andThen(
-                        new TrajectorySequenceCommand(
-                                r.drivebaseSubsystem,
-                                WingBlue.CLEAR_TO_PARK_CORNER
-                        )
+                    new TrajectorySequenceCommand(
+                        r.drivebaseSubsystem,
+                        WingBlue.CLEAR_TO_PARK_CORNER
+                    )
                 )
         );
     }

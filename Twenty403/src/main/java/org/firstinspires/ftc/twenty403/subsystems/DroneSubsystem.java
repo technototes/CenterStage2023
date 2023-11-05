@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.logger.Loggable;
 import com.technototes.library.subsystem.Subsystem;
+
 @Config
 public class DroneSubsystem implements Subsystem, Loggable {
 
@@ -35,5 +36,4 @@ public class DroneSubsystem implements Subsystem, Loggable {
             launchServo.setPosition(c);
         }
     }
-
 }

@@ -32,23 +32,23 @@ public class StagePixelRight extends SequentialCommandGroup {
                     )
                 )
                 .andThen(
-                        new TrajectorySequenceCommand(
-                                r.drivebaseSubsystem,
-                                AutoConstants.StageBlue.CLEAR_TO_LEFT_CLEAR
-                        )
-                )
-                .andThen(
-                        new TrajectorySequenceCommand(
-                                r.drivebaseSubsystem,
-                                AutoConstants.StageBlue.LEFT_CLEAR_TO_MID_PARK_CENTER
-                        )
-                )
-                .andThen(
-                        new TrajectorySequenceCommand(
-                                r.drivebaseSubsystem,
-                                AutoConstants.StageBlue.MID_PARK_CENTER_TO_PARK_CENTER
-                        )
+                    new TrajectorySequenceCommand(
+                        r.drivebaseSubsystem,
+                        AutoConstants.StageBlue.CLEAR_TO_LEFT_CLEAR
                     )
+                )
+                .andThen(
+                    new TrajectorySequenceCommand(
+                        r.drivebaseSubsystem,
+                        AutoConstants.StageBlue.LEFT_CLEAR_TO_MID_PARK_CENTER
+                    )
+                )
+                .andThen(
+                    new TrajectorySequenceCommand(
+                        r.drivebaseSubsystem,
+                        AutoConstants.StageBlue.MID_PARK_CENTER_TO_PARK_CENTER
+                    )
+                )
         );
     }
 }
