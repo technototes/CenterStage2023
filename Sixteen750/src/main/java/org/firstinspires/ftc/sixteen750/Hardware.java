@@ -11,6 +11,8 @@ import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.logger.Loggable;
 import com.technototes.vision.hardware.Webcam;
 import java.util.List;
+import java.util.Set;
+
 import org.firstinspires.ftc.robotcore.external.navigation.VoltageUnit;
 
 public class Hardware implements Loggable {
@@ -28,9 +30,9 @@ public class Hardware implements Loggable {
 
     public EncodedMotor<DcMotorEx> liftMotor;
 
-    public Servo Armservo;
+    public Servo armServo;
 
-    public Servo ScoreServo;
+    public Servo scoreServo;
 
     public Servo DroneServo;
 
@@ -54,6 +56,8 @@ public class Hardware implements Loggable {
         }
         if (Setup.Connected.PLACEMENT) {
             liftMotor = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.LIFTMOTOR);
+            armServo = new Servo(Setup.HardwareNames.ARMSERVO);
+            scoreServo = new Servo(Setup.HardwareNames.SCORESERVO);
             // this.Armservo = new Servo(Setup.HardwareNames.)
         }
         if (Setup.Connected.WEBCAM) {

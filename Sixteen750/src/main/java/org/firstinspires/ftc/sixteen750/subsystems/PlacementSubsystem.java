@@ -22,9 +22,9 @@ public class PlacementSubsystem implements Subsystem, Loggable {
     public static double OUTPUT_SPEED = -.3;
 
     // numbers need to be calibrated for the lift
-    public static double LOW_POS = 0;
-    public static double MEDIUM_POS = 1000;
-    public static double HIGH_POS = 3000;
+    public static double LOW_POS = 300;
+    public static double MEDIUM_POS = 800;
+    public static double HIGH_POS = 1000;
     public static double INTAKELIFT_POS = 0;
     public static double MIN_MOTOR_SPEED = -0.3;
     public static double MAX_MOTOR_SPEED = 1;
@@ -34,24 +34,24 @@ public class PlacementSubsystem implements Subsystem, Loggable {
     public static double ArmServo = 0.5;
     public Servo armServo;
 
-    public static double ScoreServoInput = 0.5;
+    public static double ScoreServoInput = 0.7;
 
-    public static double ArmServoInput = 0.5;
+    public static double ArmServoInput = 1;
 
-    public static double ScoreServoOutput = 0.5;
+    public static double ScoreServoOutput = 0.3;
 
-    public static double ArmServoOutput = 0.5;
+    public static double ArmServoOutput = 0.2;
 
     public static PIDCoefficients PID = new PIDCoefficients(0.0027, 0.0, 0.00015);
 
     public Servo scoreServo;
-    public EncodedMotor<DcMotorEx> liftMotor;
+    public EncodedMotor <DcMotorEx> liftMotor;
     private boolean isHardware;
     private PIDFController leftPidController;
 
     public PlacementSubsystem(Hardware hw) {
-        armServo = hw.Armservo;
-        scoreServo = hw.ScoreServo;
+        armServo = hw.armServo;
+        scoreServo = hw.scoreServo;
         // TODO:
         // For bhavjot and Laksh:
         // We need to configure the liftMotor to work like a servo.
@@ -116,14 +116,14 @@ public class PlacementSubsystem implements Subsystem, Loggable {
         //        scoreServo.setPosition(0);
     }
 
-    private void ArmServoOutput() {
+    public void ArmServoOutput() {
         // the arm's position to score
-        //        armServo.setPosition(ArmServoOutput);
+                armServo.setPosition(ArmServoOutput);
     }
 
-    private void ScoreServoOutput() {
+    public void ScoreServoOutput() {
         // the intake system's postion to score
-        //        scoreServo.setPosition(ScoreServoOutput);
+                scoreServo.setPosition(ScoreServoOutput);
     }
 
     public void periodic() {
@@ -143,12 +143,12 @@ public class PlacementSubsystem implements Subsystem, Loggable {
         }
     }
 
-    private void ArmServoInput() {
+    public void ArmServoInput() {
         // positions for the arm of the bot
         armServo.setPosition(ArmServoInput);
     }
 
-    private void ScoreServoInput() {
+    public void ScoreServoInput() {
         // positions for the arm of the bot
         armServo.setPosition(ScoreServoInput);
     }

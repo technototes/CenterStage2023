@@ -13,6 +13,10 @@ import org.firstinspires.ftc.sixteen750.commands.driving.TurboCommand;
 import org.firstinspires.ftc.sixteen750.commands.intake.EjectCommand;
 import org.firstinspires.ftc.sixteen750.commands.intake.IntakeCommand;
 import org.firstinspires.ftc.sixteen750.commands.intake.StopCommand;
+import org.firstinspires.ftc.sixteen750.commands.placement.LiftHighCommand;
+import org.firstinspires.ftc.sixteen750.commands.placement.LiftIntakeCommand;
+import org.firstinspires.ftc.sixteen750.commands.placement.LiftLowCommand;
+import org.firstinspires.ftc.sixteen750.commands.placement.LiftMediumCommand;
 
 public class SingleController {
 
@@ -25,6 +29,11 @@ public class SingleController {
     public CommandButton intakeButton;
     public CommandButton ejectButton;
     public CommandButton stopButton, pauseButton;
+
+    public CommandButton placementHighButton;
+    public CommandButton placementLowButton;
+    public CommandButton placementMediumButton;
+    public CommandButton placementIntakeButton;
 
     public SingleController(CommandGamepad g, Robot r, Setup s) {
         this.robot = r;
@@ -40,18 +49,30 @@ public class SingleController {
         if (Setup.Connected.INTAKE) {
             bindIntakeControls();
         }
+            if (Setup.Connected.PLACEMENT) {
+                bindLiftControls();
+        }
         if (Setup.Connected.WEBCAM) {
             // TODO: bindAlignControls();
         }
     }
 
     private void AssignNamedControllerButton() {
+        //drive buttons
         resetGyroButton = gamepad.rightStickButton;
         driveLeftStick = gamepad.leftStick;
         driveRightStick = gamepad.rightStick;
         turboButton = gamepad.rightBumper;
         driveStraight = gamepad.leftBumper;
 
+
+        //lift buttons
+        placementHighButton = gamepad.dpadUp;
+        placementIntakeButton = gamepad.dpadRight;
+        placementMediumButton = gamepad.dpadLeft;
+        placementLowButton = gamepad.dpadDown;
+
+        // intaking the pixel from ground
         intakeButton = gamepad.ps_triangle;
         ejectButton = gamepad.ps_cross;
         stopButton = gamepad.ps_cross;
@@ -77,7 +98,10 @@ public class SingleController {
     }
 
     public void bindLiftControls() {
-        // TODO: Name & Bind lift controls
+        placementHighButton.whenPressed(new LiftHighCommand(robot.placement));
+        placementMediumButton.whenPressed(new LiftMediumCommand(robot.placement));
+        placementLowButton.whenPressed(new LiftLowCommand(robot.placement));
+        placementIntakeButton.whenPressed(new LiftIntakeCommand(robot.placement));
 
     }
 }

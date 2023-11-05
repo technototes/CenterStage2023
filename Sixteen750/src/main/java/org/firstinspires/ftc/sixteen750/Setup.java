@@ -11,7 +11,7 @@ public class Setup {
         public static boolean DRIVEBASE = true;
         public static boolean INTAKE = true;
         public static boolean WEBCAM = false;
-        public static boolean PLACEMENT = false;
+        public static boolean PLACEMENT = true;
 
         public static boolean HANG = false;
 
@@ -30,6 +30,10 @@ public class Setup {
         //public static String INTAKERIGHT = "rwheel";
         public static String CAMERA = "webcam";
         public static String LIFTMOTOR = "liftmotor";
+
+        public static String ARMSERVO = "aservo";
+
+        public static String SCORESERVO = "sservo";
         public static String HANGSERVO = "hangS";
         public static String HANGMOTOR = "hangM";
 
