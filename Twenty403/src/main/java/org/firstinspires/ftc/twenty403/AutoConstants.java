@@ -123,9 +123,9 @@ public class AutoConstants {
     @Config
     public static class StageRed {
         public static ConfigurablePoseD START = new ConfigurablePoseD(-12, 60, -90);
-        public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(0, 40, 0);
+        public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(0, 34, 0);
         public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(-12, 33, -90);
-        public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(-18, 40, -120);
+        public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(-18, 34, -120);
         // This is "clear of the pixels, ready to go somewhere else"
         public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(-12,60.1,-90);
         public static ConfigurablePoseD RIGHT_CLEAR = new ConfigurablePoseD(-35,60.1,-90);
@@ -177,9 +177,9 @@ public class AutoConstants {
     @Config
     public static class StageBlue {
         public static ConfigurablePoseD START = new ConfigurablePoseD(-12, -60, 90);
-        public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(-18, -40, 120);
+        public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(-18, -34, 120);
         public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(-12, -33, 90);
-        public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(4, -40, 0);
+        public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(-2, -34, 0);
         // This is "clear of the pixels, ready to go somewhere else"
         public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(-12,-60.1,180);
         public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(-12, -32  , 0);

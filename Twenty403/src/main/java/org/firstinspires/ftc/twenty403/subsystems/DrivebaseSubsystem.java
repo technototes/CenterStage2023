@@ -24,9 +24,9 @@ public class DrivebaseSubsystem
     @Config
     public abstract static class DriveConstants implements MecanumConstants {
 
-        public static double SLOW_MOTOR_SPEED = 0.2;
+        public static double SLOW_MOTOR_SPEED = 0.4;
         public static double FAST_MOTOR_SPEED = 1.0;
-        public static double NORMAL_MOTOR_SPEED = 0.9;
+        public static double NORMAL_MOTOR_SPEED = 1.2;
 
         @TicksPerRev
         public static final double TICKS_PER_REV = 537.6; // 2021: 28;
