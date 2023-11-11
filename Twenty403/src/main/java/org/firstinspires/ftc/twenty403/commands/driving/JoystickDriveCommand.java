@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.twenty403.commands.driving;
 
+import static org.firstinspires.ftc.twenty403.subsystems.DrivebaseSubsystem.DriveConstants.TRIGGER_THRESHOLD;
+
 import com.acmerobotics.roadrunner.drive.DriveSignal;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -16,7 +18,6 @@ public class JoystickDriveCommand implements Command, Loggable {
 
     public DrivebaseSubsystem subsystem;
     public DoubleSupplier x, y, r;
-    public BooleanSupplier straight;
     public BooleanSupplier watchTrigger;
     public DoubleSupplier straightDrive;
     public double targetHeadingRads;
@@ -25,7 +26,6 @@ public class JoystickDriveCommand implements Command, Loggable {
         DrivebaseSubsystem sub,
         Stick xyStick,
         Stick rotStick,
-        BooleanSupplier straighten,
         DoubleSupplier strtDrive
     ) {
         addRequirements(sub);
@@ -33,21 +33,20 @@ public class JoystickDriveCommand implements Command, Loggable {
         x = xyStick.getXSupplier();
         y = xyStick.getYSupplier();
         r = rotStick.getXSupplier();
-        straight = straighten;
         targetHeadingRads = -sub.getExternalHeading();
         straightDrive = strtDrive;
     }
 
     // Use this constructor if you don't want auto-straightening
     public JoystickDriveCommand(DrivebaseSubsystem sub, Stick xyStick, Stick rotStick) {
-        this(sub, xyStick, rotStick, null, null);
+        this(sub, xyStick, rotStick, null);
     }
 
     // This will make the bot snap to an angle, if the 'straighten' button is pressed
     // Otherwise, it just reads the rotation value from the rotation stick
     private double getRotation(double headingInRads) {
         // Check to see if we're trying to straighten the robot
-        if (straight == null || straight.getAsBoolean() == false) {
+        if (straightDrive == null || straightDrive.getAsDouble() < TRIGGER_THRESHOLD) {
             // No straighten override: return the stick value
             // (with some adjustment...)
             return -Math.pow(r.getAsDouble(), 3) * subsystem.speed;
@@ -81,7 +80,7 @@ public class JoystickDriveCommand implements Command, Loggable {
             double yvalue = -y.getAsDouble();
             double xvalue = -x.getAsDouble();
             if (straightDrive != null) {
-                if (straightDrive.getAsDouble() > 0.7) {
+                if (straightDrive.getAsDouble() > TRIGGER_THRESHOLD) {
                     if (Math.abs(yvalue) > Math.abs(xvalue))
                         xvalue = 0;
                     else

@@ -21,7 +21,6 @@ public class DriverController {
 
     public Stick driveLeftStick, driveRightStick;
     public CommandButton resetGyroButton;
-    public CommandButton straighten;
     public CommandButton turboButton;
     public CommandButton snailButton;
     public CommandAxis straightTrigger;
@@ -37,10 +36,9 @@ public class DriverController {
     }
 
     private void AssignNamedControllerButton() {
-        resetGyroButton = gamepad.ps_share;
+        resetGyroButton = gamepad.ps_options;
         driveLeftStick = gamepad.leftStick;
         driveRightStick = gamepad.rightStick;
-        straighten = gamepad.ps_options;
         turboButton = gamepad.rightBumper;
         snailButton = gamepad.leftBumper;
         straightTrigger = gamepad.rightTrigger;
@@ -54,7 +52,6 @@ public class DriverController {
                     robot.drivebaseSubsystem,
                     driveLeftStick,
                     driveRightStick,
-                    () -> straighten.getAsBoolean(),
                     straightTrigger
                 )
             );

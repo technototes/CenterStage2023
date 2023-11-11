@@ -16,7 +16,6 @@ public class JoystickDriveCommand implements Command, Loggable {
 
     public DrivebaseSubsystem subsystem;
     public DoubleSupplier x, y, r;
-    public BooleanSupplier rotationStraighten;
     public BooleanSupplier watchTrigger;
     public double targetHeadingRads;
     public DoubleSupplier driveStraighten;
@@ -25,7 +24,6 @@ public class JoystickDriveCommand implements Command, Loggable {
         DrivebaseSubsystem sub,
         Stick xyStick,
         Stick rotStick,
-        BooleanSupplier straighten,
         DoubleSupplier strtDrive
     ) {
         addRequirements(sub);
@@ -33,21 +31,20 @@ public class JoystickDriveCommand implements Command, Loggable {
         x = xyStick.getXSupplier();
         y = xyStick.getYSupplier();
         r = rotStick.getXSupplier();
-        rotationStraighten = straighten;
         targetHeadingRads = -sub.getExternalHeading();
         driveStraighten = strtDrive;
     }
 
     // Use this constructor if you don't want auto-straightening
     public JoystickDriveCommand(DrivebaseSubsystem sub, Stick xyStick, Stick rotStick) {
-        this(sub, xyStick, rotStick, null, null);
+        this(sub, xyStick, rotStick, null);
     }
 
     // This will make the bot snap to an angle, if the 'straighten' button is pressed
     // Otherwise, it just reads the rotation value from the rotation stick
     private double getRotation(double headingInRads) {
         // Check to see if we're trying to straighten the robot
-        if (rotationStraighten == null || rotationStraighten.getAsBoolean() == false) {
+        if (driveStraighten == null || driveStraighten.getAsDouble() < DrivebaseSubsystem.DriveConstants.TRIGGER_THRESHOLD) {
             // No straighten override: return the stick value
             // (with some adjustment...)
             return -Math.pow(r.getAsDouble(), 3) * subsystem.speed;

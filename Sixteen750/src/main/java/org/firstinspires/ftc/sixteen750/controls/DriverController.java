@@ -19,7 +19,7 @@ public class DriverController {
     public CommandGamepad gamepad;
 
     public Stick driveLeftStick, driveRightStick;
-    public CommandButton resetGyroButton, rotationStraighten, turboButton, snailButton;
+    public CommandButton resetGyroButton, turboButton, snailButton;
     public CommandButton override;
     public CommandAxis driveStraighten;
     public DriverController(CommandGamepad g, Robot r) {
@@ -37,7 +37,6 @@ public class DriverController {
         resetGyroButton = gamepad.ps_options;
         driveLeftStick = gamepad.leftStick;
         driveRightStick = gamepad.rightStick;
-        rotationStraighten = gamepad.ps_share;
         driveStraighten = gamepad.rightTrigger;
         turboButton = gamepad.rightBumper;
         snailButton = gamepad.leftBumper;
@@ -53,8 +52,7 @@ public class DriverController {
                     robot.drivebase,
                     driveLeftStick,
                     driveRightStick,
-                    rotationStraighten,
-                        driveStraighten
+                    driveStraighten
                 )
             );
 
