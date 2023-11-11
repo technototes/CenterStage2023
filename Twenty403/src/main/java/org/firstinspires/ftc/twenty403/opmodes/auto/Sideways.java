@@ -31,7 +31,7 @@ public class Sideways extends CommandOpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         hardware = new Hardware(hardwareMap);
         robot = new Robot(hardware, Alliance.RED, StartingPosition.Wing);
-        robot.drivebaseSubsystem.setPoseEstimate(AutoConstants.WingRed.BACKWARD.toPose());
+        robot.drivebaseSubsystem.setPoseEstimate(AutoConstants.WingRed.SIDE_LEFT.toPose());
         CommandScheduler
             .getInstance()
             .scheduleForState(
