@@ -26,8 +26,9 @@ public class DrivebaseSubsystem
     public abstract static class DriveConstants implements MecanumConstants {
 
         public static double SLOW_MOTOR_SPEED = 0.4;
-        public static double FAST_MOTOR_SPEED = 1.0;
+        public static double SLOW_ROTATION_SCALE = 0.5;
         public static double NORMAL_MOTOR_SPEED = 1.2;
+        public static double NORMAL_ROTATION_SCALE = 0.3;
         public static double TRIGGER_THRESHOLD = 0.7;
 
         @TicksPerRev
@@ -138,7 +139,7 @@ public class DrivebaseSubsystem
     @Log(name = "magnitude")
     public String dirLen = "";
 
-    @Log(name="trigger")
+    @Log(name = "trigger")
     public double trigggerValue = 0;
 
     @Log(name = "Turbo")
@@ -155,12 +156,14 @@ public class DrivebaseSubsystem
         IMU i,
         TwoTrackingWheelLocalizer l
     ) {
-        super(fl, fr, rl, rr, i, () -> DriveConstants.class, l);
+        // The localizer is not quite working. Bot drives a little crazy
+        super(fl, fr, rl, rr, i, () -> DriveConstants.class/*, l*/);
         fl2 = fl;
         fr2 = fr;
         rl2 = rl;
         rr2 = rr;
         speed = DriveConstants.SLOW_MOTOR_SPEED;
+        setLocalizer(l);
     }
 
     public void showVal(double d) {

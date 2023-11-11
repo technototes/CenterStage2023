@@ -18,7 +18,6 @@ public class DriverController {
     public Robot robot;
     public CommandGamepad gamepad;
 
-
     public Stick driveLeftStick, driveRightStick;
     public CommandButton resetGyroButton;
     public CommandButton turboButton;

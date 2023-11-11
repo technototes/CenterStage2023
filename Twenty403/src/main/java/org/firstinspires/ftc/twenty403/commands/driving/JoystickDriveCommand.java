@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.twenty403.commands.driving;
 
+import static org.firstinspires.ftc.twenty403.subsystems.DrivebaseSubsystem.DriveConstants.NORMAL_ROTATION_SCALE;
+import static org.firstinspires.ftc.twenty403.subsystems.DrivebaseSubsystem.DriveConstants.SLOW_ROTATION_SCALE;
 import static org.firstinspires.ftc.twenty403.subsystems.DrivebaseSubsystem.DriveConstants.TRIGGER_THRESHOLD;
 
 import com.acmerobotics.roadrunner.drive.DriveSignal;
@@ -46,7 +48,12 @@ public class JoystickDriveCommand implements Command, Loggable {
     // Otherwise, it just reads the rotation value from the rotation stick
     private double getRotation(double headingInRads) {
         // Check to see if we're trying to straighten the robot
-        if (straightDrive == null || straightDrive.getAsDouble() < TRIGGER_THRESHOLD) {
+        // Don't straighten in turbo: The bot goes crazy
+        if (
+            subsystem.Turbo ||
+            straightDrive == null ||
+            straightDrive.getAsDouble() < TRIGGER_THRESHOLD
+        ) {
             // No straighten override: return the stick value
             // (with some adjustment...)
             return -Math.pow(r.getAsDouble(), 3) * subsystem.speed;
@@ -65,7 +72,11 @@ public class JoystickDriveCommand implements Command, Loggable {
             // Scale it by the cube root, the scale that down by 30%
             // .9 (about 40 degrees off) provides .96 power => .288
             // .1 (about 5 degrees off) provides .46 power => .14
-            return Math.cbrt(normalized) * 0.3;
+            if (subsystem.Snail == true) {
+                return Math.cbrt(normalized) * SLOW_ROTATION_SCALE;
+            } else {
+                return (normalized) * NORMAL_ROTATION_SCALE;
+            }
         }
     }
 
@@ -81,16 +92,10 @@ public class JoystickDriveCommand implements Command, Loggable {
             double xvalue = -x.getAsDouble();
             if (straightDrive != null) {
                 if (straightDrive.getAsDouble() > TRIGGER_THRESHOLD) {
-                    if (Math.abs(yvalue) > Math.abs(xvalue))
-                        xvalue = 0;
-                    else
-                        yvalue = 0;
+                    if (Math.abs(yvalue) > Math.abs(xvalue)) xvalue = 0; else yvalue = 0;
                 }
             }
-            Vector2d input = new Vector2d(
-                yvalue * subsystem.speed,
-                xvalue * subsystem.speed
-            )
+            Vector2d input = new Vector2d(yvalue * subsystem.speed, xvalue * subsystem.speed)
                 .rotated(curHeading);
             // TODO:
             // Calculate the magnitude of the motion to scale the speed by...
