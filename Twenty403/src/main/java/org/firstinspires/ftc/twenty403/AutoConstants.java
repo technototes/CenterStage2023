@@ -19,7 +19,7 @@ public class AutoConstants {
         public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(35,60.1,-180);
         public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(36, 32, -180);
         public static ConfigurablePoseD TELESTART = new ConfigurablePoseD(0,0,90);
-        public static ConfigurablePoseD PARK_CORNER = new ConfigurablePoseD(-60,60,-90); // may need to be 180 (0 needs test)
+        public static ConfigurablePoseD PARK_CORNER = new ConfigurablePoseD(-60,60,-180); // may need to be 180 (0 needs test)
         public static ConfigurablePoseD FORWARD = new ConfigurablePoseD(3,0,-180);
         public static ConfigurablePoseD BACKWARD = new ConfigurablePoseD(47, 0, -180);
         public static ConfigurablePoseD SIDE_RIGHT = new ConfigurablePoseD(47,48,-180);
@@ -84,7 +84,7 @@ public class AutoConstants {
         // This is "clear of the pixels, ready to go somewhere else"
         public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(35,-60.1,180);
         public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(36, -32, 180);
-        public static ConfigurablePoseD PARK_CORNER = new ConfigurablePoseD(-60,60,90); // may need to be 180 (0 needs test)
+        public static ConfigurablePoseD PARK_CORNER = new ConfigurablePoseD(-60,-60,180); // may need to be 180 (0 needs test)
 
 
         public static ConfigurablePoseD TELESTART = new ConfigurablePoseD(0,0,90);
@@ -123,7 +123,7 @@ public class AutoConstants {
     @Config
     public static class StageRed {
         public static ConfigurablePoseD START = new ConfigurablePoseD(-12, 60, -90);
-        public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(0, 34, 0);
+        public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(0, 40, 0);
         public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(-12, 33, -90);
         public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(-18, 34, -120);
         // This is "clear of the pixels, ready to go somewhere else"
@@ -181,7 +181,7 @@ public class AutoConstants {
         public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(-12, -33, 90);
         public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(-2, -34, 0);
         // This is "clear of the pixels, ready to go somewhere else"
-        public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(-12,-60.1,180);
+        public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(-12,-60.1,90);
         public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(-12, -32  , 0);
         public static ConfigurablePoseD PARK_CENTER = new ConfigurablePoseD(-59,-9,90); // may need to be 180 (0 needs test)
         public static ConfigurablePoseD LEFT_CLEAR = new ConfigurablePoseD(-35,-60.1,180);
@@ -227,4 +227,3 @@ public class AutoConstants {
                 b.apply(MID_PARK_CENTER.toPose()).lineToLinearHeading(PARK_CENTER.toPose()).build();
     }
 }
-
