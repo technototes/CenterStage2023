@@ -19,7 +19,7 @@ public class VisionSubsystem implements Subsystem, Loggable {
         public static int WIDTH = 320;
         public static int HEIGHT = 240;
         // Change this if the camera is oriented differently
-        public static OpenCvCameraRotation ROTATION = OpenCvCameraRotation.UPRIGHT;
+        public static OpenCvCameraRotation ROTATION = OpenCvCameraRotation.UPSIDE_DOWN;
         // Turn this on if we want to see the debug image
         public static boolean DEBUG_VIEW = true;
     }

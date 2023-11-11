@@ -35,7 +35,8 @@ public class Robot implements Loggable {
             this.localizer = null;
         }
         if (Setup.Connected.DRIVEBASE) {
-            this.drivebaseSubsystem = new DrivebaseSubsystem(hw.fl, hw.fr, hw.rl, hw.rr, hw.imu, localizer);
+            this.drivebaseSubsystem =
+                new DrivebaseSubsystem(hw.fl, hw.fr, hw.rl, hw.rr, hw.imu, localizer);
         }
         if (Setup.Connected.WEBCAM) {
             this.vision = new VisionSubsystem(hw.camera, team, pos);
