@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.sixteen750.controls;
 
 import com.technototes.library.command.CommandScheduler;
+import com.technototes.library.control.CommandAxis;
 import com.technototes.library.control.CommandButton;
 import com.technototes.library.control.CommandGamepad;
 import com.technototes.library.control.Stick;
@@ -9,9 +10,7 @@ import org.firstinspires.ftc.sixteen750.Setup;
 import org.firstinspires.ftc.sixteen750.commands.driving.JoystickDriveCommand;
 import org.firstinspires.ftc.sixteen750.commands.driving.NormalModeCommand;
 import org.firstinspires.ftc.sixteen750.commands.driving.ResetGyroCommand;
-import org.firstinspires.ftc.sixteen750.commands.driving.SlowCommand;
 import org.firstinspires.ftc.sixteen750.commands.driving.SnailModeCommand;
-import org.firstinspires.ftc.sixteen750.commands.driving.TurboCommand;
 import org.firstinspires.ftc.sixteen750.commands.driving.TurboModeCommand;
 
 public class DriverController {
@@ -20,9 +19,9 @@ public class DriverController {
     public CommandGamepad gamepad;
 
     public Stick driveLeftStick, driveRightStick;
-    public CommandButton resetGyroButton, straighten, turboButton, snailButton;
+    public CommandButton resetGyroButton, turboButton, snailButton;
     public CommandButton override;
-
+    public CommandAxis driveStraighten;
     public DriverController(CommandGamepad g, Robot r) {
         this.robot = r;
         gamepad = g;
@@ -38,7 +37,11 @@ public class DriverController {
         resetGyroButton = gamepad.ps_options;
         driveLeftStick = gamepad.leftStick;
         driveRightStick = gamepad.rightStick;
-        straighten = gamepad.ps_share;
+        driveStraighten = gamepad.rightTrigger;
+        turboButton = gamepad.rightBumper;
+        snailButton = gamepad.leftBumper;
+
+
     }
 
     public void bindDriveControls() {
@@ -49,7 +52,7 @@ public class DriverController {
                     robot.drivebase,
                     driveLeftStick,
                     driveRightStick,
-                    () -> straighten.getAsBoolean()
+                    driveStraighten
                 )
             );
 

@@ -27,6 +27,7 @@ public class DrivebaseSubsystem
         public static double SLOW_MOTOR_SPEED = 0.6;
         public static double FAST_MOTOR_SPEED = 1.0;
         public static double AUTO_MOTOR_SPEED = 0.9;
+        public static double TRIGGER_THRESHOLD = 0.7;
 
         @TicksPerRev
         public static final double TICKS_PER_REV = 537.6; // 2021: 28;

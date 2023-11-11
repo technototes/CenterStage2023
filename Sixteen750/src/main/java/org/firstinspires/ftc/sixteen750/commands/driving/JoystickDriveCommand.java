@@ -16,23 +16,23 @@ public class JoystickDriveCommand implements Command, Loggable {
 
     public DrivebaseSubsystem subsystem;
     public DoubleSupplier x, y, r;
-    public BooleanSupplier straight;
     public BooleanSupplier watchTrigger;
     public double targetHeadingRads;
+    public DoubleSupplier driveStraighten;
 
     public JoystickDriveCommand(
         DrivebaseSubsystem sub,
         Stick xyStick,
         Stick rotStick,
-        BooleanSupplier straighten
+        DoubleSupplier strtDrive
     ) {
         addRequirements(sub);
         subsystem = sub;
         x = xyStick.getXSupplier();
         y = xyStick.getYSupplier();
         r = rotStick.getXSupplier();
-        straight = straighten;
         targetHeadingRads = -sub.getExternalHeading();
+        driveStraighten = strtDrive;
     }
 
     // Use this constructor if you don't want auto-straightening
@@ -44,7 +44,7 @@ public class JoystickDriveCommand implements Command, Loggable {
     // Otherwise, it just reads the rotation value from the rotation stick
     private double getRotation(double headingInRads) {
         // Check to see if we're trying to straighten the robot
-        if (straight == null || straight.getAsBoolean() == false) {
+        if (driveStraighten == null || driveStraighten.getAsDouble() < DrivebaseSubsystem.DriveConstants.TRIGGER_THRESHOLD) {
             // No straighten override: return the stick value
             // (with some adjustment...)
             return -Math.pow(r.getAsDouble(), 3) * subsystem.speed;
@@ -75,11 +75,22 @@ public class JoystickDriveCommand implements Command, Loggable {
 
             // The math & signs looks wonky, because this makes things field-relative
             // (Remember that "3 O'Clock" is zero degrees)
+            double yvalue = -y.getAsDouble();
+            double xvalue = -x.getAsDouble();
+            if (driveStraighten != null) {
+                if (driveStraighten.getAsDouble() > 0.7) {
+                    if (Math.abs(yvalue) > Math.abs(xvalue))
+                        xvalue = 0;
+                    else
+                        yvalue = 0;
+                }
+            }
             Vector2d input = new Vector2d(
-                -y.getAsDouble() * subsystem.speed,
-                -x.getAsDouble() * subsystem.speed
+                    yvalue * subsystem.speed,
+                    xvalue * subsystem.speed
             )
-                .rotated(curHeading);
+                    .rotated(curHeading);
+
             subsystem.setWeightedDrivePower(
                 new Pose2d(input.getX(), input.getY(), getRotation(curHeading))
             );
