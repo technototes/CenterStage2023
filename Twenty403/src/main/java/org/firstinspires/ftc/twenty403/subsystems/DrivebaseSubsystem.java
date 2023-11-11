@@ -29,10 +29,10 @@ public class DrivebaseSubsystem
         public static double NORMAL_MOTOR_SPEED = 1.2;
 
         @TicksPerRev
-        public static final double TICKS_PER_REV = 537.6; // 2021: 28;
+        public static final double TICKS_PER_REV = 384.5; // 2021: 28;
 
         @MaxRPM
-        public static final double MAX_RPM = 312; // 2021: 6000;
+        public static final double MAX_RPM = 435; // 2021: 6000;
 
         public static double MAX_TICKS_PER_SEC = (TICKS_PER_REV * MAX_RPM) / 60.0;
 
@@ -51,7 +51,7 @@ public class DrivebaseSubsystem
         public static double WHEEL_RADIUS = 1.88976; // in
 
         @GearRatio
-        public static double GEAR_RATIO = 0.93; // 2021: / 19.2; // output (wheel) speed / input (motor) speed
+        public static double GEAR_RATIO = 0.94; // 2021: / 19.2; // output (wheel) speed / input (motor) speed
 
         @TrackWidth
         public static double TRACK_WIDTH = 9.1875; // 2021: 10; // in
@@ -71,11 +71,11 @@ public class DrivebaseSubsystem
 
         // This was 60, which was too fast. Things slid around a lot.
         @MaxVelo
-        public static double MAX_VEL = 50;
+        public static double MAX_VEL = 64; //50
 
         // This was 35, which also felt a bit too fast. The bot controls more smoothly now
         @MaxAccel
-        public static double MAX_ACCEL = 30; //30
+        public static double MAX_ACCEL = 20; //30
 
         // This was 180 degrees
         @MaxAngleVelo
@@ -92,7 +92,7 @@ public class DrivebaseSubsystem
         public static PIDCoefficients HEADING_PID = new PIDCoefficients(8, 0, 0);
 
         @LateralMult
-        public static double LATERAL_MULTIPLIER = 1.025; // Lateral position is off by 14%
+        public static double LATERAL_MULTIPLIER = 1.04; // Lateral position is off by 14%
 
         @VXWeight
         public static double VX_WEIGHT = 1;

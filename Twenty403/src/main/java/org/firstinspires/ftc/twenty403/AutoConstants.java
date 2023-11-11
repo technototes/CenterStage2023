@@ -78,9 +78,9 @@ public class AutoConstants {
     @Config
     public static class WingBlue {
         public static ConfigurablePoseD START = new ConfigurablePoseD(35, -60, 90);
-        public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(23, -30, 180);
+        public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(25, -32, 180);
         public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(35, -32, 90);
-        public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(46, -30, 60);
+        public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(45, -30, 60);
         // This is "clear of the pixels, ready to go somewhere else"
         public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(35,-60.1,180);
         public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(36, -32, 180);
@@ -179,13 +179,13 @@ public class AutoConstants {
         public static ConfigurablePoseD START = new ConfigurablePoseD(-12, -60, 90);
         public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(-18, -34, 120);
         public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(-12, -33, 90);
-        public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(-2, -34, 0);
+        public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(0, -40, 0);
         // This is "clear of the pixels, ready to go somewhere else"
         public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(-12,-60.1,90);
-        public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(-12, -32  , 0);
-        public static ConfigurablePoseD PARK_CENTER = new ConfigurablePoseD(-59,-9,90); // may need to be 180 (0 needs test)
+        public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(-12, -40  , 0);
+        public static ConfigurablePoseD PARK_CENTER = new ConfigurablePoseD(-59,-12,90); // may need to be 180 (0 needs test)
         public static ConfigurablePoseD LEFT_CLEAR = new ConfigurablePoseD(-35,-60.1,180);
-        public static ConfigurablePoseD MID_PARK_CENTER = new ConfigurablePoseD(-35,-9,180);
+        public static ConfigurablePoseD MID_PARK_CENTER = new ConfigurablePoseD(-35,-12,180);
 
 
 
