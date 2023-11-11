@@ -18,13 +18,15 @@ public class JoystickDriveCommand implements Command, Loggable {
     public DoubleSupplier x, y, r;
     public BooleanSupplier straight;
     public BooleanSupplier watchTrigger;
+    public DoubleSupplier straightDrive;
     public double targetHeadingRads;
 
     public JoystickDriveCommand(
         DrivebaseSubsystem sub,
         Stick xyStick,
         Stick rotStick,
-        BooleanSupplier straighten
+        BooleanSupplier straighten,
+        DoubleSupplier strtDrive
     ) {
         addRequirements(sub);
         subsystem = sub;
@@ -33,11 +35,12 @@ public class JoystickDriveCommand implements Command, Loggable {
         r = rotStick.getXSupplier();
         straight = straighten;
         targetHeadingRads = -sub.getExternalHeading();
+        straightDrive = strtDrive;
     }
 
     // Use this constructor if you don't want auto-straightening
     public JoystickDriveCommand(DrivebaseSubsystem sub, Stick xyStick, Stick rotStick) {
-        this(sub, xyStick, rotStick, null);
+        this(sub, xyStick, rotStick, null, null);
     }
 
     // This will make the bot snap to an angle, if the 'straighten' button is pressed
@@ -75,9 +78,19 @@ public class JoystickDriveCommand implements Command, Loggable {
 
             // The math & signs looks wonky, because this makes things field-relative
             // (Remember that "3 O'Clock" is zero degrees)
+            double yvalue = -y.getAsDouble();
+            double xvalue = -x.getAsDouble();
+            if (straightDrive != null) {
+                if (straightDrive.getAsDouble() > 0.7) {
+                    if (Math.abs(yvalue) > Math.abs(xvalue))
+                        xvalue = 0;
+                    else
+                        yvalue = 0;
+                }
+            }
             Vector2d input = new Vector2d(
-                -y.getAsDouble() * subsystem.speed,
-                -x.getAsDouble() * subsystem.speed
+                yvalue * subsystem.speed,
+                xvalue * subsystem.speed
             )
                 .rotated(curHeading);
             // TODO:

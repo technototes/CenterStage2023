@@ -136,6 +136,9 @@ public class DrivebaseSubsystem
     @Log(name = "magnitude")
     public String dirLen = "";
 
+    @Log(name="trigger")
+    public double trigggerValue = 0;
+
     @Log(name = "Turbo")
     public boolean Turbo = false;
 
@@ -155,6 +158,10 @@ public class DrivebaseSubsystem
         rl2 = rl;
         rr2 = rr;
         speed = DriveConstants.SLOW_MOTOR_SPEED;
+    }
+
+    public void showVal(double d) {
+        trigggerValue = d;
     }
 
     @Override
