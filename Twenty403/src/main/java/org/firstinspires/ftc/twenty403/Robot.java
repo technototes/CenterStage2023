@@ -29,8 +29,13 @@ public class Robot implements Loggable {
         this.position = pos;
         this.alliance = team;
         this.initialVoltage = hw.voltage();
+        if (Setup.Connected.ODOSUBSYSTEM) {
+            this.localizer = new TwoDeadWheelLocalizer(hw.odoR, hw.odoF, hw.imu);
+        } else {
+            this.localizer = null;
+        }
         if (Setup.Connected.DRIVEBASE) {
-            this.drivebaseSubsystem = new DrivebaseSubsystem(hw.fl, hw.fr, hw.rl, hw.rr, hw.imu);
+            this.drivebaseSubsystem = new DrivebaseSubsystem(hw.fl, hw.fr, hw.rl, hw.rr, hw.imu, localizer);
         }
         if (Setup.Connected.WEBCAM) {
             this.vision = new VisionSubsystem(hw.camera, team, pos);
@@ -51,9 +56,6 @@ public class Robot implements Loggable {
             this.droneSubsystem = new DroneSubsystem(hw.launchServo);
         } else {
             this.droneSubsystem = new DroneSubsystem();
-        }
-        if (Setup.Connected.ODOSUBSYSTEM) {
-            this.localizer = new TwoDeadWheelLocalizer(hw.odoR, hw.odoF, hw.imu);
         }
     }
 }
