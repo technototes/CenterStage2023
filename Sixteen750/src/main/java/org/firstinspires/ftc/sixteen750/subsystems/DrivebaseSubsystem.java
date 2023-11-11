@@ -27,7 +27,6 @@ public class DrivebaseSubsystem
         public static double SLOW_MOTOR_SPEED = 0.6;
         public static double FAST_MOTOR_SPEED = 1.0;
         public static double AUTO_MOTOR_SPEED = 0.9;
-
         @TicksPerRev
         public static final double TICKS_PER_REV = 537.6; // 2021: 28;
 
@@ -121,15 +120,19 @@ public class DrivebaseSubsystem
     @Log(name = "Pose2d: ")
     public String poseDisplay = ENABLE_POSE_DIAGNOSTICS ? "" : null;
 
-    // @Log.Number(name = "FL")
+     @Log.Number(name = "FL")
     public EncodedMotor<DcMotorEx> fl2;
-    // @Log.Number(name = "FR")
+     @Log.Number(name = "FR")
     public EncodedMotor<DcMotorEx> fr2;
-    // @Log.Number(name = "RL")
+     @Log.Number(name = "RL")
     public EncodedMotor<DcMotorEx> rl2;
-    // @Log.Number(name = "RR")
+     @Log.Number(name = "RR")
     public EncodedMotor<DcMotorEx> rr2;
+    @Log(name = "Turbo")
+    public boolean Turbo = false;
 
+    @Log(name = "Snail")
+    public boolean Snail = false;
     @Log
     public String locState = "none";
 
@@ -177,11 +180,48 @@ public class DrivebaseSubsystem
 
     // Velocity driving, in the hopes that the bot with drive straight ;)
     @Override
-    public void setMotorPowers(double v, double v1, double v2, double v3) {
-        leftFront.setVelocity(v * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.AFL_SCALE);
-        leftRear.setVelocity(v1 * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.ARL_SCALE);
-        rightRear.setVelocity(v2 * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.ARR_SCALE);
-        rightFront.setVelocity(v3 * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.AFR_SCALE);
+    public void setMotorPowers(double lfv, double lrv, double rrv, double rfv) {
+        // TODO: Use the stick position to determine how to scale these values
+        // in Turbo mode (If the robot is driving in a straight line, the values are
+        // going to max out at sqrt(2)/2, rather than: We can go faster, but we don't
+        // *always* want to scale faster, only when we're it turbo mode, and when one (or more)
+        // of the control sticks are at their limit
+        double maxlfvlrv = Math.max(Math.abs(lfv), Math.abs(lrv));
+        double maxrfvrrv = Math.max(Math.abs(rfv), Math.abs(rrv));
+        double maxall = Math.max(maxlfvlrv, maxrfvrrv);
+        if (Snail == true) {
+            maxall = 1.0 / DriveConstants.SLOW_MOTOR_SPEED;
+        }
+        if (Turbo == false && Snail == false) {
+            maxall = 1.0 / DriveConstants.AUTO_MOTOR_SPEED;
+        }
+        leftFront.setVelocity(
+                (lfv * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.AFL_SCALE) / maxall
+        );
+        leftRear.setVelocity(
+                (lrv * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.ARL_SCALE) / maxall
+        );
+        rightRear.setVelocity(
+                (rrv * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.ARR_SCALE) / maxall
+        );
+        rightFront.setVelocity(
+                (rfv * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.AFR_SCALE) / maxall
+        );
+    }
+
+    public void setSnailMode() {
+        Snail = true;
+        Turbo = false;
+    }
+
+    public void setTurboMode() {
+        Turbo = true;
+        Snail = false;
+    }
+
+    public void setNormalMode() {
+        Snail = false;
+        Turbo = false;
     }
     // Stuff below is used for tele-op trajectory motion
 }

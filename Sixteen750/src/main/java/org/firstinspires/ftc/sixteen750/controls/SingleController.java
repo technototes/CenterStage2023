@@ -7,9 +7,12 @@ import com.technototes.library.control.Stick;
 import org.firstinspires.ftc.sixteen750.Robot;
 import org.firstinspires.ftc.sixteen750.Setup;
 import org.firstinspires.ftc.sixteen750.commands.driving.JoystickDriveCommand;
+import org.firstinspires.ftc.sixteen750.commands.driving.NormalModeCommand;
 import org.firstinspires.ftc.sixteen750.commands.driving.ResetGyroCommand;
 import org.firstinspires.ftc.sixteen750.commands.driving.SlowCommand;
+import org.firstinspires.ftc.sixteen750.commands.driving.SnailModeCommand;
 import org.firstinspires.ftc.sixteen750.commands.driving.TurboCommand;
+import org.firstinspires.ftc.sixteen750.commands.driving.TurboModeCommand;
 import org.firstinspires.ftc.sixteen750.commands.intake.EjectCommand;
 import org.firstinspires.ftc.sixteen750.commands.intake.IntakeCommand;
 import org.firstinspires.ftc.sixteen750.commands.intake.StopCommand;
@@ -23,9 +26,8 @@ public class SingleController {
     public Robot robot;
     public Setup setup;
     public CommandGamepad gamepad;
-
     public Stick driveLeftStick, driveRightStick;
-    public CommandButton resetGyroButton, driveStraight, turboButton;
+    public CommandButton resetGyroButton, driveStraight, turboButton, snailButton;
     public CommandButton intakeButton;
     public CommandButton ejectButton;
     public CommandButton stopButton, pauseButton;
@@ -62,8 +64,10 @@ public class SingleController {
         resetGyroButton = gamepad.rightStickButton;
         driveLeftStick = gamepad.leftStick;
         driveRightStick = gamepad.rightStick;
+        driveStraight = gamepad.ps_circle;
+
         turboButton = gamepad.rightBumper;
-        driveStraight = gamepad.leftBumper;
+        snailButton = gamepad.leftBumper;
 
         //lift buttons
         placementHighButton = gamepad.dpadUp;
@@ -74,6 +78,9 @@ public class SingleController {
         // intaking the pixel from ground
         intakeButton = gamepad.ps_triangle;
         ejectButton = gamepad.ps_cross;
+
+        //they do the same thing but are separate for intake and eject
+        //didn't try only having 1 because no time to test
         stopButton = gamepad.ps_cross;
         pauseButton = gamepad.ps_triangle;
     }
@@ -84,14 +91,18 @@ public class SingleController {
             .scheduleJoystick(
                 new JoystickDriveCommand(robot.drivebase, driveLeftStick, driveRightStick)
             );
-        turboButton.whenPressed(new TurboCommand(robot.drivebase));
-        turboButton.whenReleased(new SlowCommand(robot.drivebase));
+        turboButton.whenPressed(new TurboModeCommand(robot.drivebase));
+        turboButton.whenReleased(new NormalModeCommand(robot.drivebase));
+        snailButton.whenPressed(new SnailModeCommand(robot.drivebase));
+        snailButton.whenReleased(new NormalModeCommand(robot.drivebase));
+
         resetGyroButton.whenPressed(new ResetGyroCommand(robot.drivebase));
     }
 
     private void bindIntakeControls() {
         intakeButton.whenPressed(new IntakeCommand(robot.intake));
         stopButton.whenReleased(new StopCommand(robot.intake));
+
         ejectButton.whenPressed(new EjectCommand(robot.intake));
         pauseButton.whenReleased(new StopCommand(robot.intake));
     }

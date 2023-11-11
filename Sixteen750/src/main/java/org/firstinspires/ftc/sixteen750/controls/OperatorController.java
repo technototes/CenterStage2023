@@ -38,10 +38,7 @@ public class OperatorController {
     public CommandButton armServoOutputButton, scoreServoOutputButton;
 
     public CommandButton hangUpButton;
-    public CommandButton screwUpButton;
-    public CommandButton screwDownButton;
-
-    public CommandButton HangUpButton;
+    public CommandButton screwUpButton, screwDownButton;
 
     public OperatorController(CommandGamepad g, Robot r) {
         robot = r;
