@@ -3,6 +3,7 @@ package org.firstinspires.ftc.twenty403.subsystems;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.localization.TwoTrackingWheelLocalizer;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.technototes.library.hardware.motor.EncodedMotor;
@@ -151,9 +152,10 @@ public class DrivebaseSubsystem
         EncodedMotor<DcMotorEx> fr,
         EncodedMotor<DcMotorEx> rl,
         EncodedMotor<DcMotorEx> rr,
-        IMU i
+        IMU i,
+        TwoTrackingWheelLocalizer l
     ) {
-        super(fl, fr, rl, rr, i, () -> DriveConstants.class);
+        super(fl, fr, rl, rr, i, () -> DriveConstants.class, l);
         fl2 = fl;
         fr2 = fr;
         rl2 = rl;

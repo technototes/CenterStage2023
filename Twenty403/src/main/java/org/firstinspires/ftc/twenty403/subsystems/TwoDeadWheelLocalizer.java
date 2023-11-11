@@ -9,6 +9,8 @@ import com.acmerobotics.roadrunner.localization.ThreeTrackingWheelLocalizer;
 import com.acmerobotics.roadrunner.localization.TwoTrackingWheelLocalizer;
 import com.technototes.library.hardware.sensor.IMU;
 import com.technototes.library.hardware.sensor.encoder.MotorEncoder;
+import com.technototes.library.logger.Log;
+import com.technototes.library.logger.Loggable;
 import com.technototes.library.subsystem.Subsystem;
 import com.technototes.path.subsystem.DeadWheelConstants;
 import java.lang.annotation.ElementType;
@@ -31,7 +33,7 @@ import java.util.List;
  *    \--------------/
  *
  */
-public class TwoDeadWheelLocalizer extends TwoTrackingWheelLocalizer implements Subsystem {
+public class TwoDeadWheelLocalizer extends TwoTrackingWheelLocalizer implements Subsystem, Loggable {
 
     @Config
     public abstract static class OdoDeadWheelConstants implements DeadWheelConstants {
@@ -50,11 +52,13 @@ public class TwoDeadWheelLocalizer extends TwoTrackingWheelLocalizer implements 
 
         public static double WheelRadius = 17.5; // millimeters?
     }
-
-    protected MotorEncoder /*leftEncoder,*/rightEncoder, frontEncoder;
+    @Log(name = "rightodo")
+    public MotorEncoder /*leftEncoder,*/rightEncoder;
+    @Log(name = "frontodo")
+    public MotorEncoder frontEncoder;
     protected double lateralDistance, forwardOffset, gearRatio, wheelRadius, ticksPerRev;
     protected IMU imu;
-
+    //1862.5 per inch
     protected boolean encoderOverflow;
 
     public TwoDeadWheelLocalizer(/*MotorEncoder l*/MotorEncoder r, MotorEncoder f, IMU i) {

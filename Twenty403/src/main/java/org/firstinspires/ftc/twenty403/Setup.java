@@ -30,8 +30,8 @@ public class Setup {
         public static String HANG_CRSERVO = "hang";
         public static String HANG_MOTOR = "botlift";
         public static String DRONESERVO = "droneservo";
-        public static String ODOF = "odofront";
-        public static String ODOR = "odoright";
+        public static String ODOF = "odof";
+        public static String ODOR = "odor";
     }
 
     @Config
