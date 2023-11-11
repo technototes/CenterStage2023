@@ -7,9 +7,12 @@ import com.technototes.library.control.Stick;
 import org.firstinspires.ftc.sixteen750.Robot;
 import org.firstinspires.ftc.sixteen750.Setup;
 import org.firstinspires.ftc.sixteen750.commands.driving.JoystickDriveCommand;
+import org.firstinspires.ftc.sixteen750.commands.driving.NormalModeCommand;
 import org.firstinspires.ftc.sixteen750.commands.driving.ResetGyroCommand;
 import org.firstinspires.ftc.sixteen750.commands.driving.SlowCommand;
+import org.firstinspires.ftc.sixteen750.commands.driving.SnailModeCommand;
 import org.firstinspires.ftc.sixteen750.commands.driving.TurboCommand;
+import org.firstinspires.ftc.sixteen750.commands.driving.TurboModeCommand;
 
 public class DriverController {
 
@@ -17,7 +20,7 @@ public class DriverController {
     public CommandGamepad gamepad;
 
     public Stick driveLeftStick, driveRightStick;
-    public CommandButton resetGyroButton, straighten, turboButton;
+    public CommandButton resetGyroButton, straighten, turboButton, snailButton;
     public CommandButton override;
 
     public DriverController(CommandGamepad g, Robot r) {
@@ -50,8 +53,10 @@ public class DriverController {
                 )
             );
 
-        turboButton.whenPressed(new TurboCommand(robot.drivebase));
-        turboButton.whenReleased(new SlowCommand(robot.drivebase));
+        turboButton.whenPressed(new TurboModeCommand(robot.drivebase));
+        turboButton.whenReleased(new NormalModeCommand(robot.drivebase));
+        snailButton.whenPressed(new SnailModeCommand(robot.drivebase));
+        snailButton.whenReleased(new NormalModeCommand(robot.drivebase));
 
         resetGyroButton.whenPressed(new ResetGyroCommand(robot.drivebase));
     }
