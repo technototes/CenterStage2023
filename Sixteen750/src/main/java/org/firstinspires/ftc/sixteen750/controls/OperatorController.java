@@ -12,10 +12,12 @@ import org.firstinspires.ftc.sixteen750.commands.hang.LeadScrewUp;
 import org.firstinspires.ftc.sixteen750.commands.intake.EjectCommand;
 import org.firstinspires.ftc.sixteen750.commands.intake.IntakeCommand;
 import org.firstinspires.ftc.sixteen750.commands.intake.StopCommand;
+import org.firstinspires.ftc.sixteen750.commands.placement.ArmServoOutputCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.LiftHighCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.LiftIntakeCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.LiftLowCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.LiftMediumCommand;
+import org.firstinspires.ftc.sixteen750.commands.placement.ScoreServoOutputCommand;
 
 public class OperatorController {
 
@@ -26,10 +28,14 @@ public class OperatorController {
     public CommandButton ejectButton;
     public CommandButton stopButton;
 
+    public CommandButton pauseButton;
+
     public CommandButton placementHighButton;
     public CommandButton placementLowButton;
     public CommandButton placementMediumButton;
     public CommandButton placementIntakeButton;
+
+    public CommandButton armServoOutputButton, scoreServoOutputButton;
 
     public CommandButton hangUpButton;
     public CommandButton screwUpButton;
@@ -47,31 +53,44 @@ public class OperatorController {
         if (Setup.Connected.HANG) {
             bindHangControls();
         }
+        if (Setup.Connected.PLACEMENT) {
+            bindPlacementControls();
+        }
     }
 
     private void AssignNamedControllerButton() {
         intakeButton = gamepad.ps_triangle;
-        stopButton = gamepad.ps_circle;
+        stopButton = gamepad.ps_cross;
         ejectButton = gamepad.ps_cross;
+        pauseButton = gamepad.ps_triangle;
 
         placementHighButton = gamepad.dpadUp;
         placementIntakeButton = gamepad.dpadRight;
         placementMediumButton = gamepad.dpadLeft;
         placementLowButton = gamepad.dpadDown;
 
-        hangUpButton = gamepad.ps_square;
-        screwUpButton = gamepad.rightBumper;
-        screwDownButton = gamepad.leftBumper;
+        armServoOutputButton = gamepad.ps_square;
+        scoreServoOutputButton = gamepad.ps_circle;
+        //hangUpButton = gamepad.ps_square;
+        //screwUpButton = gamepad.rightBumper;
+        //screwDownButton = gamepad.leftBumper;
+
     }
 
     private void bindIntakeControls() {
         intakeButton.whenPressed(new IntakeCommand(robot.intake));
-        stopButton.whenPressed(new StopCommand(robot.intake));
+        stopButton.whenReleased(new StopCommand(robot.intake));
         ejectButton.whenPressed(new EjectCommand(robot.intake));
+        pauseButton.whenReleased(new StopCommand(robot.intake));
+    }
+
+    private void bindPlacementControls() {
         placementHighButton.whenPressed(new LiftHighCommand(robot.placement));
         placementMediumButton.whenPressed(new LiftMediumCommand(robot.placement));
         placementLowButton.whenPressed(new LiftLowCommand(robot.placement));
         placementIntakeButton.whenPressed(new LiftIntakeCommand(robot.placement));
+        armServoOutputButton.whenPressed(new ArmServoOutputCommand(robot.placement));
+        scoreServoOutputButton.whenPressed(new ScoreServoOutputCommand(robot.placement));
     }
 
     private void bindHangControls() {
