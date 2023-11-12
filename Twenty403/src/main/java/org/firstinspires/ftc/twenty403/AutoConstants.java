@@ -20,10 +20,10 @@ public class AutoConstants {
         public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(36, 32, -180);
         public static ConfigurablePoseD TELESTART = new ConfigurablePoseD(0,0,90);
         public static ConfigurablePoseD PARK_CORNER = new ConfigurablePoseD(-60,60,-180); // may need to be 180 (0 needs test)
-        public static ConfigurablePoseD FORWARD = new ConfigurablePoseD(3,0,-180);
-        public static ConfigurablePoseD BACKWARD = new ConfigurablePoseD(47, 0, -180);
-        public static ConfigurablePoseD SIDE_RIGHT = new ConfigurablePoseD(47,48,-180);
-        public static ConfigurablePoseD SIDE_LEFT = new ConfigurablePoseD(47,0,-180);
+        public static ConfigurablePoseD FORWARD = new ConfigurablePoseD(24,0,0);
+        public static ConfigurablePoseD BACKWARD = new ConfigurablePoseD(0, 0, 0);
+        public static ConfigurablePoseD SIDE_RIGHT = new ConfigurablePoseD(0,-24,0);
+        public static ConfigurablePoseD SIDE_LEFT = new ConfigurablePoseD(0,0,0);
 
         // These are 'trajectory pieces' which should be named like this:
         // {STARTING_POSITION}_TO_{ENDING_POSITION}
