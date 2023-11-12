@@ -109,28 +109,23 @@ public class DrivebaseSubsystem
         @PoseLimit
         public static int POSE_HISTORY_LIMIT = 100;
 
-        // FL - 0.82
-        // FR - 0.8
-        // RL - 0.1
-        // RR - 0.74
         public static double AFR_SCALE = 0.9;
         public static double AFL_SCALE = 0.9;
         public static double ARR_SCALE = 0.9;
         public static double ARL_SCALE = 0.9;
 
         public static double encoderTicksToInches(double ticks) {
-            return WHEEL_RADIUS * 2 * Math.PI * GEAR_RATIO * ticks / TICKS_PER_REV;
+            return (WHEEL_RADIUS * 2 * Math.PI * GEAR_RATIO * ticks) / TICKS_PER_REV;
         }
 
         public static double rpmToVelocity(double rpm) {
-            return rpm * GEAR_RATIO * 2 * Math.PI * WHEEL_RADIUS / 60.0;
+            return (rpm * GEAR_RATIO * 2 * Math.PI * WHEEL_RADIUS) / 60.0;
         }
 
         public static double getMotorVelocityF(double ticksPerSecond) {
             // see https://docs.google.com/document/d/1tyWrXDfMidwYyP_5H4mZyVgaEswhOC35gvdmP-V-5hA/edit#heading=h.61g9ixenznbx
             return 32767 / ticksPerSecond;
         }
-
     }
 
     private static final boolean ENABLE_POSE_DIAGNOSTICS = true;
@@ -138,25 +133,22 @@ public class DrivebaseSubsystem
     @Log(name = "Pose2d: ")
     public String poseDisplay = ENABLE_POSE_DIAGNOSTICS ? "" : null;
 
-    @Log.Number(name = "FL")
+    //    @Log.Number(name = "FL")
     public EncodedMotor<DcMotorEx> fl2;
 
-    @Log.Number(name = "FR")
+    //    @Log.Number(name = "FR")
     public EncodedMotor<DcMotorEx> fr2;
 
-    @Log.Number(name = "RL")
+    //    @Log.Number(name = "RL")
     public EncodedMotor<DcMotorEx> rl2;
 
-    @Log.Number(name = "RR")
+    //    @Log.Number(name = "RR")
     public EncodedMotor<DcMotorEx> rr2;
 
-    @Log(name = "magnitude")
-    public String dirLen = "";
-
-    @Log(name = "Turbo")
+    //    @Log(name = "Turbo")
     public boolean Turbo = false;
 
-    @Log(name = "Snail")
+    //    @Log(name = "Snail")
     public boolean Snail = false;
 
     public DrivebaseSubsystem(
@@ -196,9 +188,6 @@ public class DrivebaseSubsystem
         }
     }
 
-    @Log(name = "Speed Mult")
-    public double maxall = 1.0;
-
     // Velocity driving, in the hopes that the bot with drive straight ;)
     @Override
     public void setMotorPowers(double lfv, double lrv, double rrv, double rfv) {
@@ -209,7 +198,7 @@ public class DrivebaseSubsystem
         // of the control sticks are at their limit
         double maxlfvlrv = Math.max(Math.abs(lfv), Math.abs(lrv));
         double maxrfvrrv = Math.max(Math.abs(rfv), Math.abs(rrv));
-        maxall = Math.max(maxlfvlrv, maxrfvrrv);
+        double maxall = Math.max(maxlfvlrv, maxrfvrrv);
         if (isSnailMode()) {
             maxall = 1.0 / DriveConstants.SLOW_MOTOR_SPEED;
         } else if (isNormalMode()) {

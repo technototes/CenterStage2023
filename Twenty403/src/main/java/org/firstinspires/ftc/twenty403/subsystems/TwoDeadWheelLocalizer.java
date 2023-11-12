@@ -36,8 +36,10 @@ public class TwoDeadWheelLocalizer
     @Config
     public abstract static class OdoDeadWheelConstants implements DeadWheelConstants {
 
+        // I don't think this is used in a 2 wheel localizer
         public static double LateralDistance = 152.4 / 25.4; // mm -> in
 
+        // I don't think this is used in a 2 wheel localizer
         public static double ForwardOffset = 63.5 / 25.4; // mm -> in
 
         // I'm guessing this has to do with the REV hub recording changes in
@@ -45,10 +47,10 @@ public class TwoDeadWheelLocalizer
         // the encoders will be incorrect and potentially overflow
         public static boolean EncoderOverflow = true;
 
-        // This may be wrong
+        // Our odo pods appear to drive the encoder directly, so no gear ratio
         public static double GearRatio = 1;
 
-        public static double TicksPerRev = 8192; // Might be 2048
+        public static double TicksPerRev = 8192;
 
         public static double WheelRadius = 17.5 / 25.4; // millimeters -> inches
 
