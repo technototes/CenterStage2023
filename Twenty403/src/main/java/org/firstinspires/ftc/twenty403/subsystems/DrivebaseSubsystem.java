@@ -32,10 +32,10 @@ public class DrivebaseSubsystem
         public static double TRIGGER_THRESHOLD = 0.7;
 
         @TicksPerRev
-        public static final double TICKS_PER_REV = 384.5; // 2021: 28;
+        public static final double TICKS_PER_REV = 384.5; // From Gobilda Specs
 
         @MaxRPM
-        public static final double MAX_RPM = 435; // 2021: 6000;
+        public static final double MAX_RPM = 435; // From Gobilda Specs
 
         public static double MAX_TICKS_PER_SEC = (TICKS_PER_REV * MAX_RPM) / 60.0;
 
@@ -57,10 +57,10 @@ public class DrivebaseSubsystem
         public static double GEAR_RATIO = 0.94; // 2021: / 19.2; // output (wheel) speed / input (motor) speed
 
         @TrackWidth
-        public static double TRACK_WIDTH = 9.1875; // 2021: 10; // in
+        public static double TRACK_WIDTH = 14; // 2021: 10; // in
 
         @WheelBase
-        public static double WHEEL_BASE = 8.5; // in
+        public static double WHEEL_BASE = 13.25; // in
 
         @KV
         public static double kV =
@@ -74,19 +74,19 @@ public class DrivebaseSubsystem
 
         // This was 60, which was too fast. Things slid around a lot.
         @MaxVelo
-        public static double MAX_VEL = 64; //50
+        public static double MAX_VEL = 64; // LRR says 73.17330064499293
 
         // This was 35, which also felt a bit too fast. The bot controls more smoothly now
         @MaxAccel
-        public static double MAX_ACCEL = 20; //30
+        public static double MAX_ACCEL = 20; // LRR says 73.17330064499293
 
         // This was 180 degrees
         @MaxAngleVelo
-        public static double MAX_ANG_VEL = Math.toRadians(180);
+        public static double MAX_ANG_VEL = Math.toRadians(180); // LRR says 299.4658071428571
 
         // This was 90 degrees
         @MaxAngleAccel
-        public static double MAX_ANG_ACCEL = Math.toRadians(90);
+        public static double MAX_ANG_ACCEL = Math.toRadians(90); // LRR says 299.4658071428571
 
         @TransPID
         public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(8, 0, 0);
@@ -109,14 +109,23 @@ public class DrivebaseSubsystem
         @PoseLimit
         public static int POSE_HISTORY_LIMIT = 100;
 
-        // FL - 0.82
-        // FR - 0.8
-        // RL - 0.1
-        // RR - 0.74
         public static double AFR_SCALE = 0.9;
         public static double AFL_SCALE = 0.9;
         public static double ARR_SCALE = 0.9;
         public static double ARL_SCALE = 0.9;
+
+        public static double encoderTicksToInches(double ticks) {
+            return (WHEEL_RADIUS * 2 * Math.PI * GEAR_RATIO * ticks) / TICKS_PER_REV;
+        }
+
+        public static double rpmToVelocity(double rpm) {
+            return (rpm * GEAR_RATIO * 2 * Math.PI * WHEEL_RADIUS) / 60.0;
+        }
+
+        public static double getMotorVelocityF(double ticksPerSecond) {
+            // see https://docs.google.com/document/d/1tyWrXDfMidwYyP_5H4mZyVgaEswhOC35gvdmP-V-5hA/edit#heading=h.61g9ixenznbx
+            return 32767 / ticksPerSecond;
+        }
     }
 
     private static final boolean ENABLE_POSE_DIAGNOSTICS = true;
@@ -124,28 +133,22 @@ public class DrivebaseSubsystem
     @Log(name = "Pose2d: ")
     public String poseDisplay = ENABLE_POSE_DIAGNOSTICS ? "" : null;
 
-    @Log.Number(name = "FL")
+    //    @Log.Number(name = "FL")
     public EncodedMotor<DcMotorEx> fl2;
 
-    @Log.Number(name = "FR")
+    //    @Log.Number(name = "FR")
     public EncodedMotor<DcMotorEx> fr2;
 
-    @Log.Number(name = "RL")
+    //    @Log.Number(name = "RL")
     public EncodedMotor<DcMotorEx> rl2;
 
-    @Log.Number(name = "RR")
+    //    @Log.Number(name = "RR")
     public EncodedMotor<DcMotorEx> rr2;
 
-    @Log(name = "magnitude")
-    public String dirLen = "";
-
-    @Log(name = "trigger")
-    public double trigggerValue = 0;
-
-    @Log(name = "Turbo")
+    //    @Log(name = "Turbo")
     public boolean Turbo = false;
 
-    @Log(name = "Snail")
+    //    @Log(name = "Snail")
     public boolean Snail = false;
 
     public DrivebaseSubsystem(
@@ -157,34 +160,19 @@ public class DrivebaseSubsystem
         TwoTrackingWheelLocalizer l
     ) {
         // The localizer is not quite working. Bot drives a little crazy
-        super(fl, fr, rl, rr, i, () -> DriveConstants.class/*, l*/);
+        super(fl, fr, rl, rr, i, () -> DriveConstants.class, l);
         fl2 = fl;
         fr2 = fr;
         rl2 = rl;
         rr2 = rr;
         speed = DriveConstants.SLOW_MOTOR_SPEED;
-        setLocalizer(l);
-    }
-
-    public void showVal(double d) {
-        trigggerValue = d;
+        // This is already handled in the parent class constructor (super)
+        // setLocalizer(l);
     }
 
     @Override
     public Pose2d get() {
         return getPoseEstimate();
-    }
-
-    private double mag;
-
-    public void setMag(double m) {
-        mag = m;
-        if (mag >= 0) {
-            dirLen = String.format("%1.2f", mag);
-        } else {
-            dirLen = "";
-            mag = -1;
-        }
     }
 
     @Override
@@ -200,9 +188,6 @@ public class DrivebaseSubsystem
         }
     }
 
-    @Log(name = "Speed Mult")
-    public double maxall = 1.0;
-
     // Velocity driving, in the hopes that the bot with drive straight ;)
     @Override
     public void setMotorPowers(double lfv, double lrv, double rrv, double rfv) {
@@ -213,11 +198,10 @@ public class DrivebaseSubsystem
         // of the control sticks are at their limit
         double maxlfvlrv = Math.max(Math.abs(lfv), Math.abs(lrv));
         double maxrfvrrv = Math.max(Math.abs(rfv), Math.abs(rrv));
-        maxall = Math.max(maxlfvlrv, maxrfvrrv);
-        if (Snail == true) {
+        double maxall = Math.max(maxlfvlrv, maxrfvrrv);
+        if (isSnailMode()) {
             maxall = 1.0 / DriveConstants.SLOW_MOTOR_SPEED;
-        }
-        if (Turbo == false && Snail == false) {
+        } else if (isNormalMode()) {
             maxall = 1.0 / DriveConstants.NORMAL_MOTOR_SPEED;
         }
         leftFront.setVelocity(
@@ -239,13 +223,25 @@ public class DrivebaseSubsystem
         Turbo = false;
     }
 
+    public boolean isSnailMode() {
+        return Snail && !Turbo;
+    }
+
     public void setTurboMode() {
         Turbo = true;
         Snail = false;
     }
 
+    public boolean isTurboMode() {
+        return Turbo && !Snail;
+    }
+
     public void setNormalMode() {
         Snail = false;
         Turbo = false;
+    }
+
+    public boolean isNormalMode() {
+        return !Snail && !Turbo;
     }
 }
