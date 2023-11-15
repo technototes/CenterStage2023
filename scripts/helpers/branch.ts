@@ -47,7 +47,7 @@ export async function GetBranchName(): Promise<string | undefined> {
     return Promise.resolve(true);
   }
   do {
-    branch = `${Clean(user}}-${yr}.${zpad(mo)}.${zpad(dy)}-${Clean(task)}`;
+    branch = `${Clean(user)}-${yr}.${zpad(mo)}.${zpad(dy)}-${Clean(task)}`;
     await Menu(`Does "${branch}" look like a good branch name?`, [
       ['Yup: Start coding!', allDone],
       ['No: Change my name.', nameChange],
