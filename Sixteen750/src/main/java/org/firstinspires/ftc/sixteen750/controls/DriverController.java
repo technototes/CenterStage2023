@@ -22,6 +22,7 @@ public class DriverController {
     public CommandButton resetGyroButton, turboButton, snailButton;
     public CommandButton override;
     public CommandAxis driveStraighten;
+
     public DriverController(CommandGamepad g, Robot r) {
         this.robot = r;
         gamepad = g;
@@ -40,8 +41,6 @@ public class DriverController {
         driveStraighten = gamepad.rightTrigger;
         turboButton = gamepad.rightBumper;
         snailButton = gamepad.leftBumper;
-
-
     }
 
     public void bindDriveControls() {

@@ -48,7 +48,7 @@ public class TwoDeadWheelLocalizer
         public static boolean EncoderOverflow = true;
 
         // Our odo pods appear to drive the encoder directly, so no gear ratio
-        public static double GearRatio = 1;
+        public static double GearRatio = 1; // output (wheel) speed / input (encoder) speed
 
         public static double TicksPerRev = 8192;
 
@@ -59,19 +59,17 @@ public class TwoDeadWheelLocalizer
 
         public static boolean perpReverse = true;
         public static boolean paraReverse = false;
+
+        // Parallel/Perpendicular to the forward axis
+        // Parallel wheel is parallel to the forward axis
+        // Perpendicular is perpendicular to the forward axis
+
+        public static double PARALLEL_X = -5.2 / 2.54; // X is the fwd/bkwd direction
+        public static double PARALLEL_Y = -17.8 / 2.54; // Y is the side-to-side/strafe direction
+
+        public static double PERPENDICULAR_X = 4.9 / 2.54; // Was 3 before
+        public static double PERPENDICULAR_Y = 7.6 / 2.54; // Was 3.5 before
     }
-
-    public static double GEAR_RATIO = 1; // output (wheel) speed / input (encoder) speed
-
-    // Parallel/Perpendicular to the forward axis
-    // Parallel wheel is parallel to the forward axis
-    // Perpendicular is perpendicular to the forward axis
-
-    public static double PARALLEL_X = -2; // X is the up and down direction
-    public static double PARALLEL_Y = -7; // Y is the strafe direction
-
-    public static double PERPENDICULAR_X = 3;
-    public static double PERPENDICULAR_Y = 3.5;
 
     // Parallel moves parallel to the axles of the drive base
     @Log(name = "parOdo")
@@ -90,10 +88,14 @@ public class TwoDeadWheelLocalizer
     public TwoDeadWheelLocalizer(MotorEncoder r, MotorEncoder f) {
         super(
             Arrays.asList(
-                new Pose2d(PARALLEL_X, PARALLEL_Y, Math.toRadians(OdoDeadWheelConstants.paraAngle)),
                 new Pose2d(
-                    PERPENDICULAR_X,
-                    PERPENDICULAR_Y,
+                    OdoDeadWheelConstants.PARALLEL_X,
+                    OdoDeadWheelConstants.PARALLEL_Y,
+                    Math.toRadians(OdoDeadWheelConstants.paraAngle)
+                ),
+                new Pose2d(
+                    OdoDeadWheelConstants.PERPENDICULAR_X,
+                    OdoDeadWheelConstants.PERPENDICULAR_Y,
                     Math.toRadians(OdoDeadWheelConstants.perpAngle)
                 )
             )

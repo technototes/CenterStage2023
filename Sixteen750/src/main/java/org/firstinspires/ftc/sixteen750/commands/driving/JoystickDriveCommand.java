@@ -44,7 +44,10 @@ public class JoystickDriveCommand implements Command, Loggable {
     // Otherwise, it just reads the rotation value from the rotation stick
     private double getRotation(double headingInRads) {
         // Check to see if we're trying to straighten the robot
-        if (driveStraighten == null || driveStraighten.getAsDouble() < DrivebaseSubsystem.DriveConstants.TRIGGER_THRESHOLD) {
+        if (
+            driveStraighten == null ||
+            driveStraighten.getAsDouble() < DrivebaseSubsystem.DriveConstants.TRIGGER_THRESHOLD
+        ) {
             // No straighten override: return the stick value
             // (with some adjustment...)
             return -Math.pow(r.getAsDouble(), 3) * subsystem.speed;
@@ -79,17 +82,11 @@ public class JoystickDriveCommand implements Command, Loggable {
             double xvalue = -x.getAsDouble();
             if (driveStraighten != null) {
                 if (driveStraighten.getAsDouble() > 0.7) {
-                    if (Math.abs(yvalue) > Math.abs(xvalue))
-                        xvalue = 0;
-                    else
-                        yvalue = 0;
+                    if (Math.abs(yvalue) > Math.abs(xvalue)) xvalue = 0; else yvalue = 0;
                 }
             }
-            Vector2d input = new Vector2d(
-                    yvalue * subsystem.speed,
-                    xvalue * subsystem.speed
-            )
-                    .rotated(curHeading);
+            Vector2d input = new Vector2d(yvalue * subsystem.speed, xvalue * subsystem.speed)
+                .rotated(curHeading);
 
             subsystem.setWeightedDrivePower(
                 new Pose2d(input.getX(), input.getY(), getRotation(curHeading))
