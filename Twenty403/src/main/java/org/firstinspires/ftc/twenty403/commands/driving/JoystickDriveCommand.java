@@ -50,7 +50,7 @@ public class JoystickDriveCommand implements Command, Loggable {
         // Check to see if we're trying to straighten the robot
         // Don't straighten in turbo: The bot goes crazy
         if (
-            subsystem.Turbo ||
+            subsystem.isTurboMode() ||
             straightDrive == null ||
             straightDrive.getAsDouble() < TRIGGER_THRESHOLD
         ) {
@@ -72,7 +72,7 @@ public class JoystickDriveCommand implements Command, Loggable {
             // Scale it by the cube root, the scale that down by 30%
             // .9 (about 40 degrees off) provides .96 power => .288
             // .1 (about 5 degrees off) provides .46 power => .14
-            if (subsystem.Snail == true) {
+            if (subsystem.isSnailMode()) {
                 return Math.cbrt(normalized) * SLOW_ROTATION_SCALE;
             } else {
                 return (normalized) * NORMAL_ROTATION_SCALE;
