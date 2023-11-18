@@ -36,6 +36,7 @@ public class ArmSubsystem implements Subsystem, Loggable {
 
     public static double MIN_ELBOW_MOTOR_SPEED = -0.5;
     public static double MAX_ELBOW_MOTOR_SPEED = 0.5;
+
     @Log(name = "shoulderPos")
     public int shoulderPos;
 
@@ -53,6 +54,7 @@ public class ArmSubsystem implements Subsystem, Loggable {
 
     @Log(name = "elbowTarget")
     public int elbowTargetPos;
+
     private Servo clawServo;
     private EncodedMotor<DcMotorEx> shoulderMotor, elbowMotor;
     private boolean haveHardware;
@@ -61,7 +63,11 @@ public class ArmSubsystem implements Subsystem, Loggable {
     private PIDFController shoulderPidController, elbowPidController;
     public int shoulderResetPos, elbowResetPos;
 
-    public ArmSubsystem(Servo claw, EncodedMotor<DcMotorEx> shoulder, EncodedMotor<DcMotorEx> elbow) {
+    public ArmSubsystem(
+        Servo claw,
+        EncodedMotor<DcMotorEx> shoulder,
+        EncodedMotor<DcMotorEx> elbow
+    ) {
         clawServo = claw;
         shoulderMotor = shoulder;
         elbowMotor = elbow;
@@ -100,13 +106,19 @@ public class ArmSubsystem implements Subsystem, Loggable {
         setElbowPos(ELBOW_ARM_INTAKE);
     }
 
-    public void arm_increment() {
+    public void shoulder_increment() {
         setShoulderPos(shoulderTargetPos + SHOULDER_MANUAL_STEP);
+    }
+
+    public void shoulder_decrement() {
+        setShoulderPos(shoulderTargetPos - SHOULDER_MANUAL_STEP);
+    }
+
+    public void elbow_increment() {
         setElbowPos(elbowTargetPos + ELBOW_MANUAL_STEP);
     }
 
-    public void arm_decrement() {
-        setShoulderPos(shoulderTargetPos - SHOULDER_MANUAL_STEP);
+    public void elbow_decrement() {
         setElbowPos(elbowTargetPos - ELBOW_MANUAL_STEP);
     }
 
@@ -170,7 +182,11 @@ public class ArmSubsystem implements Subsystem, Loggable {
 
     private void setShoulderMotorPower(double speed) {
         if (haveHardware) {
-            double clippedSpeed = Range.clip(speed, MIN_SHOULDER_MOTOR_SPEED, MAX_SHOULDER_MOTOR_SPEED);
+            double clippedSpeed = Range.clip(
+                speed,
+                MIN_SHOULDER_MOTOR_SPEED,
+                MAX_SHOULDER_MOTOR_SPEED
+            );
             shoulderMotor.setSpeed(clippedSpeed);
         }
     }

@@ -7,8 +7,8 @@ import com.technototes.library.control.Stick;
 import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
 import org.firstinspires.ftc.twenty403.commands.DroneCommand;
-import org.firstinspires.ftc.twenty403.commands.auto.claw.ClawCloseCommand;
-import org.firstinspires.ftc.twenty403.commands.auto.claw.ClawOpenCommand;
+import org.firstinspires.ftc.twenty403.commands.arm.ClawCloseCommand;
+import org.firstinspires.ftc.twenty403.commands.arm.ClawOpenCommand;
 import org.firstinspires.ftc.twenty403.commands.driving.JoystickDriveCommand;
 import org.firstinspires.ftc.twenty403.commands.driving.ResetGyroCommand;
 

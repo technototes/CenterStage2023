@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.twenty403.commands.auto.claw;
+package org.firstinspires.ftc.twenty403.commands.arm;
 
 import com.technototes.library.command.Command;
 import org.firstinspires.ftc.twenty403.subsystems.ArmSubsystem;
