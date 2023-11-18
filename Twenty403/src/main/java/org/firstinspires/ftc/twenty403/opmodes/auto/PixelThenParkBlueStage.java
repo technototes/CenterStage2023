@@ -36,13 +36,13 @@ public class PixelThenParkBlueStage extends CommandOpMode {
             .getInstance()
             .scheduleForState(
                 new SequentialCommandGroup(
-                    new StagePixelSelection(robot),
+                    new StagePixelMiddle(robot),
                     CommandScheduler.getInstance()::terminateOpMode
                 ),
                 OpModeState.RUN
             );
-        if (Setup.Connected.WEBCAM) {
-            CommandScheduler.getInstance().scheduleInit(new VisionCommand(robot.vision));
-        }
+//        if (Setup.Connected.WEBCAM) {
+//            CommandScheduler.getInstance().scheduleInit(new VisionCommand(robot.vision));
+//        }
     }
 }

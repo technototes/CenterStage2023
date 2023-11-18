@@ -19,7 +19,7 @@ import org.firstinspires.ftc.twenty403.controls.DriverController;
 import org.firstinspires.ftc.twenty403.helpers.StartingPosition;
 
 // The last 4 weird things are '🟥' and '🪶' (wing)
-@Autonomous(name = "PixelThenPark\uD83D\uDFE5\uD83E\uDEB6")
+@Autonomous(name = "PixelThenParkRedWing")
 @SuppressWarnings("unused")
 public class PixelThenParkRedWing extends CommandOpMode {
 
