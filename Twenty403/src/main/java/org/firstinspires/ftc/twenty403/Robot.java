@@ -2,9 +2,9 @@ package org.firstinspires.ftc.twenty403;
 
 import com.technototes.library.logger.Loggable;
 import com.technototes.library.util.Alliance;
-import java.util.Set;
+
 import org.firstinspires.ftc.twenty403.helpers.StartingPosition;
-import org.firstinspires.ftc.twenty403.subsystems.ClawSubsystem;
+import org.firstinspires.ftc.twenty403.subsystems.ArmSubsystem;
 import org.firstinspires.ftc.twenty403.subsystems.DrivebaseSubsystem;
 import org.firstinspires.ftc.twenty403.subsystems.DroneSubsystem;
 import org.firstinspires.ftc.twenty403.subsystems.HangSubsystem;
@@ -18,7 +18,7 @@ public class Robot implements Loggable {
     public double initialVoltage;
 
     public DrivebaseSubsystem drivebaseSubsystem;
-    public ClawSubsystem clawSubsystem;
+    public ArmSubsystem clawSubsystem;
     public VisionSubsystem vision;
     public HangSubsystem hangSubsystem;
     public DroneSubsystem droneSubsystem;
@@ -48,9 +48,9 @@ public class Robot implements Loggable {
             this.vision = new VisionSubsystem();
         }
         if (Setup.Connected.CLAWSUBSYSTEM) {
-            this.clawSubsystem = new ClawSubsystem(hw.clawServo, hw.swingMotor);
+            this.clawSubsystem = new ArmSubsystem(hw.clawServo, hw.swingMotor);
         } else {
-            this.clawSubsystem = new ClawSubsystem();
+            this.clawSubsystem = new ArmSubsystem();
         }
         if (Setup.Connected.HANGSUBSYSTEM) {
             this.hangSubsystem = new HangSubsystem(hw);

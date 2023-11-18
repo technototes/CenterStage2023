@@ -1,13 +1,13 @@
 package org.firstinspires.ftc.twenty403.commands.auto.claw;
 
 import com.technototes.library.command.Command;
-import org.firstinspires.ftc.twenty403.subsystems.ClawSubsystem;
+import org.firstinspires.ftc.twenty403.subsystems.ArmSubsystem;
 
 public class ArmNeutralPosition implements Command {
 
-    private ClawSubsystem subsystem;
+    private ArmSubsystem subsystem;
 
-    public ArmNeutralPosition(ClawSubsystem n) {
+    public ArmNeutralPosition(ArmSubsystem n) {
         subsystem = n;
         addRequirements(n);
     }
