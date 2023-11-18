@@ -13,7 +13,7 @@ import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.logger.Loggable;
 import com.technototes.vision.hardware.Webcam;
 import java.util.List;
-import java.util.Set;
+
 import org.firstinspires.ftc.robotcore.external.navigation.VoltageUnit;
 
 public class Hardware implements Loggable {
@@ -25,7 +25,8 @@ public class Hardware implements Loggable {
     public Webcam camera;
     public Servo clawServo;
     public Servo launchServo;
-    public EncodedMotor<DcMotorEx> swingMotor;
+    public EncodedMotor<DcMotorEx> shoulderMotor;
+    public EncodedMotor<DcMotorEx> elbowMotor;
     public MotorEncoder odoF, odoR;
 
     public Motor<DcMotorEx> hangMotor1;
@@ -51,9 +52,10 @@ public class Hardware implements Loggable {
         if (Setup.Connected.WEBCAM) {
             camera = new Webcam(Setup.HardwareNames.CAMERA);
         }
-        if (Setup.Connected.CLAWSUBSYSTEM) {
+        if (Setup.Connected.ARMSUBSYSTEM) {
             clawServo = new Servo(Setup.HardwareNames.CLAWSERVO);
-            swingMotor = new EncodedMotor<>(Setup.HardwareNames.SHOULDERMOTOR);
+            shoulderMotor = new EncodedMotor<>(Setup.HardwareNames.SHOULDERMOTOR);
+            elbowMotor = new EncodedMotor<>(Setup.HardwareNames.ELBOWMOTOR);
         }
         if (Setup.Connected.HANGSUBSYSTEM) {
             hangServo1 = hwmap.get(CRServo.class, Setup.HardwareNames.HANG_CRSERVO);

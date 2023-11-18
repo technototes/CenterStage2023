@@ -47,8 +47,8 @@ public class Robot implements Loggable {
         } else {
             this.vision = new VisionSubsystem();
         }
-        if (Setup.Connected.CLAWSUBSYSTEM) {
-            this.clawSubsystem = new ArmSubsystem(hw.clawServo, hw.swingMotor);
+        if (Setup.Connected.ARMSUBSYSTEM) {
+            this.clawSubsystem = new ArmSubsystem(hw.clawServo, hw.shoulderMotor, hw.elbowMotor);
         } else {
             this.clawSubsystem = new ArmSubsystem();
         }

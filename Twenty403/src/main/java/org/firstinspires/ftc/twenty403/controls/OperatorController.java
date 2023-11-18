@@ -48,7 +48,7 @@ public class OperatorController {
         override = g.leftTrigger.getAsButton(0.5);
 
         AssignNamedControllerButton();
-        if (Setup.Connected.CLAWSUBSYSTEM) {
+        if (Setup.Connected.ARMSUBSYSTEM) {
             bindClawControls();
         }
         if (Setup.Connected.HANGSUBSYSTEM) {

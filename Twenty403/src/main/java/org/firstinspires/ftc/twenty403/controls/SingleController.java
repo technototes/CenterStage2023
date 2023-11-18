@@ -32,7 +32,7 @@ public class SingleController {
         if (Setup.Connected.DRIVEBASE) {
             bindDriveControls();
         }
-        if (Setup.Connected.CLAWSUBSYSTEM) {
+        if (Setup.Connected.ARMSUBSYSTEM) {
             bindClawControls();
         }
 
