@@ -82,9 +82,9 @@ public class AutoConstants {
         public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(35, -32, 90);
         public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(45, -30, 60);
         // This is "clear of the pixels, ready to go somewhere else"
-        public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(35,-60.1,180);
-        public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(36, -32, 180);
-        public static ConfigurablePoseD PARK_CORNER = new ConfigurablePoseD(-60,-60,180); // may need to be 180 (0 needs test)
+        public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(39,-56,180);
+        public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(39, -32, 180);
+        public static ConfigurablePoseD PARK_CORNER = new ConfigurablePoseD(-60,-56,180); // may need to be 180 (0 needs test)
 
 
         public static ConfigurablePoseD TELESTART = new ConfigurablePoseD(0,0,90);
@@ -96,10 +96,10 @@ public class AutoConstants {
                 //spline done (spline to clear the metal)
                 b.apply(START.toPose()).lineToLinearHeading(MID_CLEAR.toPose()).build(),
                 MID_CLEAR_TO_LEFT_SPIKE = b ->
-                        b.apply(MID_CLEAR.toPose()).lineToLinearHeading(RIGHT_SPIKE.toPose()).build(),
+                        b.apply(MID_CLEAR.toPose()).lineToLinearHeading(LEFT_SPIKE.toPose()).build(),
                 LEFT_SPIKE_TO_MID_CLEAR = b ->
                         //
-                        b.apply(RIGHT_SPIKE.toPose()).lineToLinearHeading(MID_CLEAR.toPose()).build(),
+                        b.apply(LEFT_SPIKE.toPose()).lineToLinearHeading(MID_CLEAR.toPose()).build(),
                 MID_CLEAR_TO_CLEAR = b ->
                         //
                         b.apply(MID_CLEAR.toPose()).lineToLinearHeading(CLEAR.toPose()).build(),

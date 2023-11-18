@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.localization.TwoTrackingWheelLocalizer;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.technototes.library.hardware.motor.EncodedMotor;
@@ -44,10 +45,11 @@ public class DrivebaseSubsystem
 
         @MotorVeloPID
         public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(
-            20,
+            35,
             0,
-            3,
-            MecanumConstants.getMotorVelocityF((MAX_RPM / 60) * TICKS_PER_REV)
+            12,
+                0
+         // 0   MecanumConstants.getMotorVelocityF((MAX_RPM / 60) * TICKS_PER_REV)
         );
 
         @WheelRadius
@@ -168,7 +170,9 @@ public class DrivebaseSubsystem
         speed = DriveConstants.SLOW_MOTOR_SPEED;
         // This is already handled in the parent class constructor (super)
         // setLocalizer(l);
+        setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
     }
+
 
     @Override
     public Pose2d get() {
