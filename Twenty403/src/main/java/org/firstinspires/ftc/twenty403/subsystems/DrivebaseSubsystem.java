@@ -10,10 +10,13 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.sensor.IMU;
 import com.technototes.library.logger.Log;
+import com.technototes.library.logger.LogConfig;
 import com.technototes.library.logger.Loggable;
 import com.technototes.path.subsystem.MecanumConstants;
 import com.technototes.path.subsystem.PathingMecanumDrivebaseSubsystem;
 import java.util.function.Supplier;
+import org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity;
+import org.firstinspires.ftc.twenty403.helpers.HeadingHelper;
 
 public class DrivebaseSubsystem
     extends PathingMecanumDrivebaseSubsystem
@@ -48,8 +51,8 @@ public class DrivebaseSubsystem
             35,
             0,
             12,
-                0
-         // 0   MecanumConstants.getMotorVelocityF((MAX_RPM / 60) * TICKS_PER_REV)
+            0
+            // 0   MecanumConstants.getMotorVelocityF((MAX_RPM / 60) * TICKS_PER_REV)
         );
 
         @WheelRadius
@@ -153,6 +156,10 @@ public class DrivebaseSubsystem
     //    @Log(name = "Snail")
     public boolean Snail = false;
 
+    @LogConfig.Run(duringRun = true, duringInit = true)
+    @Log(name = "heading")
+    public double heading;
+
     public DrivebaseSubsystem(
         EncodedMotor<DcMotorEx> fl,
         EncodedMotor<DcMotorEx> fr,
@@ -173,10 +180,13 @@ public class DrivebaseSubsystem
         setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
     }
 
-
     @Override
     public Pose2d get() {
         return getPoseEstimate();
+    }
+
+    public void saveHeading() {
+        HeadingHelper.updateHeading(imu.gyroHeading());
     }
 
     @Override
@@ -190,6 +200,7 @@ public class DrivebaseSubsystem
                 " : " +
                 (poseVelocity != null ? poseVelocity.toString() : "<null>");
         }
+        heading = imu.gyroHeading();
     }
 
     // Velocity driving, in the hopes that the bot with drive straight ;)
