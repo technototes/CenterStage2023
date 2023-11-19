@@ -10,6 +10,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.localization.TwoTrackingWheelLocalizer;
 import com.technototes.library.hardware.sensor.encoder.MotorEncoder;
 import com.technototes.library.logger.Log;
+import com.technototes.library.logger.LogConfig;
 import com.technototes.library.logger.Loggable;
 import com.technototes.library.subsystem.Subsystem;
 import com.technototes.path.subsystem.DeadWheelConstants;
@@ -72,10 +73,12 @@ public class TwoDeadWheelLocalizer
     }
 
     // Parallel moves parallel to the axles of the drive base
+    @LogConfig.Run(duringRun = true, duringInit = true)
     @Log(name = "parOdo")
     public MotorEncoder parallelEncoder;
 
     // Perpendicular moves perpendicular to the axles of the drive base
+    @LogConfig.Run(duringRun = true, duringInit = true)
     @Log(name = "perpOdo")
     public MotorEncoder perpendicularEncoder;
 

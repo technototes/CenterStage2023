@@ -185,7 +185,7 @@ public class AutoConstants {
         public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(-12, -40  , 0);
         public static ConfigurablePoseD PARK_CENTER = new ConfigurablePoseD(-59,-12,90); // may need to be 180 (0 needs test)
         public static ConfigurablePoseD LEFT_CLEAR = new ConfigurablePoseD(-35,-60.1,180);
-        public static ConfigurablePoseD MID_PARK_CENTER = new ConfigurablePoseD(-35,-12,180);
+        public static ConfigurablePoseD MID_PARK_CENTER = new ConfigurablePoseD(-35,-12,90);
 
 
 
