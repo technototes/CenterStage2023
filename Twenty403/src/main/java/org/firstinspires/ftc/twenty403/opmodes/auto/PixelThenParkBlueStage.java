@@ -14,6 +14,7 @@ import org.firstinspires.ftc.twenty403.Setup;
 import org.firstinspires.ftc.twenty403.commands.VisionCommand;
 import org.firstinspires.ftc.twenty403.commands.auto.RecordFinalHeading;
 import org.firstinspires.ftc.twenty403.commands.auto.blue.StagePixelMiddle;
+import org.firstinspires.ftc.twenty403.commands.auto.blue.StagePixelRight;
 import org.firstinspires.ftc.twenty403.commands.auto.red.StagePixelSelection;
 import org.firstinspires.ftc.twenty403.controls.DriverController;
 import org.firstinspires.ftc.twenty403.helpers.StartingPosition;
@@ -37,14 +38,14 @@ public class PixelThenParkBlueStage extends CommandOpMode {
             .getInstance()
             .scheduleForState(
                 new SequentialCommandGroup(
-                    new StagePixelMiddle(robot),
+                    new StagePixelRight(robot),
                     new RecordFinalHeading(robot.drivebaseSubsystem),
                     CommandScheduler.getInstance()::terminateOpMode
                 ),
                 OpModeState.RUN
             );
-        //        if (Setup.Connected.WEBCAM) {
-        //            CommandScheduler.getInstance().scheduleInit(new VisionCommand(robot.vision));
-        //        }
+                if (Setup.Connected.WEBCAM) {
+                    CommandScheduler.getInstance().scheduleInit(new VisionCommand(robot.vision));
+                }
     }
 }

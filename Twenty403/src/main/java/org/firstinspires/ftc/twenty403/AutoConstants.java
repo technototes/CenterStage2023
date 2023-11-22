@@ -16,10 +16,10 @@ public class AutoConstants {
         public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(35, 32, -90);
         public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(25, 32, -180);
         // This is "clear of the pixels, ready to go somewhere else"
-        public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(35,60.1,-180);
-        public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(36, 32, -180);
+        public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(39,56,-180);
+        public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(39, 32, -180);
         public static ConfigurablePoseD TELESTART = new ConfigurablePoseD(0,0,90);
-        public static ConfigurablePoseD PARK_CORNER = new ConfigurablePoseD(-60,60,-180); // may need to be 180 (0 needs test)
+        public static ConfigurablePoseD PARK_CORNER = new ConfigurablePoseD(-60,55,-180); // may need to be 180 (0 needs test)
         public static ConfigurablePoseD FORWARD = new ConfigurablePoseD(48,0,0);
         public static ConfigurablePoseD BACKWARD = new ConfigurablePoseD(0, 0, 0);
         public static ConfigurablePoseD SIDE_RIGHT = new ConfigurablePoseD(0,-48,0);
@@ -123,13 +123,13 @@ public class AutoConstants {
     @Config
     public static class StageRed {
         public static ConfigurablePoseD START = new ConfigurablePoseD(-12, 60, -90);
-        public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(0, 40, 0);
+        public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(0, 35, 0);
         public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(-12, 33, -90);
         public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(-18, 34, -120);
         // This is "clear of the pixels, ready to go somewhere else"
-        public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(-12,60.1,-90);
-        public static ConfigurablePoseD RIGHT_CLEAR = new ConfigurablePoseD(-35,60.1,-90);
-        public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(-12, 40, 0);
+        public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(-12,56,-90);
+        public static ConfigurablePoseD RIGHT_CLEAR = new ConfigurablePoseD(-35,56,-90);
+        public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(-15, 35, 0);
         public static ConfigurablePoseD PARK_CENTER = new ConfigurablePoseD(-59,12,-90); // may need to be 180 (0 needs test)
         public static ConfigurablePoseD MID_PARK_CENTER = new ConfigurablePoseD(-35,12,-90);
 
@@ -179,12 +179,12 @@ public class AutoConstants {
         public static ConfigurablePoseD START = new ConfigurablePoseD(-12, -60, 90);
         public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(-18, -34, 120);
         public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(-12, -33, 90);
-        public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(0, -40, 0);
+        public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(0, -35, 0);
         // This is "clear of the pixels, ready to go somewhere else"
-        public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(-12,-60.1,90);
-        public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(-12, -40  , 0);
+        public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(-12,-56,90);
+        public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(-15, -35  , 0);
         public static ConfigurablePoseD PARK_CENTER = new ConfigurablePoseD(-59,-12,90); // may need to be 180 (0 needs test)
-        public static ConfigurablePoseD LEFT_CLEAR = new ConfigurablePoseD(-35,-60.1,180);
+        public static ConfigurablePoseD LEFT_CLEAR = new ConfigurablePoseD(-35,-56,90);
         public static ConfigurablePoseD MID_PARK_CENTER = new ConfigurablePoseD(-35,-12,90);
 
 
@@ -222,7 +222,7 @@ public class AutoConstants {
         CLEAR_TO_LEFT_CLEAR = b ->
                 b.apply(CLEAR.toPose()).lineToLinearHeading(LEFT_CLEAR.toPose()).build(),
         LEFT_CLEAR_TO_MID_PARK_CENTER = b ->
-                b.apply(CLEAR.toPose()).lineToLinearHeading(LEFT_CLEAR.toPose()).build(),
+                b.apply(LEFT_CLEAR.toPose()).lineToLinearHeading(MID_PARK_CENTER.toPose()).build(),
         MID_PARK_CENTER_TO_PARK_CENTER = b ->
                 b.apply(MID_PARK_CENTER.toPose()).lineToLinearHeading(PARK_CENTER.toPose()).build();
     }
