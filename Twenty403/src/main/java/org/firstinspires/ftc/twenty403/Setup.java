@@ -8,7 +8,7 @@ public class Setup {
     public static class Connected {
 
         public static boolean DRIVEBASE = true;
-        public static boolean CLAWSUBSYSTEM = false;
+        public static boolean ARMSUBSYSTEM = false;
         public static boolean DRONESUBSYSTEM = false;
         public static boolean WEBCAM = true;
         public static boolean HANGSUBSYSTEM = false;
@@ -26,7 +26,9 @@ public class Setup {
         public static String CAMERA = "webcam";
         public static String CLAWSERVO = "clawservo";
         //        public static String ELBOWSERVO = "elbowservo";
-        public static String SHOULDERMOTOR = "shouldermotor";
+        public static String SHOULDERMOTOR = "shoulder";
+        public static String ELBOWMOTOR = "elbow";
+
         public static String HANG_CRSERVO = "hang";
         public static String HANG_MOTOR = "botlift";
         public static String DRONESERVO = "droneservo";
