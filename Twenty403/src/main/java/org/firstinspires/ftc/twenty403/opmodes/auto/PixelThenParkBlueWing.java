@@ -46,8 +46,8 @@ public class PixelThenParkBlueWing extends CommandOpMode {
                 ),
                 OpModeState.RUN
             );
-        //        if (Setup.Connected.WEBCAM) {
-        //            CommandScheduler.getInstance().scheduleInit(new VisionCommand(robot.vision));
-        //        }
+                if (Setup.Connected.WEBCAM) {
+                    CommandScheduler.getInstance().scheduleInit(new VisionCommand(robot.vision));
+                }
     }
 }

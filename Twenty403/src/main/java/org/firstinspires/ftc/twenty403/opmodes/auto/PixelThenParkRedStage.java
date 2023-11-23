@@ -39,7 +39,7 @@ public class PixelThenParkRedStage extends CommandOpMode {
             .getInstance()
             .scheduleForState(
                 new SequentialCommandGroup(
-                    new StagePixelSelection(robot),
+                    new StagePixelLeft(robot),
                     new RecordFinalHeading(robot.drivebaseSubsystem),
                     CommandScheduler.getInstance()::terminateOpMode
                 ),
