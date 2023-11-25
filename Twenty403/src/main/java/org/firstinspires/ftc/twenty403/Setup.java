@@ -8,7 +8,7 @@ public class Setup {
     public static class Connected {
 
         public static boolean DRIVEBASE = true;
-        public static boolean ARMSUBSYSTEM = false;
+        public static boolean ARMSUBSYSTEM = true;
         public static boolean DRONESUBSYSTEM = false;
         public static boolean WEBCAM = true;
         public static boolean HANGSUBSYSTEM = false;
