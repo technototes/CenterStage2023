@@ -3,8 +3,6 @@ package org.firstinspires.ftc.twenty403.commands.auto.red;
 import com.technototes.library.command.CommandScheduler;
 import com.technototes.library.command.SequentialCommandGroup;
 import org.firstinspires.ftc.twenty403.Robot;
-import org.firstinspires.ftc.twenty403.commands.auto.RecordFinalHeading;
-import org.firstinspires.ftc.twenty403.helpers.StartingPosition;
 
 public class RedStageParkCorner extends SequentialCommandGroup {
 
@@ -13,7 +11,7 @@ public class RedStageParkCorner extends SequentialCommandGroup {
             new StagePixelPlaceSelection(robot),
             new ParkCornerPositioning(robot),
             new ParkCorner(robot, robot.position),
-            new RecordFinalHeading(robot.drivebaseSubsystem),
+            new RecordFinalHeadingRed(robot.drivebaseSubsystem),
             CommandScheduler.getInstance()::terminateOpMode
         );
     }

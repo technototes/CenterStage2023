@@ -3,7 +3,6 @@ package org.firstinspires.ftc.twenty403.commands.auto.blue;
 import com.technototes.library.command.CommandScheduler;
 import com.technototes.library.command.SequentialCommandGroup;
 import org.firstinspires.ftc.twenty403.Robot;
-import org.firstinspires.ftc.twenty403.commands.auto.RecordFinalHeading;
 
 public class BlueWingParkCenter extends SequentialCommandGroup {
 
@@ -12,7 +11,7 @@ public class BlueWingParkCenter extends SequentialCommandGroup {
             new WingPixelPlaceSelection(robot),
             new ParkCenterPositioning(robot),
             new ParkCenter(robot, robot.position),
-            new RecordFinalHeading(robot.drivebaseSubsystem),
+            new RecordFinalHeadingBlue(robot.drivebaseSubsystem),
             CommandScheduler.getInstance()::terminateOpMode
         );
     }
