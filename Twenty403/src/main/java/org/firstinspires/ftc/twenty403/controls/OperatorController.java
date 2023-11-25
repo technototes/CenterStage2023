@@ -7,13 +7,13 @@ import org.firstinspires.ftc.twenty403.Setup;
 // import org.firstinspires.ftc.twenty403.commands.claw.ArmSecondLineScoring;
 // import org.firstinspires.ftc.twenty403.commands.claw.ArmThirdLineScoring;
 import org.firstinspires.ftc.twenty403.commands.DroneCommand;
-import org.firstinspires.ftc.twenty403.commands.arm.ShoulderDecrementCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.ArmFirstLineCommand;
-import org.firstinspires.ftc.twenty403.commands.arm.ShoulderIncrementCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.ArmIntakeCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.ArmNeutralPosition;
 import org.firstinspires.ftc.twenty403.commands.arm.ClawCloseCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.ClawOpenCommand;
+import org.firstinspires.ftc.twenty403.commands.arm.ShoulderDecrementCommand;
+import org.firstinspires.ftc.twenty403.commands.arm.ShoulderIncrementCommand;
 import org.firstinspires.ftc.twenty403.commands.hang.HangDown;
 import org.firstinspires.ftc.twenty403.commands.hang.HangStop;
 import org.firstinspires.ftc.twenty403.commands.hang.HangUp;
@@ -74,7 +74,7 @@ public class OperatorController {
 
         //ScrewExtend = gamepad.leftTrigger.getAsButton();
         //ScrewRetract = gamepad.rightTrigger.getAsButton();
-        Hang = gamepad.rightTrigger.getAsButton();//put all of hang in here
+        Hang = gamepad.rightTrigger.getAsButton(); //put all of hang in here
         //HangDown = gamepad.ps_square;
 
         launchDroneButton = gamepad.ps_share;
