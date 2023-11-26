@@ -14,28 +14,28 @@ import com.technototes.library.subsystem.Subsystem;
 @Config
 public class ArmSubsystem implements Subsystem, Loggable {
 
-    public static double OPEN_CLAW_POS = 0.1; //Tested as of 10/27
-    public static double CLOSE_CLAW_POS = 0.4; //Tested as of 10/27
+    public static double OPEN_CLAW_POS = 0.1; //needs retesting yay
+    public static double CLOSE_CLAW_POS = 0.4; //needs retesting yay
 
-    public static int SHOULDER_ARM_INTAKE = 602;
-    public static int SHOULDER_MANUAL_STEP = 15;
-    public static int SHOULDER_FIRST_LINE_SCORING = 401;
-    public static int SHOULDER_NEUTRAL_ARM_POSITION = 0;
-    public static int SHOULDER_SECOND_LINE_SCORING = 350;
-    public static int SHOULDER_THIRD_LINE_SCORING = 300;
+    public static int SHOULDER_ARM_INTAKE = 804; //collect
+    public static int SHOULDER_MANUAL_STEP = 15; //inc/dec
+    public static int SHOULDER_FIRST_LINE_SCORING = 818;
+    public static int SHOULDER_NEUTRAL_ARM_POSITION = 0; //reset
+    public static int SHOULDER_SECOND_LINE_SCORING = 725;
+    public static int SHOULDER_THIRD_LINE_SCORING = 552;
 
-    public static double MIN_SHOULDER_MOTOR_SPEED = -0.5;
-    public static double MAX_SHOULDER_MOTOR_SPEED = 0.5;
+    public static double MIN_SHOULDER_MOTOR_SPEED = -1;
+    public static double MAX_SHOULDER_MOTOR_SPEED = 1;
 
-    public static int ELBOW_ARM_INTAKE = 602;
-    public static int ELBOW_MANUAL_STEP = 15;
-    public static int ELBOW_FIRST_LINE_SCORING = 401;
-    public static int ELBOW_NEUTRAL_ARM_POSITION = 0;
-    public static int ELBOW_SECOND_LINE_SCORING = 350;
-    public static int ELBOW_THIRD_LINE_SCORING = 300;
+    public static int ELBOW_ARM_INTAKE = -543; //collect
+    public static int ELBOW_MANUAL_STEP = 15; //increment/decrement
+    public static int ELBOW_FIRST_LINE_SCORING = -750;
+    public static int ELBOW_NEUTRAL_ARM_POSITION = 0; //reset
+    public static int ELBOW_SECOND_LINE_SCORING = -666;
+    public static int ELBOW_THIRD_LINE_SCORING = -529;
 
-    public static double MIN_ELBOW_MOTOR_SPEED = -0.5;
-    public static double MAX_ELBOW_MOTOR_SPEED = 0.5;
+    public static double MIN_ELBOW_MOTOR_SPEED = -1;
+    public static double MAX_ELBOW_MOTOR_SPEED = 1;
 
     @Log(name = "shoulderPos")
     public int shoulderPos;
@@ -58,8 +58,8 @@ public class ArmSubsystem implements Subsystem, Loggable {
     private Servo clawServo;
     private EncodedMotor<DcMotorEx> shoulderMotor, elbowMotor;
     private boolean haveHardware;
-    public static PIDCoefficients shoulderPID = new PIDCoefficients(0.0027, 0.0, 0.00015);
-    public static PIDCoefficients elbowPID = new PIDCoefficients(0.0027, 0.0, 0.00015);
+    public static PIDCoefficients shoulderPID = new PIDCoefficients(0.00175, 0.0, 0.000075);
+    public static PIDCoefficients elbowPID = new PIDCoefficients(0.001, 0.0, 0.000075);
     private PIDFController shoulderPidController, elbowPidController;
     public int shoulderResetPos, elbowResetPos;
 
@@ -99,6 +99,8 @@ public class ArmSubsystem implements Subsystem, Loggable {
         shoulderResetPos = getShoulderUnmodifiedPosition();
         // We don't want the destination to go nuts, so update the target with the new zero
         shoulderTargetPos = shoulderResetPos;
+        elbowResetPos = getElbowUnmodifiedPosition();
+        elbowTargetPos = elbowResetPos;
     }
 
     public void intake() {
