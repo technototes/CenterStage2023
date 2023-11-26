@@ -23,6 +23,7 @@ public class ArmSubsystem implements Subsystem, Loggable {
     public static int SHOULDER_NEUTRAL_ARM_POSITION = 0; //reset
     public static int SHOULDER_SECOND_LINE_SCORING = 725;
     public static int SHOULDER_THIRD_LINE_SCORING = 552;
+    public static int SHOULDER_VERTICAL = 400; // For feed-fwd, and maybe hang
 
     public static double MIN_SHOULDER_MOTOR_SPEED = -1;
     public static double MAX_SHOULDER_MOTOR_SPEED = 1;
@@ -58,21 +59,55 @@ public class ArmSubsystem implements Subsystem, Loggable {
     private Servo clawServo;
     private EncodedMotor<DcMotorEx> shoulderMotor, elbowMotor;
     private boolean haveHardware;
+    public static double FEEDFORWARD_COEFFICIENT = 0.3;
     public static PIDCoefficients shoulderPID = new PIDCoefficients(0.00175, 0.0, 0.000075);
     public static PIDCoefficients elbowPID = new PIDCoefficients(0.001, 0.0, 0.000075);
     private PIDFController shoulderPidController, elbowPidController;
     public int shoulderResetPos, elbowResetPos;
 
     public ArmSubsystem(
-        Servo claw,
-        EncodedMotor<DcMotorEx> shoulder,
-        EncodedMotor<DcMotorEx> elbow
+            Servo claw,
+            EncodedMotor<DcMotorEx> shoulder,
+            EncodedMotor<DcMotorEx> elbow
     ) {
         clawServo = claw;
         shoulderMotor = shoulder;
         elbowMotor = elbow;
         haveHardware = true;
-        shoulderPidController = new PIDFController(shoulderPID, 0, 0, 0, (x, y) -> 0.0);
+        shoulderPidController =
+                new PIDFController(
+                        shoulderPID,
+                        0,
+                        0,
+                        0,
+            /*
+
+            The function arguments for the Feed Forward function are Position (ticks) and
+            Velocity (units?). So, for the shoulder, we want to check to see if which side of
+            center we're on, and if the velocity is pushing us down, FF should probably be
+            low (negative?) while if velocity is pushing us *up*, FF should be high (right?)
+            Someone who's done physics and/or calculus recently should write some real equations
+
+            Something like this:
+
+            For angle T through this range where we start at zero:
+                       /
+                      / T
+            180 _____/_____ 0
+            The downward torque due to gravity is cos(T) * Gravity (9.8m/s^2)
+
+            If we're moving from 0 to 180 degrees, then:
+                While T is less than 90, the "downward torque" is working *against* the motor
+                When T is greater than 90, the "downward torque" is working *with* the motor
+
+             */
+                        (ticks, velocity) ->
+                                Math.copySign(
+                                        FEEDFORWARD_COEFFICIENT *
+                                                Math.cos((Math.PI * (SHOULDER_VERTICAL - ticks)) / (2 * SHOULDER_VERTICAL)),
+                                        velocity
+                                )
+                );
         elbowPidController = new PIDFController(elbowPID, 0, 0, 0, (x, y) -> 0.0);
         resetArmNeutral();
     }
@@ -185,9 +220,9 @@ public class ArmSubsystem implements Subsystem, Loggable {
     private void setShoulderMotorPower(double speed) {
         if (haveHardware) {
             double clippedSpeed = Range.clip(
-                speed,
-                MIN_SHOULDER_MOTOR_SPEED,
-                MAX_SHOULDER_MOTOR_SPEED
+                    speed,
+                    MIN_SHOULDER_MOTOR_SPEED,
+                    MAX_SHOULDER_MOTOR_SPEED
             );
             shoulderMotor.setSpeed(clippedSpeed);
         }
