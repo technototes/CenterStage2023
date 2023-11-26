@@ -2,14 +2,16 @@
 
 ### 20403:
 - [ ] Get Elbow constants correct
-  - [ ] Wire up controls
+  - [X] Wire up controls
 - [ ] Attach Pusher
   - [ ] Fine tune auto positions
 - [ ] Validate heading restore
+  - [X] Fixed
+  - [ ] Tested on bot
 - [ ] Bot-relative driving?
   - [ ] Or maybe IMU lockout...
 - [ ] Climb controls
-- [ ] Re-attach camera
+- [X] Re-attach camera
   - [ ] Adjust constants
 
 ### 16750:
@@ -22,4 +24,3 @@
 - [ ] OpControls binding
 - [ ] Attach camera
   - [ ] Get vision going
-  
