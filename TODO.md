@@ -3,6 +3,8 @@
 ### 20403:
 - [ ] Get Elbow constants correct
   - [X] Wire up controls
+  - [ ] Brake mode re-enabled
+  - [ ] Gravity Feed-forward
 - [ ] Attach Pusher
   - [ ] Fine tune auto positions
 - [ ] Validate heading restore
