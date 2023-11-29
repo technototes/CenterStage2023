@@ -88,7 +88,7 @@ public class ArmSubsystem implements Subsystem, Loggable {
             low (negative?) while if velocity is pushing us *up*, FF should be high (right?)
             Someone who's done physics and/or calculus recently should write some real equations
 
-            Something like this:
+            Braelyn got the math right
 
             For angle T through this range where we start at zero:
                        /
@@ -102,11 +102,11 @@ public class ArmSubsystem implements Subsystem, Loggable {
 
              */
                         (ticks, velocity) ->
-                                Math.copySign(
+
                                         FEEDFORWARD_COEFFICIENT *
-                                                Math.cos((Math.PI * (SHOULDER_VERTICAL - ticks)) / (2 * SHOULDER_VERTICAL)),
-                                        velocity
-                                )
+                                                Math.cos((Math.PI * ticks) / (2 * SHOULDER_VERTICAL))
+
+
                 );
         elbowPidController = new PIDFController(elbowPID, 0, 0, 0, (x, y) -> 0.0);
         resetArmNeutral();
