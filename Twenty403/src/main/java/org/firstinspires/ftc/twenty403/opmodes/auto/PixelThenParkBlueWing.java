@@ -40,7 +40,7 @@ public class PixelThenParkBlueWing extends CommandOpMode {
             .getInstance()
             .scheduleForState(
                 new SequentialCommandGroup(
-                    new WingPixelLeft(robot),
+                    new WingPixelSelection(robot),
                     new RecordFinalHeading(robot.drivebaseSubsystem),
                     CommandScheduler.getInstance()::terminateOpMode
                 ),
