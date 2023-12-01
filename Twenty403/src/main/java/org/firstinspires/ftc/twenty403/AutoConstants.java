@@ -124,8 +124,8 @@ public class AutoConstants {
     public static class StageRed {
         public static ConfigurablePoseD START = new ConfigurablePoseD(-12, 60, -90);
         public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(0, 35, 0);
-        public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(-12, 33, -90);
-        public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(-18, 34, -120);
+        public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(-12, 32, -90);
+        public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(-19, 35, -120);
         // This is "clear of the pixels, ready to go somewhere else"
         public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(-12,56,-90);
         public static ConfigurablePoseD RIGHT_CLEAR = new ConfigurablePoseD(-35,56,-90);
