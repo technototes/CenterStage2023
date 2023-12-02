@@ -5,11 +5,16 @@ import com.technototes.library.control.CommandGamepad;
 import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
 import org.firstinspires.ftc.twenty403.commands.DroneCommand;
-import org.firstinspires.ftc.twenty403.commands.arm.ArmFirstLineCommand;
-import org.firstinspires.ftc.twenty403.commands.arm.ArmIntakeCommand;
-import org.firstinspires.ftc.twenty403.commands.arm.ArmNeutralPosition;
-import org.firstinspires.ftc.twenty403.commands.arm.ArmSecondLineScoring;
-import org.firstinspires.ftc.twenty403.commands.arm.ArmThirdLineScoring;
+import org.firstinspires.ftc.twenty403.commands.arm.ArmFirstLineSequential;
+import org.firstinspires.ftc.twenty403.commands.arm.ArmIntakeSequential;
+import org.firstinspires.ftc.twenty403.commands.arm.ArmNeutralSequential;
+import org.firstinspires.ftc.twenty403.commands.arm.ArmSecondLineSequential;
+import org.firstinspires.ftc.twenty403.commands.arm.ArmThirdLineSequential;
+import org.firstinspires.ftc.twenty403.commands.arm.ElbowIntakeCommand;
+import org.firstinspires.ftc.twenty403.commands.arm.ShoulderIntakeCommand;
+import org.firstinspires.ftc.twenty403.commands.arm.ElbowNeutralPosition;
+import org.firstinspires.ftc.twenty403.commands.arm.ShoulderSecondLineScoring;
+import org.firstinspires.ftc.twenty403.commands.arm.ShoulderThirdLineScoring;
 import org.firstinspires.ftc.twenty403.commands.arm.ClawCloseCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.ClawOpenCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.ShoulderDecrementCommand;
@@ -84,10 +89,11 @@ public class OperatorController {
         clawOpenButton.whenPressed(new ClawOpenCommand(robot.clawSubsystem));
         clawCloseButton.whenPressed(new ClawCloseCommand(robot.clawSubsystem));
 
-        armIntakeButton.whenPressed(new ArmIntakeCommand(robot.clawSubsystem));
-        armNeutralButton.whenPressed(new ArmNeutralPosition(robot.clawSubsystem));
-        armSecondLine.whenPressed(new ArmSecondLineScoring((robot.clawSubsystem)));
-        armThirdLine.whenPressed(new ArmThirdLineScoring((robot.clawSubsystem)));
+        armIntakeButton.whenPressed(new ArmIntakeSequential(robot.clawSubsystem));
+        armNeutralButton.whenPressed(new ArmNeutralSequential(robot.clawSubsystem));
+        armFirstLine.whenPressed(new ArmFirstLineSequential((robot.clawSubsystem)));
+        armSecondLine.whenPressed(new ArmSecondLineSequential((robot.clawSubsystem)));
+        armThirdLine.whenPressed(new ArmThirdLineSequential((robot.clawSubsystem)));
         shoulderIncrementButton.whenPressed(new ShoulderIncrementCommand(robot.clawSubsystem));
         shoulderDecrementButton.whenPressed(new ShoulderDecrementCommand(robot.clawSubsystem));
     }
