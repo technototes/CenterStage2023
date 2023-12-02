@@ -66,9 +66,9 @@ public class ArmSubsystem implements Subsystem, Loggable {
     public int shoulderResetPos, elbowResetPos;
 
     public ArmSubsystem(
-            Servo claw,
-            EncodedMotor<DcMotorEx> shoulder,
-            EncodedMotor<DcMotorEx> elbow
+        Servo claw,
+        EncodedMotor<DcMotorEx> shoulder,
+        EncodedMotor<DcMotorEx> elbow
     ) {
         clawServo = claw;
         shoulderMotor = shoulder;
@@ -76,12 +76,12 @@ public class ArmSubsystem implements Subsystem, Loggable {
         haveHardware = true;
         shoulder.brake();
         shoulderPidController =
-                new PIDFController(
-                        shoulderPID,
-                        0,
-                        0,
-                        0,
-            /*
+            new PIDFController(
+                shoulderPID,
+                0,
+                0,
+                0,
+                /*
 
             The function arguments for the Feed Forward function are Position (ticks) and
             Velocity (units?). So, for the shoulder, we want to check to see if which side of
@@ -102,13 +102,9 @@ public class ArmSubsystem implements Subsystem, Loggable {
                 When T is greater than 90, the "downward torque" is working *with* the motor
 
              */
-                        (ticks, velocity) ->
-
-                                        FEEDFORWARD_COEFFICIENT *
-                                                Math.cos((Math.PI * ticks) / (2 * SHOULDER_VERTICAL))
-
-
-                );
+                (ticks, velocity) ->
+                    FEEDFORWARD_COEFFICIENT * Math.cos((Math.PI * ticks) / (2 * SHOULDER_VERTICAL))
+            );
         elbowPidController = new PIDFController(elbowPID, 0, 0, 0, (x, y) -> 0.0);
         resetArmNeutral();
     }
@@ -221,9 +217,9 @@ public class ArmSubsystem implements Subsystem, Loggable {
     private void setShoulderMotorPower(double speed) {
         if (haveHardware) {
             double clippedSpeed = Range.clip(
-                    speed,
-                    MIN_SHOULDER_MOTOR_SPEED,
-                    MAX_SHOULDER_MOTOR_SPEED
+                speed,
+                MIN_SHOULDER_MOTOR_SPEED,
+                MAX_SHOULDER_MOTOR_SPEED
             );
             shoulderMotor.setSpeed(clippedSpeed);
         }
