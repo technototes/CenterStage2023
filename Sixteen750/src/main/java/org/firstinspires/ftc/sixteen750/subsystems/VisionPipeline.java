@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 import com.technototes.library.logger.Log;
 import com.technototes.library.logger.LogConfig;
 import com.technototes.library.logger.Loggable;
@@ -14,7 +13,6 @@ import org.firstinspires.ftc.sixteen750.helpers.StartingPosition;
 import org.opencv.android.Utils;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
-import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
@@ -35,21 +33,21 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
     public static class VisionConstants {
 
         @Config
-        public static class Left {
+        public static class Right {
 
-            public static int X = 0;
-            public static int Y = 130;
-            public static int WIDTH = 60;
-            public static int HEIGHT = 60;
+            public static int X = 250;
+            public static int Y = 90;
+            public static int WIDTH = 69;
+            public static int HEIGHT = 100;
         }
 
         @Config
         public static class Middle {
 
-            public static int X = 185;
-            public static int Y = 116;
-            public static int WIDTH = 60;
-            public static int HEIGHT = 60;
+            public static int X = 60;
+            public static int Y = 90;
+            public static int WIDTH = 100;
+            public static int HEIGHT = 100;
         }
 
         public enum Position {
@@ -61,7 +59,7 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
         public static double RED1 = 0;
 
         public static double RED2 = 179;
-        public static double BLUE = 120;
+        public static double BLUE = 105;
 
         // The low saturation point for color identification
         public static double lowS = 70;
@@ -79,7 +77,7 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
         public static Scalar RGB_HIGHLIGHT = new Scalar(255, 128, 255);
 
         // the mininum amount of pixels needed in order to find a pixel
-        public static int MINPIXELCOUNT = 130;
+        public static int MINPIXELCOUNT = 1300;
     }
 
     @LogConfig.Run(duringRun = false, duringInit = true)
@@ -152,6 +150,9 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
     }
 
     private void countPixels(Mat input) {
+        // Put the input matrix in a member variable, so that other functions can draw on it
+        img = input;
+
         // First, slice the smaller rectangle out of the overall bitmap:
         Mat mRectToLookAtM = input.submat(
             // Row start to Row end
@@ -164,11 +165,11 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
 
         Mat mRectToLookAtL = input.submat(
             // Row start to Row end
-            VisionConstants.Left.Y,
-            VisionConstants.Left.Y + VisionConstants.Left.HEIGHT,
+            VisionConstants.Right.Y,
+            VisionConstants.Right.Y + VisionConstants.Right.HEIGHT,
             // Col start to Col end
-            VisionConstants.Left.X,
-            VisionConstants.Left.X + VisionConstants.Left.WIDTH
+            VisionConstants.Right.X,
+            VisionConstants.Right.X + VisionConstants.Right.WIDTH
         );
 
         // Next, convert the RGB image to HSV, because HUE is much easier to identify colors in
@@ -178,7 +179,7 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
         Imgproc.cvtColor(mRectToLookAtM, rectM, Imgproc.COLOR_RGB2HSV);
         Imgproc.cvtColor(mRectToLookAtL, rectL, Imgproc.COLOR_RGB2HSV);
         // Check to see which colors occur:
-        int colorCountL = 0;
+        int colorCountR = 0;
         int colorCountM = 0;
         if (this.alliance == Alliance.BLUE) {
             colorCountM =
@@ -205,53 +206,32 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
             );
         }
         if (this.alliance == Alliance.BLUE) {
-            colorCountL =
+            colorCountR =
                 countColor(
                     VisionConstants.BLUE,
                     rectL,
-                    VisionConstants.Left.X,
-                    VisionConstants.Left.Y
+                    VisionConstants.Right.X,
+                    VisionConstants.Right.Y
                 );
         } else {
-            colorCountL =
+            colorCountR =
                 countColor(
                     VisionConstants.RED1,
                     rectL,
-                    VisionConstants.Left.X,
-                    VisionConstants.Left.Y
+                    VisionConstants.Right.X,
+                    VisionConstants.Right.Y
                 );
-            colorCountL +=
-            countColor(VisionConstants.RED2, rectL, VisionConstants.Left.X, VisionConstants.Left.Y);
+            colorCountR +=
+            countColor(VisionConstants.RED2,
+                    rectL,
+                    VisionConstants.Right.X, VisionConstants.Right.Y);
         }
-        pickLocation(colorCountL, colorCountM);
+        pickLocation(colorCountR, colorCountM);
     }
 
-    public void detectSignal(Mat input) {
-        // Put the input matrix in a member variable, so that other functions can draw on it
-        img = input;
-
-        countPixels(input);
-        // Check which spot we should park in
-        // middleDetected = countA >= countY && countA >= countP;
-        // leftDetected = countP >= countA && countP >= countY;
-        rightDetected = !leftDetected && !middleDetected;
-
-        // Draw a rectangle around the area we're looking at, for debugging
-        int x = Range.clip(VisionConstants.Middle.X - 1, 0, input.width() - 1);
-        int y = Range.clip(VisionConstants.Middle.Y - 1, 0, input.height() - 1);
-        int w = Range.clip(VisionConstants.Middle.WIDTH + 2, 1, input.width() - x);
-        int h = Range.clip(VisionConstants.Middle.HEIGHT + 2, 1, input.height() - y);
-
-        int xl = Range.clip(VisionConstants.Left.X - 1, 0, input.width() - 1);
-        int yl = Range.clip(VisionConstants.Left.Y - 1, 0, input.height() - 1);
-        int wl = Range.clip(VisionConstants.Left.WIDTH + 2, 1, input.width() - x);
-        int hl = Range.clip(VisionConstants.Left.HEIGHT + 2, 1, input.height() - y);
-        Imgproc.rectangle(input, new Rect(x, y, w, h), VisionConstants.RGB_HIGHLIGHT);
-        Imgproc.rectangle(input, new Rect(xl, yl, wl, hl), VisionConstants.RGB_HIGHLIGHT);
-    }
 
     public void init(Mat firstFrame) {
-        detectSignal(firstFrame);
+        countPixels(firstFrame);
     }
 
     @Override
@@ -267,7 +247,7 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
         return input;
     }
 
-    private void pickLocation(int countL, int countM) {
+    private void pickLocation(int countR, int countM) {
         /*
         First we have to create a rectangle from teh view that the camera sees.
         Then we have to convert RGB to HSV.
@@ -279,14 +259,16 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
         If there is more blue than red or vice versa, then that color is your alliance yay :)
          */
 
-        if (countL > VisionConstants.MINPIXELCOUNT && countL > countM) {
-            leftDetected = true;
+        if (countR > VisionConstants.MINPIXELCOUNT && countR > countM) {
+            leftDetected = false;
             middleDetected = false;
-        } else if (
-            countM <= VisionConstants.MINPIXELCOUNT && countL <= VisionConstants.MINPIXELCOUNT
-        ) {
             rightDetected = true;
+        } else if (
+            countM <= VisionConstants.MINPIXELCOUNT && countR <= VisionConstants.MINPIXELCOUNT
+        ) {
+            rightDetected = false;
             middleDetected = false;
+            leftDetected = true;
         } else {
             leftDetected = false;
             middleDetected = true;
