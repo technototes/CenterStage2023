@@ -14,6 +14,6 @@ public class ArmThirdLineScoring implements Command {
 
     @Override
     public void execute() {
-        // subsystem.thirdLineScoring();
+        subsystem.thirdLineScoring();
     }
 }

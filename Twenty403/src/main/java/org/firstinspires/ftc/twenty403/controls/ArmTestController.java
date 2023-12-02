@@ -6,6 +6,8 @@ import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
 import org.firstinspires.ftc.twenty403.commands.DroneCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.ArmFirstLineCommand;
+import org.firstinspires.ftc.twenty403.commands.arm.ArmSecondLineScoring;
+import org.firstinspires.ftc.twenty403.commands.arm.ArmThirdLineScoring;
 import org.firstinspires.ftc.twenty403.commands.arm.ArmIntakeCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.ArmNeutralPosition;
 import org.firstinspires.ftc.twenty403.commands.arm.ClawCloseCommand;
@@ -33,13 +35,13 @@ public class ArmTestController {
     public CommandButton elbowDecrementButton;
     public CommandButton elbowIncrementButton;
     public CommandButton armFirstLine;
+    public CommandButton armSecondLine;
+    public CommandButton armThirdLine;
     public CommandButton ScrewExtend;
     public CommandButton ScrewRetract;
     public CommandButton HangUp;
     public CommandButton HangDown;
     public CommandButton armNeutralButton;
-    // public CommandButton armSecondLine;
-    // public CommandButton armThirdLine;
     public CommandButton override;
 
     public ArmTestController(CommandGamepad g, Robot r) {
@@ -62,17 +64,19 @@ public class ArmTestController {
     private void AssignNamedControllerButton() {
         clawOpenButton = gamepad.leftBumper;
         clawCloseButton = gamepad.rightBumper;
-        armFirstLine = gamepad.ps_circle;
+        armFirstLine = gamepad.ps_square;
+        armSecondLine = gamepad.ps_triangle;
+        armThirdLine = gamepad.ps_options;
 
         armIntakeButton = gamepad.ps_cross;
         shoulderDecrementButton = gamepad.dpadDown;
         shoulderIncrementButton = gamepad.dpadUp;
-        armNeutralButton = gamepad.dpadRight;
+        armNeutralButton = gamepad.ps_circle;
 
         ScrewExtend = gamepad.leftTrigger.getAsButton();
         ScrewRetract = gamepad.rightTrigger.getAsButton();
-        HangUp = gamepad.ps_triangle;
-        HangDown = gamepad.ps_square;
+        //HangUp = gamepad.ps_triangle; // add as left and right
+        //HangDown = gamepad.ps_square;
         launchDroneButton = gamepad.ps_share;
     }
 
@@ -82,8 +86,8 @@ public class ArmTestController {
 
         armIntakeButton.whenPressed(new ArmIntakeCommand(robot.clawSubsystem));
         armNeutralButton.whenPressed(new ArmNeutralPosition(robot.clawSubsystem));
-        // armSecondLine.whenPressed(new ArmSecondLineScoring((robot.clawSubsystem)));
-        // armThirdLine.whenPressed(new ArmThirdLineScoring((robot.clawSubsystem)));
+        armSecondLine.whenPressed(new ArmSecondLineScoring((robot.clawSubsystem)));
+        armThirdLine.whenPressed(new ArmThirdLineScoring((robot.clawSubsystem)));
         armFirstLine.whenPressed(new ArmFirstLineCommand(robot.clawSubsystem));
         shoulderIncrementButton.whenPressed(new ShoulderIncrementCommand(robot.clawSubsystem));
         shoulderDecrementButton.whenPressed(new ShoulderDecrementCommand(robot.clawSubsystem));
@@ -94,10 +98,10 @@ public class ArmTestController {
         ScrewRetract.whenPressed(new LeadScrewDown(robot.hangSubsystem));
         ScrewRetract.whenReleased(new LeadScrewStop(robot.hangSubsystem));
         ScrewExtend.whenReleased(new LeadScrewStop(robot.hangSubsystem));
-        HangUp.whenPressed(new HangUp(robot.hangSubsystem));
-        HangDown.whenPressed(new HangDown(robot.hangSubsystem));
-        HangUp.whenReleased(new HangStop(robot.hangSubsystem));
-        HangDown.whenReleased(new HangStop(robot.hangSubsystem));
+        //HangUp.whenPressed(new HangUp(robot.hangSubsystem));
+        //HangDown.whenPressed(new HangDown(robot.hangSubsystem));
+        //HangUp.whenReleased(new HangStop(robot.hangSubsystem));
+        //HangDown.whenReleased(new HangStop(robot.hangSubsystem));
     }
 
     public void bindDroneControls() {
