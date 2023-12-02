@@ -1,8 +1,11 @@
 package org.firstinspires.ftc.sixteen750.commands.auto.red;
 
 import android.util.Pair;
+
 import com.technototes.library.command.ChoiceCommand;
+
 import org.firstinspires.ftc.sixteen750.Robot;
+
 
 public class StagePixelSelection extends ChoiceCommand {
 
