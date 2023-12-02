@@ -12,12 +12,12 @@ public class AutoConstants {
     @Config
     public static class WingRed {
         public static ConfigurablePoseD START = new ConfigurablePoseD(35, 60, -90);
-        public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(45, 30, -60);
-        public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(35, 32, -90);
-        public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(25, 32, -180);
+        public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(45, 30, -60); // not fine tuned
+        public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(35, 32, -90); // not fine tuned
+        public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(25, 32, -180); // near the metal, not fine tuned
         // This is "clear of the pixels, ready to go somewhere else"
         public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(39,56,-180);
-        public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(39, 32, -180);
+        public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(39, 32, -180); // not fine tuned
         public static ConfigurablePoseD TELESTART = new ConfigurablePoseD(0,0,90);
         public static ConfigurablePoseD PARK_CORNER = new ConfigurablePoseD(-60,55,-180); // may need to be 180 (0 needs test)
         public static ConfigurablePoseD FORWARD = new ConfigurablePoseD(48,0,0);
@@ -78,12 +78,12 @@ public class AutoConstants {
     @Config
     public static class WingBlue {
         public static ConfigurablePoseD START = new ConfigurablePoseD(35, -60, 90);
-        public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(25, -32, 180);
-        public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(35, -32, 90);
-        public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(45, -30, 60);
+        public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(25, -32, 180); // near the metal, not fine tuned
+        public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(35, -32, 90); // not fine tuned
+        public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(45, -30, 60); // not fine tuned
         // This is "clear of the pixels, ready to go somewhere else"
         public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(39,-56,180);
-        public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(39, -32, 180);
+        public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(39, -32, 180); // not fine tuned
         public static ConfigurablePoseD PARK_CORNER = new ConfigurablePoseD(-60,-56,180); // may need to be 180 (0 needs test)
 
 
@@ -123,13 +123,13 @@ public class AutoConstants {
     @Config
     public static class StageRed {
         public static ConfigurablePoseD START = new ConfigurablePoseD(-12, 60, -90);
-        public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(0, 35, 0);
-        public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(-12, 32, -90);
-        public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(-19, 35, -120);
+        public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(0, 35, 0);  // near the metal, not fine tuned
+        public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(-12, 32, -90); //fine tuned
+        public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD( -19, 35, -120); // not fine tuned
         // This is "clear of the pixels, ready to go somewhere else"
         public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(-12,56,-90);
         public static ConfigurablePoseD RIGHT_CLEAR = new ConfigurablePoseD(-35,56,-90);
-        public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(-15, 35, 0);
+        public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(-15, 35, 0); // not fine tuned (-15, 45, -45)
         public static ConfigurablePoseD PARK_CENTER = new ConfigurablePoseD(-59,12,-90); // may need to be 180 (0 needs test)
         public static ConfigurablePoseD MID_PARK_CENTER = new ConfigurablePoseD(-35,12,-90);
 
@@ -177,12 +177,12 @@ public class AutoConstants {
     @Config
     public static class StageBlue {
         public static ConfigurablePoseD START = new ConfigurablePoseD(-12, -60, 90);
-        public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(-18, -34, 120);
-        public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(-12, -33, 90);
-        public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(0, -35, 0);
+        public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(-19, -35, 120); // not fine tuned
+        public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(-12, -32, 90); // not fine tuned
+        public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(0, -35, 0); // near the metal, not fine tuned
         // This is "clear of the pixels, ready to go somewhere else"
         public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(-12,-56,90);
-        public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(-15, -35  , 0);
+        public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(-15, -35  , 0); // not fine tuned
         public static ConfigurablePoseD PARK_CENTER = new ConfigurablePoseD(-59,-12,90); // may need to be 180 (0 needs test)
         public static ConfigurablePoseD LEFT_CLEAR = new ConfigurablePoseD(-35,-56,90);
         public static ConfigurablePoseD MID_PARK_CENTER = new ConfigurablePoseD(-35,-12,90);
