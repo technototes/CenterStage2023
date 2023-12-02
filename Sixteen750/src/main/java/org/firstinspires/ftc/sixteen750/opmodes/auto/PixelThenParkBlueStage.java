@@ -44,6 +44,6 @@ public class PixelThenParkBlueStage extends CommandOpMode {
             );
         if (Setup.Connected.WEBCAM) {
           CommandScheduler.getInstance().scheduleInit(new VisionCommand(robot.vision));
-               }
+       }
     }
 }
