@@ -4,8 +4,8 @@ import com.technototes.library.control.CommandButton;
 import com.technototes.library.control.CommandGamepad;
 import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
-// import org.firstinspires.ftc.twenty403.commands.claw.ArmSecondLineScoring;
-// import org.firstinspires.ftc.twenty403.commands.claw.ArmThirdLineScoring;
+import org.firstinspires.ftc.twenty403.commands.arm.ArmSecondLineScoring;
+import org.firstinspires.ftc.twenty403.commands.arm.ArmThirdLineScoring;
 import org.firstinspires.ftc.twenty403.commands.DroneCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.ArmFirstLineCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.ArmIntakeCommand;
@@ -70,7 +70,7 @@ public class OperatorController {
         armIntakeButton = gamepad.ps_cross;
         shoulderDecrementButton = gamepad.dpadDown;
         shoulderIncrementButton = gamepad.dpadUp;
-        armNeutralButton = gamepad.dpadRight;
+        armNeutralButton = gamepad.ps_square;
 
         //ScrewExtend = gamepad.leftTrigger.getAsButton();
         //ScrewRetract = gamepad.rightTrigger.getAsButton();
@@ -86,9 +86,8 @@ public class OperatorController {
 
         armIntakeButton.whenPressed(new ArmIntakeCommand(robot.clawSubsystem));
         armNeutralButton.whenPressed(new ArmNeutralPosition(robot.clawSubsystem));
-        // armSecondLine.whenPressed(new ArmSecondLineScoring((robot.clawSubsystem)));
-        // armThirdLine.whenPressed(new ArmThirdLineScoring((robot.clawSubsystem)));
-        armFirstLine.whenPressed(new ArmFirstLineCommand(robot.clawSubsystem));
+        armSecondLine.whenPressed(new ArmSecondLineScoring((robot.clawSubsystem)));
+        armThirdLine.whenPressed(new ArmThirdLineScoring((robot.clawSubsystem)));
         shoulderIncrementButton.whenPressed(new ShoulderIncrementCommand(robot.clawSubsystem));
         shoulderDecrementButton.whenPressed(new ShoulderDecrementCommand(robot.clawSubsystem));
     }

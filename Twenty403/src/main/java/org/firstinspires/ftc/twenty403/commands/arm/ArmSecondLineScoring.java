@@ -14,6 +14,6 @@ public class ArmSecondLineScoring implements Command {
 
     @Override
     public void execute() {
-        // subsystem.secondLineScoring();
+        subsystem.secondLineScoring();
     }
 }

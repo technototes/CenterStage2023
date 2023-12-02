@@ -14,8 +14,8 @@ import com.technototes.library.subsystem.Subsystem;
 @Config
 public class ArmSubsystem implements Subsystem, Loggable {
 
-    public static double OPEN_CLAW_POS = 0.1; //needs retesting yay
-    public static double CLOSE_CLAW_POS = 0.4; //needs retesting yay
+    public static double CLOSE_CLAW_POS = 0; //needs retesting yay
+    public static double OPEN_CLAW_POS = 0.45; //needs retesting yay
 
     public static int SHOULDER_ARM_INTAKE = 804; //collect
     public static int SHOULDER_MANUAL_STEP = 15; //inc/dec
@@ -74,6 +74,7 @@ public class ArmSubsystem implements Subsystem, Loggable {
         shoulderMotor = shoulder;
         elbowMotor = elbow;
         haveHardware = true;
+        shoulder.brake();
         shoulderPidController =
                 new PIDFController(
                         shoulderPID,
