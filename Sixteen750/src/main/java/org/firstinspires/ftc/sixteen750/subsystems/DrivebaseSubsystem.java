@@ -12,6 +12,7 @@ import com.technototes.library.logger.Loggable;
 import com.technototes.path.subsystem.MecanumConstants;
 import com.technototes.path.subsystem.PathingMecanumDrivebaseSubsystem;
 import java.util.function.Supplier;
+import org.firstinspires.ftc.sixteen750.helpers.HeadingHelper;
 
 public class DrivebaseSubsystem
     extends PathingMecanumDrivebaseSubsystem
@@ -217,6 +218,10 @@ public class DrivebaseSubsystem
         rightFront.setVelocity(
             (rfv * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.AFR_SCALE) / maxall
         );
+    }
+
+    public void saveHeading() {
+        HeadingHelper.updateHeading(imu.gyroHeading());
     }
 
     public void setSnailMode() {

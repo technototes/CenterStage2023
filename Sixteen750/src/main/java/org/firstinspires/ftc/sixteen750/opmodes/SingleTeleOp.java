@@ -11,6 +11,7 @@ import org.firstinspires.ftc.sixteen750.Hardware;
 import org.firstinspires.ftc.sixteen750.Robot;
 import org.firstinspires.ftc.sixteen750.Setup;
 import org.firstinspires.ftc.sixteen750.commands.driving.ResetGyroCommand;
+import org.firstinspires.ftc.sixteen750.commands.driving.RestoreOrResetGyroCommand;
 import org.firstinspires.ftc.sixteen750.controls.SingleController;
 import org.firstinspires.ftc.sixteen750.helpers.StartingPosition;
 
@@ -31,6 +32,6 @@ public class SingleTeleOp extends CommandOpMode {
         robot.drivebase.setPoseEstimate(AutoConstants.WingRed.TELESTART.toPose());
         CommandScheduler
             .getInstance()
-            .scheduleForState(new ResetGyroCommand(robot.drivebase), OpModeState.INIT);
+            .scheduleForState(new RestoreOrResetGyroCommand(robot.drivebase), OpModeState.INIT);
     }
 }

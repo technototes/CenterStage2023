@@ -6,13 +6,14 @@ import org.firstinspires.ftc.twenty403.subsystems.DrivebaseSubsystem;
 public class RecordFinalHeading implements Command {
 
     private DrivebaseSubsystem subsystem;
+    protected double offset = 0;
 
     @Override
     public void execute() {
-        subsystem.saveHeading();
+        subsystem.saveHeading(offset);
     }
 
-    public RecordFinalHeading(DrivebaseSubsystem d) {
+    protected RecordFinalHeading(DrivebaseSubsystem d) {
         subsystem = d;
     }
 }

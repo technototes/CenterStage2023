@@ -138,6 +138,12 @@ public class DrivebaseSubsystem
     @Log(name = "Pose2d: ")
     public String poseDisplay = ENABLE_POSE_DIAGNOSTICS ? "" : null;
 
+    @Log(name = "savedHeading")
+    public double savedHeading = -1234;
+
+    @Log(name = "validHeading")
+    public double validHeading = 1234;
+
     //    @Log.Number(name = "FL")
     public EncodedMotor<DcMotorEx> fl2;
 
@@ -185,8 +191,8 @@ public class DrivebaseSubsystem
         return getPoseEstimate();
     }
 
-    public void saveHeading() {
-        HeadingHelper.updateHeading(imu.gyroHeading());
+    public void saveHeading(double offset) {
+        HeadingHelper.updateHeading(imu.gyroHeading() + offset);
     }
 
     @Override
@@ -201,6 +207,8 @@ public class DrivebaseSubsystem
                 (poseVelocity != null ? poseVelocity.toString() : "<null>");
         }
         heading = imu.gyroHeading();
+        validHeading = HeadingHelper.validHeading() ? 1.0 : -1.0;
+        savedHeading = HeadingHelper.getSavedHeading();
     }
 
     // Velocity driving, in the hopes that the bot with drive straight ;)

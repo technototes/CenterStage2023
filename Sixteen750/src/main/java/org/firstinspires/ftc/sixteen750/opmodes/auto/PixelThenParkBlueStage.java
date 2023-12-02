@@ -13,6 +13,7 @@ import org.firstinspires.ftc.sixteen750.Hardware;
 import org.firstinspires.ftc.sixteen750.Robot;
 import org.firstinspires.ftc.sixteen750.Setup;
 import org.firstinspires.ftc.sixteen750.commands.VisionCommand;
+import org.firstinspires.ftc.sixteen750.commands.auto.RecordFinalHeading;
 import org.firstinspires.ftc.sixteen750.commands.auto.blue.StagePixelSelection;
 import org.firstinspires.ftc.sixteen750.controls.DriverController;
 import org.firstinspires.ftc.sixteen750.helpers.StartingPosition;
@@ -37,7 +38,7 @@ public class PixelThenParkBlueStage extends CommandOpMode {
             .scheduleForState(
                 new SequentialCommandGroup(
                     new StagePixelSelection(robot),
-                    //                    new RecordFinalHeading(robot.drivebase),
+                    new RecordFinalHeading(robot.drivebase),
                     CommandScheduler.getInstance()::terminateOpMode
                 ),
                 OpModeState.RUN
