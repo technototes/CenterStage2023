@@ -16,7 +16,7 @@ import org.firstinspires.ftc.twenty403.commands.auto.RecordFinalHeading;
 import org.firstinspires.ftc.twenty403.commands.auto.blue.StagePixelLeft;
 import org.firstinspires.ftc.twenty403.commands.auto.blue.StagePixelMiddle;
 import org.firstinspires.ftc.twenty403.commands.auto.blue.StagePixelRight;
-import org.firstinspires.ftc.twenty403.commands.auto.red.StagePixelSelection;
+import org.firstinspires.ftc.twenty403.commands.auto.blue.StagePixelSelection;
 import org.firstinspires.ftc.twenty403.controls.DriverController;
 import org.firstinspires.ftc.twenty403.helpers.StartingPosition;
 
