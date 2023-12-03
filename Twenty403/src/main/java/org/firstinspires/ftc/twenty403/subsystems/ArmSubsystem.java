@@ -69,22 +69,23 @@ public class ArmSubsystem implements Subsystem, Loggable {
     public int shoulderResetPos, elbowResetPos;
 
     public ArmSubsystem(
-            Servo claw,
-            EncodedMotor<DcMotorEx> shoulder,
-            EncodedMotor<DcMotorEx> elbow
+        Servo claw,
+        EncodedMotor<DcMotorEx> shoulder,
+        EncodedMotor<DcMotorEx> elbow
     ) {
         clawServo = claw;
         shoulderMotor = shoulder;
         elbowMotor = elbow;
         haveHardware = true;
-        if (USE_SHOULDER_BRAKE == 0){
-            shoulder.brake();}
+        if (USE_SHOULDER_BRAKE == 0) {
+            shoulder.brake();
+        }
         shoulderPidController =
-                new PIDFController(
-                        shoulderPID,
-                        0,
-                        0,
-                        0,
+            new PIDFController(
+                shoulderPID,
+                0,
+                0,
+                0,
                 /*
 
             The function arguments for the Feed Forward function are Position (ticks) and
@@ -106,9 +107,9 @@ public class ArmSubsystem implements Subsystem, Loggable {
                 When T is greater than 90, the "downward torque" is working *with* the motor
 
              */
-                        (ticks, velocity) ->
-                                FEEDFORWARD_COEFFICIENT * Math.cos((Math.PI * ticks) / (2 * SHOULDER_VERTICAL))
-                );
+                (ticks, velocity) ->
+                    FEEDFORWARD_COEFFICIENT * Math.cos((Math.PI * ticks) / (2 * SHOULDER_VERTICAL))
+            );
         elbowPidController = new PIDFController(elbowPID, 0, 0, 0, (x, y) -> 0.0);
         resetArmNeutral();
     }
@@ -142,6 +143,7 @@ public class ArmSubsystem implements Subsystem, Loggable {
     public void elbowIntake() {
         setElbowPos(ELBOW_ARM_INTAKE);
     }
+
     public void shoulderIntake() {
         setShoulderPos(SHOULDER_ARM_INTAKE);
     }
@@ -161,11 +163,28 @@ public class ArmSubsystem implements Subsystem, Loggable {
     public void elbow_decrement() {
         setElbowPos(elbowTargetPos - ELBOW_MANUAL_STEP);
     }
-    public void elbowFold() {setElbowPos(ELBOW_FOLD_POS);}
-    public void elbowUnfold() {setElbowPos(ELBOW_UNFOLD_POS);}
-    public void maybeMoveElbow() {if (getShoulderCurrentPos() > 369) {elbowFold();}}
-    public void maybeUnfoldElbow() {elbowUnfold();}
-    public void shoulderVertical() {setShoulderPos(SHOULDER_VERTICAL);}
+
+    public void elbowFold() {
+        setElbowPos(ELBOW_FOLD_POS);
+    }
+
+    public void elbowUnfold() {
+        setElbowPos(ELBOW_UNFOLD_POS);
+    }
+
+    public void maybeMoveElbow() {
+        if (getShoulderCurrentPos() > 369) {
+            elbowFold();
+        }
+    }
+
+    public void maybeUnfoldElbow() {
+        elbowUnfold();
+    }
+
+    public void shoulderVertical() {
+        setShoulderPos(SHOULDER_VERTICAL);
+    }
 
     public void elbowFirstLineScoring() {
         setElbowPos(ELBOW_FIRST_LINE_SCORING);
@@ -178,6 +197,7 @@ public class ArmSubsystem implements Subsystem, Loggable {
     public void elbowNeutralArmPosition() {
         setElbowPos(ELBOW_NEUTRAL_ARM_POSITION);
     }
+
     public void shoulderNeutralArmPosition() {
         setShoulderPos(SHOULDER_NEUTRAL_ARM_POSITION);
     }
@@ -185,6 +205,7 @@ public class ArmSubsystem implements Subsystem, Loggable {
     public void elbowSecondLineScoring() {
         setElbowPos(ELBOW_SECOND_LINE_SCORING);
     }
+
     public void secondLineScoring() {
         setShoulderPos(SHOULDER_SECOND_LINE_SCORING);
     }
@@ -192,6 +213,7 @@ public class ArmSubsystem implements Subsystem, Loggable {
     public void elbowThirdLineScoring() {
         setElbowPos(ELBOW_THIRD_LINE_SCORING);
     }
+
     public void shoulderThirdLineScoring() {
         setShoulderPos(SHOULDER_THIRD_LINE_SCORING);
     }
