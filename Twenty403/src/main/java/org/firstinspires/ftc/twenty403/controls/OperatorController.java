@@ -10,6 +10,8 @@ import org.firstinspires.ftc.twenty403.commands.arm.ArmIntakeSequential;
 import org.firstinspires.ftc.twenty403.commands.arm.ArmNeutralSequential;
 import org.firstinspires.ftc.twenty403.commands.arm.ArmSecondLineSequential;
 import org.firstinspires.ftc.twenty403.commands.arm.ArmThirdLineSequential;
+import org.firstinspires.ftc.twenty403.commands.arm.ElbowDecrementCommand;
+import org.firstinspires.ftc.twenty403.commands.arm.ElbowIncrementCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.ElbowIntakeCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.ShoulderIntakeCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.ElbowNeutralPosition;
@@ -75,6 +77,8 @@ public class OperatorController {
         armIntakeButton = gamepad.ps_cross;
         shoulderDecrementButton = gamepad.dpadDown;
         shoulderIncrementButton = gamepad.dpadUp;
+        elbowDecrementButton = gamepad.dpadRight;
+        elbowIncrementButton = gamepad.dpadLeft;
         armNeutralButton = gamepad.ps_square;
 
         //ScrewExtend = gamepad.leftTrigger.getAsButton();
@@ -96,6 +100,8 @@ public class OperatorController {
         armThirdLine.whenPressed(new ArmThirdLineSequential((robot.clawSubsystem)));
         shoulderIncrementButton.whenPressed(new ShoulderIncrementCommand(robot.clawSubsystem));
         shoulderDecrementButton.whenPressed(new ShoulderDecrementCommand(robot.clawSubsystem));
+        elbowIncrementButton.whenPressed(new ElbowIncrementCommand(robot.clawSubsystem));
+        elbowDecrementButton.whenPressed(new ElbowDecrementCommand(robot.clawSubsystem));
     }
 
     public void bindHangControls() {
