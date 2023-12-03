@@ -14,28 +14,32 @@ import com.technototes.library.subsystem.Subsystem;
 @Config
 public class ArmSubsystem implements Subsystem, Loggable {
 
-    public static double OPEN_CLAW_POS = 0.1; //needs retesting yay
-    public static double CLOSE_CLAW_POS = 0.4; //needs retesting yay
+    public static double CLOSE_CLAW_POS = 0; //needs retesting yay
+    public static double OPEN_CLAW_POS = 0.45; //needs retesting yay
 
-    public static int SHOULDER_ARM_INTAKE = 804; //collect
+    public static int SHOULDER_ARM_INTAKE = 670; //collect
     public static int SHOULDER_MANUAL_STEP = 15; //inc/dec
-    public static int SHOULDER_FIRST_LINE_SCORING = 818;
-    public static int SHOULDER_NEUTRAL_ARM_POSITION = 0; //reset
-    public static int SHOULDER_SECOND_LINE_SCORING = 725;
+    public static int SHOULDER_FIRST_LINE_SCORING = 600;
+    public static int SHOULDER_NEUTRAL_ARM_POSITION = -40; //reset
+    public static int SHOULDER_SECOND_LINE_SCORING = 500;
     public static int SHOULDER_THIRD_LINE_SCORING = 552;
+    public static int SHOULDER_VERTICAL = 369; // For feed-fwd, and maybe hang
 
     public static double MIN_SHOULDER_MOTOR_SPEED = -1;
     public static double MAX_SHOULDER_MOTOR_SPEED = 1;
 
-    public static int ELBOW_ARM_INTAKE = -543; //collect
+    public static int ELBOW_ARM_INTAKE = -712; //collect
     public static int ELBOW_MANUAL_STEP = 15; //increment/decrement
-    public static int ELBOW_FIRST_LINE_SCORING = -750;
+    public static int ELBOW_FOLD_POS = -300;
+    public static int ELBOW_UNFOLD_POS = -100;
+    public static int ELBOW_FIRST_LINE_SCORING = -800;
     public static int ELBOW_NEUTRAL_ARM_POSITION = 0; //reset
-    public static int ELBOW_SECOND_LINE_SCORING = -666;
+    public static int ELBOW_SECOND_LINE_SCORING = -700;
     public static int ELBOW_THIRD_LINE_SCORING = -529;
 
     public static double MIN_ELBOW_MOTOR_SPEED = -1;
     public static double MAX_ELBOW_MOTOR_SPEED = 1;
+    public static int USE_SHOULDER_BRAKE = 0;
 
     @Log(name = "shoulderPos")
     public int shoulderPos;
@@ -58,7 +62,8 @@ public class ArmSubsystem implements Subsystem, Loggable {
     private Servo clawServo;
     private EncodedMotor<DcMotorEx> shoulderMotor, elbowMotor;
     private boolean haveHardware;
-    public static PIDCoefficients shoulderPID = new PIDCoefficients(0.00175, 0.0, 0.000075);
+    public static double FEEDFORWARD_COEFFICIENT = 0.3;
+    public static PIDCoefficients shoulderPID = new PIDCoefficients(0.00175, 0.0, 0.00009);
     public static PIDCoefficients elbowPID = new PIDCoefficients(0.001, 0.0, 0.000075);
     private PIDFController shoulderPidController, elbowPidController;
     public int shoulderResetPos, elbowResetPos;
@@ -72,7 +77,39 @@ public class ArmSubsystem implements Subsystem, Loggable {
         shoulderMotor = shoulder;
         elbowMotor = elbow;
         haveHardware = true;
-        shoulderPidController = new PIDFController(shoulderPID, 0, 0, 0, (x, y) -> 0.0);
+        if (USE_SHOULDER_BRAKE == 0) {
+            shoulder.brake();
+        }
+        shoulderPidController =
+            new PIDFController(
+                shoulderPID,
+                0,
+                0,
+                0,
+                /*
+
+            The function arguments for the Feed Forward function are Position (ticks) and
+            Velocity (units?). So, for the shoulder, we want to check to see if which side of
+            center we're on, and if the velocity is pushing us down, FF should probably be
+            low (negative?) while if velocity is pushing us *up*, FF should be high (right?)
+            Someone who's done physics and/or calculus recently should write some real equations
+
+            Braelyn got the math right
+
+            For angle T through this range where we start at zero:
+                       /
+                      / T
+            180 _____/_____ 0
+            The downward torque due to gravity is cos(T) * Gravity (9.8m/s^2)
+
+            If we're moving from 0 to 180 degrees, then:
+                While T is less than 90, the "downward torque" is working *against* the motor
+                When T is greater than 90, the "downward torque" is working *with* the motor
+
+             */
+                (ticks, velocity) ->
+                    FEEDFORWARD_COEFFICIENT * Math.cos((Math.PI * ticks) / (2 * SHOULDER_VERTICAL))
+            );
         elbowPidController = new PIDFController(elbowPID, 0, 0, 0, (x, y) -> 0.0);
         resetArmNeutral();
     }
@@ -103,9 +140,12 @@ public class ArmSubsystem implements Subsystem, Loggable {
         elbowTargetPos = elbowResetPos;
     }
 
-    public void intake() {
-        setShoulderPos(SHOULDER_ARM_INTAKE);
+    public void elbowIntake() {
         setElbowPos(ELBOW_ARM_INTAKE);
+    }
+
+    public void shoulderIntake() {
+        setShoulderPos(SHOULDER_ARM_INTAKE);
     }
 
     public void shoulder_increment() {
@@ -124,24 +164,58 @@ public class ArmSubsystem implements Subsystem, Loggable {
         setElbowPos(elbowTargetPos - ELBOW_MANUAL_STEP);
     }
 
-    public void firstLineScoring() {
-        setShoulderPos(SHOULDER_FIRST_LINE_SCORING);
+    public void elbowFold() {
+        setElbowPos(ELBOW_FOLD_POS);
+    }
+
+    public void elbowUnfold() {
+        setElbowPos(ELBOW_UNFOLD_POS);
+    }
+
+    public void maybeMoveElbow() {
+        if (getShoulderCurrentPos() > 369) {
+            elbowFold();
+        }
+    }
+
+    public void maybeUnfoldElbow() {
+        elbowUnfold();
+    }
+
+    public void shoulderVertical() {
+        setShoulderPos(SHOULDER_VERTICAL);
+    }
+
+    public void elbowFirstLineScoring() {
         setElbowPos(ELBOW_FIRST_LINE_SCORING);
     }
 
-    public void neutralArmPosition() {
-        setShoulderPos(SHOULDER_NEUTRAL_ARM_POSITION);
+    public void shoulderFirstLineScoring() {
+        setShoulderPos(SHOULDER_FIRST_LINE_SCORING);
+    }
+
+    public void elbowNeutralArmPosition() {
         setElbowPos(ELBOW_NEUTRAL_ARM_POSITION);
+    }
+
+    public void shoulderNeutralArmPosition() {
+        setShoulderPos(SHOULDER_NEUTRAL_ARM_POSITION);
+    }
+
+    public void elbowSecondLineScoring() {
+        setElbowPos(ELBOW_SECOND_LINE_SCORING);
     }
 
     public void secondLineScoring() {
         setShoulderPos(SHOULDER_SECOND_LINE_SCORING);
-        setElbowPos(ELBOW_SECOND_LINE_SCORING);
     }
 
-    public void thirdLineScoring() {
-        setShoulderPos(SHOULDER_THIRD_LINE_SCORING);
+    public void elbowThirdLineScoring() {
         setElbowPos(ELBOW_THIRD_LINE_SCORING);
+    }
+
+    public void shoulderThirdLineScoring() {
+        setShoulderPos(SHOULDER_THIRD_LINE_SCORING);
     }
 
     @Override
