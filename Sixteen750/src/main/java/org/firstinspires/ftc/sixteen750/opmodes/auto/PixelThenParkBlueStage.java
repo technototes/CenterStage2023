@@ -7,16 +7,18 @@ import com.technototes.library.command.CommandScheduler;
 import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.library.structure.CommandOpMode;
 import com.technototes.library.util.Alliance;
+
 import org.firstinspires.ftc.sixteen750.AutoConstants;
 import org.firstinspires.ftc.sixteen750.Hardware;
 import org.firstinspires.ftc.sixteen750.Robot;
 import org.firstinspires.ftc.sixteen750.Setup;
 import org.firstinspires.ftc.sixteen750.commands.VisionCommand;
-import org.firstinspires.ftc.sixteen750.commands.auto.blue.StagePixelMiddle;
-import org.firstinspires.ftc.sixteen750.commands.auto.blue.WingPixelMiddle;
-import org.firstinspires.ftc.sixteen750.commands.auto.blue.WingPixelSelection;
+import org.firstinspires.ftc.sixteen750.commands.auto.red.StagePixelSelection;
 import org.firstinspires.ftc.sixteen750.controls.DriverController;
 import org.firstinspires.ftc.sixteen750.helpers.StartingPosition;
+
+import java.util.Set;
+
 
 // The last 4 weird things are '🟥' and '🪶' (wing)
 @Autonomous(name = "PixelThenParkBlueStage")
@@ -37,13 +39,14 @@ public class PixelThenParkBlueStage extends CommandOpMode {
             .getInstance()
             .scheduleForState(
                 new SequentialCommandGroup(
-                    new StagePixelMiddle(robot),
+                    new StagePixelSelection(robot),
+//                    new RecordFinalHeading(robot.drivebase),
                     CommandScheduler.getInstance()::terminateOpMode
                 ),
                 OpModeState.RUN
             );
         if (Setup.Connected.WEBCAM) {
-          CommandScheduler.getInstance().scheduleInit(new VisionCommand(robot.vision));
-       }
+            CommandScheduler.getInstance().scheduleInit(new VisionCommand(robot.vision));
+        }
     }
 }

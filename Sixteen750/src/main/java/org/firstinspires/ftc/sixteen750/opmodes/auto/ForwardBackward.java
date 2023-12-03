@@ -13,15 +13,17 @@ import org.firstinspires.ftc.sixteen750.Hardware;
 import org.firstinspires.ftc.sixteen750.Robot;
 import org.firstinspires.ftc.sixteen750.Setup;
 import org.firstinspires.ftc.sixteen750.commands.VisionCommand;
-import org.firstinspires.ftc.sixteen750.commands.auto.red.WingPixelSelection;
+import org.firstinspires.ftc.sixteen750.commands.auto.ForwardBackwardCommand;
 import org.firstinspires.ftc.sixteen750.controls.DriverController;
 import org.firstinspires.ftc.sixteen750.helpers.StartingPosition;
 
 
+import java.util.Set;
+
 // The last 4 weird things are '🟥' and '🪶' (wing)
-@Autonomous(name = "PixelThenParkRedWing")
+@Autonomous(name = "Forward_Backward")
 @SuppressWarnings("unused")
-public class PixelThenParkRedWing extends CommandOpMode {
+public class ForwardBackward extends CommandOpMode {
 
     public Robot robot;
     public DriverController controls;
@@ -32,13 +34,12 @@ public class PixelThenParkRedWing extends CommandOpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         hardware = new Hardware(hardwareMap);
         robot = new Robot(hardware, Alliance.RED, StartingPosition.Wing);
-        robot.drivebase.setPoseEstimate(AutoConstants.WingRed.START.toPose());
+        robot.drivebase.setPoseEstimate(AutoConstants.WingRed.BACKWARD.toPose());
         CommandScheduler
             .getInstance()
             .scheduleForState(
                 new SequentialCommandGroup(
-                    new WingPixelSelection(robot),
-//                    new RecordFinalHeading(robot.drivebase),
+                    new ForwardBackwardCommand(robot),
                     CommandScheduler.getInstance()::terminateOpMode
                 ),
                 OpModeState.RUN
