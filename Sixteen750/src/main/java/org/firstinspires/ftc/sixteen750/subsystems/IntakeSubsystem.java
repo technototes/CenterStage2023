@@ -9,7 +9,7 @@ import com.technototes.library.subsystem.Subsystem;
 @Config
 public class IntakeSubsystem implements Subsystem, Loggable {
 
-    public static double INTAKE_SPEED = -.7;
+    public static double INTAKE_SPEED = -.6;
     public static double OUTPUT_SPEED = .7;
     public Motor<DcMotorEx> leftMotor;
     //public Motor<DcMotorEx> rightMotor;
