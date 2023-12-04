@@ -177,12 +177,12 @@ public class AutoConstants {
     @Config
     public static class StageBlue {
         public static ConfigurablePoseD START = new ConfigurablePoseD(-12, -60, 90);
-        public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(-18, -36, 120); // not fine tuned
-        public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(-12, -32, 90); // not fine tuned
-        public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(-7, -33, 45); // near the metal, not fine tuned
+        public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(-18, -36, 120); //  fine tuned
+        public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(-12, -32, 90); //  fine tuned
+        public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(-7, -33, 45); // near the metal, fine tuned
         // This is "clear of the pixels, ready to go somewhere else"
         public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(-12,-56,90);
-        public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(-15, -45  , 45); // not fine tuned
+        public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(-15, -45  , 45); //  fine tuned
         public static ConfigurablePoseD PARK_CENTER = new ConfigurablePoseD(-59,-12,90); // may need to be 180 (0 needs test)
         public static ConfigurablePoseD LEFT_CLEAR = new ConfigurablePoseD(-35,-56,90);
         public static ConfigurablePoseD MID_PARK_CENTER = new ConfigurablePoseD(-35,-12,90);
