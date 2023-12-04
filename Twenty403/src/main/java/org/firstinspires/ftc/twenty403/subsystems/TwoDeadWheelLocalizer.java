@@ -73,6 +73,7 @@ public class TwoDeadWheelLocalizer
     }
 
     // Parallel moves parallel to the axles of the drive base
+    //if odo not working, set values to false to switch back to wheel based driving
     @LogConfig.Run(duringRun = true, duringInit = true)
     @Log(name = "parOdo")
     public MotorEncoder parallelEncoder;
