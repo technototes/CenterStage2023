@@ -29,7 +29,7 @@ public class ArmSubsystem implements Subsystem, Loggable {
     public static double MAX_SHOULDER_MOTOR_SPEED = 1;
 
     public static int ELBOW_ARM_INTAKE = -712; //collect
-    public static int ELBOW_MANUAL_STEP = 15; //increment/decrement
+    public static int ELBOW_MANUAL_STEP = 20; //increment/decrement
     public static int ELBOW_FOLD_POS = -300;
     public static int ELBOW_UNFOLD_POS = -100;
     public static int ELBOW_FIRST_LINE_SCORING = -800;
