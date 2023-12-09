@@ -47,6 +47,7 @@ public class Hardware implements Loggable {
                 RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
                 RevHubOrientationOnRobot.UsbFacingDirection.UP
             );
+
         if (Setup.Connected.DRIVEBASE) {
             fl = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.FLMOTOR);
             fr = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.FRMOTOR);
@@ -66,6 +67,8 @@ public class Hardware implements Loggable {
             leftIntake = new Motor<DcMotorEx>(Setup.HardwareNames.INTAKELEFT);
             //rightIntake = new Motor<DcMotorEx>(Setup.HardwareNames.INTAKERIGHT);
         }
+
+
         if (Setup.Connected.HANG) {
             hangS = new Servo(Setup.HardwareNames.HANGSERVO);
             hangM = new Motor<DcMotorEx>(Setup.HardwareNames.HANGMOTOR);
@@ -74,6 +77,9 @@ public class Hardware implements Loggable {
         if (Setup.Connected.DRONE) {
             DroneServo = new Servo(Setup.HardwareNames.DRONESERVO);
         }
+
+
+
     }
 
     // We can read the voltage from the different hubs for fun...
