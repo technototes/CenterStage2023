@@ -13,10 +13,7 @@ import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
 import org.firstinspires.ftc.twenty403.commands.VisionCommand;
 import org.firstinspires.ftc.twenty403.commands.auto.RecordFinalHeading;
-import org.firstinspires.ftc.twenty403.commands.auto.red.StagePixelLeft;
-import org.firstinspires.ftc.twenty403.commands.auto.red.StagePixelMiddle;
-import org.firstinspires.ftc.twenty403.commands.auto.red.StagePixelRight;
-import org.firstinspires.ftc.twenty403.commands.auto.red.StagePixelSelection;
+import org.firstinspires.ftc.twenty403.commands.auto.red.StagePixelPlaceSelection;
 import org.firstinspires.ftc.twenty403.controls.DriverController;
 import org.firstinspires.ftc.twenty403.helpers.StartingPosition;
 
@@ -39,7 +36,7 @@ public class PixelThenParkRedStage extends CommandOpMode {
             .getInstance()
             .scheduleForState(
                 new SequentialCommandGroup(
-                    new StagePixelSelection(robot),
+                    new StagePixelPlaceSelection(robot),
                     new RecordFinalHeading(robot.drivebaseSubsystem),
                     CommandScheduler.getInstance()::terminateOpMode
                 ),
