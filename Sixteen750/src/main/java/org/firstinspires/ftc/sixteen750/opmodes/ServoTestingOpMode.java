@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.technototes.library.command.CommandScheduler;
+import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.library.structure.CommandOpMode;
 import com.technototes.library.util.Alliance;
 
@@ -11,6 +12,7 @@ import org.firstinspires.ftc.sixteen750.AutoConstants;
 import org.firstinspires.ftc.sixteen750.Hardware;
 import org.firstinspires.ftc.sixteen750.Robot;
 import org.firstinspires.ftc.sixteen750.Setup;
+import org.firstinspires.ftc.sixteen750.commands.DroneStart;
 import org.firstinspires.ftc.sixteen750.commands.driving.ResetGyroCommand;
 import org.firstinspires.ftc.sixteen750.controls.SingleController;
 import org.firstinspires.ftc.sixteen750.controls.TestingController;
@@ -32,6 +34,8 @@ public class ServoTestingOpMode extends CommandOpMode {
         hardware = new Hardware(hardwareMap);
         robot = new Robot(hardware, Alliance.NONE, StartingPosition.Unspecified);
         controls = new TestingController(driverGamepad, robot);
-
+        CommandScheduler
+                .getInstance()
+                .scheduleForState(new DroneStart(robot.drone), OpModeState.INIT);
     }
 }

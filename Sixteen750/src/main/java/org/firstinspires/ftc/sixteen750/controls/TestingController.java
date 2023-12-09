@@ -107,7 +107,7 @@ public class TestingController {
     }
 
     private  void bindDroneControls() {
-        DroneReleaseButton.whenPressed((new DroneLaunch(robot.Drone)));
+        DroneReleaseButton.whenPressed((new DroneLaunch(robot.drone)));
     }
 
 

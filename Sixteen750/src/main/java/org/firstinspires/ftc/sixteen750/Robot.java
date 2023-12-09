@@ -23,7 +23,7 @@ public class Robot implements Loggable {
     public VisionSubsystem vision;
     public PlacementSubsystem placement;
     public HangSubsystem hang;
-    public DroneSubsystem Drone;
+    public DroneSubsystem drone;
 
     public Robot(Hardware hw, Alliance team, StartingPosition pos) {
         this.position = pos;
@@ -35,9 +35,9 @@ public class Robot implements Loggable {
         }
 
         if (Setup.Connected.DRONE) {
-            Drone = new DroneSubsystem(hw);
+            drone = new DroneSubsystem(hw);
         } else {
-            this.Drone = new DroneSubsystem();
+            this.drone = new DroneSubsystem();
         }
         if (Setup.Connected.WEBCAM) {
             this.vision = new VisionSubsystem(hw.camera, team, pos);
