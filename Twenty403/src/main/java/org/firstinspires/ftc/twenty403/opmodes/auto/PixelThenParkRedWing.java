@@ -14,7 +14,7 @@ import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
 import org.firstinspires.ftc.twenty403.commands.VisionCommand;
 import org.firstinspires.ftc.twenty403.commands.auto.RecordFinalHeading;
-import org.firstinspires.ftc.twenty403.commands.auto.red.WingPixelSelection;
+import org.firstinspires.ftc.twenty403.commands.auto.red.WingPixelPlaceSelection;
 import org.firstinspires.ftc.twenty403.controls.DriverController;
 import org.firstinspires.ftc.twenty403.helpers.StartingPosition;
 
@@ -37,7 +37,7 @@ public class PixelThenParkRedWing extends CommandOpMode {
             .getInstance()
             .scheduleForState(
                 new SequentialCommandGroup(
-                    new WingPixelSelection(robot),
+                    new WingPixelPlaceSelection(robot),
                     new RecordFinalHeading(robot.drivebaseSubsystem),
                     CommandScheduler.getInstance()::terminateOpMode
                 ),
