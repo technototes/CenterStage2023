@@ -18,7 +18,7 @@ public class ArmSubsystem implements Subsystem, Loggable {
     public static double OPEN_CLAW_POS = 0.45; //needs retesting yay
 
     public static int SHOULDER_ARM_INTAKE = 670; //collect
-    public static int SHOULDER_MANUAL_STEP = 15; //inc/dec
+    public static int SHOULDER_MANUAL_STEP = 20; //inc/dec
     public static int SHOULDER_FIRST_LINE_SCORING = 600;
     public static int SHOULDER_NEUTRAL_ARM_POSITION = -40; //reset
     public static int SHOULDER_SECOND_LINE_SCORING = 500;
