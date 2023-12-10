@@ -20,9 +20,9 @@ public class HangSubsystem implements Subsystem, Loggable {
     public static double neutralPositionNumber = 0;
 
     // one of the 2 variables below are going to be negative and the other is going to be positive
-    public static double extendScrewSpeed = .5;
+    public static double extendScrewSpeed = 1;
 
-    public static double retractScrewSpeed = -.5;
+    public static double retractScrewSpeed = -1;
 
     public static Motor<DcMotorEx> hangMotor1;
 

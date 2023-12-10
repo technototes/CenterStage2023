@@ -68,9 +68,9 @@ public class OperatorController {
 
         armServoOutputButton = gamepad.ps_square;
         scoreServoOutputButton = gamepad.ps_circle;
-        //hangUpButton = gamepad.ps_square;
-        //screwUpButton = gamepad.rightBumper;
-        //screwDownButton = gamepad.leftBumper;
+        hangUpButton = gamepad.ps_square;
+        screwUpButton = gamepad.rightBumper;
+        screwDownButton = gamepad.leftBumper;
 
     }
 

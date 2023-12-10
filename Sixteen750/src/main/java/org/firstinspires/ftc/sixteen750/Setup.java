@@ -13,7 +13,7 @@ public class Setup {
         public static boolean WEBCAM = false;
         public static boolean PLACEMENT = false;
 
-        public static boolean HANG = false;
+        public static boolean HANG = true;
 
         public static boolean DRONE = true;
     }
