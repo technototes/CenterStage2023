@@ -1,23 +1,14 @@
 package org.firstinspires.ftc.learnbot.controllers;
 
-import com.technototes.library.command.CommandScheduler;
 import com.technototes.library.control.CommandAxis;
 import com.technototes.library.control.CommandButton;
 import com.technototes.library.control.CommandGamepad;
 import com.technototes.library.logger.Loggable;
 import org.firstinspires.ftc.learnbot.Robot;
-import org.firstinspires.ftc.learnbot.commands.DriveCommand;
+import org.firstinspires.ftc.learnbot.commands.AnalogMotorControlCmd;
 import org.firstinspires.ftc.learnbot.commands.LiftHighCommand;
 import org.firstinspires.ftc.learnbot.commands.LiftLowCommand;
 import org.firstinspires.ftc.learnbot.commands.LiftMidCommand;
-import org.firstinspires.ftc.learnbot.commands.MotorMovementCommand;
-import org.firstinspires.ftc.learnbot.commands.ServoLeft;
-import org.firstinspires.ftc.learnbot.commands.ServoRight;
-import org.firstinspires.ftc.learnbot.commands.TestMotorBackwardCmd;
-import org.firstinspires.ftc.learnbot.commands.TestMotorForwardCmd;
-import org.firstinspires.ftc.learnbot.commands.TestMotorStopCmd;
-import org.firstinspires.ftc.learnbot.commands.ToggleMotorStopModeCommand;
-import org.firstinspires.ftc.learnbot.subsystems.TestSubsystem;
 
 public class TestController implements Loggable {
 
@@ -34,7 +25,7 @@ public class TestController implements Loggable {
     public CommandAxis trigger;
     public CommandButton threshold;
 
-    public MotorMovementCommand motorMovement;
+    public AnalogMotorControlCmd motorMovement;
 
     public TestController(CommandGamepad g, Robot r) {
         this.gamepad = g;
@@ -46,7 +37,7 @@ public class TestController implements Loggable {
         //        this.servoright.whenPressed((new ServoRight(r.test)));
         this.motorAxis = gamepad.rightStickY;
         this.modeToggle = gamepad.rightStickButton;
-        this.motorMovement = new MotorMovementCommand(r.test, this.motorAxis);
+        //        this.motorMovement = new MotorMovementCommand(r.test, this.motorAxis);
         //        this.modeToggle.whenPressed(new ToggleMotorStopModeCommand(r.test));
         //        CommandScheduler.getInstance().scheduleJoystick(motorMovement);
         this.trigger = gamepad.leftTrigger;

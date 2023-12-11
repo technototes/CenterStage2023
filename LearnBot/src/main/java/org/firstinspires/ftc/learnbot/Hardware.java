@@ -37,10 +37,10 @@ public class Hardware implements Loggable {
             this.rrMotor = new EncodedMotor<>(Setup.HardwareNames.RRMOTOR);
             this.rlMotor = new EncodedMotor<>(Setup.HardwareNames.RLMOTOR);
         }
+        if (Setup.Connected.MOTOR) {
+            this.theMotor = new EncodedMotor<>(Setup.HardwareNames.MOTOR);
+        }
         if (Setup.Connected.TESTSUBSYSTEM) {
-            if (Setup.Connected.MOTOR) {
-                this.theMotor = new EncodedMotor<>(Setup.HardwareNames.MOTOR);
-            }
             if (Setup.Connected.SERVO) {
                 this.servo = new Servo(Setup.HardwareNames.SERVO);
             }
