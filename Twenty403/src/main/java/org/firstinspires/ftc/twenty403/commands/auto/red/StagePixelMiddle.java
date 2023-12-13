@@ -19,18 +19,6 @@ public class StagePixelMiddle extends SequentialCommandGroup {
                         AutoConstants.StageRed.MIDDLE_SPIKE_TO_CLEAR
                     )
                 )
-                .andThen(
-                    new TrajectorySequenceCommand(
-                        r.drivebaseSubsystem,
-                        AutoConstants.StageRed.CLEAR_TO_MID_PARK_CENTER
-                    )
-                )
-                .andThen(
-                    new TrajectorySequenceCommand(
-                        r.drivebaseSubsystem,
-                        AutoConstants.StageRed.MID_PARK_CENTER_TO_PARK_CENTER
-                    )
-                )
         );
     }
 }

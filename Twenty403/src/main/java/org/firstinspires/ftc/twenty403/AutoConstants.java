@@ -31,6 +31,8 @@ public class AutoConstants {
         public static ConfigurablePoseD BACKWARD = new ConfigurablePoseD(0, 0, 0);
         public static ConfigurablePoseD SIDE_RIGHT = new ConfigurablePoseD(0,-48,0);
         public static ConfigurablePoseD SIDE_LEFT = new ConfigurablePoseD(0,0,0);
+        public static ConfigurablePoseD MID_PARK_CENTER = new ConfigurablePoseD(-35,12,-90);
+
 
         // These are 'trajectory pieces' which should be named like this:
         // {STARTING_POSITION}_TO_{ENDING_POSITION}
@@ -93,6 +95,12 @@ public class AutoConstants {
         public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
                 RIGHT_CLEAR_TO_PARK_CORNER = b ->
                 b.apply(RIGHT_CLEAR.toPose()).lineToLinearHeading(PARK_CORNER.toPose()).build();
+        public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
+                RIGHT_CLEAR_TO_MID_PARK_CENTER = b ->
+                b.apply(RIGHT_CLEAR.toPose()).lineToLinearHeading(MID_PARK_CENTER.toPose()).build();
+        public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
+                MID_PARK_CENTER_TO_PARK_CENTER= b ->
+                b.apply(MID_PARK_CENTER.toPose()).lineToLinearHeading(PARK_CENTER.toPose()).build();
 
 
         // testing trajectories
@@ -126,6 +134,8 @@ public class AutoConstants {
         public static ConfigurablePoseD PLACE_LEFT = new ConfigurablePoseD(-50,-40,0);
         public static ConfigurablePoseD PLACE_MIDDLE = new ConfigurablePoseD(-50,-35,0);
         public static ConfigurablePoseD PLACE_RIGHT = new ConfigurablePoseD(-50,-30,0);
+        public static ConfigurablePoseD MID_PARK_CENTER = new ConfigurablePoseD(-35,-12,90);
+
 
 
         public static ConfigurablePoseD TELESTART = new ConfigurablePoseD(0,0,90);
@@ -183,7 +193,9 @@ public class AutoConstants {
         public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
                 LEFT_CLEAR_TO_PARK_CORNER = b ->
                 b.apply(LEFT_CLEAR.toPose()).lineToLinearHeading(PARK_CORNER.toPose()).build();
-
+        public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
+                MID_PARK_CENTER_TO_PARK_CENTER = b ->
+                b.apply(MID_PARK_CENTER.toPose()).lineToLinearHeading(PARK_CENTER.toPose()).build();
 
     }
 
@@ -262,6 +274,12 @@ public class AutoConstants {
         public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
                 PLACE_RIGHT_TO_MID_PARK_CENTER = b ->
                 b.apply(PLACE_RIGHT.toPose()).lineToLinearHeading(MID_PARK_CENTER.toPose()).build();
+        public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
+                RIGHT_CLEAR_TO_PARK_CORNER = b ->
+                b.apply(RIGHT_CLEAR.toPose()).lineToLinearHeading(PARK_CORNER.toPose()).build();
+        public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
+                MID_PARK_CENTER_TO_RIGHT_CLEAR = b ->
+                b.apply(MID_PARK_CENTER.toPose()).lineToLinearHeading(RIGHT_CLEAR.toPose()).build();
     }
 
     @Config
@@ -340,6 +358,11 @@ public class AutoConstants {
         public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
                 PLACE_RIGHT_TO_MID_PARK_CENTER = b ->
                 b.apply(PLACE_RIGHT.toPose()).lineToLinearHeading(MID_PARK_CENTER.toPose()).build();
-
+        public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
+                MID_PARK_CENTER_TO_LEFT_CLEAR = b ->
+                b.apply(MID_PARK_CENTER.toPose()).lineToLinearHeading(LEFT_CLEAR.toPose()).build();
+        public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
+                LEFT_CLEAR_TO_PARK_CORNER = b ->
+                b.apply(LEFT_CLEAR.toPose()).lineToLinearHeading(PARK_CORNER.toPose()).build();
     }
 }

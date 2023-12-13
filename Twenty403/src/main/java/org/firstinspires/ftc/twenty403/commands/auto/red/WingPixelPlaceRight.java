@@ -47,12 +47,6 @@ public class WingPixelPlaceRight extends SequentialCommandGroup {
                                     WingRed.PLACE_RIGHT_TO_RIGHT_CLEAR
                             )
                     )
-                    .andThen(
-                            new TrajectorySequenceCommand(
-                                    r.drivebaseSubsystem,
-                                    WingRed.RIGHT_CLEAR_TO_PARK_CORNER
-                            )
-                    )
         );
     }
 }

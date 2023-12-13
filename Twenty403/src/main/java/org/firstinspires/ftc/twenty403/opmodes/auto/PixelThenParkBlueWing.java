@@ -13,6 +13,7 @@ import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
 import org.firstinspires.ftc.twenty403.commands.VisionCommand;
 import org.firstinspires.ftc.twenty403.commands.auto.RecordFinalHeading;
+import org.firstinspires.ftc.twenty403.commands.auto.blue.BlueWingParkCenter;
 import org.firstinspires.ftc.twenty403.commands.auto.blue.WingPixelPlaceSelection;
 import org.firstinspires.ftc.twenty403.controls.DriverController;
 import org.firstinspires.ftc.twenty403.helpers.StartingPosition;
@@ -35,11 +36,7 @@ public class PixelThenParkBlueWing extends CommandOpMode {
         CommandScheduler
             .getInstance()
             .scheduleForState(
-                new SequentialCommandGroup(
-                    new WingPixelPlaceSelection(robot),
-                    new RecordFinalHeading(robot.drivebaseSubsystem),
-                    CommandScheduler.getInstance()::terminateOpMode
-                ),
+                    new BlueWingParkCenter(robot),
                 OpModeState.RUN
             );
         if (Setup.Connected.WEBCAM) {

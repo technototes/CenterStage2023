@@ -50,12 +50,7 @@ public class StagePixelPlaceRight extends SequentialCommandGroup {
                                     AutoConstants.StageBlue.PLACE_RIGHT_TO_MID_PARK_CENTER
                             )
                     )
-                .andThen(
-                    new TrajectorySequenceCommand(
-                        r.drivebaseSubsystem,
-                        AutoConstants.StageBlue.MID_PARK_CENTER_TO_PARK_CENTER
-                    )
-                )
+
         );
     }
 }
