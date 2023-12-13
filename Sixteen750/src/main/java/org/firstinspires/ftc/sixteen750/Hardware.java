@@ -2,8 +2,10 @@ package org.firstinspires.ftc.sixteen750;
 
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.ServoController;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.motor.Motor;
 import com.technototes.library.hardware.sensor.IMU;
@@ -37,7 +39,7 @@ public class Hardware implements Loggable {
 
     public Motor<DcMotorEx> hangM;
 
-    public Servo hangS;
+    public CRServo hangS;
 
     public Hardware(HardwareMap hwmap) {
         hubs = hwmap.getAll(LynxModule.class);
@@ -70,7 +72,7 @@ public class Hardware implements Loggable {
 
 
         if (Setup.Connected.HANG) {
-            hangS = new Servo(Setup.HardwareNames.HANGSERVO);
+            hangS = hwmap.get(CRServo.class, Setup.HardwareNames.HANGSERVO);
             hangM = new Motor<DcMotorEx>(Setup.HardwareNames.HANGMOTOR);
         }
 

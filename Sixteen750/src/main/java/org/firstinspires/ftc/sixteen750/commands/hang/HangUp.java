@@ -15,6 +15,6 @@ public class HangUp implements Command {
 
     @Override
     public void execute() {
-        hang.servoHangPosition();
+        hang.ElbowUp();
     }
 }
