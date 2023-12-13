@@ -1,19 +1,20 @@
 package org.firstinspires.ftc.sixteen750.commands.hang;
 
 import com.technototes.library.command.Command;
+
 import org.firstinspires.ftc.sixteen750.subsystems.HangSubsystem;
 
-public class HangStop implements Command {
+public class LeadScrewStop implements Command {
 
-    private HangSubsystem hang;
+    private HangSubsystem leadscrewDown;
 
-    public HangStop(HangSubsystem h) {
-        hang = h;
-        addRequirements(h);
+    public LeadScrewStop(HangSubsystem j) {
+        leadscrewDown = j;
+        addRequirements(j);
     }
 
     @Override
     public void execute() {
-        hang.ElbowStop();
+        leadscrewDown.leadScrewStop();
     }
 }
