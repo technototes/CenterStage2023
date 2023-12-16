@@ -14,7 +14,7 @@ public class ArmNeutralSequential extends SequentialCommandGroup {
         super(
             new ShoulderVertical(s),
             new WaitCommand(ArmNeutralSequential.waitDuration),
-            new ElbowNeutralPosition(s),
+            new WristNeutralPosition(s),
             new ShoulderNeutralPosition(s)
         );
     }

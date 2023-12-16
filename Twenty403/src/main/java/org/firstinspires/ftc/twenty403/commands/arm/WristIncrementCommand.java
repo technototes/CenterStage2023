@@ -3,17 +3,17 @@ package org.firstinspires.ftc.twenty403.commands.arm;
 import com.technototes.library.command.Command;
 import org.firstinspires.ftc.twenty403.subsystems.ArmSubsystem;
 
-public class MaybeUnfoldElbow implements Command {
+public class WristIncrementCommand implements Command {
 
     private ArmSubsystem subsystem;
 
-    public MaybeUnfoldElbow(ArmSubsystem s) {
+    public WristIncrementCommand(ArmSubsystem s) {
         subsystem = s;
         addRequirements(s);
     }
 
     @Override
     public void execute() {
-        subsystem.maybeUnfoldElbow();
+        subsystem.wrist_increment();
     }
 }

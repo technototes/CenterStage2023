@@ -1,19 +1,21 @@
 package org.firstinspires.ftc.twenty403.commands.arm;
 
 import com.technototes.library.command.Command;
+
 import org.firstinspires.ftc.twenty403.subsystems.ArmSubsystem;
 
-public class ElbowSecondLineScoring implements Command {
+public class ArmNeutralCommand implements Command {
 
     private ArmSubsystem subsystem;
 
-    public ElbowSecondLineScoring(ArmSubsystem s) {
-        subsystem = s;
-        addRequirements(s);
+    public ArmNeutralCommand(ArmSubsystem n) {
+        subsystem = n;
+        addRequirements(n);
     }
 
     @Override
     public void execute() {
-        subsystem.elbowSecondLineScoring();
+        subsystem.shoulderNeutralArmPosition();
+        subsystem.wristNeutralArmPosition();
     }
 }

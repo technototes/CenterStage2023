@@ -11,7 +11,6 @@ public class Setup {
         public static boolean ARMSUBSYSTEM = true;
         public static boolean DRONESUBSYSTEM = false;
         public static boolean WEBCAM = true;
-        public static boolean HANGSUBSYSTEM = false;
         public static boolean ODOSUBSYSTEM = true;
     }
 
@@ -25,12 +24,8 @@ public class Setup {
         public static String IMU = "imu";
         public static String CAMERA = "webcam";
         public static String CLAWSERVO = "clawservo";
-        //        public static String ELBOWSERVO = "elbowservo";
+        public static String WRISTSERVO = "wristservo";
         public static String SHOULDERMOTOR = "shoulder";
-        public static String ELBOWMOTOR = "elbow";
-
-        public static String HANG_CRSERVO = "hang";
-        public static String HANG_MOTOR = "botlift";
         public static String DRONESERVO = "droneservo";
         public static String ODOF = "odof";
         public static String ODOR = "odor";
