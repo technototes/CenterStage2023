@@ -7,6 +7,7 @@ import org.firstinspires.ftc.twenty403.subsystems.ArmSubsystem;
 import org.firstinspires.ftc.twenty403.subsystems.DrivebaseSubsystem;
 import org.firstinspires.ftc.twenty403.subsystems.DroneSubsystem;
 import org.firstinspires.ftc.twenty403.subsystems.HangSubsystem;
+import org.firstinspires.ftc.twenty403.subsystems.SafetySubsystem;
 import org.firstinspires.ftc.twenty403.subsystems.TwoDeadWheelLocalizer;
 import org.firstinspires.ftc.twenty403.subsystems.VisionSubsystem;
 
@@ -23,6 +24,7 @@ public class Robot implements Loggable {
     public DroneSubsystem droneSubsystem;
 
     public TwoDeadWheelLocalizer localizer;
+    public SafetySubsystem safetySubsystem;
 
     public Robot(Hardware hw, Alliance team, StartingPosition pos) {
         this.position = pos;
@@ -61,5 +63,6 @@ public class Robot implements Loggable {
         } else {
             this.droneSubsystem = new DroneSubsystem();
         }
+        this.safetySubsystem = new SafetySubsystem(hw);
     }
 }
