@@ -33,7 +33,7 @@ public class DrivebaseSubsystem
         public static final double TICKS_PER_REV = 537.6; // 2021: 28;
 
         @MaxRPM
-        public static final double MAX_RPM = 312; // 2021: 6000;
+        public static final double MAX_RPM = 435; // 2021: 6000;
 
         public static double MAX_TICKS_PER_SEC = (TICKS_PER_REV * MAX_RPM) / 60.0;
 
