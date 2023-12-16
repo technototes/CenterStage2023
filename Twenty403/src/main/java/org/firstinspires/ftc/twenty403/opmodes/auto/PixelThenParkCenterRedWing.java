@@ -4,7 +4,6 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.technototes.library.command.CommandScheduler;
-import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.library.structure.CommandOpMode;
 import com.technototes.library.util.Alliance;
 
@@ -13,16 +12,14 @@ import org.firstinspires.ftc.twenty403.Hardware;
 import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
 import org.firstinspires.ftc.twenty403.commands.VisionCommand;
-import org.firstinspires.ftc.twenty403.commands.auto.RecordFinalHeading;
 import org.firstinspires.ftc.twenty403.commands.auto.red.RedWingParkCenter;
-import org.firstinspires.ftc.twenty403.commands.auto.red.WingPixelPlaceSelection;
 import org.firstinspires.ftc.twenty403.controls.DriverController;
 import org.firstinspires.ftc.twenty403.helpers.StartingPosition;
 
 // The last 4 weird things are '🟥' and '🪶' (wing)
-@Autonomous(name = "PixelThenParkRedWing")
+@Autonomous(name = "PixelThenParkCenterRedWing")
 @SuppressWarnings("unused")
-public class PixelThenParkRedWing extends CommandOpMode {
+public class PixelThenParkCenterRedWing extends CommandOpMode {
 
     public Robot robot;
     public DriverController controls;

@@ -4,24 +4,22 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.technototes.library.command.CommandScheduler;
-import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.library.structure.CommandOpMode;
 import com.technototes.library.util.Alliance;
+
 import org.firstinspires.ftc.twenty403.AutoConstants;
 import org.firstinspires.ftc.twenty403.Hardware;
 import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
 import org.firstinspires.ftc.twenty403.commands.VisionCommand;
-import org.firstinspires.ftc.twenty403.commands.auto.RecordFinalHeading;
-import org.firstinspires.ftc.twenty403.commands.auto.blue.BlueStageParkCenter;
-import org.firstinspires.ftc.twenty403.commands.auto.blue.StagePixelPlaceSelection;
+import org.firstinspires.ftc.twenty403.commands.auto.blue.BlueStageParkCorner;
 import org.firstinspires.ftc.twenty403.controls.DriverController;
 import org.firstinspires.ftc.twenty403.helpers.StartingPosition;
 
 // The last 4 weird things are '🟥' and '🪶' (wing)
-@Autonomous(name = "PixelThenParkBlueStage")
+@Autonomous(name = "PixelThenParkCornerBlueStage")
 @SuppressWarnings("unused")
-public class PixelThenParkBlueStage extends CommandOpMode {
+public class PixelThenParkCornerBlueStage extends CommandOpMode {
 
     public Robot robot;
     public DriverController controls;
@@ -36,7 +34,7 @@ public class PixelThenParkBlueStage extends CommandOpMode {
         CommandScheduler
             .getInstance()
             .scheduleForState(
-                    new BlueStageParkCenter(robot)
+                    new BlueStageParkCorner(robot)
                     ,
                 OpModeState.RUN
             );
