@@ -18,10 +18,10 @@ import org.firstinspires.ftc.twenty403.commands.arm.ArmThirdLineSequential;
 import org.firstinspires.ftc.twenty403.commands.arm.ClawCloseCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.ClawOpenCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.HangSequential;
-import org.firstinspires.ftc.twenty403.commands.arm.WristDecrementCommand;
-import org.firstinspires.ftc.twenty403.commands.arm.WristIncrementCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.ShoulderDecrementCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.ShoulderIncrementCommand;
+import org.firstinspires.ftc.twenty403.commands.arm.WristDecrementCommand;
+import org.firstinspires.ftc.twenty403.commands.arm.WristIncrementCommand;
 
 public class OperatorController {
 

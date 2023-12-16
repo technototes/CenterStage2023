@@ -19,9 +19,9 @@ public class ArmSubsystem implements Subsystem, Loggable {
 
     public static int SHOULDER_ARM_INTAKE = 670; //collect (change vals)
     public static int SHOULDER_RESET_POSITION = -40; //reset (change vals)
-    public static int SHOULDER_FIRST_LINE_SCORING = 600;//change vals
-    public static int SHOULDER_SECOND_LINE_SCORING = 500;//change vals
-    public static int SHOULDER_THIRD_LINE_SCORING = 552;//change vals
+    public static int SHOULDER_FIRST_LINE_SCORING = 600; //change vals
+    public static int SHOULDER_SECOND_LINE_SCORING = 500; //change vals
+    public static int SHOULDER_THIRD_LINE_SCORING = 552; //change vals
     public static int SHOULDER_VERTICAL = 369; // For feed-fwd, and maybe hang
     public static int SHOULDER_MANUAL_STEP = 20; //increment/decrement
 
@@ -30,9 +30,9 @@ public class ArmSubsystem implements Subsystem, Loggable {
 
     public static int WRIST_ARM_INTAKE = -712; //collect (change vals)
     public static int WRIST_RESET_POSITION = 0; //reset (change vals)
-    public static int WRIST_FIRST_LINE_SCORING = -800;// change vals
-    public static int WRIST_SECOND_LINE_SCORING = -700;// change vals
-    public static int WRIST_THIRD_LINE_SCORING = -529;// change vals
+    public static int WRIST_FIRST_LINE_SCORING = -800; // change vals
+    public static int WRIST_SECOND_LINE_SCORING = -700; // change vals
+    public static int WRIST_THIRD_LINE_SCORING = -529; // change vals
     public static int WRIST_MANUAL_STEP = 20; //increment/decrement
 
     public static int USE_SHOULDER_BRAKE = 0;
@@ -61,11 +61,7 @@ public class ArmSubsystem implements Subsystem, Loggable {
     private PIDFController shoulderPidController;
     public int shoulderResetPos, wristResetPos;
 
-    public ArmSubsystem(
-        Servo claw,
-        Servo wrist,
-        EncodedMotor<DcMotorEx> shoulder
-    ) {
+    public ArmSubsystem(Servo claw, Servo wrist, EncodedMotor<DcMotorEx> shoulder) {
         clawServo = claw;
         wristServo = wrist;
         shoulderMotor = shoulder;
@@ -266,5 +262,4 @@ public class ArmSubsystem implements Subsystem, Loggable {
             return 0;
         }
     }
-
 }
