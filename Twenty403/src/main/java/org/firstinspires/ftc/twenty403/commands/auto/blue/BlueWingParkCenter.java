@@ -5,7 +5,6 @@ import com.technototes.library.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.commands.auto.RecordFinalHeading;
-import org.firstinspires.ftc.twenty403.commands.auto.red.WingPixelPlaceSelection;
 
 public class BlueWingParkCenter extends SequentialCommandGroup {
     public BlueWingParkCenter(Robot robot){
