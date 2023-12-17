@@ -1,5 +1,7 @@
 import { Ask, Menu } from './menu';
 
+import type {SimpleGit} from 'simple-git';
+
 export function Clean(file: string): string {
   let res = file;
   // First, yoink diacriticals:
@@ -56,4 +58,15 @@ export async function GetBranchName(): Promise<string | undefined> {
     ]);
   } while (!done);
   return abandon ? undefined : branch;
+}
+
+export async function ReadBranchName(git: SimpleGit) : Promise<string | false> {
+  return await git.revparse('--abbrev-ref HEAD');
+}
+
+export async function PickBranchToContinue(git: SimpleGit): Promise<string | false> {
+    // git branch --list --all gets even the remote branches
+  const branches = await git.branch({'--list': null, "--all": null});
+  console.log(branches.all);
+  return false;
 }

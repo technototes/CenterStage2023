@@ -4,7 +4,7 @@
  */
 import { PushResult, simpleGit } from 'simple-git';
 import { Error, Menu, Sleep } from './helpers/menu';
-import { GetBranchName } from './helpers/branch';
+import { GetBranchName, PickBranchToContinue, ReadBranchName } from './helpers/branch';
 import { invoke } from './helpers/invoke';
 import {
   hasGithubAccess,
@@ -65,10 +65,12 @@ async function getStarted(): Promise<boolean> {
 
 async function startWork(): Promise<boolean> {
   // This should:
+  // --- Begin getStarted stuff
   // - Ensure the repo isn't dirty
   // - Make sure we've got network access
   // - Check out main
   // - Pull from main
+  // --- End getStarted stuff
   // - Create a new branch for the work
   // - Open up Android Studio
 
@@ -80,22 +82,9 @@ async function startWork(): Promise<boolean> {
   if (typeof branchName !== 'string') {
     return false;
   }
-  // Let's create & configure the branch
+  // Let's create the branch
   /* const coRes = */ await git.checkout(['-b', branchName]);
   // console.log(coRes);
-  // And now push it so it's wired up properly
-  const pushRes = await git.push(['-u', 'origin', branchName]);
-  // A little sanity check for the new branch
-  if (
-    pushRes.pushed.length !== 1 ||
-    !pushRes.pushed[0].branch ||
-    !pushRes.pushed[0].new ||
-    pushRes.pushed[0].alreadyUpdated ||
-    pushRes.pushed[0].deleted
-  ) {
-    console.log(pushRes);
-    return Error('Unexpected result. Ask for help please.');
-  }
   console.log(
     "You're ready to code! Come back to this window when you're done.",
   );
@@ -106,19 +95,26 @@ async function startWork(): Promise<boolean> {
 
 async function resumeWork(): Promise<boolean> {
   // This should:
+
+  // --- Begin getStarted stuff
   // - Ensure the repo isn't dirty
   // - Make sure we've got network access
   // - Check out main
   // - Pull from main
+  // --- End getStarted stuff
+
   // - Pull all branch names
   // - Ask which branch to check out
   // - Check out the branch to continue
-  // - Ensure it's up-to-date (merge)
-  // - Open up Aoid Studio
+  // - Ensure it's up-to-date (pull)
+  // - Open up Android Studio
+
   if ((await getStarted()) === false) {
     return false;
   }
+
   // Continue from "pull all branch names"
+  const branchNameOrStop = await PickBranchToContinue(git);
   return false;
 }
 
@@ -183,8 +179,13 @@ async function completeWork(): Promise<false | PushResult> {
     await addFiles(fmtStat.modified, 'Auto-formatted files');
   }
 
-  // Push the code
-  return await git.push();
+  const curBranchNameOrErr = await ReadBranchName(git);
+  if (curBranchNameOrErr === false) {
+    console.log('Couldn\'t get the curent branch name.');
+    return false;
+  }
+  // Push the code (Wire it  properly)
+  return await git.push(['-u', 'origin', curBranchNameOrErr]);
 }
 
 async function stopWork(): Promise<boolean> {
