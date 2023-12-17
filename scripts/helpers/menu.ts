@@ -42,7 +42,7 @@ export function Sleep(ms: number): Promise<void> {
   });
 }
 
-export async function Error(message: string): Promise<boolean> {
+export async function Error(message: string): Promise<false> {
   console.error('>>>> ');
   console.error('>>>>', message);
   console.error('>>>> ');

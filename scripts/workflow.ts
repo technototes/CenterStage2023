@@ -2,7 +2,7 @@
  * This is the 'student workflow' script.
  * See the readme.md file for what it's supposed to do.
  */
-import { simpleGit } from 'simple-git';
+import { PushResult, simpleGit } from 'simple-git';
 import { Error, Menu, Sleep } from './helpers/menu';
 import { GetBranchName } from './helpers/branch';
 import { invoke } from './helpers/invoke';
@@ -18,8 +18,10 @@ const git = simpleGit();
 async function workflow() {
   console.clear();
   await Menu('What do you want to do?', [
-    ['Start work for the day', startWork],
-    ['Finish work for the day', finishWork],
+    ['Start new work for the day', startWork],
+    ['Resume work from previous day', resumeWork],
+    ['Finish work: ready for merging', finishWork],
+    ['Finish for the day (not yet ready for merging)', stopWork],
     // ['Configure stuff', configureStuff],
     ['Connect to the control hub', connect],
     ['Disconnect from control hub', disconnect],
@@ -28,15 +30,8 @@ async function workflow() {
   ]);
 }
 
-async function startWork(): Promise<boolean> {
-  // This should:
-  // - Ensure the repo isn't dirty
-  // - Make sure we've got network access
-  // - Check out main
-  // - Pull from main
-  // - Create a new branch for the work
-  // - Open up Android Studio
-
+// Helper for start & resumt
+async function getStarted(): Promise<boolean> {
   // Repo dirty check:
   const status = await git.status();
   if (!status.isClean()) {
@@ -65,6 +60,21 @@ async function startWork(): Promise<boolean> {
   // Pull from github
   /* const pullRes = */ await git.pull();
   // console.log(pullRes);
+  return true;
+}
+
+async function startWork(): Promise<boolean> {
+  // This should:
+  // - Ensure the repo isn't dirty
+  // - Make sure we've got network access
+  // - Check out main
+  // - Pull from main
+  // - Create a new branch for the work
+  // - Open up Android Studio
+
+  if ((await getStarted()) === false) {
+    return false;
+  }
   // Get the name for the new branch
   const branchName = await GetBranchName();
   if (typeof branchName !== 'string') {
@@ -94,21 +104,31 @@ async function startWork(): Promise<boolean> {
   return false;
 }
 
+async function resumeWork(): Promise<boolean> {
+  // This should:
+  // - Ensure the repo isn't dirty
+  // - Make sure we've got network access
+  // - Check out main
+  // - Pull from main
+  // - Pull all branch names
+  // - Ask which branch to check out
+  // - Check out the branch to continue
+  // - Ensure it's up-to-date (merge)
+  // - Open up Aoid Studio
+  if ((await getStarted()) === false) {
+    return false;
+  }
+  // Continue from "pull all branch names"
+  return false;
+}
+
 async function addFiles(files: string[], message: string): Promise<boolean> {
   console.log(await git.add(files).commit(message));
   return true;
 }
 
-async function finishWork(): Promise<boolean> {
-  // This should:
-  // - Commit any outstanding work
-  // - Check for any unadded files
-  // - Make sure we've got network access
-  // - Format code and add the commit if there were changes
-  // - Push the code to github
-  // - Try to build?
-  // - If the build succeeded, offer to open a PR
-
+// Helper for stop & finish:
+async function completeWork(): Promise<false | PushResult> {
   // Repo dirty check:
   const status = await git.status();
   if (!status.isClean()) {
@@ -164,8 +184,49 @@ async function finishWork(): Promise<boolean> {
   }
 
   // Push the code
-  const pullRes = await git.push();
+  return await git.push();
+}
 
+async function stopWork(): Promise<boolean> {
+  // This should:
+  // - Commit any outstanding work
+  // - Check for any unadded files
+  // - Make sure we've got network access
+  // - Format code and add the commit if there were changes
+  // - Push the code to github
+  // - Check out main
+  const failureOrPullRes = await completeWork();
+
+  if (failureOrPullRes === false) {
+    return false;
+  }
+
+  // Check out main
+  console.log(await git.checkout(DEFAULT_BRANCH_NAME));
+  const cur = await git.branch();
+  if (cur.current !== DEFAULT_BRANCH_NAME) {
+    return Error(`Unable to check out the ${DEFAULT_BRANCH_NAME} branch.`);
+  }
+  return false;
+}
+
+async function finishWork(): Promise<boolean> {
+  // This should:
+  // - Commit any outstanding work
+  // - Check for any unadded files
+  // - Make sure we've got network access
+  // - Format code and add the commit if there were changes
+  // - Push the code to github
+  // - Try to build?
+  // - If the build succeeded, offer to open a PR
+
+  const failureOrPullRes = await completeWork();
+
+  if (failureOrPullRes === false) {
+    return false;
+  }
+
+  const pullRes = failureOrPullRes;
   // Finally, pop up the page for a pull request
   if (pullRes.repo && pullRes.update && pullRes.update.head.local) {
     const branch = pullRes.update.head.local.replace(/.*\/([^\/]+)$/, '$1');
@@ -174,7 +235,7 @@ async function finishWork(): Promise<boolean> {
   return false;
 }
 
-// Nothign in here yet...
+// Nothing in here yet...
 async function configureStuff(): Promise<boolean> {
   // This should:
   // Add my silly things to .gitconfig
