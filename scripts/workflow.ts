@@ -15,6 +15,7 @@ import {
   onlyRobotConnection,
   anyRobotConnection,
 } from './helpers/connectivity';
+import { GetGitHubUrlFromRepo } from './helpers/github';
 
 const DEFAULT_BRANCH_NAME = 'main';
 const git = simpleGit();
@@ -237,12 +238,13 @@ async function finishWork(): Promise<boolean> {
   if (failureOrPullRes === false) {
     return false;
   }
-
+  const pullRes: PushResult = failureOrPullRes;
   const branch = await ReadBranchName(git);
-  if (branch === false) {
+  if (branch === false || typeof pullRes.repo !== 'string') {
     console.log('Some weird error: Ask for help.');
+    return true;
   }
-  const url = `GetGitHubUrlFromRepo(failureOrPullRes.repo)/compare/${DEFAULT_BRANCH_NAME}...${branch}`;
+  const url = `${GetGitHubUrlFromRepo(pullRes.repo)}/compare/${DEFAULT_BRANCH_NAME}...${branch}`;
   switch (process.platform) {
     case 'win32':
       await invoke(`start "" "${url}"`);
