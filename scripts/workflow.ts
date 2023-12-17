@@ -4,7 +4,11 @@
  */
 import { PushResult, simpleGit } from 'simple-git';
 import { Error, Menu, Sleep } from './helpers/menu';
-import { GetBranchName, PickBranchToContinue, ReadBranchName } from './helpers/branch';
+import {
+  GetBranchName,
+  PickBranchToContinue,
+  ReadBranchName,
+} from './helpers/branch';
 import { invoke } from './helpers/invoke';
 import {
   hasGithubAccess,
@@ -114,7 +118,14 @@ async function resumeWork(): Promise<boolean> {
   }
 
   // Continue from "pull all branch names"
-  const branchNameOrStop = await PickBranchToContinue(git);
+  if (await PickBranchToContinue(git)) {
+    return true;
+  }
+  console.log(
+    "You're ready to code! Come back to this window when you're done.",
+  );
+  await Sleep(3000);
+  // Maybe open android studio automatically?
   return false;
 }
 
@@ -181,7 +192,7 @@ async function completeWork(): Promise<false | PushResult> {
 
   const curBranchNameOrErr = await ReadBranchName(git);
   if (curBranchNameOrErr === false) {
-    console.log('Couldn\'t get the curent branch name.');
+    console.log("Couldn't get the curent branch name.");
     return false;
   }
   // Push the code (Wire it  properly)
@@ -227,11 +238,21 @@ async function finishWork(): Promise<boolean> {
     return false;
   }
 
-  const pullRes = failureOrPullRes;
-  // Finally, pop up the page for a pull request
-  if (pullRes.repo && pullRes.update && pullRes.update.head.local) {
-    const branch = pullRes.update.head.local.replace(/.*\/([^\/]+)$/, '$1');
-    await invoke(`yarn open ${pullRes.repo}/compare/${branch}?expand=1`);
+  const branch = await ReadBranchName(git);
+  if (branch === false) {
+    console.log('Some weird error: Ask for help.');
+  }
+  const url = `GetGitHubUrlFromRepo(failureOrPullRes.repo)/compare/${DEFAULT_BRANCH_NAME}...${branch}`;
+  switch (process.platform) {
+    case 'win32':
+      await invoke(`start "" "${url}"`);
+      break;
+    case 'darwin':
+      await invoke('open ' + url);
+      break;
+    case 'linux':
+      await invoke('xdg-open ' + url);
+      break;
   }
   return false;
 }

@@ -8,11 +8,10 @@ const rl = readline.createInterface({
 export const Ask = (query: string): Promise<string> =>
   new Promise((resolve) => rl.question(query, resolve));
 
+export type MenuItem = [string, () => Promise<boolean>];
+
 // Display a menu with a header, and run the function for the menu item selected
-export async function Menu(
-  header: string,
-  menu: [string, () => Promise<boolean>][],
-): Promise<void> {
+export async function Menu(header: string, menu: MenuItem[]): Promise<void> {
   let done = false;
   while (!done) {
     const bar = '*'.repeat(header.length + 4);
