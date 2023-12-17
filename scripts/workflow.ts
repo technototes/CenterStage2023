@@ -244,7 +244,9 @@ async function finishWork(): Promise<boolean> {
     console.log('Some weird error: Ask for help.');
     return true;
   }
-  const url = `${GetGitHubUrlFromRepo(pullRes.repo)}/compare/${DEFAULT_BRANCH_NAME}...${branch}`;
+  const url = `${GetGitHubUrlFromRepo(
+    pullRes.repo,
+  )}/compare/${DEFAULT_BRANCH_NAME}...${branch}`;
   switch (process.platform) {
     case 'win32':
       await invoke(`start "" "${url}"`);
