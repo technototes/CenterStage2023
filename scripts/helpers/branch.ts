@@ -61,7 +61,7 @@ export async function GetBranchName(): Promise<string | undefined> {
 }
 
 export async function ReadBranchName(git: SimpleGit): Promise<string | false> {
-  return await git.revparse({'--abbrev-ref': 'HEAD'});
+  return await git.revparse({ '--abbrev-ref': null, 'HEAD':null });
 }
 
 function selectBranchGen(git: SimpleGit, name: string): () => Promise<boolean> {
