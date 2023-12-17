@@ -70,7 +70,6 @@ public class Hardware implements Loggable {
             //rightIntake = new Motor<DcMotorEx>(Setup.HardwareNames.INTAKERIGHT);
         }
 
-
         if (Setup.Connected.HANG) {
             hangS = hwmap.get(CRServo.class, Setup.HardwareNames.HANGSERVO);
             hangM = new Motor<DcMotorEx>(Setup.HardwareNames.HANGMOTOR);
@@ -79,9 +78,6 @@ public class Hardware implements Loggable {
         if (Setup.Connected.DRONE) {
             DroneServo = new Servo(Setup.HardwareNames.DRONESERVO);
         }
-
-
-
     }
 
     // We can read the voltage from the different hubs for fun...

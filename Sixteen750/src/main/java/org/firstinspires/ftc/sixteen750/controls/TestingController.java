@@ -2,7 +2,6 @@ package org.firstinspires.ftc.sixteen750.controls;
 
 import com.technototes.library.control.CommandButton;
 import com.technototes.library.control.CommandGamepad;
-
 import org.firstinspires.ftc.sixteen750.Robot;
 import org.firstinspires.ftc.sixteen750.Setup;
 import org.firstinspires.ftc.sixteen750.commands.DroneLaunch;
@@ -22,6 +21,7 @@ import org.firstinspires.ftc.sixteen750.commands.placement.ScoreServoOutputComma
 import org.firstinspires.ftc.sixteen750.subsystems.DroneSubsystem;
 
 public class TestingController {
+
     public Robot robot;
     public CommandGamepad gamepad;
 
@@ -79,7 +79,6 @@ public class TestingController {
         //screwUpButton = gamepad.rightBumper;
         //screwDownButton = gamepad.leftBumper;
         DroneReleaseButton = gamepad.ps_circle;
-
     }
 
     private void bindIntakeControls() {
@@ -106,9 +105,7 @@ public class TestingController {
         screwUpButton.whenReleased(new HangStop(robot.hang));
     }
 
-    private  void bindDroneControls() {
+    private void bindDroneControls() {
         DroneReleaseButton.whenPressed((new DroneLaunch(robot.drone)));
     }
-
-
 }

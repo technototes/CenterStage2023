@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.technototes.library.command.CommandScheduler;
 import com.technototes.library.structure.CommandOpMode;
 import com.technototes.library.util.Alliance;
-
 import org.firstinspires.ftc.twenty403.AutoConstants;
 import org.firstinspires.ftc.twenty403.Hardware;
 import org.firstinspires.ftc.twenty403.Robot;
@@ -33,10 +32,7 @@ public class PixelThenParkCornerBlueWing extends CommandOpMode {
         robot.drivebaseSubsystem.setPoseEstimate(AutoConstants.WingBlue.START.toPose());
         CommandScheduler
             .getInstance()
-            .scheduleForState(
-                    new BlueWingParkCorner(robot),
-                OpModeState.RUN
-            );
+            .scheduleForState(new BlueWingParkCorner(robot), OpModeState.RUN);
         if (Setup.Connected.WEBCAM) {
             CommandScheduler.getInstance().scheduleInit(new VisionCommand(robot.vision));
         }

@@ -13,7 +13,6 @@ public class Setup {
         public static boolean WEBCAM = true;
         public static boolean HANGSUBSYSTEM = false;
         public static boolean ODOSUBSYSTEM = true;
-
     }
 
     @Config

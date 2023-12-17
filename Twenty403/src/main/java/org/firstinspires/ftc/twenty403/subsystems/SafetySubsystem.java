@@ -7,36 +7,42 @@ import com.technototes.library.hardware.sensor.encoder.MotorEncoder;
 import com.technototes.library.logger.Log;
 import com.technototes.library.logger.Loggable;
 import com.technototes.library.subsystem.Subsystem;
-
-import org.firstinspires.ftc.twenty403.Hardware;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.firstinspires.ftc.twenty403.Hardware;
 
 @Config
 public class SafetySubsystem implements Subsystem, Loggable {
 
     public Hardware myHw;
-    @Log (name = "prevOdoF")
+
+    @Log(name = "prevOdoF")
     public int previousOdoFPosition = 0;
+
     public int previousOdoRPosition = 0;
-    @Log (name = "prevFLPos")
+
+    @Log(name = "prevFLPos")
     public double previousFLPosiiton = 0;
+
     public double previousFRPosiiton = 0;
     public double previousRLPosiiton = 0;
     public double previousRRPosiiton = 0;
     public static int OdoTickDiff = 10;
     public static double WheelTickDiff = 1.0;
-    @Log (name="monitoringEnabled")
+
+    @Log(name = "monitoringEnabled")
     public boolean monitoringEnabled = false;
+
     private boolean DistanceSensor1 = false;
     public boolean DistanceSensor2 = false;
     private int numFailed = 0;
+
     @Log
     public String stopAutoReason = "not stopping";
+
     public static int MaxFail = 1000000;
 
-    public boolean isOdoFailing(int currentOdoPosition, int previousOdoPosition){
+    public boolean isOdoFailing(int currentOdoPosition, int previousOdoPosition) {
         if (Math.abs(previousOdoPosition - currentOdoPosition) < SafetySubsystem.OdoTickDiff) {
             return true;
         }
@@ -46,18 +52,19 @@ public class SafetySubsystem implements Subsystem, Loggable {
         }
     }
 
-    public boolean isWheelFailing(double currentWheelPosition, double previousWheelPosition){
-        if (Math.abs(previousWheelPosition - currentWheelPosition) < SafetySubsystem.WheelTickDiff) {
+    public boolean isWheelFailing(double currentWheelPosition, double previousWheelPosition) {
+        if (
+            Math.abs(previousWheelPosition - currentWheelPosition) < SafetySubsystem.WheelTickDiff
+        ) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
 
     @Override
     public void periodic() {
-        if (monitoringEnabled ==  false) {
+        if (monitoringEnabled == false) {
             return;
         }
         int odoFCurrentPosition = myHw.odoF.getCurrentPosition();
@@ -81,8 +88,12 @@ public class SafetySubsystem implements Subsystem, Loggable {
         double wheelfrCurrentPosition = myHw.fr.getSensorValue();
         double wheelrlCurrentPosition = myHw.rl.getSensorValue();
         double wheelrrCurrentPosition = myHw.rr.getSensorValue();
-        if (isWheelFailing(wheelflCurrentPosition, previousFLPosiiton) || isWheelFailing(wheelfrCurrentPosition, previousFRPosiiton) ||
-                isWheelFailing(wheelrlCurrentPosition, previousRLPosiiton) || isWheelFailing(wheelrrCurrentPosition, previousRRPosiiton)) {
+        if (
+            isWheelFailing(wheelflCurrentPosition, previousFLPosiiton) ||
+            isWheelFailing(wheelfrCurrentPosition, previousFRPosiiton) ||
+            isWheelFailing(wheelrlCurrentPosition, previousRLPosiiton) ||
+            isWheelFailing(wheelrrCurrentPosition, previousRRPosiiton)
+        ) {
             stopAuto("wheels not reading");
             return;
         }
@@ -95,26 +106,19 @@ public class SafetySubsystem implements Subsystem, Loggable {
             stopAuto(stopAutoReason);
         }
         numFailed = 0;
-
-
-
-
-
     }
-    public SafetySubsystem(Hardware hw){
+
+    public SafetySubsystem(Hardware hw) {
         myHw = hw;
         CommandScheduler.getInstance().register(this);
     }
-
 
     private void stopAuto(String reason) {
         if (monitoringEnabled == true) {
             if (numFailed >= MaxFail) {
                 stopAutoReason = reason;
                 CommandScheduler.getInstance().terminateOpMode();
-
-            }
-            else {
+            } else {
                 numFailed += 1;
             }
         }
@@ -123,12 +127,15 @@ public class SafetySubsystem implements Subsystem, Loggable {
     public void startMonitoring() {
         monitoringEnabled = true;
     }
+
     public void stopMonitoring() {
         monitoringEnabled = false;
     }
+
     public void distanceSensor1bad() {
         DistanceSensor1 = false;
     }
+
     public void distanceSensor2bad() {
         DistanceSensor2 = false;
     }
@@ -140,7 +147,6 @@ public class SafetySubsystem implements Subsystem, Loggable {
 
     } */
 }
-
 // start monitoring after robot starts moving (wait a little bit after start, then start monitoring)
 //in auto there is this thingy where it says opmodestate.RUN and idk if there is a subsystem version of that
 //im now looking for that in a subsystem UPDATE: idk where
@@ -148,4 +154,3 @@ public class SafetySubsystem implements Subsystem, Loggable {
 // stop monitoring if auto is going to a stop to go to next sequential command
 // start monitoring again after distance sensors are far away and if next sequential auto command is starting again
 // need to look at IMU to determine wonkiness
-

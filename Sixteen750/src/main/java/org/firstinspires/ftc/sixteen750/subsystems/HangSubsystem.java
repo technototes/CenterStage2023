@@ -18,7 +18,7 @@ public class HangSubsystem implements Subsystem, Loggable {
 
     public static double upPositionPower = .5;
     public static double downPositionPower = -.5;
-//    public static double neutralPositionNumber = 0;
+    //    public static double neutralPositionNumber = 0;
 
     // one of the 2 variables below are going to be negative and the other is going to be positive
     public static double extendScrewSpeed = 1;
@@ -56,10 +56,13 @@ public class HangSubsystem implements Subsystem, Loggable {
         SetServoPower(upPositionPower);
     }
 
-    public void ElbowDown() { SetServoPower(downPositionPower);
+    public void ElbowDown() {
+        SetServoPower(downPositionPower);
     }
 
-    public void ElbowStop() { SetServoPower(0);}
+    public void ElbowStop() {
+        SetServoPower(0);
+    }
 
     public void leadScrewExtended() {
         setMotorSpeed(extendScrewSpeed);
@@ -73,9 +76,9 @@ public class HangSubsystem implements Subsystem, Loggable {
         setMotorSpeed(0);
     }
 
-//    public void ServoUp() {
-//        SetServoPower(upPositionNumber);
-//    }
+    //    public void ServoUp() {
+    //        SetServoPower(upPositionNumber);
+    //    }
 
     private void SetServoPower(double pos) {
         if (isHardware == true) {

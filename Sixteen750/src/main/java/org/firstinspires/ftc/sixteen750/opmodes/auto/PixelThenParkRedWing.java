@@ -7,7 +7,6 @@ import com.technototes.library.command.CommandScheduler;
 import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.library.structure.CommandOpMode;
 import com.technototes.library.util.Alliance;
-
 import org.firstinspires.ftc.sixteen750.AutoConstants;
 import org.firstinspires.ftc.sixteen750.Hardware;
 import org.firstinspires.ftc.sixteen750.Robot;
@@ -16,7 +15,6 @@ import org.firstinspires.ftc.sixteen750.commands.VisionCommand;
 import org.firstinspires.ftc.sixteen750.commands.auto.red.WingPixelSelection;
 import org.firstinspires.ftc.sixteen750.controls.DriverController;
 import org.firstinspires.ftc.sixteen750.helpers.StartingPosition;
-
 
 // The last 4 weird things are '🟥' and '🪶' (wing)
 @Autonomous(name = "PixelThenParkRedWing")
@@ -38,7 +36,7 @@ public class PixelThenParkRedWing extends CommandOpMode {
             .scheduleForState(
                 new SequentialCommandGroup(
                     new WingPixelSelection(robot),
-//                    new RecordFinalHeading(robot.drivebase),
+                    //                    new RecordFinalHeading(robot.drivebase),
                     CommandScheduler.getInstance()::terminateOpMode
                 ),
                 OpModeState.RUN

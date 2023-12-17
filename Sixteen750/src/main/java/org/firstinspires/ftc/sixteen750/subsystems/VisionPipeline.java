@@ -222,13 +222,15 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
                     VisionConstants.Right.Y
                 );
             colorCountR +=
-            countColor(VisionConstants.RED2,
-                    rectL,
-                    VisionConstants.Right.X, VisionConstants.Right.Y);
+            countColor(
+                VisionConstants.RED2,
+                rectL,
+                VisionConstants.Right.X,
+                VisionConstants.Right.Y
+            );
         }
         pickLocation(colorCountR, colorCountM);
     }
-
 
     public void init(Mat firstFrame) {
         countPixels(firstFrame);

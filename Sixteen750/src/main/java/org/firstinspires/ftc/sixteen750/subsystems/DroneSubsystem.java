@@ -6,6 +6,7 @@ import com.technototes.library.logger.Log;
 import com.technototes.library.logger.Loggable;
 import com.technototes.library.subsystem.Subsystem;
 import org.firstinspires.ftc.sixteen750.Hardware;
+
 @Config
 public class DroneSubsystem implements Subsystem, Loggable {
 
@@ -13,11 +14,12 @@ public class DroneSubsystem implements Subsystem, Loggable {
     private boolean isHardware;
 
     @Log(name = "LAUNCH")
-     public static double LAUNCH = 0;
+    public static double LAUNCH = 0;
 
     @Log(name = "START")
     public static double START = 1;
-//     public static double INTAKE = 0;
+
+    //     public static double INTAKE = 0;
     public DroneSubsystem(Hardware hw) {
         DroneServo = hw.DroneServo;
         isHardware = true;
@@ -28,9 +30,12 @@ public class DroneSubsystem implements Subsystem, Loggable {
         isHardware = false;
     }
 
-    public void Launch() { DroneServo.setPosition(LAUNCH);}
+    public void Launch() {
+        DroneServo.setPosition(LAUNCH);
+    }
 
-    public void Start() {DroneServo.setPosition(START);}
-
-//    public void Reset() { DroneServo.setPosition(INTAKE);}
+    public void Start() {
+        DroneServo.setPosition(START);
+    }
+    //    public void Reset() { DroneServo.setPosition(INTAKE);}
 }

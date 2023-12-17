@@ -7,7 +7,6 @@ import com.technototes.library.command.CommandScheduler;
 import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.library.structure.CommandOpMode;
 import com.technototes.library.util.Alliance;
-
 import org.firstinspires.ftc.sixteen750.AutoConstants;
 import org.firstinspires.ftc.sixteen750.Hardware;
 import org.firstinspires.ftc.sixteen750.Robot;
@@ -19,8 +18,6 @@ import org.firstinspires.ftc.sixteen750.controls.TestingController;
 import org.firstinspires.ftc.sixteen750.helpers.StartingPosition;
 
 @TeleOp(name = "ServoTestingController")
-
-
 public class ServoTestingOpMode extends CommandOpMode {
 
     public Robot robot;
@@ -35,7 +32,7 @@ public class ServoTestingOpMode extends CommandOpMode {
         robot = new Robot(hardware, Alliance.NONE, StartingPosition.Unspecified);
         controls = new TestingController(driverGamepad, robot);
         CommandScheduler
-                .getInstance()
-                .scheduleForState(new DroneStart(robot.drone), OpModeState.INIT);
+            .getInstance()
+            .scheduleForState(new DroneStart(robot.drone), OpModeState.INIT);
     }
 }
