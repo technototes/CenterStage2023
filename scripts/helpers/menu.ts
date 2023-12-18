@@ -28,6 +28,19 @@ export async function Menu(header: string, menu: MenuItem[]): Promise<void> {
     const cleaned = res.trim();
     const opt = Number.parseInt(cleaned, 10);
     if (isNaN(opt) || opt < 1 || opt > menu.length) {
+      // Let's check for unique first letters, just for fun...
+      if (isNaN(opt) && cleaned.length === 1) {
+        const itemsMatched = menu.filter(
+          (mnuItem: MenuItem) =>
+            mnuItem[0][0].toLowerCase() === cleaned.toLowerCase(),
+        );
+        // If we found *only one* menu item with that first character,
+        // proceed with that selection
+        if (itemsMatched.length === 1) {
+          done = await itemsMatched[0][1]();
+          continue;
+        }
+      }
       console.error(`Please enter a number from 1 to ${menu.length}`);
     } else {
       done = await menu[opt - 1][1]();

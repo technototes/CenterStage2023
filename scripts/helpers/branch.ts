@@ -2,6 +2,8 @@ import { Ask, Menu, MenuItem } from './menu';
 import { promises as fsp } from 'node:fs';
 import type { SimpleGit } from 'simple-git';
 
+export const DEFAULT_BRANCH_NAME = 'main';
+
 export function Clean(file: string): string {
   let res = file;
   // First, yoink diacriticals:
@@ -74,7 +76,7 @@ function selectBranchGen(git: SimpleGit, name: string): () => Promise<boolean> {
 
 export async function PickBranchToContinue(
   git: SimpleGit,
-): Promise<string | false> {
+): Promise<string | boolean> {
   // git branch --list --all gets even the remote branches
   const branches = await git.branch({ '--list': null, '--all': null });
 
@@ -98,20 +100,27 @@ export async function PickBranchToContinue(
   // Remove any remote branches that aren't from origin.
   // This allows things like 'upstream' or personal remotes for folks
   // who know what they're doing.
-  const localOrOriginBranches = branches.all
-    .filter(
-      (val: string) =>
-        !val.startsWith('remotes/') || val.startsWith('remotes/origin/'),
-    )
-    .map((name: string) =>
-      name.startsWith('remotes/origin/') ? name.substring(15) : name,
-    )
-    .filter(branchFilter);
+  // Also remove the default branch name, and show only unique names
+  const localOrOriginBranches = [
+    ...new Set<string>(
+      branches.all
+        .filter(
+          (val: string) =>
+            !val.startsWith('remotes/') || val.startsWith('remotes/origin/'),
+        )
+        .map((name: string) =>
+          name.startsWith('remotes/origin/') ? name.substring(15) : name,
+        )
+        .filter(branchFilter)
+        .filter((val) => val !== DEFAULT_BRANCH_NAME)
+        .sort((a, b) => a.localeCompare(b)),
+    ),
+  ];
   const menuOptions: MenuItem[] = localOrOriginBranches.map((name) => [
     name,
     selectBranchGen(git, name),
   ]);
-  menuOptions.push(['Nevermind', () => Promise.resolve(true)]);
-  Menu('Which branch would you like to continue?', menuOptions);
+  menuOptions.push(['Nevermind: go back', () => Promise.resolve(true)]);
+  await Menu('Which branch would you like to continue?', menuOptions);
   return false;
 }
