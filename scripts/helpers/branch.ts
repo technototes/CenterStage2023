@@ -1,4 +1,8 @@
-import { Ask, Menu } from './menu';
+import { Ask, Menu, MenuItem } from './menu';
+import { promises as fsp } from 'node:fs';
+import type { SimpleGit } from 'simple-git';
+
+export const DEFAULT_BRANCH_NAME = 'main';
 
 export function Clean(file: string): string {
   let res = file;
@@ -56,4 +60,67 @@ export async function GetBranchName(): Promise<string | undefined> {
     ]);
   } while (!done);
   return abandon ? undefined : branch;
+}
+
+export async function ReadBranchName(git: SimpleGit): Promise<string | false> {
+  return await git.revparse({ '--abbrev-ref': null, HEAD: null });
+}
+
+function selectBranchGen(git: SimpleGit, name: string): () => Promise<boolean> {
+  return async (): Promise<boolean> => {
+    await git.checkout(name);
+    await git.pull();
+    return false;
+  };
+}
+
+export async function PickBranchToContinue(
+  git: SimpleGit,
+): Promise<string | boolean> {
+  // git branch --list --all gets even the remote branches
+  const branches = await git.branch({ '--list': null, '--all': null });
+
+  // Read in any branch names to ignore. This is mostly used for mentors
+  // to not show students branches that aren't relevant.
+  let branchFilter = (name: string) => true;
+  try {
+    const ignore = await fsp.readFile('scripts/branches-to-ignore.txt', {
+      encoding: 'utf8',
+    });
+    const namesToIgnore = ignore
+      .split('\n')
+      .map((v) => v.trim())
+      .filter((v) => v.length > 0);
+    if (namesToIgnore.length > 0) {
+      const names = new Set<string>(namesToIgnore);
+      branchFilter = (name: string) => !names.has(name);
+    }
+  } catch (e) {}
+
+  // Remove any remote branches that aren't from origin.
+  // This allows things like 'upstream' or personal remotes for folks
+  // who know what they're doing.
+  // Also remove the default branch name, and show only unique names
+  const localOrOriginBranches = [
+    ...new Set<string>(
+      branches.all
+        .filter(
+          (val: string) =>
+            !val.startsWith('remotes/') || val.startsWith('remotes/origin/'),
+        )
+        .map((name: string) =>
+          name.startsWith('remotes/origin/') ? name.substring(15) : name,
+        )
+        .filter(branchFilter)
+        .filter((val) => val !== DEFAULT_BRANCH_NAME)
+        .sort((a, b) => a.localeCompare(b)),
+    ),
+  ];
+  const menuOptions: MenuItem[] = localOrOriginBranches.map((name) => [
+    name,
+    selectBranchGen(git, name),
+  ]);
+  menuOptions.push(['Nevermind: go back', () => Promise.resolve(true)]);
+  await Menu('Which branch would you like to continue?', menuOptions);
+  return false;
 }
