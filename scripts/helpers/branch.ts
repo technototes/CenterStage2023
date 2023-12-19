@@ -1,8 +1,10 @@
 import { Ask, Menu, MenuItem } from './menu';
 import { promises as fsp } from 'node:fs';
-import type { SimpleGit } from 'simple-git';
+import { simpleGit, type SimpleGit } from 'simple-git';
 
 export const DEFAULT_BRANCH_NAME = 'main';
+
+const git = simpleGit();
 
 export function Clean(file: string): string {
   let res = file;
@@ -62,21 +64,23 @@ export async function GetBranchName(): Promise<string | undefined> {
   return abandon ? undefined : branch;
 }
 
-export async function ReadBranchName(git: SimpleGit): Promise<string | false> {
+export async function ReadBranchName(): Promise<string | false> {
   return await git.revparse({ '--abbrev-ref': null, HEAD: null });
 }
 
-function selectBranchGen(git: SimpleGit, name: string): () => Promise<boolean> {
+function selectBranchGen(name: string): () => Promise<boolean> {
   return async (): Promise<boolean> => {
-    await git.checkout(name);
-    await git.pull();
-    return false;
+    try {
+      await git.checkout(name);
+      await git.pull();
+      return true;
+    } catch (e) {
+      return false;
+    }
   };
 }
 
-export async function PickBranchToContinue(
-  git: SimpleGit,
-): Promise<string | boolean> {
+export async function PickBranchToContinue(): Promise<void> {
   // git branch --list --all gets even the remote branches
   const branches = await git.branch({ '--list': null, '--all': null });
 
@@ -118,9 +122,8 @@ export async function PickBranchToContinue(
   ];
   const menuOptions: MenuItem[] = localOrOriginBranches.map((name) => [
     name,
-    selectBranchGen(git, name),
+    selectBranchGen(name),
   ]);
   menuOptions.push(['Nevermind: go back', () => Promise.resolve(true)]);
-  await Menu('Which branch would you like to continue?', menuOptions);
-  return false;
+  await Menu('Which branch would you like to continue using?', menuOptions);
 }

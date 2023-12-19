@@ -99,12 +99,8 @@ async function resumeWork(): Promise<boolean> {
   }
 
   // Continue from "pull all branch names"
-  if (await PickBranchToContinue(git)) {
-    return false;
-  }
-  console.log(
-    "You're ready to code! Come back to this window when you're done.",
-  );
+  await PickBranchToContinue();
+  console.log("Come back to this window when you're done.");
   await Sleep(3000);
   // Maybe open android studio automatically?
   return false;

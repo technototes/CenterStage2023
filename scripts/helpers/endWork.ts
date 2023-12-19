@@ -77,7 +77,7 @@ async function completeWork(): Promise<false | PushResult> {
     await addFiles(fmtStat.modified, 'Auto-formatted files');
   }
 
-  const curBranchNameOrErr = await ReadBranchName(git);
+  const curBranchNameOrErr = await ReadBranchName();
   if (curBranchNameOrErr === false) {
     console.log("Couldn't get the curent branch name.");
     return false;
@@ -125,7 +125,7 @@ async function finishWork(): Promise<boolean> {
     return false;
   }
   const pullRes: PushResult = failureOrPullRes;
-  const branch = await ReadBranchName(git);
+  const branch = await ReadBranchName();
   if (branch === false || typeof pullRes.repo !== 'string') {
     console.log('Some weird error: Ask for help.');
     return true;
