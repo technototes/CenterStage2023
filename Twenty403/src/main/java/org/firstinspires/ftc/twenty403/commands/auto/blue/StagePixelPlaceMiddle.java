@@ -2,7 +2,6 @@ package org.firstinspires.ftc.twenty403.commands.auto.blue;
 
 import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.path.command.TrajectorySequenceCommand;
-
 import org.firstinspires.ftc.twenty403.AutoConstants;
 import org.firstinspires.ftc.twenty403.Robot;
 
@@ -26,22 +25,16 @@ public class StagePixelPlaceMiddle extends SequentialCommandGroup {
                         AutoConstants.StageBlue.ClEAR_TO_LEFT_CLEAR
                     )
                 )
-                    .andThen(
-                            new TrajectorySequenceCommand(
-                                    r.drivebaseSubsystem,
-                                    AutoConstants.StageBlue.LEFT_CLEAR_TO_PLACE_MIDDLE
-                            )
-                    )
-                    .andThen(
-                            new TrajectorySequenceCommand(
-                                    r.drivebaseSubsystem,
-                                    AutoConstants.StageBlue.PLACE_MIDDLE_TO_MID_PARK_CENTER
-                            )
-                    )
                 .andThen(
                     new TrajectorySequenceCommand(
                         r.drivebaseSubsystem,
-                        AutoConstants.StageBlue.MID_PARK_CENTER_TO_PARK_CENTER
+                        AutoConstants.StageBlue.LEFT_CLEAR_TO_PLACE_MIDDLE
+                    )
+                )
+                .andThen(
+                    new TrajectorySequenceCommand(
+                        r.drivebaseSubsystem,
+                        AutoConstants.StageBlue.PLACE_MIDDLE_TO_MID_PARK_CENTER
                     )
                 )
         );

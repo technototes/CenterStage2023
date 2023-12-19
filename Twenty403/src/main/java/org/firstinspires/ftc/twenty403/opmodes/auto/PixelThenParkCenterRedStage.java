@@ -4,7 +4,6 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.technototes.library.command.CommandScheduler;
-import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.library.structure.CommandOpMode;
 import com.technototes.library.util.Alliance;
 import org.firstinspires.ftc.twenty403.AutoConstants;
@@ -12,15 +11,14 @@ import org.firstinspires.ftc.twenty403.Hardware;
 import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
 import org.firstinspires.ftc.twenty403.commands.VisionCommand;
-import org.firstinspires.ftc.twenty403.commands.auto.RecordFinalHeading;
-import org.firstinspires.ftc.twenty403.commands.auto.blue.StagePixelPlaceSelection;
+import org.firstinspires.ftc.twenty403.commands.auto.red.RedStageParkCenter;
 import org.firstinspires.ftc.twenty403.controls.DriverController;
 import org.firstinspires.ftc.twenty403.helpers.StartingPosition;
 
 // The last 4 weird things are '🟥' and '🪶' (wing)
-@Autonomous(name = "PixelThenParkBlueStage")
+@Autonomous(name = "PixelThenParkCenterRedStage")
 @SuppressWarnings("unused")
-public class PixelThenParkBlueStage extends CommandOpMode {
+public class PixelThenParkCenterRedStage extends CommandOpMode {
 
     public Robot robot;
     public DriverController controls;
@@ -30,18 +28,11 @@ public class PixelThenParkBlueStage extends CommandOpMode {
     public void uponInit() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         hardware = new Hardware(hardwareMap);
-        robot = new Robot(hardware, Alliance.BLUE, StartingPosition.Backstage);
-        robot.drivebaseSubsystem.setPoseEstimate(AutoConstants.StageBlue.START.toPose());
+        robot = new Robot(hardware, Alliance.RED, StartingPosition.Backstage);
+        robot.drivebaseSubsystem.setPoseEstimate(AutoConstants.StageRed.START.toPose());
         CommandScheduler
             .getInstance()
-            .scheduleForState(
-                new SequentialCommandGroup(
-                    new StagePixelPlaceSelection(robot),
-                    new RecordFinalHeading(robot.drivebaseSubsystem),
-                    CommandScheduler.getInstance()::terminateOpMode
-                ),
-                OpModeState.RUN
-            );
+            .scheduleForState(new RedStageParkCenter(robot), CommandOpMode.OpModeState.RUN);
         if (Setup.Connected.WEBCAM) {
             CommandScheduler.getInstance().scheduleInit(new VisionCommand(robot.vision));
         }

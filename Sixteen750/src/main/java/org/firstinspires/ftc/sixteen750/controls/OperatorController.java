@@ -75,7 +75,6 @@ public class OperatorController {
         hangDownButton = gamepad.rightStickButton;
         screwUpButton = gamepad.rightBumper;
         screwDownButton = gamepad.leftBumper;
-
     }
 
     private void bindIntakeControls() {
@@ -101,6 +100,5 @@ public class OperatorController {
         screwDownButton.whenReleased(new HangStop(robot.hang));
         screwUpButton.whenReleased(new LeadScrewStop(robot.hang));
         hangDownButton.whenPressed(new HangDown(robot.hang));
-        
     }
 }

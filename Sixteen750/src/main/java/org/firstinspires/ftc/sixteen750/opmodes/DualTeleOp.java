@@ -38,7 +38,13 @@ public class DualTeleOp extends CommandOpMode {
             robot.drivebase.setPoseEstimate(AutoConstants.WingRed.START.toPose());
             CommandScheduler
                 .getInstance()
-                .scheduleForState(new SequentialCommandGroup(new ResetGyroCommand(robot.drivebase), new DroneStart(robot.drone)), OpModeState.INIT);
+                .scheduleForState(
+                    new SequentialCommandGroup(
+                        new ResetGyroCommand(robot.drivebase),
+                        new DroneStart(robot.drone)
+                    ),
+                    OpModeState.INIT
+                );
         }
     }
 }

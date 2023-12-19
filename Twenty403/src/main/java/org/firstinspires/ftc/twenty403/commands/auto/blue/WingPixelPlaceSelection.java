@@ -1,9 +1,7 @@
 package org.firstinspires.ftc.twenty403.commands.auto.blue;
 
 import android.util.Pair;
-
 import com.technototes.library.command.ChoiceCommand;
-
 import org.firstinspires.ftc.twenty403.Robot;
 
 public class WingPixelPlaceSelection extends ChoiceCommand {
