@@ -33,7 +33,7 @@ public class DrivebaseSubsystem
         public static final double TICKS_PER_REV = 537.6; // 2021: 28;
 
         @MaxRPM
-        public static final double MAX_RPM = 312; // 2021: 6000;
+        public static final double MAX_RPM = 435; // 2021: 6000;
 
         public static double MAX_TICKS_PER_SEC = (TICKS_PER_REV * MAX_RPM) / 60.0;
 
@@ -53,7 +53,7 @@ public class DrivebaseSubsystem
 
         @GearRatio
         public static double GEAR_RATIO = 0.6; // output (wheel) speed / input (motor) speed og: 1 / 19.2;
-
+        //gear ration is actually .667 but i think it might mess up what we already have
         @TrackWidth
         public static double TRACK_WIDTH = 11.75; // 2021: 10; // in
 
