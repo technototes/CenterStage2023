@@ -5,6 +5,7 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.ServoController;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.motor.Motor;
 import com.technototes.library.hardware.sensor.IMU;
@@ -22,9 +23,9 @@ public class Hardware implements Loggable {
     public IMU imu;
     public EncodedMotor<DcMotorEx> fl, fr, rl, rr;
     public Webcam camera;
-    public Servo clawServo;
     public Servo wristServo;
     public Servo launchServo;
+    public CRServo intakeServo;
     public EncodedMotor<DcMotorEx> shoulderMotor;
     public MotorEncoder odoF, odoR;
 
@@ -48,8 +49,8 @@ public class Hardware implements Loggable {
             camera = new Webcam(Setup.HardwareNames.CAMERA);
         }
         if (Setup.Connected.ARMSUBSYSTEM) {
-            clawServo = new Servo(Setup.HardwareNames.CLAWSERVO);
             wristServo = new Servo(Setup.HardwareNames.WRISTSERVO);
+            intakeServo = hwmap.get(CRServo.class,Setup.HardwareNames.INTAKESERVO);
             shoulderMotor = new EncodedMotor<>(Setup.HardwareNames.SHOULDERMOTOR);
         }
         if (Setup.Connected.DRONESUBSYSTEM) {

@@ -6,17 +6,10 @@ import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
 import org.firstinspires.ftc.twenty403.commands.DroneCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.ArmFirstLineCommand;
-import org.firstinspires.ftc.twenty403.commands.arm.ArmFirstLineSequential;
 import org.firstinspires.ftc.twenty403.commands.arm.ArmIntakeCommand;
-import org.firstinspires.ftc.twenty403.commands.arm.ArmIntakeSequential;
 import org.firstinspires.ftc.twenty403.commands.arm.ArmNeutralCommand;
-import org.firstinspires.ftc.twenty403.commands.arm.ArmNeutralSequential;
 import org.firstinspires.ftc.twenty403.commands.arm.ArmSecondLineCommand;
-import org.firstinspires.ftc.twenty403.commands.arm.ArmSecondLineSequential;
 import org.firstinspires.ftc.twenty403.commands.arm.ArmThirdLineCommand;
-import org.firstinspires.ftc.twenty403.commands.arm.ArmThirdLineSequential;
-import org.firstinspires.ftc.twenty403.commands.arm.ClawCloseCommand;
-import org.firstinspires.ftc.twenty403.commands.arm.ClawOpenCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.HangSequential;
 import org.firstinspires.ftc.twenty403.commands.arm.ShoulderDecrementCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.ShoulderIncrementCommand;
@@ -27,9 +20,6 @@ public class OperatorController {
 
     public Robot robot;
     public CommandGamepad gamepad;
-
-    public CommandButton clawOpenButton;
-    public CommandButton clawCloseButton;
     public CommandButton launchDroneButton;
     public CommandButton armIntakeButton;
     public CommandButton shoulderDecrementButton;
@@ -61,8 +51,6 @@ public class OperatorController {
     }
 
     private void AssignNamedControllerButton() {
-        clawOpenButton = gamepad.leftBumper;
-        clawCloseButton = gamepad.rightBumper;
         armFirstLine = gamepad.ps_circle;
         armSecondLine = gamepad.ps_triangle;
         armThirdLine = gamepad.ps_options;
@@ -79,19 +67,16 @@ public class OperatorController {
     }
 
     public void bindClawControls() {
-        clawOpenButton.whenPressed(new ClawOpenCommand(robot.clawSubsystem));
-        clawCloseButton.whenPressed(new ClawCloseCommand(robot.clawSubsystem));
-
-        armIntakeButton.whenPressed(new ArmIntakeCommand(robot.clawSubsystem));
-        armNeutralButton.whenPressed(new ArmNeutralCommand(robot.clawSubsystem));
-        armFirstLine.whenPressed(new ArmFirstLineCommand((robot.clawSubsystem)));
-        armSecondLine.whenPressed(new ArmSecondLineCommand((robot.clawSubsystem)));
-        armThirdLine.whenPressed(new ArmThirdLineCommand((robot.clawSubsystem)));
-        shoulderIncrementButton.whenPressed(new ShoulderIncrementCommand(robot.clawSubsystem));
-        shoulderDecrementButton.whenPressed(new ShoulderDecrementCommand(robot.clawSubsystem));
-        wristIncrementButton.whenPressed(new WristIncrementCommand(robot.clawSubsystem));
-        wristDecrementButton.whenPressed(new WristDecrementCommand(robot.clawSubsystem));
-        HangButton.whenPressed(new HangSequential(robot.clawSubsystem));
+        armIntakeButton.whenPressed(new ArmIntakeCommand(robot.armSubsystem));
+        armNeutralButton.whenPressed(new ArmNeutralCommand(robot.armSubsystem));
+        armFirstLine.whenPressed(new ArmFirstLineCommand((robot.armSubsystem)));
+        armSecondLine.whenPressed(new ArmSecondLineCommand((robot.armSubsystem)));
+        armThirdLine.whenPressed(new ArmThirdLineCommand((robot.armSubsystem)));
+        shoulderIncrementButton.whenPressed(new ShoulderIncrementCommand(robot.armSubsystem));
+        shoulderDecrementButton.whenPressed(new ShoulderDecrementCommand(robot.armSubsystem));
+        wristIncrementButton.whenPressed(new WristIncrementCommand(robot.armSubsystem));
+        wristDecrementButton.whenPressed(new WristDecrementCommand(robot.armSubsystem));
+        HangButton.whenPressed(new HangSequential(robot.armSubsystem));
     }
 
     public void bindDroneControls() {

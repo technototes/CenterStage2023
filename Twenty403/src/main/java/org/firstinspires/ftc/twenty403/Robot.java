@@ -17,7 +17,7 @@ public class Robot implements Loggable {
     public double initialVoltage;
 
     public DrivebaseSubsystem drivebaseSubsystem;
-    public ArmSubsystem clawSubsystem;
+    public ArmSubsystem armSubsystem;
     public VisionSubsystem vision;
     public DroneSubsystem droneSubsystem;
 
@@ -47,9 +47,9 @@ public class Robot implements Loggable {
             this.vision = new VisionSubsystem();
         }
         if (Setup.Connected.ARMSUBSYSTEM) {
-            this.clawSubsystem = new ArmSubsystem(hw.clawServo, hw.wristServo, hw.shoulderMotor);
+            this.armSubsystem = new ArmSubsystem(hw.intakeServo, hw.wristServo, hw.shoulderMotor);
         } else {
-            this.clawSubsystem = new ArmSubsystem();
+            this.armSubsystem = new ArmSubsystem();
         }
         if (Setup.Connected.DRONESUBSYSTEM) {
             this.droneSubsystem = new DroneSubsystem(hw.launchServo);
