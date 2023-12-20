@@ -22,11 +22,11 @@ public class SafetySubsystem implements Subsystem, Loggable {
     public int previousOdoRPosition = 0;
 
     @Log(name = "prevFLPos")
-    public double previousFLPosiiton = 0;
+    public double previousFLPosition = 0;
 
-    public double previousFRPosiiton = 0;
-    public double previousRLPosiiton = 0;
-    public double previousRRPosiiton = 0;
+    public double previousFRPosition = 0;
+    public double previousRLPosition = 0;
+    public double previousRRPosition = 0;
     public static int OdoTickDiff = 10;
     public static double WheelTickDiff = 1.0;
 
@@ -70,6 +70,11 @@ public class SafetySubsystem implements Subsystem, Loggable {
         int odoFCurrentPosition = myHw.odoF.getCurrentPosition();
         int odoRCurrentPosition = myHw.odoR.getCurrentPosition();
 
+        double wheelflCurrentPosition = myHw.fl.getSensorValue();
+        double wheelfrCurrentPosition = myHw.fr.getSensorValue();
+        double wheelrlCurrentPosition = myHw.rl.getSensorValue();
+        double wheelrrCurrentPosition = myHw.rr.getSensorValue();
+
         boolean stopAutoFlag = false;
         String stopAutoReason = "";
         if (isOdoFailing(odoFCurrentPosition, previousOdoFPosition)) {
@@ -80,7 +85,22 @@ public class SafetySubsystem implements Subsystem, Loggable {
             stopAutoFlag = true;
             stopAutoReason += "OdoR not reading;";
         }
-
+        if (isWheelFailing(wheelflCurrentPosition, previousFLPosition)) {
+            stopAutoFlag = true;
+            stopAutoReason += "wheelfl not reading;";
+        }
+        if (isWheelFailing(wheelfrCurrentPosition, previousFRPosition)) {
+            stopAutoFlag = true;
+            stopAutoReason += "wheelfr not reading;";
+        }
+        if (isWheelFailing(wheelrlCurrentPosition, previousRLPosition)) {
+            stopAutoFlag = true;
+            stopAutoReason += "wheelrl not reading;";
+        }
+        if (isWheelFailing(wheelrrCurrentPosition, previousRRPosition)) {
+            stopAutoFlag = true;
+            stopAutoReason += "wheelrr not reading;";
+        }
         this.previousOdoFPosition = odoFCurrentPosition;
         previousOdoRPosition = odoRCurrentPosition;
 
@@ -89,18 +109,18 @@ public class SafetySubsystem implements Subsystem, Loggable {
         double wheelrlCurrentPosition = myHw.rl.getSensorValue();
         double wheelrrCurrentPosition = myHw.rr.getSensorValue();
         if (
-            isWheelFailing(wheelflCurrentPosition, previousFLPosiiton) ||
-            isWheelFailing(wheelfrCurrentPosition, previousFRPosiiton) ||
-            isWheelFailing(wheelrlCurrentPosition, previousRLPosiiton) ||
-            isWheelFailing(wheelrrCurrentPosition, previousRRPosiiton)
+            isWheelFailing(wheelflCurrentPosition, previousFLPosition) ||
+            isWheelFailing(wheelfrCurrentPosition, previousFRPosition) ||
+            isWheelFailing(wheelrlCurrentPosition, previousRLPosition) ||
+            isWheelFailing(wheelrrCurrentPosition, previousRRPosition)
         ) {
             stopAuto("wheels not reading");
             return;
         }
-        this.previousFLPosiiton = wheelfrCurrentPosition;
-        previousFRPosiiton = wheelfrCurrentPosition;
-        previousRLPosiiton = wheelrlCurrentPosition;
-        previousRRPosiiton = wheelrrCurrentPosition;
+        this.previousFLPosition = wheelflCurrentPosition;
+        previousFRPosition = wheelfrCurrentPosition;
+        previousRLPosition = wheelrlCurrentPosition;
+        previousRRPosition = wheelrrCurrentPosition;
 
         if (stopAutoFlag == true) {
             stopAuto(stopAutoReason);
@@ -154,3 +174,7 @@ public class SafetySubsystem implements Subsystem, Loggable {
 // stop monitoring if auto is going to a stop to go to next sequential command
 // start monitoring again after distance sensors are far away and if next sequential auto command is starting again
 // need to look at IMU to determine wonkiness
+
+//using elapsed timer instead of numfailed cause periodic does NOT occur every 1/2 second, but constantly, so need to add that
+//its a sequential command btw
+0
