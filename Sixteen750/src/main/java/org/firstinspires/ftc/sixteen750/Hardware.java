@@ -39,7 +39,7 @@ public class Hardware implements Loggable {
 
     public Motor<DcMotorEx> hangM;
 
-    public CRServo hangS;
+    public Servo hangS;
 
     public Hardware(HardwareMap hwmap) {
         hubs = hwmap.getAll(LynxModule.class);
@@ -71,7 +71,7 @@ public class Hardware implements Loggable {
         }
 
         if (Setup.Connected.HANG) {
-            hangS = hwmap.get(CRServo.class, Setup.HardwareNames.HANGSERVO);
+            hangS = new Servo( Setup.HardwareNames.HANGSERVO);
             hangM = new Motor<DcMotorEx>(Setup.HardwareNames.HANGMOTOR);
         }
 
