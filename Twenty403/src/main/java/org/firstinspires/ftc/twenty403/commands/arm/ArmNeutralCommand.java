@@ -3,17 +3,18 @@ package org.firstinspires.ftc.twenty403.commands.arm;
 import com.technototes.library.command.Command;
 import org.firstinspires.ftc.twenty403.subsystems.ArmSubsystem;
 
-public class ElbowDecrementCommand implements Command {
+public class ArmNeutralCommand implements Command {
 
     private ArmSubsystem subsystem;
 
-    public ElbowDecrementCommand(ArmSubsystem s) {
-        subsystem = s;
-        addRequirements(s);
+    public ArmNeutralCommand(ArmSubsystem n) {
+        subsystem = n;
+        addRequirements(n);
     }
 
     @Override
     public void execute() {
-        subsystem.elbow_decrement();
+        subsystem.shoulderNeutralArmPosition();
+        subsystem.wristNeutralArmPosition();
     }
 }
