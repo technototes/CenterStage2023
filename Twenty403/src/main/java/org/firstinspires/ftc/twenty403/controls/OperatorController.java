@@ -13,6 +13,7 @@ import org.firstinspires.ftc.twenty403.commands.arm.ArmThirdLineCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.HangSequential;
 import org.firstinspires.ftc.twenty403.commands.arm.ShoulderDecrementCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.ShoulderIncrementCommand;
+import org.firstinspires.ftc.twenty403.commands.arm.ShoulderNeutralCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.WristDecrementCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.WristIncrementCommand;
 
@@ -24,6 +25,7 @@ public class OperatorController {
     public CommandButton armIntakeButton;
     public CommandButton shoulderDecrementButton;
     public CommandButton shoulderIncrementButton;
+    public CommandButton shoulderResetZero;
     public CommandButton wristDecrementButton;
     public CommandButton wristIncrementButton;
     public CommandButton armFirstLine;
@@ -53,8 +55,9 @@ public class OperatorController {
     private void AssignNamedControllerButton() {
         armFirstLine = gamepad.ps_circle;
         armSecondLine = gamepad.ps_triangle;
-        armThirdLine = gamepad.ps_options;
+        //armThirdLine = gamepad.ps_options;
         armIntakeButton = gamepad.ps_cross;
+        shoulderResetZero = gamepad.ps_options;
         shoulderDecrementButton = gamepad.dpadDown;
         shoulderIncrementButton = gamepad.dpadUp;
         wristDecrementButton = gamepad.dpadRight;
@@ -71,7 +74,8 @@ public class OperatorController {
         armNeutralButton.whenPressed(new ArmNeutralCommand(robot.armSubsystem));
         armFirstLine.whenPressed(new ArmFirstLineCommand((robot.armSubsystem)));
         armSecondLine.whenPressed(new ArmSecondLineCommand((robot.armSubsystem)));
-        armThirdLine.whenPressed(new ArmThirdLineCommand((robot.armSubsystem)));
+        //armThirdLine.whenPressed(new ArmThirdLineCommand((robot.armSubsystem)));
+        shoulderResetZero.whenPressed(new ShoulderNeutralCommand((robot.armSubsystem)));
         shoulderIncrementButton.whenPressed(new ShoulderIncrementCommand(robot.armSubsystem));
         shoulderDecrementButton.whenPressed(new ShoulderDecrementCommand(robot.armSubsystem));
         wristIncrementButton.whenPressed(new WristIncrementCommand(robot.armSubsystem));

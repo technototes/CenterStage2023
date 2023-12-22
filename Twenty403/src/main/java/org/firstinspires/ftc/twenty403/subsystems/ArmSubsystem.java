@@ -99,6 +99,7 @@ public class ArmSubsystem implements Subsystem, Loggable {
                 (ticks, velocity) ->
                     FEEDFORWARD_COEFFICIENT * Math.cos((Math.PI * ticks) / (2 * SHOULDER_VERTICAL))
             );
+        resetArmNeutral();
     }
 
     public ArmSubsystem() {
@@ -107,6 +108,7 @@ public class ArmSubsystem implements Subsystem, Loggable {
         shoulderMotor = null;
         haveHardware = false;
         shoulderPidController = new PIDFController(shoulderPID, 0, 0, 0, (x, y) -> 0.0);
+        resetArmNeutral();
     }
 
     public void resetArmNeutral() {
