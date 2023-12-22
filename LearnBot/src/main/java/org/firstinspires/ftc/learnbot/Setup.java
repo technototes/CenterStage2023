@@ -18,7 +18,7 @@ public class Setup {
     @Config
     public static class HardwareNames {
 
-        public static String MOTOR = "m";
+        public static String MOTOR = "liftmotor";
         public static String FLMOTOR = "fl";
         public static String FRMOTOR = "fr";
         public static String RLMOTOR = "rl";
