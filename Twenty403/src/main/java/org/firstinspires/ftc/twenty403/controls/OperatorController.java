@@ -4,18 +4,18 @@ import com.technototes.library.control.CommandButton;
 import com.technototes.library.control.CommandGamepad;
 import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
-import org.firstinspires.ftc.twenty403.commands.DroneCommand;
+import org.firstinspires.ftc.twenty403.commands.drone.DroneCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.ArmFirstLineCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.ArmIntakeCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.ArmNeutralCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.ArmSecondLineCommand;
-import org.firstinspires.ftc.twenty403.commands.arm.ArmThirdLineCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.HangSequential;
 import org.firstinspires.ftc.twenty403.commands.arm.ShoulderDecrementCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.ShoulderIncrementCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.ShoulderNeutralCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.WristDecrementCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.WristIncrementCommand;
+import org.firstinspires.ftc.twenty403.commands.drone.DroneSequential;
 
 public class OperatorController {
 
@@ -84,6 +84,6 @@ public class OperatorController {
     }
 
     public void bindDroneControls() {
-        launchDroneButton.whenPressed(new DroneCommand(robot.droneSubsystem));
+        launchDroneButton.whenPressed(new DroneSequential(robot.droneSubsystem));
     }
 }
