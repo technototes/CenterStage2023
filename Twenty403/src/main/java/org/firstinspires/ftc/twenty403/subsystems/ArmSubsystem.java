@@ -14,26 +14,26 @@ import com.technototes.library.subsystem.Subsystem;
 
 @Config
 public class ArmSubsystem implements Subsystem, Loggable {
-    public static int SHOULDER_ARM_INTAKE = 670; //collect (change vals)
-    public static int SHOULDER_RESET_POSITION = -40; //reset (change vals)
-    public static int SHOULDER_FIRST_LINE_SCORING = 600; //change vals
-    public static int SHOULDER_SECOND_LINE_SCORING = 500; //change vals
-    public static int SHOULDER_THIRD_LINE_SCORING = 552; //change vals
-    public static int SHOULDER_VERTICAL = 369; // For feed-fwd, and maybe hang
+    public static int SHOULDER_ARM_INTAKE = 9; //collect (change vals)
+    public static int SHOULDER_RESET_POSITION = 9; //reset (change vals)
+    public static int SHOULDER_FIRST_LINE_SCORING = 1350; //change vals
+    public static int SHOULDER_SECOND_LINE_SCORING = 1200; //change vals
+    public static int SHOULDER_THIRD_LINE_SCORING = 1200; //change vals
+    public static int SHOULDER_VERTICAL = 881; // For feed-fwd, and maybe hang
     public static int SHOULDER_MANUAL_STEP = 20; //increment/decrement
 
-    public static double MIN_SHOULDER_MOTOR_SPEED = -1;
-    public static double MAX_SHOULDER_MOTOR_SPEED = 1;
+    public static double MIN_SHOULDER_MOTOR_SPEED = -0.5;
+    public static double MAX_SHOULDER_MOTOR_SPEED = 0.5;
 
     public static double MIN_INTAKE_SPEED = -1;
     public static double MAX_INTAKE_SPEED = 1;
 
-    public static double WRIST_ARM_INTAKE = -712; //collect (change vals)
-    public static double WRIST_RESET_POSITION = 0; //reset (change vals)
-    public static double WRIST_FIRST_LINE_SCORING = -800; // change vals
-    public static double WRIST_SECOND_LINE_SCORING = -700; // change vals
-    public static double WRIST_THIRD_LINE_SCORING = -529; // change vals
-    public static double WRIST_MANUAL_STEP = -.05; //increment/decrement (change vals)
+    public static double WRIST_ARM_INTAKE = 0.35; //collect (change vals)
+    public static double WRIST_RESET_POSITION = 0.05; //reset (change vals)
+    public static double WRIST_FIRST_LINE_SCORING = 0.05; // change vals
+    public static double WRIST_SECOND_LINE_SCORING = 0.05; // change vals
+    public static double WRIST_THIRD_LINE_SCORING = 0.05; // change vals
+    public static double WRIST_MANUAL_STEP = 0.05; //increment/decrement (change vals)
 
     public static int USE_SHOULDER_BRAKE = 0;
 
@@ -47,20 +47,20 @@ public class ArmSubsystem implements Subsystem, Loggable {
     public int shoulderTargetPos;
 
     @Log(name = "wristPos")
-    public int wristPos;
+    public double wristPos;
 
     @Log(name = "wristTarget")
-    public int wristTargetPos;
+    public double wristTargetPos;
 
     private CRServo intakeServo;
     private Servo wristServo;
     private EncodedMotor<DcMotorEx> shoulderMotor;
     private boolean haveHardware;
-    public static double FEEDFORWARD_COEFFICIENT = 0.3;
-    public static PIDCoefficients shoulderPID = new PIDCoefficients(0.00175, 0.0, 0.00009);
+    public static double FEEDFORWARD_COEFFICIENT = 0.26;
+    public static PIDCoefficients shoulderPID = new PIDCoefficients(0.00075, 0.00001, 0);
     private PIDFController shoulderPidController;
-    public int shoulderResetPos, wristResetPos;
-
+    public int shoulderResetPos;
+    public double wristResetPos;
     public ArmSubsystem(CRServo intake, Servo wrist, EncodedMotor<DcMotorEx> shoulder) {
         intakeServo = intake;
         wristServo = wrist;
@@ -113,8 +113,6 @@ public class ArmSubsystem implements Subsystem, Loggable {
         shoulderResetPos = getShoulderUnmodifiedPosition();
         // We don't want the destination to go nuts, so update the target with the new zero
         shoulderTargetPos = shoulderResetPos;
-        wristResetPos = getWristUnmodifiedPosition();
-        wristTargetPos = wristResetPos;
     }
 
     public void wristIntake() {
@@ -182,7 +180,6 @@ public class ArmSubsystem implements Subsystem, Loggable {
         shoulderPos = getShoulderCurrentPos();
         shoulderPow = shoulderPidController.update(shoulderPos);
         setShoulderMotorPower(shoulderPow);
-        wristPos = getWristCurrentPos();
     }
 
     private void setShoulderPos(int e) {
@@ -193,6 +190,7 @@ public class ArmSubsystem implements Subsystem, Loggable {
     private void setWristPos(double w) {
         if (wristServo != null) {
             wristServo.setPosition(w);
+            wristTargetPos = w;
         }
     }
 
@@ -216,28 +214,6 @@ public class ArmSubsystem implements Subsystem, Loggable {
                 MAX_SHOULDER_MOTOR_SPEED
             );
             shoulderMotor.setSpeed(clippedSpeed);
-        }
-    }
-    private void setCRServoPower(double speed) {
-        if (haveHardware) {
-            double clippedSpeed = Range.clip(
-                    speed,
-                    MIN_INTAKE_SPEED,
-                    MAX_INTAKE_SPEED
-            );
-            shoulderMotor.setSpeed(clippedSpeed);
-        }
-    }
-
-    private int getWristCurrentPos() {
-        return getWristUnmodifiedPosition() - wristResetPos;
-    }
-
-    private int getWristUnmodifiedPosition() {
-        if (haveHardware) {
-            return (int) wristServo.getSensorValue();
-        } else {
-            return 0;
         }
     }
 }
