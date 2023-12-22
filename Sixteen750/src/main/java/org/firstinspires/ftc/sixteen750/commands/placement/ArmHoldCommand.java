@@ -16,5 +16,7 @@ public class ArmHoldCommand implements Command {
     @Override
     public void execute() {
         placement.ArmServoHold();
-    }{
+    }
+
+
 }
