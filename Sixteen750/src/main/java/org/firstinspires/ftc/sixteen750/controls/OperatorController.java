@@ -71,8 +71,8 @@ public class OperatorController {
 
         armServoOutputButton = gamepad.ps_square;
         scoreServoOutputButton = gamepad.ps_circle;
-        hangUpButton = gamepad.leftStickButton;
-        hangDownButton = gamepad.rightStickButton;
+        hangUpButton = gamepad.ps_square;
+        hangDownButton = gamepad.ps_circle;
         screwUpButton = gamepad.rightBumper;
         screwDownButton = gamepad.leftBumper;
     }
@@ -97,7 +97,7 @@ public class OperatorController {
         hangUpButton.whenPressed(new HangUp(robot.hang));
         screwUpButton.whenPressed(new LeadScrewUp(robot.hang));
         screwDownButton.whenPressed(new LeadScrewDown(robot.hang));
-        screwDownButton.whenReleased(new HangStop(robot.hang));
+        screwDownButton.whenReleased(new LeadScrewStop(robot.hang));
         screwUpButton.whenReleased(new LeadScrewStop(robot.hang));
         hangDownButton.whenPressed(new HangDown(robot.hang));
     }

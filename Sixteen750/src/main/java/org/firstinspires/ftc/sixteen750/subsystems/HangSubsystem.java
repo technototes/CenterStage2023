@@ -16,9 +16,9 @@ public class HangSubsystem implements Subsystem, Loggable {
 
     //this code sets the arm position of the hang subsystem.
 
-    public static double upPositionPower = .5;
-    public static double downPositionPower = -.5;
-    //    public static double neutralPositionNumber = 0;
+    public static double hangPosition = 0.80;
+    public static double downPosition = -0.5;
+    public static double neutralPositionNumber = 1;
 
     // one of the 2 variables below are going to be negative and the other is going to be positive
     public static double extendScrewSpeed = 1;
@@ -27,11 +27,11 @@ public class HangSubsystem implements Subsystem, Loggable {
 
     public static Motor<DcMotorEx> hangMotor1;
 
-    public static CRServo hangServo1;
+    public static Servo hangServo1;
 
     private boolean isHardware;
 
-    // @Log(name="HangServo")
+    @Log(name="HangServo")
     public double servoPos;
 
     @Log(name = "Hang Motor")
@@ -53,11 +53,15 @@ public class HangSubsystem implements Subsystem, Loggable {
     }
 
     public void ElbowUp() {
-        SetServoPower(upPositionPower);
+        SetServoPower(hangPosition);
     }
 
     public void ElbowDown() {
-        SetServoPower(downPositionPower);
+        SetServoPower(downPosition);
+    }
+
+    public void ElbowNeutral() {
+        SetServoPower(neutralPositionNumber);
     }
 
     public void ElbowStop() {
@@ -82,7 +86,7 @@ public class HangSubsystem implements Subsystem, Loggable {
 
     private void SetServoPower(double pos) {
         if (isHardware == true) {
-            hangServo1.setPower(pos);
+            hangServo1.setPosition(pos);
         }
         servoPos = pos;
     }
