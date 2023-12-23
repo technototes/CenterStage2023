@@ -16,5 +16,6 @@ public class ArmNeutralCommand implements Command {
     public void execute() {
         subsystem.shoulderNeutralArmPosition();
         subsystem.wristNeutralArmPosition();
+        subsystem.stopIntake();
     }
 }
