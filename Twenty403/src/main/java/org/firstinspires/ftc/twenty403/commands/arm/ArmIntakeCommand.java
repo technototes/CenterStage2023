@@ -16,5 +16,6 @@ public class ArmIntakeCommand implements Command {
     public void execute() {
         subsystem.shoulderIntake();
         subsystem.wristIntake();
+        subsystem.slurpIntake();
     }
 }

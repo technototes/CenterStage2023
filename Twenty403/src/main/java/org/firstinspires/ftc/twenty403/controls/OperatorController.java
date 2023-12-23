@@ -4,6 +4,9 @@ import com.technototes.library.control.CommandButton;
 import com.technototes.library.control.CommandGamepad;
 import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
+import org.firstinspires.ftc.twenty403.commands.arm.IntakeManualSlurpCommand;
+import org.firstinspires.ftc.twenty403.commands.arm.IntakeSpitCommand;
+import org.firstinspires.ftc.twenty403.commands.arm.IntakeStopCommand;
 import org.firstinspires.ftc.twenty403.commands.drone.DroneCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.ArmFirstLineCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.ArmIntakeCommand;
@@ -37,6 +40,9 @@ public class OperatorController {
     public CommandButton armSecondLine;
     public CommandButton armThirdLine;
     public CommandButton override;
+    public CommandButton manualSlurp;
+    public CommandButton spit;
+    public CommandButton stopIntake;
 
     public OperatorController(CommandGamepad g, Robot r) {
         this.robot = r;
@@ -63,6 +69,8 @@ public class OperatorController {
         wristDecrementButton = gamepad.dpadRight;
         wristIncrementButton = gamepad.dpadLeft;
         armNeutralButton = gamepad.ps_square;
+        manualSlurp = gamepad.leftBumper;
+        spit = gamepad.rightBumper;
 
         HangButton = gamepad.rightTrigger.getAsButton(); //put all of hang in here
 
@@ -81,6 +89,10 @@ public class OperatorController {
         wristIncrementButton.whenPressed(new WristIncrementCommand(robot.armSubsystem));
         wristDecrementButton.whenPressed(new WristDecrementCommand(robot.armSubsystem));
         HangButton.whenPressed(new HangSequential(robot.armSubsystem));
+        manualSlurp.whilePressed(new IntakeManualSlurpCommand(robot.armSubsystem));
+        manualSlurp.whenReleased(new IntakeStopCommand(robot.armSubsystem));
+        spit.whenPressed(new IntakeSpitCommand(robot.armSubsystem));
+        spit.whenReleased(new IntakeStopCommand(robot.armSubsystem));
     }
 
     public void bindDroneControls() {

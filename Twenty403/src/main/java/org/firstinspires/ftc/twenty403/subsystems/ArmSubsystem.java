@@ -176,6 +176,9 @@ public class ArmSubsystem implements Subsystem, Loggable {
     public void shoulderThirdLineScoring() {
         setShoulderPos(SHOULDER_THIRD_LINE_SCORING);
     }
+    public void stopIntake() {setServoMotorPower(0);}
+    public void slurpIntake() {setServoMotorPower(MAX_INTAKE_SPEED);}
+    public void spitIntake() {setServoMotorPower(-0.3);}
 
     @Override
     public void periodic() {
@@ -205,6 +208,16 @@ public class ArmSubsystem implements Subsystem, Loggable {
             return (int) shoulderMotor.getSensorValue();
         } else {
             return 0;
+        }
+    }
+    private void setServoMotorPower(double p) {
+        if (haveHardware) {
+            double clippedSpeed = Range.clip(
+                    p,
+                    MIN_INTAKE_SPEED,
+                    MAX_INTAKE_SPEED
+            );
+            intakeServo.setPower(clippedSpeed);
         }
     }
 
