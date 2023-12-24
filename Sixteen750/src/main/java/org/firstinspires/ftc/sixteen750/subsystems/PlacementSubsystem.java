@@ -18,32 +18,29 @@ import org.firstinspires.ftc.sixteen750.Setup;
 @Config
 public class PlacementSubsystem implements Subsystem, Loggable {
 
-    public static double INTAKE_SPEED = .3;
-    public static double OUTPUT_SPEED = -.3;
-
     // numbers need to be calibrated for the lift
-    public static double LOW_POS = 300;
-    public static double MEDIUM_POS = 800;
-    public static double HIGH_POS = 1000;
-    public static double INTAKELIFT_POS = 0;
+    public static double LOW_POS = -600;
+    public static double MEDIUM_POS = -1000;
+//    public static double HIGH_POS = 1000;
+    public static double INTAKELIFT_POS = -40;
     public static double MIN_MOTOR_SPEED = -0.3;
     public static double MAX_MOTOR_SPEED = 1;
 
     public static double ScoreServo = 0.5;
 
     public static double ArmServo = 0.5;
-    public Servo armServo;
 
     public static double ScoreServoInput = 0.7;
-
-    public static double ArmServoInput = 1;
-
     public static double ScoreServoOutput = 0.3;
+    public static double ScoreServoHold = 0.5;
 
+    //Arm servo 0.5 is straight up. The more positive, the farther down it gets.
+    public static double ArmServoInput = 1;
     public static double ArmServoOutput = 0.2;
+    public static double ArmServoHold = 0.5;
 
     public static PIDCoefficients PID = new PIDCoefficients(0.0027, 0.0, 0.00015);
-
+    public Servo armServo;
     public Servo scoreServo;
     public EncodedMotor<DcMotorEx> liftMotor;
     private boolean isHardware;
@@ -100,8 +97,8 @@ public class PlacementSubsystem implements Subsystem, Loggable {
     }
 
     public void LiftHeightHigh() {
-        //takes the arm to the third level
-        leftPidController.setTargetPosition(HIGH_POS);
+        //Mechanically we can't get to the high line
+//        leftPidController.setTargetPosition(HIGH_POS);
     }
 
     public void LiftHeightMedium() {
@@ -116,15 +113,7 @@ public class PlacementSubsystem implements Subsystem, Loggable {
         //        scoreServo.setPosition(0);
     }
 
-    public void ArmServoOutput() {
-        // the arm's position to score
-        armServo.setPosition(ArmServoOutput);
-    }
 
-    public void ScoreServoOutput() {
-        // the intake system's postion to score
-        scoreServo.setPosition(ScoreServoOutput);
-    }
 
     public void periodic() {
         double targetSpeed = leftPidController.update(getLiftCurrentPosition());
@@ -142,7 +131,21 @@ public class PlacementSubsystem implements Subsystem, Loggable {
             liftMotor.setSpeed(speed);
         }
     }
+    public void ArmServoOutput() {
+        // the arm's position to score
+        armServo.setPosition(ArmServoOutput);
+    }
 
+    public void ScoreServoOutput() {
+        // the intake system's postion to score
+        scoreServo.setPosition(ScoreServoOutput);
+    }
+    public void ScoreServoHold(){
+        scoreServo.setPosition(ScoreServoHold);
+    }
+    public void ArmServoHold(){
+        armServo.setPosition(ArmServoHold);
+    }
     public void ArmServoInput() {
         // positions for the arm of the bot
         armServo.setPosition(ArmServoInput);
