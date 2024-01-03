@@ -3,17 +3,19 @@ package org.firstinspires.ftc.twenty403.commands.arm;
 import com.technototes.library.command.Command;
 import org.firstinspires.ftc.twenty403.subsystems.ArmSubsystem;
 
-public class ClawOpenCommand implements Command {
+public class ArmIntakeCommand implements Command {
 
     private ArmSubsystem subsystem;
 
-    public ClawOpenCommand(ArmSubsystem s) {
-        this.subsystem = s;
-        addRequirements(this.subsystem); // Keeps robot from breaking
+    public ArmIntakeCommand(ArmSubsystem s) {
+        subsystem = s;
+        addRequirements(s);
     }
 
     @Override
     public void execute() {
-        this.subsystem.open();
+        subsystem.shoulderIntake();
+        subsystem.wristIntake();
+        subsystem.slurpIntake();
     }
 }

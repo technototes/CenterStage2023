@@ -5,6 +5,7 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.ServoController;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.motor.Motor;
 import com.technototes.library.hardware.sensor.IMU;
@@ -22,15 +23,11 @@ public class Hardware implements Loggable {
     public IMU imu;
     public EncodedMotor<DcMotorEx> fl, fr, rl, rr;
     public Webcam camera;
-    public Servo clawServo;
-    public Servo launchServo;
+    public Servo wristServo;
+    public CRServo launchServo;
+    public CRServo intakeServo;
     public EncodedMotor<DcMotorEx> shoulderMotor;
-    public EncodedMotor<DcMotorEx> elbowMotor;
     public MotorEncoder odoF, odoR;
-
-    public Motor<DcMotorEx> hangMotor1;
-
-    public CRServo hangServo1;
 
     /* Put other hardware here! */
 
@@ -52,16 +49,12 @@ public class Hardware implements Loggable {
             camera = new Webcam(Setup.HardwareNames.CAMERA);
         }
         if (Setup.Connected.ARMSUBSYSTEM) {
-            clawServo = new Servo(Setup.HardwareNames.CLAWSERVO);
+            wristServo = new Servo(Setup.HardwareNames.WRISTSERVO);
+            intakeServo = hwmap.get(CRServo.class,Setup.HardwareNames.INTAKESERVO);
             shoulderMotor = new EncodedMotor<>(Setup.HardwareNames.SHOULDERMOTOR);
-            elbowMotor = new EncodedMotor<>(Setup.HardwareNames.ELBOWMOTOR);
-        }
-        if (Setup.Connected.HANGSUBSYSTEM) {
-            hangServo1 = hwmap.get(CRServo.class, Setup.HardwareNames.HANG_CRSERVO);
-            hangMotor1 = new Motor<DcMotorEx>(Setup.HardwareNames.HANG_MOTOR);
         }
         if (Setup.Connected.DRONESUBSYSTEM) {
-            launchServo = new Servo(Setup.HardwareNames.DRONESERVO);
+            launchServo = hwmap.get(CRServo.class,Setup.HardwareNames.DRONESERVO);
         }
         if (Setup.Connected.ODOSUBSYSTEM) {
             odoR = new MotorEncoder(Setup.HardwareNames.ODOR);

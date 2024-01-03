@@ -1,18 +1,18 @@
 package org.firstinspires.ftc.twenty403.subsystems;
 
 import com.acmerobotics.dashboard.config.Config;
-import com.technototes.library.hardware.servo.Servo;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.technototes.library.logger.Loggable;
 import com.technototes.library.subsystem.Subsystem;
 
 @Config
 public class DroneSubsystem implements Subsystem, Loggable {
 
-    private Servo launchServo;
+    private CRServo launchServo;
     private boolean haveHardware;
     public static double launch_pos = 0.3;
 
-    public DroneSubsystem(Servo l) {
+    public DroneSubsystem(CRServo l) {
         launchServo = l;
         haveHardware = true;
     }
@@ -23,7 +23,10 @@ public class DroneSubsystem implements Subsystem, Loggable {
     }
 
     public void launch() {
-        setDroneServo(launch_pos);
+        activateDroneServo(launch_pos);
+    }
+    public void unlaunch() {
+        deactivateDroneServo(launch_pos);
     }
 
     //    @Override
@@ -31,9 +34,14 @@ public class DroneSubsystem implements Subsystem, Loggable {
     //
     //    }
 
-    private void setDroneServo(double c) {
+    private void activateDroneServo(double c) {
         if (launchServo != null) {
-            launchServo.setPosition(c);
+            launchServo.setPower(c);
+        }
+    }
+    private void deactivateDroneServo(double c) {
+        if (launchServo != null) {
+            launchServo.setPower(0);
         }
     }
 }

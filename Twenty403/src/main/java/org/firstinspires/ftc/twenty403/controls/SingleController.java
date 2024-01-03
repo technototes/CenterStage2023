@@ -6,9 +6,7 @@ import com.technototes.library.control.CommandGamepad;
 import com.technototes.library.control.Stick;
 import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
-import org.firstinspires.ftc.twenty403.commands.DroneCommand;
-import org.firstinspires.ftc.twenty403.commands.arm.ClawCloseCommand;
-import org.firstinspires.ftc.twenty403.commands.arm.ClawOpenCommand;
+import org.firstinspires.ftc.twenty403.commands.drone.DroneCommand;
 import org.firstinspires.ftc.twenty403.commands.driving.JoystickDriveCommand;
 import org.firstinspires.ftc.twenty403.commands.driving.ResetGyroCommand;
 
@@ -32,9 +30,9 @@ public class SingleController {
         if (Setup.Connected.DRIVEBASE) {
             bindDriveControls();
         }
-        if (Setup.Connected.ARMSUBSYSTEM) {
+        /*if (Setup.Connected.ARMSUBSYSTEM) {
             bindClawControls();
-        }
+        }*/
 
         if (Setup.Connected.DRONESUBSYSTEM) {
             bindDroneControls();
@@ -47,9 +45,6 @@ public class SingleController {
         driveRightStick = gamepad.rightStick;
         turboButton = gamepad.leftStickButton;
         driveStraight = gamepad.rightTrigger.getAsButton(0.5);
-
-        clawOpenButton = gamepad.leftBumper;
-        clawCloseButton = gamepad.rightBumper;
         launchDroneButton = gamepad.ps_share;
     }
 
@@ -64,11 +59,11 @@ public class SingleController {
         resetGyroButton.whenPressed(new ResetGyroCommand(robot.drivebaseSubsystem));
     }
 
-    public void bindClawControls() {
-        clawOpenButton.whenPressed(new ClawOpenCommand(robot.clawSubsystem));
-        clawCloseButton.whenPressed(new ClawCloseCommand(robot.clawSubsystem));
+    /*public void bindClawControls() {
+        clawOpenButton.whenPressed(new ClawOpenCommand(robot.armSubsystem));
+        clawCloseButton.whenPressed(new ClawCloseCommand(robot.armSubsystem));
         //        armFirstLineButton.whenPressed(new 6)
-    }
+    }*/
 
     public void bindDroneControls() {
         launchDroneButton.whenPressed(new DroneCommand(robot.droneSubsystem));

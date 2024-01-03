@@ -17,32 +17,24 @@ import org.firstinspires.ftc.sixteen750.commands.intake.StopCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.ArmServoOutputCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.LiftHighCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.LiftIntakeCommand;
+import org.firstinspires.ftc.sixteen750.commands.placement.LiftIntakeSequential;
 import org.firstinspires.ftc.sixteen750.commands.placement.LiftLowCommand;
+import org.firstinspires.ftc.sixteen750.commands.placement.LiftLowSequential;
 import org.firstinspires.ftc.sixteen750.commands.placement.LiftMediumCommand;
+import org.firstinspires.ftc.sixteen750.commands.placement.LiftMediumSequential;
 import org.firstinspires.ftc.sixteen750.commands.placement.ScoreServoOutputCommand;
+import org.firstinspires.ftc.sixteen750.commands.placement.ServoOutputs;
 
 public class OperatorController {
 
     public Robot robot;
     public CommandGamepad gamepad;
 
-    public CommandButton intakeButton;
-    public CommandButton ejectButton;
-    public CommandButton stopButton;
+    public CommandButton intakeButton, ejectButton,stopButton,pauseButton;
+    public CommandButton placementHighButton,placementLowButton,placementMediumButton,placementIntakeButton;
+    public CommandButton armServoOutputButton, scoreServoOutputButton, servoOutputButton;
 
-    public CommandButton pauseButton;
-
-    public CommandButton placementHighButton;
-    public CommandButton placementLowButton;
-    public CommandButton placementMediumButton;
-    public CommandButton placementIntakeButton;
-
-    public CommandButton armServoOutputButton, scoreServoOutputButton;
-
-    public CommandButton hangUpButton;
-    public CommandButton hangDownButton;
-    public CommandButton screwUpButton, screwDownButton;
-
+    public CommandButton hangUpButton,hangDownButton,screwUpButton,screwDownButton;
     public OperatorController(CommandGamepad g, Robot r) {
         robot = r;
         gamepad = g;
@@ -59,46 +51,48 @@ public class OperatorController {
     }
 
     private void AssignNamedControllerButton() {
-        intakeButton = gamepad.ps_triangle;
-        stopButton = gamepad.ps_cross;
+        intakeButton = gamepad.ps_square;
         ejectButton = gamepad.ps_cross;
-        pauseButton = gamepad.ps_triangle;
 
-        placementHighButton = gamepad.dpadUp;
-        placementIntakeButton = gamepad.dpadRight;
-        placementMediumButton = gamepad.dpadLeft;
-        placementLowButton = gamepad.dpadDown;
+//        placementHighButton = gamepad.dpadUp;
+        placementIntakeButton = gamepad.dpadDown;
+        placementMediumButton = gamepad.dpadRight;
+        placementLowButton = gamepad.dpadLeft;
 
-        armServoOutputButton = gamepad.ps_square;
+        armServoOutputButton = gamepad.ps_triangle;
         scoreServoOutputButton = gamepad.ps_circle;
+        servoOutputButton = gamepad.leftBumper;
+
         hangUpButton = gamepad.leftStickButton;
         hangDownButton = gamepad.rightStickButton;
-        screwUpButton = gamepad.rightBumper;
-        screwDownButton = gamepad.leftBumper;
+
+//        screwUpButton = gamepad.rightBumper;
+//        screwDownButton = gamepad.leftBumper;
     }
 
     private void bindIntakeControls() {
         intakeButton.whenPressed(new IntakeCommand(robot.intake));
-        stopButton.whenReleased(new StopCommand(robot.intake));
+        intakeButton.whenReleased(new StopCommand(robot.intake));
         ejectButton.whenPressed(new EjectCommand(robot.intake));
-        pauseButton.whenReleased(new StopCommand(robot.intake));
+        ejectButton.whenReleased(new StopCommand(robot.intake));
     }
 
     private void bindPlacementControls() {
-        placementHighButton.whenPressed(new LiftHighCommand(robot.placement));
+//        placementHighButton.whenPressed(new LiftHighCommand(robot.placement));
         placementMediumButton.whenPressed(new LiftMediumCommand(robot.placement));
         placementLowButton.whenPressed(new LiftLowCommand(robot.placement));
-        placementIntakeButton.whenPressed(new LiftIntakeCommand(robot.placement));
+        placementIntakeButton.whenPressed(new LiftIntakeSequential(robot.placement));
         armServoOutputButton.whenPressed(new ArmServoOutputCommand(robot.placement));
         scoreServoOutputButton.whenPressed(new ScoreServoOutputCommand(robot.placement));
+        servoOutputButton.whenPressed(new ServoOutputs(robot.placement));
     }
 
     private void bindHangControls() {
         hangUpButton.whenPressed(new HangUp(robot.hang));
-        screwUpButton.whenPressed(new LeadScrewUp(robot.hang));
-        screwDownButton.whenPressed(new LeadScrewDown(robot.hang));
-        screwDownButton.whenReleased(new HangStop(robot.hang));
-        screwUpButton.whenReleased(new LeadScrewStop(robot.hang));
+//        screwUpButton.whenPressed(new LeadScrewUp(robot.hang));
+//        screwDownButton.whenPressed(new LeadScrewDown(robot.hang));
+//        screwDownButton.whenReleased(new LeadScrewStop(robot.hang));
+//        screwUpButton.whenReleased(new LeadScrewStop(robot.hang));
         hangDownButton.whenPressed(new HangDown(robot.hang));
     }
 }
