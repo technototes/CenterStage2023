@@ -34,8 +34,6 @@ public class OperatorController {
     public CommandButton armFirstLine;
     public CommandButton ScrewExtend;
     public CommandButton ScrewRetract;
-    public CommandButton HangButton;
-    public CommandButton HangDown;
     public CommandButton armNeutralButton;
     public CommandButton armSecondLine;
     public CommandButton armThirdLine;
@@ -72,15 +70,13 @@ public class OperatorController {
         manualSlurp = gamepad.leftBumper;
         spit = gamepad.rightBumper;
 
-        HangButton = gamepad.rightTrigger.getAsButton(); //put all of hang in here
-
         launchDroneButton = gamepad.ps_share;
     }
 
     public void bindClawControls() {
         armIntakeButton.whenPressed(new ArmIntakeCommand(robot.armSubsystem));
         armNeutralButton.whenPressed(new ArmNeutralCommand(robot.armSubsystem));
-        armFirstLine.whenPressed(new ArmFirstLineCommand((robot.armSubsystem)));
+        armFirstLine.whenPressed(new ArmSecondLineCommand((robot.armSubsystem)));//both call same line
         armSecondLine.whenPressed(new ArmSecondLineCommand((robot.armSubsystem)));
         //armThirdLine.whenPressed(new ArmThirdLineCommand((robot.armSubsystem)));
         shoulderResetZero.whenPressed(new ShoulderNeutralCommand((robot.armSubsystem)));
@@ -88,7 +84,6 @@ public class OperatorController {
         shoulderDecrementButton.whenPressed(new ShoulderDecrementCommand(robot.armSubsystem));
         wristIncrementButton.whenPressed(new WristIncrementCommand(robot.armSubsystem));
         wristDecrementButton.whenPressed(new WristDecrementCommand(robot.armSubsystem));
-        HangButton.whenPressed(new HangSequential(robot.armSubsystem));
         manualSlurp.whilePressed(new IntakeManualSlurpCommand(robot.armSubsystem));
         manualSlurp.whenReleased(new IntakeStopCommand(robot.armSubsystem));
         spit.whenPressed(new IntakeSpitCommand(robot.armSubsystem));

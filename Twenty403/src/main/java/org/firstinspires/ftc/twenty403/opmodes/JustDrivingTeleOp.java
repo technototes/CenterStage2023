@@ -10,6 +10,7 @@ import org.firstinspires.ftc.twenty403.AutoConstants;
 import org.firstinspires.ftc.twenty403.Hardware;
 import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
+import org.firstinspires.ftc.twenty403.commands.arm.ArmNeutralCommand;
 import org.firstinspires.ftc.twenty403.commands.driving.ResetGyroCommand;
 import org.firstinspires.ftc.twenty403.controls.DriverController;
 import org.firstinspires.ftc.twenty403.controls.OperatorController;
@@ -36,6 +37,11 @@ public class JustDrivingTeleOp extends CommandOpMode {
             CommandScheduler
                 .getInstance()
                 .scheduleForState(new ResetGyroCommand(robot.drivebaseSubsystem), OpModeState.INIT);
+        }
+        if (Setup.Connected.ARMSUBSYSTEM) {
+            CommandScheduler
+                    .getInstance()
+                    .scheduleForState(new ArmNeutralCommand(robot.armSubsystem), OpModeState.INIT);
         }
     }
 }
