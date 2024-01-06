@@ -13,6 +13,7 @@ import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
 import org.firstinspires.ftc.twenty403.commands.VisionCommand;
 import org.firstinspires.ftc.twenty403.commands.auto.ForwardBackwardCommand;
+import org.firstinspires.ftc.twenty403.commands.auto.SafetyStartCommand;
 import org.firstinspires.ftc.twenty403.controls.DriverController;
 import org.firstinspires.ftc.twenty403.controls.SafetyTestController;
 import org.firstinspires.ftc.twenty403.helpers.StartingPosition;
@@ -44,6 +45,13 @@ public class ForwardBackward extends CommandOpMode {
                 ),
                 OpModeState.RUN
             );
+
+        CommandScheduler
+                .getInstance()
+                .scheduleForState(
+                        new SafetyStartCommand(robot.safetySubsystem),
+                        OpModeState.RUN
+                );
         if (Setup.Connected.WEBCAM) {
             CommandScheduler.getInstance().scheduleInit(new VisionCommand(robot.vision));
         }
