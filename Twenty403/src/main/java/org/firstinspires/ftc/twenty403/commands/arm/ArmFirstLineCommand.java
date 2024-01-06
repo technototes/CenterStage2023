@@ -16,6 +16,6 @@ public class ArmFirstLineCommand implements Command {
     public void execute() {
         subsystem.shoulderFirstLineScoring();
         subsystem.wristFirstLineScoring();
-        subsystem.stopIntake();
+        subsystem.slurpIntake();
     }
 }
