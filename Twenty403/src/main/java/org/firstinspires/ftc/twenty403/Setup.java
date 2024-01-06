@@ -26,7 +26,7 @@ public class Setup {
         public static String INTAKESERVO = "intakeservo";
         public static String WRISTSERVO = "wristservo";
         public static String SHOULDERMOTOR = "shoulder";
-        public static String SHOULDER2 = "shoulder2";
+        public static String SHOULDER2 = "odor";
         public static String DRONESERVO = "droneservo";
         public static String ODOF = "odof";
         public static String ODOR = "odor";

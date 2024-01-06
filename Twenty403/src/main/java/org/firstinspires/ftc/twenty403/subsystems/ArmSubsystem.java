@@ -23,8 +23,8 @@ public class ArmSubsystem implements Subsystem, Loggable {
     public static int SHOULDER_VERTICAL = 881; // For feed-fwd, and maybe hang
     public static int SHOULDER_MANUAL_STEP = 20; //increment/decrement
 
-    public static double MIN_SHOULDER_MOTOR_SPEED = -0.25;
-    public static double MAX_SHOULDER_MOTOR_SPEED = 0.25;
+    public static double MIN_SHOULDER_MOTOR_SPEED = -0.5;
+    public static double MAX_SHOULDER_MOTOR_SPEED = 0.5;
     public static double MIN_HANG_SPEED = -1;
     public static double MAX_HANG_SPEED = 1;
 
@@ -61,8 +61,8 @@ public class ArmSubsystem implements Subsystem, Loggable {
     private Motor<DcMotorEx> shoulder2Motor;
     private boolean haveHardware;
     private boolean hangMode = false;
-    public static double FEEDFORWARD_COEFFICIENT = 0.26;
-    public static PIDCoefficients shoulderPID = new PIDCoefficients(0.00075, 0.00001, 0);
+    public static double FEEDFORWARD_COEFFICIENT = 0.13;
+    public static PIDCoefficients shoulderPID = new PIDCoefficients(0.001, 0.00004, 0.000075);
     private PIDFController shoulderPidController;
     public int shoulderResetPos;
     public double wristResetPos;
@@ -255,7 +255,7 @@ public class ArmSubsystem implements Subsystem, Loggable {
     private void setHangMotorPower(double speed){
         if (haveHardware) {
             shoulderMotor.setSpeed(speed);
-            shoulder2Motor.setSpeed(speed);
+            shoulder2Motor.setSpeed(-speed);
         }
     }
     public void hangUp(){
