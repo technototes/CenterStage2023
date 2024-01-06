@@ -14,6 +14,7 @@ import org.firstinspires.ftc.twenty403.Setup;
 import org.firstinspires.ftc.twenty403.commands.VisionCommand;
 import org.firstinspires.ftc.twenty403.commands.auto.ForwardBackwardCommand;
 import org.firstinspires.ftc.twenty403.controls.DriverController;
+import org.firstinspires.ftc.twenty403.controls.SafetyTestController;
 import org.firstinspires.ftc.twenty403.helpers.StartingPosition;
 
 // The last 4 weird things are '🟥' and '🪶' (wing)
@@ -23,6 +24,7 @@ public class ForwardBackward extends CommandOpMode {
 
     public Robot robot;
     public DriverController controls;
+    public SafetyTestController safety;
     public Hardware hardware;
 
     @Override
@@ -31,6 +33,8 @@ public class ForwardBackward extends CommandOpMode {
         hardware = new Hardware(hardwareMap);
         robot = new Robot(hardware, Alliance.RED, StartingPosition.Wing);
         robot.drivebaseSubsystem.setPoseEstimate(AutoConstants.WingRed.BACKWARD.toPose());
+        safety = new SafetyTestController(driverGamepad, robot);
+        //robot.safetySubsystem.startMonitoring();
         CommandScheduler
             .getInstance()
             .scheduleForState(

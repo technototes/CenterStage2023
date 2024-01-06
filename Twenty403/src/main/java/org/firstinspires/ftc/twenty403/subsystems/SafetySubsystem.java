@@ -195,7 +195,12 @@ public class SafetySubsystem implements Subsystem, Loggable {
 
     }
     public void simulateFail(FailedPart fp) {
-        failedPart = fp;
+        if (failedPart == fp) {
+            failedPart = FailedPart.NONE;
+        }
+        else {
+            failedPart = fp;
+        }
     }
     public SafetySubsystem(Hardware hw) {
         myHw = hw;
