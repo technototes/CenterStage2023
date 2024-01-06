@@ -18,7 +18,7 @@ public class StagePixelPlaceRight extends SequentialCommandGroup {
         new TrajectorySequenceCommand(r.drivebaseSubsystem, AutoConstants.StageBlue.CLEAR_TO_LEFT_CLEAR),
         new TrajectorySequenceCommand(r.drivebaseSubsystem, AutoConstants.StageBlue.LEFT_CLEAR_TO_PLACE_RIGHT),
         //place command
-        new PixelScoring(new ArmSubsystem()),
+        new PixelScoring(r.armSubsystem),
         new TrajectorySequenceCommand(r.drivebaseSubsystem, AutoConstants.StageBlue.PLACE_RIGHT_TO_MID_PARK_CENTER)
         );
     }

@@ -17,7 +17,7 @@ public class WingPixelPlaceRight extends SequentialCommandGroup {
         new TrajectorySequenceCommand(r.drivebaseSubsystem, WingRed.ClEAR_TO_RIGHT_CLEAR),
         new TrajectorySequenceCommand(r.drivebaseSubsystem, WingRed.RIGHT_CLEAR_TO_PLACE_RIGHT),
         //place command
-        new PixelScoring(new ArmSubsystem()),
+        new PixelScoring(r.armSubsystem),
         new TrajectorySequenceCommand(r.drivebaseSubsystem, WingRed.PLACE_RIGHT_TO_RIGHT_CLEAR)
         );
     }

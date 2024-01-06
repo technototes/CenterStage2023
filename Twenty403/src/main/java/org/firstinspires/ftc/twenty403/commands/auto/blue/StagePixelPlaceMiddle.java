@@ -16,7 +16,7 @@ public class StagePixelPlaceMiddle extends SequentialCommandGroup {
         new TrajectorySequenceCommand(r.drivebaseSubsystem, AutoConstants.StageBlue.ClEAR_TO_LEFT_CLEAR),
         new TrajectorySequenceCommand(r.drivebaseSubsystem, AutoConstants.StageBlue.LEFT_CLEAR_TO_PLACE_MIDDLE),
         //place command
-        new PixelScoring(new ArmSubsystem()),
+        new PixelScoring(r.armSubsystem),
         new TrajectorySequenceCommand(r.drivebaseSubsystem, AutoConstants.StageBlue.PLACE_MIDDLE_TO_MID_PARK_CENTER)
         );
     }

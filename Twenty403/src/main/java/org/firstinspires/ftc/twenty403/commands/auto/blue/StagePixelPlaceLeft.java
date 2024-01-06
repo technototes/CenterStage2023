@@ -16,7 +16,7 @@ public class StagePixelPlaceLeft extends SequentialCommandGroup {
         new TrajectorySequenceCommand(r.drivebaseSubsystem, StageBlue.CLEAR_TO_LEFT_CLEAR),
         new TrajectorySequenceCommand(r.drivebaseSubsystem, StageBlue.LEFT_CLEAR_TO_PLACE_LEFT),
         //place command
-        new PixelScoring(new ArmSubsystem()),
+        new PixelScoring(r.armSubsystem),
         new TrajectorySequenceCommand(r.drivebaseSubsystem, StageBlue.PLACE_LEFT_TO_MID_PARK_CENTER)
         );
     }

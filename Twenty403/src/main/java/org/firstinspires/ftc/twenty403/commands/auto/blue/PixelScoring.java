@@ -15,7 +15,7 @@ public class PixelScoring extends SequentialCommandGroup {
                     new WristFirstLineScoring(s),
                     new WaitCommand(0.5),
                     new ShoulderNeutralCommand(s),
-                    new WaitCommand(0.5)
+                    new WaitCommand(0.5) //needed ?? maybe
             );
         }
     }
