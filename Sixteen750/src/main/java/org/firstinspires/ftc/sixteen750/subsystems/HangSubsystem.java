@@ -3,6 +3,7 @@ package org.firstinspires.ftc.sixteen750.subsystems;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.motor.Motor;
 import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.logger.Log;
@@ -16,7 +17,7 @@ public class HangSubsystem implements Subsystem, Loggable {
 
     //this code sets the arm position of the hang subsystem.
 
-    public static double hangPosition = 0.80;
+    public static double hangPosition = 0.9;
     public static double downPosition = -0.5;
     public static double neutralPositionNumber = 1;
 
@@ -25,17 +26,28 @@ public class HangSubsystem implements Subsystem, Loggable {
 
     public static double retractScrewSpeed = -1;
 
-    public static Motor<DcMotorEx> hangMotor1;
+//    public static double HANGMIN = -1000000;
+
+    public static double HANGMAX = 11000;
+
+    public static EncodedMotor<DcMotorEx> hangMotor1;
 
     public static Servo hangServo1;
 
     private boolean isHardware;
+
+
 
     @Log(name="HangServo")
     public double servoPos;
 
     @Log(name = "Hang Motor")
     public double motorSpeed;
+
+    @Log(name = "Hang Motor pos")
+    public double motorpos;
+
+
 
     // @Log(name="HangMotor")
     //    public double motorSpeed;
@@ -93,8 +105,19 @@ public class HangSubsystem implements Subsystem, Loggable {
 
     private void setMotorSpeed(double speed) {
         if (isHardware == true) {
+//            double position = hangMotor1.getSensorValue();
+//            if(position < HANGMIN && speed < 0) {
+//                speed = 0;
+//            } else if (position > HANGMAX && speed > 0) {
+//                speed = 0;
+//            }
             hangMotor1.setSpeed(speed);
+
         }
         motorSpeed = speed;
     }
+    @Override public void periodic () {
+        motorpos = hangMotor1.getSensorValue();
+    }
+
 }

@@ -59,15 +59,15 @@ public class OperatorController {
         placementMediumButton = gamepad.dpadRight;
         placementLowButton = gamepad.dpadLeft;
 
-        armServoOutputButton = gamepad.ps_triangle;
-        scoreServoOutputButton = gamepad.ps_circle;
+//        armServoOutputButton = gamepad.ps_triangle;
+//        scoreServoOutputButton = gamepad.ps_circle;
         servoOutputButton = gamepad.leftBumper;
 
-        hangUpButton = gamepad.leftStickButton;
-        hangDownButton = gamepad.rightStickButton;
+        hangUpButton = gamepad.ps_circle;
+        hangDownButton = gamepad.ps_triangle;
 
-//        screwUpButton = gamepad.rightBumper;
-//        screwDownButton = gamepad.leftBumper;
+        screwUpButton = gamepad.rightBumper;
+        screwDownButton = gamepad.leftBumper;
     }
 
     private void bindIntakeControls() {
@@ -78,7 +78,7 @@ public class OperatorController {
     }
 
     private void bindPlacementControls() {
-//        placementHighButton.whenPressed(new LiftHighCommand(robot.placement));
+        placementHighButton.whenPressed(new LiftHighCommand(robot.placement));
         placementMediumButton.whenPressed(new LiftMediumCommand(robot.placement));
         placementLowButton.whenPressed(new LiftLowCommand(robot.placement));
         placementIntakeButton.whenPressed(new LiftIntakeSequential(robot.placement));
@@ -89,10 +89,10 @@ public class OperatorController {
 
     private void bindHangControls() {
         hangUpButton.whenPressed(new HangUp(robot.hang));
-//        screwUpButton.whenPressed(new LeadScrewUp(robot.hang));
-//        screwDownButton.whenPressed(new LeadScrewDown(robot.hang));
-//        screwDownButton.whenReleased(new LeadScrewStop(robot.hang));
-//        screwUpButton.whenReleased(new LeadScrewStop(robot.hang));
+        screwUpButton.whenPressed(new LeadScrewUp(robot.hang));
+        screwDownButton.whenPressed(new LeadScrewDown(robot.hang));
+        screwDownButton.whenReleased(new LeadScrewStop(robot.hang));
+        screwUpButton.whenReleased(new LeadScrewStop(robot.hang));
         hangDownButton.whenPressed(new HangDown(robot.hang));
     }
 }

@@ -37,7 +37,7 @@ public class Hardware implements Loggable {
 
     public Servo DroneServo;
 
-    public Motor<DcMotorEx> hangM;
+    public EncodedMotor<DcMotorEx> hangM;
 
     public Servo hangS;
 
@@ -72,7 +72,7 @@ public class Hardware implements Loggable {
 
         if (Setup.Connected.HANG) {
             hangS = new Servo( Setup.HardwareNames.HANGSERVO);
-            hangM = new Motor<DcMotorEx>(Setup.HardwareNames.HANGMOTOR);
+            hangM = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.HANGMOTOR);
         }
 
         if (Setup.Connected.DRONE) {
