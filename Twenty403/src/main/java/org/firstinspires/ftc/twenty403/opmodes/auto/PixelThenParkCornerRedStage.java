@@ -11,6 +11,7 @@ import org.firstinspires.ftc.twenty403.Hardware;
 import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
 import org.firstinspires.ftc.twenty403.commands.VisionCommand;
+import org.firstinspires.ftc.twenty403.commands.arm.ArmNeutralCommand;
 import org.firstinspires.ftc.twenty403.commands.auto.red.RedStageParkCorner;
 import org.firstinspires.ftc.twenty403.controls.DriverController;
 import org.firstinspires.ftc.twenty403.helpers.StartingPosition;
@@ -33,6 +34,7 @@ public class PixelThenParkCornerRedStage extends CommandOpMode {
         CommandScheduler
             .getInstance()
             .scheduleForState(new RedStageParkCorner(robot), OpModeState.RUN);
+        CommandScheduler.getInstance().scheduleInit(new ArmNeutralCommand(robot.armSubsystem));
         if (Setup.Connected.WEBCAM) {
             CommandScheduler.getInstance().scheduleInit(new VisionCommand(robot.vision));
         }
