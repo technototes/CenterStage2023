@@ -79,8 +79,8 @@ public class OperatorController {
 
     private void bindPlacementControls() {
 //        placementHighButton.whenPressed(new LiftHighCommand(robot.placement));
-        placementMediumButton.whenPressed(new LiftMediumCommand(robot.placement));
-        placementLowButton.whenPressed(new LiftLowCommand(robot.placement));
+        placementMediumButton.whenPressed(new LiftMediumSequential(robot.placement));
+        placementLowButton.whenPressed(new LiftLowSequential(robot.placement));
         placementIntakeButton.whenPressed(new LiftIntakeSequential(robot.placement));
         armServoOutputButton.whenPressed(new ArmServoOutputCommand(robot.placement));
         scoreServoOutputButton.whenPressed(new ScoreServoOutputCommand(robot.placement));

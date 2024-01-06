@@ -23,7 +23,7 @@ public class ServoTestingOpMode extends CommandOpMode {
 
     public Robot robot;
     public Setup setup;
-    public OperatorController controls;
+    public TestingController controls;
     public Hardware hardware;
 
     @Override
@@ -31,7 +31,7 @@ public class ServoTestingOpMode extends CommandOpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         hardware = new Hardware(hardwareMap);
         robot = new Robot(hardware, Alliance.NONE, StartingPosition.Unspecified);
-        controls = new OperatorController(driverGamepad, robot);
+        controls = new TestingController(driverGamepad, robot);
 //        CommandScheduler
 //            .getInstance()
 //            .scheduleForState(new DroneStart(robot.drone), OpModeState.INIT);
