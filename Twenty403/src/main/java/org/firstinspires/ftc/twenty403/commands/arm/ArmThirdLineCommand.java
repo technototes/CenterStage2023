@@ -16,6 +16,6 @@ public class ArmThirdLineCommand implements Command {
     public void execute() {
         subsystem.shoulderThirdLineScoring();
         subsystem.wristThirdLineScoring();
-        subsystem.stopIntake();
+        subsystem.slurpIntake();
     }
 }
