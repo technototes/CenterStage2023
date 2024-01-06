@@ -9,17 +9,10 @@ import org.firstinspires.ftc.twenty403.Robot;
 public class WingPixelLeft extends SequentialCommandGroup {
 
     public WingPixelLeft(Robot r) {
-        super(
-            new TrajectorySequenceCommand(r.drivebaseSubsystem, WingRed.START_TO_LEFT_SPIKE)
-                .andThen(
-                    new TrajectorySequenceCommand(r.drivebaseSubsystem, WingRed.LEFT_SPIKE_TO_CLEAR)
-                )
-                .andThen(
-                    new TrajectorySequenceCommand(
-                        r.drivebaseSubsystem,
-                        AutoConstants.WingRed.CLEAR_TO_PARK_CORNER
-                    )
-                )
-        );
+            super(
+            new TrajectorySequenceCommand(r.drivebaseSubsystem, WingRed.START_TO_LEFT_SPIKE),
+            new TrajectorySequenceCommand(r.drivebaseSubsystem, WingRed.LEFT_SPIKE_TO_CLEAR),
+            new TrajectorySequenceCommand(r.drivebaseSubsystem, AutoConstants.WingRed.CLEAR_TO_PARK_CORNER)
+            );
     }
 }
