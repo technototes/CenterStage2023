@@ -27,6 +27,7 @@ public class Hardware implements Loggable {
     public CRServo launchServo;
     public CRServo intakeServo;
     public EncodedMotor<DcMotorEx> shoulderMotor;
+    public Motor<DcMotorEx> shoulder2Motor;
     public MotorEncoder odoF, odoR;
 
     /* Put other hardware here! */
@@ -52,6 +53,7 @@ public class Hardware implements Loggable {
             wristServo = new Servo(Setup.HardwareNames.WRISTSERVO);
             intakeServo = hwmap.get(CRServo.class,Setup.HardwareNames.INTAKESERVO);
             shoulderMotor = new EncodedMotor<>(Setup.HardwareNames.SHOULDERMOTOR);
+            shoulder2Motor = new Motor<>(Setup.HardwareNames.SHOULDER2);
         }
         if (Setup.Connected.DRONESUBSYSTEM) {
             launchServo = hwmap.get(CRServo.class,Setup.HardwareNames.DRONESERVO);

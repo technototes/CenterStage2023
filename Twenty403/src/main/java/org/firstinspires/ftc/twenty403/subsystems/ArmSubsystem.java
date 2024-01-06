@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.Range;
 import com.technototes.library.hardware.motor.EncodedMotor;
+import com.technototes.library.hardware.motor.Motor;
 import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.logger.Log;
 import com.technototes.library.logger.Loggable;
@@ -24,6 +25,8 @@ public class ArmSubsystem implements Subsystem, Loggable {
 
     public static double MIN_SHOULDER_MOTOR_SPEED = -0.5;
     public static double MAX_SHOULDER_MOTOR_SPEED = 0.5;
+    public static double MIN_HANG_SPEED = -1;
+    public static double MAX_HANG_SPEED = 1;
 
     public static double MIN_INTAKE_SPEED = -1;
     public static double MAX_INTAKE_SPEED = 1;
@@ -35,7 +38,7 @@ public class ArmSubsystem implements Subsystem, Loggable {
     public static double WRIST_THIRD_LINE_SCORING = 0.05; // change vals
     public static double WRIST_MANUAL_STEP = 0.05; //increment/decrement (change vals)
 
-    public static int USE_SHOULDER_BRAKE = 0;
+    public static boolean USE_SHOULDER_BRAKE = true;
 
     @Log(name = "shoulderPos")
     public int shoulderPos;
@@ -55,19 +58,23 @@ public class ArmSubsystem implements Subsystem, Loggable {
     private CRServo intakeServo;
     private Servo wristServo;
     private EncodedMotor<DcMotorEx> shoulderMotor;
+    private Motor<DcMotorEx> shoulder2Motor;
     private boolean haveHardware;
-    public static double FEEDFORWARD_COEFFICIENT = 0.26;
-    public static PIDCoefficients shoulderPID = new PIDCoefficients(0.00075, 0.00001, 0);
+    private boolean hangMode = false;
+    public static double FEEDFORWARD_COEFFICIENT = 0.13;
+    public static PIDCoefficients shoulderPID = new PIDCoefficients(0.001, 0.00004, 0.000075);
     private PIDFController shoulderPidController;
     public int shoulderResetPos;
     public double wristResetPos;
-    public ArmSubsystem(CRServo intake, Servo wrist, EncodedMotor<DcMotorEx> shoulder) {
+    public ArmSubsystem(CRServo intake, Servo wrist, EncodedMotor<DcMotorEx> shoulder, Motor<DcMotorEx> shoulder2) {
         intakeServo = intake;
         wristServo = wrist;
         shoulderMotor = shoulder;
+        shoulder2Motor = shoulder2;
         haveHardware = true;
-        if (USE_SHOULDER_BRAKE == 0) {
+        if (USE_SHOULDER_BRAKE) {
             shoulder.brake();
+            shoulder2.brake();
         }
         shoulderPidController =
             new PIDFController(
@@ -106,6 +113,7 @@ public class ArmSubsystem implements Subsystem, Loggable {
         intakeServo = null;
         wristServo = null;
         shoulderMotor = null;
+        shoulder2Motor = null;
         haveHardware = false;
         shoulderPidController = new PIDFController(shoulderPID, 0, 0, 0, (x, y) -> 0.0);
         resetArmNeutral();
@@ -182,9 +190,11 @@ public class ArmSubsystem implements Subsystem, Loggable {
 
     @Override
     public void periodic() {
-        shoulderPos = getShoulderCurrentPos();
-        shoulderPow = shoulderPidController.update(shoulderPos);
-        setShoulderMotorPower(shoulderPow);
+        if (!hangMode){
+            shoulderPos = getShoulderCurrentPos();
+            shoulderPow = shoulderPidController.update(shoulderPos);
+            setShoulderMotorPower(shoulderPow);
+        }
     }
 
     private void setShoulderPos(int e) {
@@ -229,6 +239,32 @@ public class ArmSubsystem implements Subsystem, Loggable {
                 MAX_SHOULDER_MOTOR_SPEED
             );
             shoulderMotor.setSpeed(clippedSpeed);
+            shoulder2Motor.setSpeed(clippedSpeed);
         }
+    }
+
+    public void enterHangMode(){
+        hangMode = true;
+        setShoulderMotorPower(0);
+    }
+    public void leaveHangMode(){
+        hangMode = false;
+        setShoulderMotorPower(0);
+        setShoulderPos(getShoulderCurrentPos());//so arm doesn't swing/move
+    }
+    private void setHangMotorPower(double speed){
+        if (haveHardware) {
+            shoulderMotor.setSpeed(speed);
+            shoulder2Motor.setSpeed(-speed);
+        }
+    }
+    public void hangUp(){
+        setHangMotorPower(MAX_HANG_SPEED);
+    }
+    public void hangDown(){
+        setHangMotorPower(MIN_HANG_SPEED);
+    }
+    public void hangStop(){
+        setHangMotorPower(0);
     }
 }
