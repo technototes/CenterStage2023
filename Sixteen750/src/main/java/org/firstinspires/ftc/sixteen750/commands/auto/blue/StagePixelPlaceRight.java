@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.sixteen750.commands.auto.red;
+package org.firstinspires.ftc.sixteen750.commands.auto.blue;
 
 import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.path.command.TrajectorySequenceCommand;
@@ -6,36 +6,48 @@ import com.technototes.path.command.TrajectorySequenceCommand;
 import org.firstinspires.ftc.sixteen750.AutoConstants;
 import org.firstinspires.ftc.sixteen750.Robot;
 
-public class StagePixelRight extends SequentialCommandGroup {
+public class StagePixelPlaceRight extends SequentialCommandGroup {
 
-    public StagePixelRight(Robot r) {
+    public StagePixelPlaceRight(Robot r) {
         super(
             new TrajectorySequenceCommand(
                 r.drivebaseSubsystem,
-                AutoConstants.StageRed.START_TO_RIGHT_SPIKE
+                AutoConstants.StageBlue.START_TO_MID_CLEAR
             )
                 .andThen(
                     new TrajectorySequenceCommand(
                         r.drivebaseSubsystem,
-                        AutoConstants.StageRed.RIGHT_SPIKE_TO_CLEAR
+                        AutoConstants.StageBlue.MID_CLEAR_TO_RIGHT_SPIKE
                     )
                 )
                 .andThen(
                     new TrajectorySequenceCommand(
                         r.drivebaseSubsystem,
-                        AutoConstants.StageRed.CLEAR_TO_RIGHT_CLEAR
+                        AutoConstants.StageBlue.RIGHT_SPIKE_TO_MID_CLEAR
                     )
                 )
                 .andThen(
                     new TrajectorySequenceCommand(
                         r.drivebaseSubsystem,
-                        AutoConstants.StageRed.RIGHT_CLEAR_TO_MID_PARK_CENTER
+                        AutoConstants.StageBlue.MID_CLEAR_TO_CLEAR
                     )
                 )
                 .andThen(
                     new TrajectorySequenceCommand(
                         r.drivebaseSubsystem,
-                        AutoConstants.StageRed.MID_PARK_CENTER_TO_PARK_CENTER
+                        AutoConstants.StageBlue.CLEAR_TO_LEFT_CLEAR
+                    )
+                )
+                .andThen(
+                    new TrajectorySequenceCommand(
+                        r.drivebaseSubsystem,
+                        AutoConstants.StageBlue.LEFT_CLEAR_TO_PLACE_RIGHT
+                    )
+                )
+                .andThen(
+                    new TrajectorySequenceCommand(
+                        r.drivebaseSubsystem,
+                        AutoConstants.StageBlue.PLACE_RIGHT_TO_MID_PARK_CENTER
                     )
                 )
         );

@@ -6,9 +6,9 @@ import com.technototes.path.command.TrajectorySequenceCommand;
 import org.firstinspires.ftc.sixteen750.AutoConstants.WingBlue;
 import org.firstinspires.ftc.sixteen750.Robot;
 
-public class WingPixelMiddle extends SequentialCommandGroup {
+public class WingPixelPlaceMiddle extends SequentialCommandGroup {
 
-    public WingPixelMiddle(Robot r) {
+    public WingPixelPlaceMiddle(Robot r) {
         super(
             new TrajectorySequenceCommand(r.drivebaseSubsystem, WingBlue.START_TO_MIDDLE_SPIKE)
                 .andThen(
@@ -20,7 +20,19 @@ public class WingPixelMiddle extends SequentialCommandGroup {
                 .andThen(
                     new TrajectorySequenceCommand(
                         r.drivebaseSubsystem,
-                        WingBlue.CLEAR_TO_PARK_CORNER
+                        WingBlue.ClEAR_TO_LEFT_CLEAR
+                    )
+                )
+                .andThen(
+                    new TrajectorySequenceCommand(
+                        r.drivebaseSubsystem,
+                        WingBlue.LEFT_CLEAR_TO_PLACE_MIDDLE
+                    )
+                )
+                .andThen(
+                    new TrajectorySequenceCommand(
+                        r.drivebaseSubsystem,
+                        WingBlue.PLACE_MIDDLE_TO_LEFT_CLEAR
                     )
                 )
         );

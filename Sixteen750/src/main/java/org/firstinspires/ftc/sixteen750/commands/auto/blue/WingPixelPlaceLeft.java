@@ -1,47 +1,47 @@
-package org.firstinspires.ftc.sixteen750.commands.auto.red;
+package org.firstinspires.ftc.sixteen750.commands.auto.blue;
 
 import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.path.command.TrajectorySequenceCommand;
 
-import org.firstinspires.ftc.sixteen750.AutoConstants;
+import org.firstinspires.ftc.sixteen750.AutoConstants.WingBlue;
 import org.firstinspires.ftc.sixteen750.Robot;
 
-public class StagePixelLeft extends SequentialCommandGroup {
+public class WingPixelPlaceLeft extends SequentialCommandGroup {
 
-    public StagePixelLeft(Robot r) {
+    public WingPixelPlaceLeft(Robot r) {
         super(
-            new TrajectorySequenceCommand(
-                r.drivebaseSubsystem,
-                AutoConstants.StageRed.START_TO_MID_CLEAR
-            )
+            new TrajectorySequenceCommand(r.drivebaseSubsystem, WingBlue.START_TO_MID_CLEAR)
                 .andThen(
                     new TrajectorySequenceCommand(
                         r.drivebaseSubsystem,
-                        AutoConstants.StageRed.MID_CLEAR_TO_LEFT_SPIKE
+                        WingBlue.MID_CLEAR_TO_LEFT_SPIKE
                     )
                 )
                 .andThen(
                     new TrajectorySequenceCommand(
                         r.drivebaseSubsystem,
-                        AutoConstants.StageRed.LEFT_SPIKE_TO_MID_CLEAR
+                        WingBlue.LEFT_SPIKE_TO_MID_CLEAR
+                    )
+                )
+                .andThen(
+                    new TrajectorySequenceCommand(r.drivebaseSubsystem, WingBlue.MID_CLEAR_TO_CLEAR)
+                )
+                .andThen(
+                    new TrajectorySequenceCommand(
+                        r.drivebaseSubsystem,
+                        WingBlue.ClEAR_TO_LEFT_CLEAR
                     )
                 )
                 .andThen(
                     new TrajectorySequenceCommand(
                         r.drivebaseSubsystem,
-                        AutoConstants.StageRed.MID_CLEAR_TO_CLEAR
+                        WingBlue.LEFT_CLEAR_TO_PLACE_LEFT
                     )
                 )
                 .andThen(
                     new TrajectorySequenceCommand(
                         r.drivebaseSubsystem,
-                        AutoConstants.StageRed.CLEAR_TO_RIGHT_CLEAR
-                    )
-                )
-                .andThen(
-                    new TrajectorySequenceCommand(
-                        r.drivebaseSubsystem,
-                        AutoConstants.StageRed.RIGHT_CLEAR_TO_MID_PARK_CENTER
+                        WingBlue.PLACE_LEFT_TO_LEFT_CLEAR
                     )
                 )
         );
