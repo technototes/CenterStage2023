@@ -8,6 +8,12 @@ import com.technototes.library.control.Stick;
 
 import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
+import org.firstinspires.ftc.twenty403.commands.auto.SafetyTestOdoFCommand;
+import org.firstinspires.ftc.twenty403.commands.auto.SafetyTestOdoRCommand;
+import org.firstinspires.ftc.twenty403.commands.auto.SafetyTestWheelFLCommand;
+import org.firstinspires.ftc.twenty403.commands.auto.SafetyTestWheelFRCommand;
+import org.firstinspires.ftc.twenty403.commands.auto.SafetyTestWheelRLCommand;
+import org.firstinspires.ftc.twenty403.commands.auto.SafetyTestWheelRRCommand;
 import org.firstinspires.ftc.twenty403.commands.driving.JoystickDriveCommand;
 import org.firstinspires.ftc.twenty403.commands.driving.NormalModeCommand;
 import org.firstinspires.ftc.twenty403.commands.driving.ResetGyroCommand;
@@ -19,11 +25,9 @@ public class SafetyTestController {
     public Robot robot;
     public CommandGamepad gamepad;
 
-    public Stick driveLeftStick, driveRightStick;
-    public CommandButton resetGyroButton;
-    public CommandButton turboButton;
-    public CommandButton snailButton;
-    public CommandAxis straightTrigger;
+    public CommandButton odoFFail;
+    public CommandButton odoRFail;
+    public CommandButton wheelflFail, wheelfrFail, wheelrlFail, wheelrrFail;
 
     public SafetyTestController(CommandGamepad g, Robot r) {
         this.robot = r;
@@ -36,32 +40,22 @@ public class SafetyTestController {
     }
 
     private void AssignNamedControllerButton() {
-        resetGyroButton = gamepad.ps_options;
-        driveLeftStick = gamepad.leftStick;
-        driveRightStick = gamepad.rightStick;
-        turboButton = gamepad.rightBumper;
-        snailButton = gamepad.leftBumper;
-        straightTrigger = gamepad.rightTrigger;
+        odoFFail = gamepad.leftBumper;
+        odoRFail = gamepad.rightBumper;
+        wheelflFail = gamepad.ps_triangle;
+        wheelfrFail = gamepad.ps_square;
+        wheelrlFail = gamepad.ps_cross;
+        wheelrrFail = gamepad.ps_circle;
     }
 
     public void bindDriveControls() {
-        CommandScheduler
-            .getInstance()
-            .scheduleJoystick(
-                new JoystickDriveCommand(
-                    robot.drivebaseSubsystem,
-                    driveLeftStick,
-                    driveRightStick,
-                    straightTrigger
-                )
-            );
 
-        turboButton.whenPressed(new TurboModeCommand(robot.drivebaseSubsystem));
-        turboButton.whenReleased(new NormalModeCommand(robot.drivebaseSubsystem));
+        odoFFail.whenPressed(new SafetyTestOdoFCommand(robot.safetySubsystem));
+        odoRFail.whenPressed(new SafetyTestOdoRCommand(robot.safetySubsystem));
+        wheelflFail.whenPressed(new SafetyTestWheelFLCommand(robot.safetySubsystem));
+        wheelfrFail.whenPressed(new SafetyTestWheelFRCommand(robot.safetySubsystem));
+        wheelrlFail.whenPressed(new SafetyTestWheelRLCommand(robot.safetySubsystem));
+        wheelrrFail.whenPressed(new SafetyTestWheelRRCommand(robot.safetySubsystem));
 
-        snailButton.whenPressed(new SnailModeCommand(robot.drivebaseSubsystem));
-        snailButton.whenReleased(new NormalModeCommand(robot.drivebaseSubsystem));
-
-        resetGyroButton.whenPressed(new ResetGyroCommand(robot.drivebaseSubsystem));
     }
 }
