@@ -15,6 +15,7 @@ import org.firstinspires.ftc.twenty403.commands.arm.ArmNeutralCommand;
 import org.firstinspires.ftc.twenty403.commands.auto.blue.BlueWingParkCenter;
 import org.firstinspires.ftc.twenty403.controls.DriverController;
 import org.firstinspires.ftc.twenty403.helpers.StartingPosition;
+import org.firstinspires.ftc.twenty403.subsystems.ArmSubsystem;
 
 // The last 4 weird things are '🟥' and '🪶' (wing)
 @Autonomous(name = "PixelThenParkCenterBlueWing")
@@ -23,6 +24,7 @@ public class PixelThenParkCenterBlueWing extends CommandOpMode {
 
     public Robot robot;
     public DriverController controls;
+    public ArmSubsystem armSubsystem;
     public Hardware hardware;
 
     @Override
