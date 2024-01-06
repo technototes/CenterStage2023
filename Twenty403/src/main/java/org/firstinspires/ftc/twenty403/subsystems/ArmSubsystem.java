@@ -15,11 +15,11 @@ import com.technototes.library.subsystem.Subsystem;
 
 @Config
 public class ArmSubsystem implements Subsystem, Loggable {
-    public static int SHOULDER_ARM_INTAKE = 9; //collect (change vals)
+    public static int SHOULDER_ARM_INTAKE = 30; //collect (change vals)
     public static int SHOULDER_RESET_POSITION = 9; //reset (change vals)
     public static int SHOULDER_FIRST_LINE_SCORING = 1350; //change vals
     public static int SHOULDER_SECOND_LINE_SCORING = 1200; //change vals
-    public static int SHOULDER_THIRD_LINE_SCORING = 1200; //change vals
+    public static int SHOULDER_THIRD_LINE_SCORING = 1140; //change vals
     public static int SHOULDER_VERTICAL = 881; // For feed-fwd, and maybe hang
     public static int SHOULDER_MANUAL_STEP = 20; //increment/decrement
 
@@ -31,11 +31,11 @@ public class ArmSubsystem implements Subsystem, Loggable {
     public static double MIN_INTAKE_SPEED = -1;
     public static double MAX_INTAKE_SPEED = 1;
 
-    public static double WRIST_ARM_INTAKE = 0.35; //collect (change vals)
-    public static double WRIST_RESET_POSITION = 0.05; //reset (change vals)
-    public static double WRIST_FIRST_LINE_SCORING = 0.05; // change vals
-    public static double WRIST_SECOND_LINE_SCORING = 0.05; // change vals
-    public static double WRIST_THIRD_LINE_SCORING = 0.05; // change vals
+    public static double WRIST_ARM_INTAKE = 0.4; //collect (change vals)
+    public static double WRIST_RESET_POSITION = 0; //reset (change vals)
+    public static double WRIST_FIRST_LINE_SCORING = 0; // change vals
+    public static double WRIST_SECOND_LINE_SCORING = 0; // change vals
+    public static double WRIST_THIRD_LINE_SCORING = 0; // change vals
     public static double WRIST_MANUAL_STEP = 0.05; //increment/decrement (change vals)
 
     public static boolean USE_SHOULDER_BRAKE = true;
@@ -62,7 +62,7 @@ public class ArmSubsystem implements Subsystem, Loggable {
     private boolean haveHardware;
     private boolean hangMode = false;
     public static double FEEDFORWARD_COEFFICIENT = 0.13;
-    public static PIDCoefficients shoulderPID = new PIDCoefficients(0.001, 0.00004, 0.000075);
+    public static PIDCoefficients shoulderPID = new PIDCoefficients(0.004, 0.00002, 0.00027);
     private PIDFController shoulderPidController;
     public int shoulderResetPos;
     public double wristResetPos;
