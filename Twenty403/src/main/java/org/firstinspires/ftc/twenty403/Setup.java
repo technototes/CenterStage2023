@@ -12,6 +12,7 @@ public class Setup {
         public static boolean DRONESUBSYSTEM = true;
         public static boolean WEBCAM = true;
         public static boolean ODOSUBSYSTEM = true;
+        public static boolean SAFETYSUBSYSTEM = true;
     }
 
     @Config
