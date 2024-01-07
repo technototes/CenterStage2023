@@ -16,6 +16,6 @@ public class ArmSecondLineCommand implements Command {
     public void execute() {
         subsystem.shoulderSecondLineScoring();
         subsystem.wristSecondLineScoring();
-        subsystem.stopIntake();
+        subsystem.slurpIntake();
     }
 }

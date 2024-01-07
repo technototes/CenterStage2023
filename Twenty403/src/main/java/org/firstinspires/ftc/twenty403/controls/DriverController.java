@@ -32,6 +32,9 @@ public class DriverController {
         if (Setup.Connected.DRIVEBASE) {
             bindDriveControls();
         }
+        if (Setup.Connected.ARMSUBSYSTEM) {
+            //bind
+        }
     }
 
     private void AssignNamedControllerButton() {
