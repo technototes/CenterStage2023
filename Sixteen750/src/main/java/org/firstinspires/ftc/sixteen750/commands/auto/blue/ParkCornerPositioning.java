@@ -11,7 +11,7 @@ public class ParkCornerPositioning extends SequentialCommandGroup {
     public ParkCornerPositioning(Robot r) {
         super(
             new TrajectorySequenceCommand(
-                r.drivebaseSubsystem,
+                r.drivebase,
                 AutoConstants.StageBlue.MID_PARK_CENTER_TO_LEFT_CLEAR
             )
         );

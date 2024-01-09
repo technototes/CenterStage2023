@@ -11,7 +11,7 @@ public class ParkCenterPositioning extends SequentialCommandGroup {
     public ParkCenterPositioning(Robot r) {
         super(
             new TrajectorySequenceCommand(
-                r.drivebaseSubsystem,
+                r.drivebase,
                 AutoConstants.WingRed.RIGHT_CLEAR_TO_MID_PARK_CENTER
             )
         );

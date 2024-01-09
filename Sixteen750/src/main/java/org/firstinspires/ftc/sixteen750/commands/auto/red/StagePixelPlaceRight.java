@@ -11,30 +11,30 @@ public class StagePixelPlaceRight extends SequentialCommandGroup {
     public StagePixelPlaceRight(Robot r) {
         super(
             new TrajectorySequenceCommand(
-                r.drivebaseSubsystem,
+                r.drivebase,
                 AutoConstants.StageRed.START_TO_RIGHT_SPIKE
             )
                 .andThen(
                     new TrajectorySequenceCommand(
-                        r.drivebaseSubsystem,
+                        r.drivebase,
                         AutoConstants.StageRed.RIGHT_SPIKE_TO_CLEAR
                     )
                 )
                 .andThen(
                     new TrajectorySequenceCommand(
-                        r.drivebaseSubsystem,
+                        r.drivebase,
                         AutoConstants.StageRed.CLEAR_TO_RIGHT_CLEAR
                     )
                 )
                 .andThen(
                     new TrajectorySequenceCommand(
-                        r.drivebaseSubsystem,
+                        r.drivebase,
                         AutoConstants.StageRed.RIGHT_CLEAR_TO_PLACE_RIGHT
                     )
                 )
                 .andThen(
                     new TrajectorySequenceCommand(
-                        r.drivebaseSubsystem,
+                        r.drivebase,
                         AutoConstants.StageRed.PLACE_RIGHT_TO_MID_PARK_CENTER
                     )
                 )

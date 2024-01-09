@@ -10,25 +10,25 @@ public class WingPixelPlaceLeft extends SequentialCommandGroup {
 
     public WingPixelPlaceLeft(Robot r) {
         super(
-            new TrajectorySequenceCommand(r.drivebaseSubsystem, WingRed.START_TO_LEFT_SPIKE)
+            new TrajectorySequenceCommand(r.drivebase, WingRed.START_TO_LEFT_SPIKE)
                 .andThen(
-                    new TrajectorySequenceCommand(r.drivebaseSubsystem, WingRed.LEFT_SPIKE_TO_CLEAR)
+                    new TrajectorySequenceCommand(r.drivebase, WingRed.LEFT_SPIKE_TO_CLEAR)
                 )
                 .andThen(
                     new TrajectorySequenceCommand(
-                        r.drivebaseSubsystem,
+                        r.drivebase,
                         WingRed.ClEAR_TO_RIGHT_CLEAR
                     )
                 )
                 .andThen(
                     new TrajectorySequenceCommand(
-                        r.drivebaseSubsystem,
+                        r.drivebase,
                         WingRed.RIGHT_CLEAR_TO_PLACE_LEFT
                     )
                 )
                 .andThen(
                     new TrajectorySequenceCommand(
-                        r.drivebaseSubsystem,
+                        r.drivebase,
                         WingRed.PLACE_LEFT_TO_RIGHT_CLEAR
                     )
                 )

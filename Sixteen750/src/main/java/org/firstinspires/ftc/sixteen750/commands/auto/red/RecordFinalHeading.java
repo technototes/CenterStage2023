@@ -10,7 +10,7 @@ public class RecordFinalHeading implements Command {
 
     @Override
     public void execute() {
-        subsystem.saveHeading();
+        // TODO: If 16750 picks this up... subsystem.saveHeading();
     }
 
     public RecordFinalHeading(DrivebaseSubsystem d) {

@@ -11,12 +11,12 @@ public class SideAndBackCommand extends SequentialCommandGroup {
     public SideAndBackCommand(Robot r) {
         super(
             new TrajectorySequenceCommand(
-                r.drivebaseSubsystem,
+                r.drivebase,
                 AutoConstants.WingRed.SIDE_LEFT_TO_SIDE_RIGHT
             )
                 .andThen(
                     new TrajectorySequenceCommand(
-                        r.drivebaseSubsystem,
+                        r.drivebase,
                         AutoConstants.WingRed.SIDE_RIGHT_TO_SIDE_LEFT
                     )
                 )

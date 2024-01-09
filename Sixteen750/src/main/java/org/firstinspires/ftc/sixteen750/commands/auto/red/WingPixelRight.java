@@ -11,28 +11,28 @@ public class WingPixelRight extends SequentialCommandGroup {
 
     public WingPixelRight(Robot r) {
         super(
-            new TrajectorySequenceCommand(r.drivebaseSubsystem, WingRed.START_TO_MID_CLEAR)
+            new TrajectorySequenceCommand(r.drivebase, WingRed.START_TO_MID_CLEAR)
                 .andThen(
                     new TrajectorySequenceCommand(
-                        r.drivebaseSubsystem,
+                        r.drivebase,
                         WingRed.MID_CLEAR_TO_RIGHT_SPIKE
                     )
                 )
                 .andThen(
                     new TrajectorySequenceCommand(
-                        r.drivebaseSubsystem,
+                        r.drivebase,
                         AutoConstants.WingRed.RIGHT_SPIKE_TO_MID_CLEAR
                     )
                 )
                 .andThen(
                     new TrajectorySequenceCommand(
-                        r.drivebaseSubsystem,
+                        r.drivebase,
                         AutoConstants.WingRed.MID_CLEAR_TO_CLEAR
                     )
                 )
                 .andThen(
                     new TrajectorySequenceCommand(
-                        r.drivebaseSubsystem,
+                        r.drivebase,
                         AutoConstants.WingRed.CLEAR_TO_PARK_CORNER
                     )
                 )

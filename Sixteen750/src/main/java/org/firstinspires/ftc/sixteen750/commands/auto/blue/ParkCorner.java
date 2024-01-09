@@ -12,7 +12,7 @@ public class ParkCorner extends SequentialCommandGroup {
     public ParkCorner(Robot r, StartingPosition position) {
         super(
             new TrajectorySequenceCommand(
-                r.drivebaseSubsystem,
+                r.drivebase,
                 (position == StartingPosition.Wing)
                     ? AutoConstants.WingBlue.LEFT_CLEAR_TO_PARK_CORNER
                     : AutoConstants.StageBlue.LEFT_CLEAR_TO_PARK_CORNER

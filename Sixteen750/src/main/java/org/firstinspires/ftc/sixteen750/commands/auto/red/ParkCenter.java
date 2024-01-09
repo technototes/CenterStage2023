@@ -12,7 +12,7 @@ public class ParkCenter extends SequentialCommandGroup {
     public ParkCenter(Robot r, StartingPosition position) {
         super(
             new TrajectorySequenceCommand(
-                r.drivebaseSubsystem,
+                r.drivebase,
                 (position == StartingPosition.Wing)
                     ? AutoConstants.WingRed.MID_PARK_CENTER_TO_PARK_CENTER
                     : AutoConstants.StageRed.MID_PARK_CENTER_TO_PARK_CENTER
