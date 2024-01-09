@@ -4,21 +4,20 @@ import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.path.command.TrajectorySequenceCommand;
 
 import org.firstinspires.ftc.sixteen750.AutoConstants;
-import org.firstinspires.ftc.sixteen750.AutoConstants.WingRed;
 import org.firstinspires.ftc.sixteen750.Robot;
 
-public class WingPixelLeft extends SequentialCommandGroup {
+public class SideAndBackCommand extends SequentialCommandGroup {
 
-    public WingPixelLeft(Robot r) {
+    public SideAndBackCommand(Robot r) {
         super(
-            new TrajectorySequenceCommand(r.drivebase, WingRed.START_TO_LEFT_SPIKE)
-                .andThen(
-                    new TrajectorySequenceCommand(r.drivebase, WingRed.LEFT_SPIKE_TO_CLEAR)
-                )
+            new TrajectorySequenceCommand(
+                r.drivebase,
+                AutoConstants.WingRed.SIDE_LEFT_TO_SIDE_RIGHT
+            )
                 .andThen(
                     new TrajectorySequenceCommand(
                         r.drivebase,
-                        AutoConstants.WingRed.CLEAR_TO_PARK_CORNER
+                        AutoConstants.WingRed.SIDE_RIGHT_TO_SIDE_LEFT
                     )
                 )
         );

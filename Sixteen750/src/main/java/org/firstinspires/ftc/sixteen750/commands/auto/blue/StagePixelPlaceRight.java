@@ -6,9 +6,9 @@ import com.technototes.path.command.TrajectorySequenceCommand;
 import org.firstinspires.ftc.sixteen750.AutoConstants;
 import org.firstinspires.ftc.sixteen750.Robot;
 
-public class StagePixelRight extends SequentialCommandGroup {
+public class StagePixelPlaceRight extends SequentialCommandGroup {
 
-    public StagePixelRight(Robot r) {
+    public StagePixelPlaceRight(Robot r) {
         super(
             new TrajectorySequenceCommand(
                 r.drivebase,
@@ -41,13 +41,13 @@ public class StagePixelRight extends SequentialCommandGroup {
                 .andThen(
                     new TrajectorySequenceCommand(
                         r.drivebase,
-                        AutoConstants.StageBlue.LEFT_CLEAR_TO_MID_PARK_CENTER
+                        AutoConstants.StageBlue.LEFT_CLEAR_TO_PLACE_RIGHT
                     )
                 )
                 .andThen(
                     new TrajectorySequenceCommand(
                         r.drivebase,
-                        AutoConstants.StageBlue.MID_PARK_CENTER_TO_PARK_CENTER
+                        AutoConstants.StageBlue.PLACE_RIGHT_TO_MID_PARK_CENTER
                     )
                 )
         );
