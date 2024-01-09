@@ -3,39 +3,36 @@ package org.firstinspires.ftc.sixteen750.commands.auto.red;
 import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.path.command.TrajectorySequenceCommand;
 
-import org.firstinspires.ftc.sixteen750.AutoConstants;
+import org.firstinspires.ftc.sixteen750.AutoConstants.WingRed;
 import org.firstinspires.ftc.sixteen750.Robot;
 
-public class StagePixelRight extends SequentialCommandGroup {
+public class WingPixelPlaceMiddle extends SequentialCommandGroup {
 
-    public StagePixelRight(Robot r) {
+    public WingPixelPlaceMiddle(Robot r) {
         super(
-            new TrajectorySequenceCommand(
-                r.drivebase,
-                AutoConstants.StageRed.START_TO_RIGHT_SPIKE
-            )
+            new TrajectorySequenceCommand(r.drivebase, WingRed.START_TO_MIDDLE_SPIKE)
                 .andThen(
                     new TrajectorySequenceCommand(
                         r.drivebase,
-                        AutoConstants.StageRed.RIGHT_SPIKE_TO_CLEAR
+                        WingRed.MIDDLE_SPIKE_TO_CLEAR
                     )
                 )
                 .andThen(
                     new TrajectorySequenceCommand(
                         r.drivebase,
-                        AutoConstants.StageRed.CLEAR_TO_RIGHT_CLEAR
+                        WingRed.ClEAR_TO_RIGHT_CLEAR
                     )
                 )
                 .andThen(
                     new TrajectorySequenceCommand(
                         r.drivebase,
-                        AutoConstants.StageRed.RIGHT_CLEAR_TO_MID_PARK_CENTER
+                        WingRed.RIGHT_CLEAR_TO_PLACE_MIDDLE
                     )
                 )
                 .andThen(
                     new TrajectorySequenceCommand(
                         r.drivebase,
-                        AutoConstants.StageRed.MID_PARK_CENTER_TO_PARK_CENTER
+                        WingRed.PLACE_MIDDLE_TO_RIGHT_CLEAR
                     )
                 )
         );

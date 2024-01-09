@@ -2,6 +2,7 @@ package org.firstinspires.ftc.sixteen750.commands.auto.red;
 
 import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.path.command.TrajectorySequenceCommand;
+
 import org.firstinspires.ftc.sixteen750.AutoConstants;
 import org.firstinspires.ftc.sixteen750.Robot;
 
@@ -9,7 +10,10 @@ public class StagePixelLeft extends SequentialCommandGroup {
 
     public StagePixelLeft(Robot r) {
         super(
-            new TrajectorySequenceCommand(r.drivebase, AutoConstants.StageRed.START_TO_MID_CLEAR)
+            new TrajectorySequenceCommand(
+                r.drivebase,
+                AutoConstants.StageRed.START_TO_MID_CLEAR
+            )
                 .andThen(
                     new TrajectorySequenceCommand(
                         r.drivebase,
@@ -38,12 +42,6 @@ public class StagePixelLeft extends SequentialCommandGroup {
                     new TrajectorySequenceCommand(
                         r.drivebase,
                         AutoConstants.StageRed.RIGHT_CLEAR_TO_MID_PARK_CENTER
-                    )
-                )
-                .andThen(
-                    new TrajectorySequenceCommand(
-                        r.drivebase,
-                        AutoConstants.StageRed.MID_PARK_CENTER_TO_PARK_CENTER
                     )
                 )
         );
