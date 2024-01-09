@@ -17,7 +17,7 @@ import org.firstinspires.ftc.sixteen750.Setup;
 
 @Config
 public class PlacementSubsystem implements Subsystem, Loggable {
-
+//TODO: if time: can we change speed of servo?
     // numbers need to be calibrated for the lift
     public static double LOW_POS = -600;
     public static double MEDIUM_POS = -1350; //tested
@@ -26,9 +26,9 @@ public class PlacementSubsystem implements Subsystem, Loggable {
     public static double MIN_MOTOR_SPEED = -0.3;
     public static double MAX_MOTOR_SPEED = 1;
 
-    public static double ScoreServo = 0.5;
+//    public static double ScoreServo = 0.5;
 
-    public static double ArmServo = 0.5;
+//    public static double ArmServo = 0.5;
 
     public static double ScoreServoInput = 0.3; //tested 1/8/24
     public static double ScoreServoOutput = 0.7; //tested 1/8/24
@@ -36,8 +36,8 @@ public class PlacementSubsystem implements Subsystem, Loggable {
 
     //Arm servo 0.5 is straight up. The more positive, the farther down it gets.
     public static double ArmServoInput = 0.55; //tested 1/8/24
-    public static double ArmServoOutput = 0.2;
-    public static double ArmServoHold = 0.5;
+    public static double ArmServoOutput = 0.1; //possible range from 0.2 - 0 tested 1/8/24
+    public static double ArmServoHold = 0.5; //possibly unnecessary
 
     public static PIDCoefficients PID = new PIDCoefficients(0.0027, 0.0, 0.00015);
     public Servo armServo;
@@ -49,7 +49,7 @@ public class PlacementSubsystem implements Subsystem, Loggable {
     public PlacementSubsystem(Hardware hw) {
         armServo = hw.armServo;
         scoreServo = hw.scoreServo;
-        // TODO:
+        //
         // For bhavjot and Laksh:
         // We need to configure the liftMotor to work like a servo.
         // This entails switching to "RunMode.RUN_TO_POSITION" and then tuning PID(F) constants
@@ -135,7 +135,7 @@ public class PlacementSubsystem implements Subsystem, Loggable {
         // the arm's position to score
         armServo.setPosition(ArmServoOutput);
     }
-
+//TODO: idea to add a increment decrement for scoreservooutput
     public void ScoreServoOutput() {
         // the intake system's postion to score
         scoreServo.setPosition(ScoreServoOutput);
