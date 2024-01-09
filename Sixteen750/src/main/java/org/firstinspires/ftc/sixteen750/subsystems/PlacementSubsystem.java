@@ -20,7 +20,7 @@ public class PlacementSubsystem implements Subsystem, Loggable {
 
     // numbers need to be calibrated for the lift
     public static double LOW_POS = -600;
-    public static double MEDIUM_POS = -1000;
+    public static double MEDIUM_POS = -1350; //tested
 //    public static double HIGH_POS = 1000;
     public static double INTAKELIFT_POS = -40;
     public static double MIN_MOTOR_SPEED = -0.3;
@@ -30,12 +30,12 @@ public class PlacementSubsystem implements Subsystem, Loggable {
 
     public static double ArmServo = 0.5;
 
-    public static double ScoreServoInput = 0.7;
-    public static double ScoreServoOutput = 0.3;
-    public static double ScoreServoHold = 0.5;
+    public static double ScoreServoInput = 0.3; //tested 1/8/24
+    public static double ScoreServoOutput = 0.7; //tested 1/8/24
+    public static double ScoreServoHold = 0; //tested 1/8/24
 
     //Arm servo 0.5 is straight up. The more positive, the farther down it gets.
-    public static double ArmServoInput = 1;
+    public static double ArmServoInput = 0.55; //tested 1/8/24
     public static double ArmServoOutput = 0.2;
     public static double ArmServoHold = 0.5;
 
@@ -153,6 +153,6 @@ public class PlacementSubsystem implements Subsystem, Loggable {
 
     public void ScoreServoInput() {
         // positions for the arm of the bot
-        armServo.setPosition(ScoreServoInput);
+        scoreServo.setPosition(ScoreServoInput);
     }
 }
