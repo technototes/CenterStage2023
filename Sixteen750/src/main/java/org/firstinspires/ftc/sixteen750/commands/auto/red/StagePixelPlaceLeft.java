@@ -6,18 +6,30 @@ import com.technototes.path.command.TrajectorySequenceCommand;
 import org.firstinspires.ftc.sixteen750.AutoConstants;
 import org.firstinspires.ftc.sixteen750.Robot;
 
-public class StagePixelRight extends SequentialCommandGroup {
+public class StagePixelPlaceLeft extends SequentialCommandGroup {
 
-    public StagePixelRight(Robot r) {
+    public StagePixelPlaceLeft(Robot r) {
         super(
             new TrajectorySequenceCommand(
                 r.drivebase,
-                AutoConstants.StageRed.START_TO_RIGHT_SPIKE
+                AutoConstants.StageRed.START_TO_MID_CLEAR
             )
                 .andThen(
                     new TrajectorySequenceCommand(
                         r.drivebase,
-                        AutoConstants.StageRed.RIGHT_SPIKE_TO_CLEAR
+                        AutoConstants.StageRed.MID_CLEAR_TO_LEFT_SPIKE
+                    )
+                )
+                .andThen(
+                    new TrajectorySequenceCommand(
+                        r.drivebase,
+                        AutoConstants.StageRed.LEFT_SPIKE_TO_MID_CLEAR
+                    )
+                )
+                .andThen(
+                    new TrajectorySequenceCommand(
+                        r.drivebase,
+                        AutoConstants.StageRed.MID_CLEAR_TO_CLEAR
                     )
                 )
                 .andThen(
@@ -29,13 +41,13 @@ public class StagePixelRight extends SequentialCommandGroup {
                 .andThen(
                     new TrajectorySequenceCommand(
                         r.drivebase,
-                        AutoConstants.StageRed.RIGHT_CLEAR_TO_MID_PARK_CENTER
+                        AutoConstants.StageRed.RIGHT_CLEAR_TO_PLACE_LEFT
                     )
                 )
                 .andThen(
                     new TrajectorySequenceCommand(
                         r.drivebase,
-                        AutoConstants.StageRed.MID_PARK_CENTER_TO_PARK_CENTER
+                        AutoConstants.StageRed.PLACE_LEFT_TO_MID_PARK_CENTER
                     )
                 )
         );

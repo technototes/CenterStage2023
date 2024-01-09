@@ -3,33 +3,36 @@ package org.firstinspires.ftc.sixteen750.commands.auto.blue;
 import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.path.command.TrajectorySequenceCommand;
 
-import org.firstinspires.ftc.sixteen750.AutoConstants;
+import org.firstinspires.ftc.sixteen750.AutoConstants.StageBlue;
 import org.firstinspires.ftc.sixteen750.Robot;
 
-public class StagePixelMiddle extends SequentialCommandGroup {
+public class StagePixelPlaceLeft extends SequentialCommandGroup {
 
-    public StagePixelMiddle(Robot r) {
+    public StagePixelPlaceLeft(Robot r) {
         super(
-            new TrajectorySequenceCommand(
-                r.drivebase,
-                AutoConstants.StageBlue.START_TO_MIDDLE_SPIKE
-            )
+            new TrajectorySequenceCommand(r.drivebase, StageBlue.START_TO_LEFT_SPIKE)
                 .andThen(
                     new TrajectorySequenceCommand(
                         r.drivebase,
-                        AutoConstants.StageBlue.MIDDLE_SPIKE_TO_CLEAR
+                        StageBlue.LEFT_SPIKE_TO_CLEAR
                     )
                 )
                 .andThen(
                     new TrajectorySequenceCommand(
                         r.drivebase,
-                        AutoConstants.StageBlue.CLEAR_TO_MID_PARK_CENTER
+                        StageBlue.CLEAR_TO_LEFT_CLEAR
                     )
                 )
                 .andThen(
                     new TrajectorySequenceCommand(
                         r.drivebase,
-                        AutoConstants.StageBlue.MID_PARK_CENTER_TO_PARK_CENTER
+                        StageBlue.LEFT_CLEAR_TO_PLACE_LEFT
+                    )
+                )
+                .andThen(
+                    new TrajectorySequenceCommand(
+                        r.drivebase,
+                        StageBlue.PLACE_LEFT_TO_MID_PARK_CENTER
                     )
                 )
         );
