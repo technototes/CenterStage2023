@@ -68,7 +68,7 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
         // The high saturation point for color identification
         public static double highS = 255;
         // The low value for color ID
-        public static double lowV = 50;
+        public static double lowV = 20;
         // The high value for color ID
         public static double highV = 255;
         // The 'range' around the hue that we're looking for
@@ -79,7 +79,7 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
         public static Scalar RGB_HIGHLIGHT = new Scalar(255, 128, 255);
 
         // the mininum amount of pixels needed in order to find a pixel
-        public static int MINPIXELCOUNT = 1500;
+        public static int MINPIXELCOUNT = 1000;
     }
 
     @LogConfig.Run(duringRun = false, duringInit = true)
