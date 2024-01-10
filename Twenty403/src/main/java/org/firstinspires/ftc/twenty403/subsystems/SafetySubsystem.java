@@ -142,20 +142,18 @@ public class SafetySubsystem implements Subsystem, Loggable {
             stopAutoReason = "Monitoring skipped" + ms;
             return;
         }
-        count++;
         stopAutoReason = "Monitoring checking";
         timer.reset();
         int odoFCurrentPosition = getOdoFPosition();
         int odoRCurrentPosition = getOdoRPosition();
 
-        stopAutoReason = String.format("CheckingR: %i", odoRCurrentPosition);
+        stopAutoReason = String.format("CheckingR: %d ", odoRCurrentPosition);
         double wheelflCurrentPosition = getwheelflPosition();
         double wheelfrCurrentPosition = getwheelfrPosition();
         double wheelrlCurrentPosition = getwheelrlPosition();
         double wheelrrCurrentPosition = getwheelrrPosition();
 
         boolean stopAutoFlag = false;
-        String stopAutoReason = "";
         if (isOdoFailing(odoFCurrentPosition, previousOdoFPosition)) {
             stopAutoFlag = true;
             stopAutoReason += "OdoF not reading;";
@@ -225,8 +223,11 @@ public class SafetySubsystem implements Subsystem, Loggable {
     }
 
     public void startMonitoring() {
-        monitoringEnabled = true;
-        timer.reset();
+        count++;
+        if (monitoringEnabled == false) {
+            monitoringEnabled = true;
+            timer.reset();
+        }
     }
 
     public void stopMonitoring() {
