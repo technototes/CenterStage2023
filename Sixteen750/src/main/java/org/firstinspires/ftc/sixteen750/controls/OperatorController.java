@@ -2,30 +2,23 @@ package org.firstinspires.ftc.sixteen750.controls;
 
 import com.technototes.library.control.CommandButton;
 import com.technototes.library.control.CommandGamepad;
-import java.util.Set;
+
 import org.firstinspires.ftc.sixteen750.Robot;
 import org.firstinspires.ftc.sixteen750.Setup;
 import org.firstinspires.ftc.sixteen750.commands.DroneLaunch;
-import org.firstinspires.ftc.sixteen750.commands.hang.HangDown;
-import org.firstinspires.ftc.sixteen750.commands.hang.HangStop;
-import org.firstinspires.ftc.sixteen750.commands.hang.HangUp;
-import org.firstinspires.ftc.sixteen750.commands.hang.LeadScrewDown;
-import org.firstinspires.ftc.sixteen750.commands.hang.LeadScrewStop;
-import org.firstinspires.ftc.sixteen750.commands.hang.LeadScrewUp;
 import org.firstinspires.ftc.sixteen750.commands.intake.EjectCommand;
 import org.firstinspires.ftc.sixteen750.commands.intake.IntakeCommand;
 import org.firstinspires.ftc.sixteen750.commands.intake.StopCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.ArmHoldCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.ArmServoInputCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.ArmServoOutputCommand;
-import org.firstinspires.ftc.sixteen750.commands.placement.LiftHighCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.LiftIntakeCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.LiftIntakeSequential;
 import org.firstinspires.ftc.sixteen750.commands.placement.LiftLowCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.LiftLowSequential;
 import org.firstinspires.ftc.sixteen750.commands.placement.LiftMediumCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.LiftMediumSequential;
-import org.firstinspires.ftc.sixteen750.commands.placement.ScoreHoldCommand;
+import org.firstinspires.ftc.sixteen750.commands.placement.ScoreHoldSequential;
 import org.firstinspires.ftc.sixteen750.commands.placement.ScoreServoFlatCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.ScoreServoInputCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.ScoreServoOutputCommand;
@@ -72,6 +65,7 @@ public class OperatorController {
         armServoIntakeButton = gamepad.ps_triangle;
         armServoOutputButton = gamepad.ps_square;
         armServoHoldButton = gamepad.leftStickButton;
+
         scoreServoIntakeButton = gamepad.ps_circle;
         scoreServoOutputButton = gamepad.ps_cross;
         scoreServoHoldButton = gamepad.rightStickButton;
@@ -98,16 +92,16 @@ public class OperatorController {
 
     private void bindPlacementControls() {
 //        placementHighButton.whenPressed(new LiftHighCommand(robot.placement));
-        placementMediumButton.whenPressed(new LiftMediumCommand(robot.placement));
-        placementLowButton.whenPressed(new LiftLowCommand(robot.placement));
-        placementIntakeButton.whenPressed(new LiftIntakeCommand(robot.placement));
+        placementMediumButton.whenPressed(new LiftMediumSequential(robot.placement));
+        placementLowButton.whenPressed(new LiftLowSequential(robot.placement));
+        placementIntakeButton.whenPressed(new LiftIntakeSequential(robot.placement));
 
         armServoIntakeButton.whenPressed(new ArmServoInputCommand(robot.placement));
         armServoOutputButton.whenPressed(new ArmServoOutputCommand(robot.placement));
         armServoHoldButton.whenPressed(new ArmHoldCommand(robot.placement));
         scoreServoIntakeButton.whenPressed(new ScoreServoInputCommand(robot.placement));
         scoreServoOutputButton.whenPressed(new ScoreServoOutputCommand(robot.placement));
-        scoreServoHoldButton.whenPressed(new ScoreHoldCommand(robot.placement));
+        scoreServoHoldButton.whenPressed(new ScoreHoldSequential(robot.placement));
         scoreServoFlatButton.whenPressed(new ScoreServoFlatCommand(robot.placement));
         servoIntakeButton.whenPressed(new ServoIntakes(robot.placement));
         servoOutputButton.whenPressed(new ServoOutputs(robot.placement));

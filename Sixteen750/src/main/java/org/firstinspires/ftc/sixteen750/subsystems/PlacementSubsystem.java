@@ -36,7 +36,7 @@ public class PlacementSubsystem implements Subsystem, Loggable {
     public static double ScoreServoFlat = 0.35; //tested 1/8/24
     public static double ArmServoInput = 0.53; //tested 1/8/24 0.55
     public static double ArmServoOutput = 0.1; //possible range from 0.2 - 0 tested 1/8/24
-    public static double ArmServoHold = 0.5; //possibly unnecessary
+    public static double ArmServoHold = 0.57; //possibly unnecessary
 
     public static PIDCoefficients PID = new PIDCoefficients(0.0027, 0.0, 0.00015);
     public Servo armServo;
