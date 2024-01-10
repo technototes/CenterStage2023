@@ -1,22 +1,14 @@
 package org.firstinspires.ftc.sixteen750.commands.placement;
 
 import com.technototes.library.command.Command;
+import com.technototes.library.command.SequentialCommandGroup;
+import com.technototes.library.command.WaitCommand;
 
 import org.firstinspires.ftc.sixteen750.subsystems.PlacementSubsystem;
 
-public class ScoreHoldCommand implements Command {
+public class ScoreHoldCommand extends SequentialCommandGroup {
 
-    private PlacementSubsystem placement;
-
-    public ScoreHoldCommand(PlacementSubsystem i) {
-        placement = i;
-        addRequirements(i);
+    public ScoreHoldCommand(PlacementSubsystem s) {
+        super(new ArmHoldCommand(s), new ScoreHoldCommand(s));
     }
-
-    @Override
-    public void execute() {
-        placement.ScoreServoHold();
-    }
-
-
 }

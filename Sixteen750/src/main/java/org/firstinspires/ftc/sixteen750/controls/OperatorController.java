@@ -15,6 +15,7 @@ import org.firstinspires.ftc.sixteen750.commands.hang.LeadScrewUp;
 import org.firstinspires.ftc.sixteen750.commands.intake.EjectCommand;
 import org.firstinspires.ftc.sixteen750.commands.intake.IntakeCommand;
 import org.firstinspires.ftc.sixteen750.commands.intake.StopCommand;
+import org.firstinspires.ftc.sixteen750.commands.placement.ArmHoldCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.ArmServoInputCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.ArmServoOutputCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.LiftHighCommand;
@@ -24,6 +25,8 @@ import org.firstinspires.ftc.sixteen750.commands.placement.LiftLowCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.LiftLowSequential;
 import org.firstinspires.ftc.sixteen750.commands.placement.LiftMediumCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.LiftMediumSequential;
+import org.firstinspires.ftc.sixteen750.commands.placement.ScoreHoldCommand;
+import org.firstinspires.ftc.sixteen750.commands.placement.ScoreServoFlatCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.ScoreServoInputCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.ScoreServoOutputCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.ServoIntakes;
@@ -36,6 +39,7 @@ public class OperatorController {
     public CommandButton intakeButton, ejectButton,stopButton,pauseButton;
     public CommandButton placementHighButton,placementLowButton,placementMediumButton,placementIntakeButton;
     public CommandButton armServoOutputButton, scoreServoOutputButton, servoOutputButton, scoreServoIntakeButton, armServoIntakeButton, servoIntakeButton;
+    public CommandButton scoreServoHoldButton, scoreServoFlatButton,armServoHoldButton;
     public CommandButton DroneReleaseButton;
     public CommandButton hangUpButton,hangDownButton,screwUpButton,screwDownButton;
     public OperatorController(CommandGamepad g, Robot r) {
@@ -67,8 +71,12 @@ public class OperatorController {
 
         armServoIntakeButton = gamepad.ps_triangle;
         armServoOutputButton = gamepad.ps_square;
+        armServoHoldButton = gamepad.leftStickButton;
         scoreServoIntakeButton = gamepad.ps_circle;
         scoreServoOutputButton = gamepad.ps_cross;
+        scoreServoHoldButton = gamepad.rightStickButton;
+
+        scoreServoFlatButton = gamepad.dpadUp;
 
         servoIntakeButton = gamepad.ps_share;
         //TODO: separate the output button
@@ -96,11 +104,11 @@ public class OperatorController {
 
         armServoIntakeButton.whenPressed(new ArmServoInputCommand(robot.placement));
         armServoOutputButton.whenPressed(new ArmServoOutputCommand(robot.placement));
-//        armServoHoldButton.whenPressed(new ArmServoHoldCommand(robot.placement));
+        armServoHoldButton.whenPressed(new ArmHoldCommand(robot.placement));
         scoreServoIntakeButton.whenPressed(new ScoreServoInputCommand(robot.placement));
         scoreServoOutputButton.whenPressed(new ScoreServoOutputCommand(robot.placement));
-//        scoreServoHoldButton
-
+        scoreServoHoldButton.whenPressed(new ScoreHoldCommand(robot.placement));
+        scoreServoFlatButton.whenPressed(new ScoreServoFlatCommand(robot.placement));
         servoIntakeButton.whenPressed(new ServoIntakes(robot.placement));
         servoOutputButton.whenPressed(new ServoOutputs(robot.placement));
     }
