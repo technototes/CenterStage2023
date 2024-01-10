@@ -8,11 +8,7 @@ import org.firstinspires.ftc.twenty403.Robot;
 public class ParkCornerPositioning extends SequentialCommandGroup {
 
     public ParkCornerPositioning(Robot r) {
-        super(
-            new TrajectorySequenceCommand(
-                r.drivebaseSubsystem,
-                AutoConstants.StageRed.MID_PARK_CENTER_TO_RIGHT_CLEAR
-            )
+        super(new TrajectorySequenceCommand(r.drivebaseSubsystem, AutoConstants.StageRed.MID_PARK_CENTER_TO_RIGHT_CLEAR)
         );
     }
 }
