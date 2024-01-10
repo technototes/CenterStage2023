@@ -5,6 +5,7 @@ import com.technototes.library.control.CommandGamepad;
 import java.util.Set;
 import org.firstinspires.ftc.sixteen750.Robot;
 import org.firstinspires.ftc.sixteen750.Setup;
+import org.firstinspires.ftc.sixteen750.commands.DroneLaunch;
 import org.firstinspires.ftc.sixteen750.commands.hang.HangDown;
 import org.firstinspires.ftc.sixteen750.commands.hang.HangStop;
 import org.firstinspires.ftc.sixteen750.commands.hang.HangUp;
@@ -48,6 +49,8 @@ public class OperatorController {
         if (Setup.Connected.PLACEMENT) {
             bindPlacementControls();
         }
+
+
     }
 
     private void AssignNamedControllerButton() {
@@ -68,6 +71,7 @@ public class OperatorController {
 
 //        screwUpButton = gamepad.rightBumper;
 //        screwDownButton = gamepad.leftBumper;
+
     }
 
     private void bindIntakeControls() {
@@ -95,4 +99,5 @@ public class OperatorController {
 //        screwUpButton.whenReleased(new LeadScrewStop(robot.hang));
         hangDownButton.whenPressed(new HangDown(robot.hang));
     }
+
 }
