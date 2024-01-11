@@ -15,7 +15,7 @@ public class Setup {
 
         public static boolean HANG = true;
 
-        public static boolean DRONE = false;
+        public static boolean DRONE = true;
     }
 
     @Config
