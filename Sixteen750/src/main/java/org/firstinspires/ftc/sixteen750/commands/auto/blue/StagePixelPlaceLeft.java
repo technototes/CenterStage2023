@@ -10,31 +10,13 @@ public class StagePixelPlaceLeft extends SequentialCommandGroup {
 
     public StagePixelPlaceLeft(Robot r) {
         super(
-            new TrajectorySequenceCommand(r.drivebase, StageBlue.START_TO_LEFT_SPIKE)
-                .andThen(
-                    new TrajectorySequenceCommand(
-                        r.drivebase,
-                        StageBlue.LEFT_SPIKE_TO_CLEAR
-                    )
-                )
-                .andThen(
-                    new TrajectorySequenceCommand(
-                        r.drivebase,
-                        StageBlue.CLEAR_TO_LEFT_CLEAR
-                    )
-                )
-                .andThen(
-                    new TrajectorySequenceCommand(
-                        r.drivebase,
-                        StageBlue.LEFT_CLEAR_TO_PLACE_LEFT
-                    )
-                )
-                .andThen(
-                    new TrajectorySequenceCommand(
-                        r.drivebase,
-                        StageBlue.PLACE_LEFT_TO_MID_PARK_CENTER
-                    )
-                )
+                new TrajectorySequenceCommand(r.drivebase, StageBlue.START_TO_LEFT_SPIKE),
+                new TrajectorySequenceCommand(r.drivebase, StageBlue.LEFT_SPIKE_TO_CLEAR),
+                new TrajectorySequenceCommand(r.drivebase, StageBlue.CLEAR_TO_LEFT_CLEAR),
+                new TrajectorySequenceCommand(r.drivebase, StageBlue.LEFT_CLEAR_TO_PLACE_LEFT),
+                //place command
+//                new PixelScoring(r.armSubsystem),
+                new TrajectorySequenceCommand(r.drivebase, StageBlue.PLACE_LEFT_TO_MID_PARK_CENTER)
         );
     }
 }

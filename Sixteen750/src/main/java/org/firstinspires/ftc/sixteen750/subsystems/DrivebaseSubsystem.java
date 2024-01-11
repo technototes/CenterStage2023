@@ -30,7 +30,7 @@ public class DrivebaseSubsystem
         public static double TRIGGER_THRESHOLD = 0.7;
 
         @TicksPerRev
-        public static final double TICKS_PER_REV = 537.6; // 2021: 28;
+        public static final double TICKS_PER_REV = 385.6; // previous: 537.6
 
         @MaxRPM
         public static final double MAX_RPM = 435; // 2021: 6000;

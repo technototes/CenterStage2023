@@ -32,6 +32,7 @@ public class AutoConstants {
         public static ConfigurablePoseD SIDE_RIGHT = new ConfigurablePoseD(0,-48,0);
         public static ConfigurablePoseD SIDE_LEFT = new ConfigurablePoseD(0,0,0);
         public static ConfigurablePoseD MID_PARK_CENTER = new ConfigurablePoseD(-35,12,-90);
+        public static ConfigurablePoseD PIXEL_INTAKE = new ConfigurablePoseD(50,12,0);
 
 
         // These are 'trajectory pieces' which should be named like this:
