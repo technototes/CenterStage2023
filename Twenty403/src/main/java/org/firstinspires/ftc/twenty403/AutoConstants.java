@@ -18,7 +18,7 @@ public class AutoConstants {
         // This is "clear of the pixels, ready to go somewhere else"
         public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(39,56,-90);
         public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(39, 32, -180); // fine tuned OKAYY
-        public static ConfigurablePoseD PARK_CENTER = new ConfigurablePoseD(-59,12,-90); // may need to be 180 (0 needs test)
+        public static ConfigurablePoseD PARK_CENTER = new ConfigurablePoseD(-59,12,0); // may need to be 180 (0 needs test)
 
         public static ConfigurablePoseD PARK_CORNER = new ConfigurablePoseD(-60,56,-90); // may need to be 180 (0 needs test)
         public static ConfigurablePoseD RIGHT_CLEAR = new ConfigurablePoseD(-35,56,-90); // for pixel placement
@@ -31,7 +31,7 @@ public class AutoConstants {
         public static ConfigurablePoseD BACKWARD = new ConfigurablePoseD(0, 0, 0);
         public static ConfigurablePoseD SIDE_RIGHT = new ConfigurablePoseD(0,-48,0);
         public static ConfigurablePoseD SIDE_LEFT = new ConfigurablePoseD(0,0,0);
-        public static ConfigurablePoseD MID_PARK_CENTER = new ConfigurablePoseD(-35,12,-90);
+        public static ConfigurablePoseD MID_PARK_CENTER = new ConfigurablePoseD(-35,12,0);
         public static ConfigurablePoseD PIXEL_INTAKE = new ConfigurablePoseD(50,12,0);
 
 
@@ -135,20 +135,22 @@ public class AutoConstants {
     @Config
     public static class WingBlue {
         public static ConfigurablePoseD START = new ConfigurablePoseD(35, -60, 90);
-        public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(32, -32, 180); // near the metal,  fine tuned
-        public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(35, -32, 90); //  fine tuned
-        public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(41, -35, 60); // fine tuned
+        public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(29, -33, 130); // near the metal,  fine tuned
+        public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(35, -29, 90); //  fine tuned
+        public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(44, -35, 60); // SHOULD BE OK
         // This is "clear of the pixels, ready to go somewhere else"
         public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(39,-56,90);
-        public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(39, -32, 180); //  fine tuned
-        public static ConfigurablePoseD PARK_CENTER = new ConfigurablePoseD(-59,-12,90); // may need to be 180 (0 needs test)
+        public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(39, -45, 120); //  fine tuned
+        public static ConfigurablePoseD PARK_CENTER = new ConfigurablePoseD(-59,-12,0); // may need to be 180 (0 needs test)
 
         public static ConfigurablePoseD PARK_CORNER = new ConfigurablePoseD(-60,-56,90); // may need to be 180 (0 needs test)
         public static ConfigurablePoseD LEFT_CLEAR = new ConfigurablePoseD(-35,-56,90);// for pixel placement
         public static ConfigurablePoseD PLACE_LEFT = new ConfigurablePoseD(-45,-40,0);
-        public static ConfigurablePoseD PLACE_MIDDLE = new ConfigurablePoseD(-45,-35,0);
-        public static ConfigurablePoseD PLACE_RIGHT = new ConfigurablePoseD(-45,-30,0);
-        public static ConfigurablePoseD MID_PARK_CENTER = new ConfigurablePoseD(-35,-12,90);
+        public static ConfigurablePoseD PLACE_MIDDLE = new ConfigurablePoseD(-46,-35,0);
+        public static ConfigurablePoseD PLACE_RIGHT = new ConfigurablePoseD(-45,-28,0);
+        public static ConfigurablePoseD MID_PARK_CENTER = new ConfigurablePoseD(-35,-12,0);
+        public static ConfigurablePoseD PIXEL_INTAKE = new ConfigurablePoseD(50,-10,0);
+
 
 
 
@@ -210,6 +212,25 @@ public class AutoConstants {
         public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
                 MID_PARK_CENTER_TO_PARK_CENTER = b ->
                 b.apply(MID_PARK_CENTER.toPose()).lineToLinearHeading(PARK_CENTER.toPose()).build();
+        public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
+                LEFT_CLEAR_TO_MID_PARK_CENTER = b ->
+                b.apply(LEFT_CLEAR.toPose()).lineToLinearHeading(MID_PARK_CENTER.toPose()).build();
+        // pixel intake trajectories
+        public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
+                MID_PARK_CENTER_TO_PIXEL_INTAKE= b ->
+                b.apply(MID_PARK_CENTER.toPose()).lineToLinearHeading(PIXEL_INTAKE.toPose()).build();
+        public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
+                PIXEL_INTAKE_MID_PARK_CENTER= b ->
+                b.apply(PIXEL_INTAKE.toPose()).lineToLinearHeading(MID_PARK_CENTER.toPose()).build();
+        public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
+                MID_PARK_CENTER_TO_PLACE_MIDDLE= b ->
+                b.apply(MID_PARK_CENTER.toPose()).lineToLinearHeading(PLACE_MIDDLE.toPose()).build();
+        public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
+                PLACE_MIDDLE_TO_MID_PARK_CENTER= b ->
+                b.apply(PLACE_MIDDLE.toPose()).lineToLinearHeading(MID_PARK_CENTER.toPose()).build();
+        public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
+                MID_PARK_CENTER_TO_LEFT_CLEAR= b ->
+                b.apply(MID_PARK_CENTER.toPose()).lineToLinearHeading(LEFT_CLEAR.toPose()).build();
 
     }
 
