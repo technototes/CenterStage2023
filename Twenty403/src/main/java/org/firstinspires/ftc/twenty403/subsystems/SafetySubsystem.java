@@ -27,9 +27,9 @@ public class SafetySubsystem implements Subsystem, Loggable {
 
     public Hardware myHw;
 
-    @Log(name = "prevOdoF")
     public int previousOdoFPosition = 0;
 
+    @Log(name = "prevOdoR")
     public int previousOdoRPosition = 0;
 
     @Log(name = "prevFLPos")
@@ -40,6 +40,7 @@ public class SafetySubsystem implements Subsystem, Loggable {
     public double previousRRPosition = 0;
     public static int OdoTickDiff = 10;
     public static double WheelTickDiff = 1.0;
+    @Log
     public static double TimerThreshold = 500.0;
 
     @Log(name = "monitoringEnabled")
@@ -127,26 +128,32 @@ public class SafetySubsystem implements Subsystem, Loggable {
             return myHw.rr.getSensorValue();
         }
     }
+    @Log
+    public int count = 0;
     @Override
     public void periodic() {
         if (monitoringEnabled == false) {
+            stopAutoReason = "Monitoring halted";
             return;
         }
-        if (timer.milliseconds() < TimerThreshold){
-            return;
-        }
-        timer.reset();
 
+        if (timer.milliseconds() < TimerThreshold){
+            int ms = (int)timer.milliseconds();
+            stopAutoReason = "Monitoring skipped" + ms;
+            return;
+        }
+        stopAutoReason = "Monitoring checking";
+        timer.reset();
         int odoFCurrentPosition = getOdoFPosition();
         int odoRCurrentPosition = getOdoRPosition();
 
+        stopAutoReason = String.format("CheckingR: %d ", odoRCurrentPosition);
         double wheelflCurrentPosition = getwheelflPosition();
         double wheelfrCurrentPosition = getwheelfrPosition();
         double wheelrlCurrentPosition = getwheelrlPosition();
         double wheelrrCurrentPosition = getwheelrrPosition();
 
         boolean stopAutoFlag = false;
-        String stopAutoReason = "";
         if (isOdoFailing(odoFCurrentPosition, previousOdoFPosition)) {
             stopAutoFlag = true;
             stopAutoReason += "OdoF not reading;";
@@ -171,7 +178,7 @@ public class SafetySubsystem implements Subsystem, Loggable {
             stopAutoFlag = true;
             stopAutoReason += "wheelrr not reading;";
         }
-        this.previousOdoFPosition = odoFCurrentPosition;
+        previousOdoFPosition = odoFCurrentPosition;
         previousOdoRPosition = odoRCurrentPosition;
 
 
@@ -184,7 +191,7 @@ public class SafetySubsystem implements Subsystem, Loggable {
             stopAuto("wheels not reading");
             return;
         }
-        this.previousFLPosition = wheelflCurrentPosition;
+        previousFLPosition = wheelflCurrentPosition;
         previousFRPosition = wheelfrCurrentPosition;
         previousRLPosition = wheelrlCurrentPosition;
         previousRRPosition = wheelrrCurrentPosition;
@@ -199,11 +206,13 @@ public class SafetySubsystem implements Subsystem, Loggable {
             failedPart = FailedPart.NONE;
         }
         else {
+            stopAutoReason = "failing a part:" + fp.toString();
             failedPart = fp;
         }
     }
     public SafetySubsystem(Hardware hw) {
         myHw = hw;
+        timer = new ElapsedTime();
         CommandScheduler.getInstance().register(this);
     }
 
@@ -214,8 +223,11 @@ public class SafetySubsystem implements Subsystem, Loggable {
     }
 
     public void startMonitoring() {
-        monitoringEnabled = true;
-        timer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
+        count++;
+        if (monitoringEnabled == false) {
+            monitoringEnabled = true;
+            timer.reset();
+        }
     }
 
     public void stopMonitoring() {
