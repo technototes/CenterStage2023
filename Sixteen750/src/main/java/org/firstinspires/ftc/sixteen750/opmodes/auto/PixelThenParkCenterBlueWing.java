@@ -17,7 +17,7 @@ import org.firstinspires.ftc.sixteen750.commands.auto.blue.BlueWingParkCenter;
 import org.firstinspires.ftc.sixteen750.controls.DriverController;
 import org.firstinspires.ftc.sixteen750.helpers.StartingPosition;
 // The last 4 weird things are '🟥' and '🪶' (wing)
-@Autonomous(name = "PixelThenParkCenterBlueWing")
+@Autonomous(name = "Push&PlaceCenterBlueWing")
 @SuppressWarnings("unused")
 public class PixelThenParkCenterBlueWing extends CommandOpMode {
 

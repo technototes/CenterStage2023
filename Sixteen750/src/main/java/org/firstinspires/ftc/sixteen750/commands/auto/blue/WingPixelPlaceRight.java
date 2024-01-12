@@ -5,6 +5,7 @@ import com.technototes.path.command.TrajectorySequenceCommand;
 
 import org.firstinspires.ftc.sixteen750.AutoConstants.WingBlue;
 import org.firstinspires.ftc.sixteen750.Robot;
+import org.firstinspires.ftc.sixteen750.commands.auto.PixelScoring;
 
 public class WingPixelPlaceRight extends SequentialCommandGroup {
 
@@ -15,6 +16,7 @@ public class WingPixelPlaceRight extends SequentialCommandGroup {
                 new TrajectorySequenceCommand(r.drivebase, WingBlue.ClEAR_TO_LEFT_CLEAR),
                 new TrajectorySequenceCommand(r.drivebase, WingBlue.LEFT_CLEAR_TO_PLACE_RIGHT),
                 //place command
+                new PixelScoring(r.placement),
                 new TrajectorySequenceCommand(r.drivebase, WingBlue.PLACE_RIGHT_TO_LEFT_CLEAR)
         );
     }

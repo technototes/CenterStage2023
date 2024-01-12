@@ -4,9 +4,9 @@ import com.technototes.library.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.sixteen750.subsystems.PlacementSubsystem;
 
-public class ScoreHoldSequential extends SequentialCommandGroup {
+public class ServoHold extends SequentialCommandGroup {
 
-    public ScoreHoldSequential(PlacementSubsystem s) {
+    public ServoHold(PlacementSubsystem s) {
         super(new ArmHoldCommand(s), new ScoreHoldCommand(s));
     }
 }

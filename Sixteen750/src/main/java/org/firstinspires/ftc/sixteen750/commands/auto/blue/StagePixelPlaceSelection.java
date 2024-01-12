@@ -14,7 +14,7 @@ public class StagePixelPlaceSelection extends ChoiceCommand {
         super(
             new Pair<>(r.vision.pipeline::left, new StagePixelPlaceLeft(r)),
             new Pair<>(r.vision.pipeline::middle, new StagePixelPlaceMiddle(r)),
-            new Pair<>(r.vision.pipeline::right, new StagePixelPlaceRight(r))
+            new Pair<>(r.vision.pipeline::right, new StagePixelPlaceRight(r)) //more code
         );
     }
 }

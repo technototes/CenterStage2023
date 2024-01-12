@@ -5,6 +5,7 @@ import com.technototes.path.command.TrajectorySequenceCommand;
 
 import org.firstinspires.ftc.sixteen750.AutoConstants;
 import org.firstinspires.ftc.sixteen750.Robot;
+import org.firstinspires.ftc.sixteen750.commands.auto.PixelScoring;
 
 public class StagePixelPlaceLeft extends SequentialCommandGroup {
 
@@ -17,6 +18,7 @@ public class StagePixelPlaceLeft extends SequentialCommandGroup {
                 new TrajectorySequenceCommand(r.drivebase, AutoConstants.StageRed.CLEAR_TO_RIGHT_CLEAR),
                 new TrajectorySequenceCommand(r.drivebase, AutoConstants.StageRed.RIGHT_CLEAR_TO_PLACE_LEFT),
                 //place command
+                new PixelScoring(r.placement),
                 new TrajectorySequenceCommand(r.drivebase, AutoConstants.StageRed.PLACE_LEFT_TO_MID_PARK_CENTER)
         );
     }
