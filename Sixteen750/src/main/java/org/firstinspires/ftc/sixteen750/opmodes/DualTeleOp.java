@@ -41,7 +41,8 @@ public class DualTeleOp extends CommandOpMode {
                 .scheduleForState(
                     new SequentialCommandGroup(
                         new ResetGyroCommand(robot.drivebase)
-                    ),
+                        // ,new DroneStart(robot.drone) //need to only be done if drone is connected
+                            ),
                     OpModeState.INIT
                 );
         }
