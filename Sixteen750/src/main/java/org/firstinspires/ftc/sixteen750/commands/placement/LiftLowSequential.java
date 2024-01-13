@@ -9,6 +9,6 @@ import org.firstinspires.ftc.sixteen750.subsystems.PlacementSubsystem;
 public class LiftLowSequential extends SequentialCommandGroup {
 public static double WAIT1 = 0.5;
     public LiftLowSequential(PlacementSubsystem s) {
-        super(new ScoreServoFlatCommand(s),new WaitCommand(WAIT1), new ServoHold(s), new WaitCommand(0.5), new LiftLowCommand(s));
+        super(new ServoHold(s), new WaitCommand(0.5), new LiftLowCommand(s));
     }
 }

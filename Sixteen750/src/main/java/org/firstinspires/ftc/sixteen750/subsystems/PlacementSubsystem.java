@@ -19,7 +19,7 @@ import org.firstinspires.ftc.sixteen750.Setup;
 public class PlacementSubsystem implements Subsystem, Loggable {
 //TODO: if time: can we change speed of servo?
     // numbers need to be calibrated for the lift
-    public static double LOW_POS = -800; //TODO: test
+    public static double LOW_POS = -950; //TODO: test
     public static double MEDIUM_POS = -1350; //tested
 //    public static double HIGH_POS = 1000;
     public static double INTAKELIFT_POS = -50; //TODO: test
