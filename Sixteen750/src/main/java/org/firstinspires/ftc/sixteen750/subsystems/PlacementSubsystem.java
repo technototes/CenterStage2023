@@ -22,7 +22,7 @@ public class PlacementSubsystem implements Subsystem, Loggable {
     public static double LOW_POS = -950; //TODO: test
     public static double MEDIUM_POS = -1350; //tested
 //    public static double HIGH_POS = 1000;
-    public static double INTAKELIFT_POS = -50; //TODO: test
+    public static double INTAKELIFT_POS = 0; //TODO: test
     public static double MIN_MOTOR_SPEED = -0.7; //TODO: test
     public static double MAX_MOTOR_SPEED = 1;
 
