@@ -30,6 +30,7 @@ public class ArmSubsystem implements Subsystem, Loggable {
 
     public static double MIN_INTAKE_SPEED = -1;
     public static double MAX_INTAKE_SPEED = 1;
+    public static double SPIT_SPEED = -.3;
 
     public static double WRIST_ARM_INTAKE = 0.4; //collect (change vals)
     public static double WRIST_RESET_POSITION = 0; //reset (change vals)
@@ -191,7 +192,7 @@ public class ArmSubsystem implements Subsystem, Loggable {
     }
     public void stopIntake() {setServoMotorPower(0);}
     public void slurpIntake() {setServoMotorPower(MAX_INTAKE_SPEED);}
-    public void spitIntake() {setServoMotorPower(-0.3);}
+    public void spitIntake() {setServoMotorPower(SPIT_SPEED);}
 
     @Override
     public void periodic() {

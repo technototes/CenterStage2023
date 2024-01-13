@@ -38,10 +38,10 @@ public class SafetySubsystem implements Subsystem, Loggable {
     public double previousFRPosition = 0;
     public double previousRLPosition = 0;
     public double previousRRPosition = 0;
-    public static int OdoTickDiff = 3;
+    public static int OdoTickDiff = 2;
     public static double WheelTickDiff = 1.0;
     @Log
-    public static double TimerThreshold = 500.0;
+    public static double TimerThreshold = 750.0;
 
     @Log(name = "monitoringEnabled")
     public boolean monitoringEnabled = false;
