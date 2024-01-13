@@ -22,7 +22,7 @@ public class ArmSubsystem implements Subsystem, Loggable {
     public static int SHOULDER_THIRD_LINE_SCORING = 1140; //change vals
     public static int SHOULDER_VERTICAL = 881; // For feed-fwd, and maybe hang
     public static int SHOULDER_MANUAL_STEP = 20; //increment/decrement
-    public static int SHOULDER_LARGE_STEP = 70; //increment/decrement
+    public static int SHOULDER_LARGE_STEP = 850; //increment/decrement
     public static double MIN_SHOULDER_MOTOR_SPEED = -0.5;
     public static double MAX_SHOULDER_MOTOR_SPEED = 0.5;
     public static double MIN_HANG_SPEED = -1;
