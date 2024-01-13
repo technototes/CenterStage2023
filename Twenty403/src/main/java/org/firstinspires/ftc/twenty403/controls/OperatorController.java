@@ -85,7 +85,7 @@ public class OperatorController {
     public void bindClawControls() {
         armIntakeButton.whenPressed(new ArmIntakeCommand(robot.armSubsystem));
         armNeutralButton.whenPressed(new ArmNeutralCommand(robot.armSubsystem));
-        armFirstLine.whenPressed(new ArmFirstLineCommand((robot.armSubsystem)));
+        armFirstLine.whenPressed(new ArmSecondLineCommand((robot.armSubsystem)));
         armSecondLine.whenPressed(new ArmSecondLineCommand((robot.armSubsystem)));
         //armThirdLine.whenPressed(new ArmThirdLineCommand((robot.armSubsystem)));
         shoulderResetZero.whenPressed(new ShoulderNeutralCommand((robot.armSubsystem)));
