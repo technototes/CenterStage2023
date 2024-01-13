@@ -14,7 +14,7 @@ public class DroneSubsystem implements Subsystem, Loggable {
     private boolean isHardware;
 
     @Log(name = "LAUNCH")
-    public static double LAUNCH = 0.0;
+    public static double LAUNCH = 0;
 
     @Log(name = "START")
     public static double START = 1.0;

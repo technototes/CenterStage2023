@@ -7,6 +7,7 @@ import com.technototes.library.control.CommandGamepad;
 import com.technototes.library.control.Stick;
 import org.firstinspires.ftc.sixteen750.Robot;
 import org.firstinspires.ftc.sixteen750.Setup;
+import org.firstinspires.ftc.sixteen750.commands.DroneLaunch;
 import org.firstinspires.ftc.sixteen750.commands.driving.JoystickDriveCommand;
 import org.firstinspires.ftc.sixteen750.commands.driving.NormalModeCommand;
 import org.firstinspires.ftc.sixteen750.commands.driving.ResetGyroCommand;
@@ -23,6 +24,8 @@ public class DriverController {
     public CommandButton override;
     public CommandAxis driveStraighten;
 
+    public CommandButton droneReleaseButton;
+
     public DriverController(CommandGamepad g, Robot r) {
         this.robot = r;
         gamepad = g;
@@ -31,6 +34,9 @@ public class DriverController {
         AssignNamedControllerButton();
         if (Setup.Connected.DRIVEBASE) {
             bindDriveControls();
+        }
+        if (Setup.Connected.DRONE) {
+            bindDroneControls();
         }
     }
 
@@ -41,6 +47,8 @@ public class DriverController {
         driveStraighten = gamepad.rightTrigger;
         turboButton = gamepad.rightBumper;
         snailButton = gamepad.leftBumper;
+        droneReleaseButton = gamepad.ps_cross;
+
     }
 
     public void bindDriveControls() {
@@ -61,5 +69,8 @@ public class DriverController {
         snailButton.whenReleased(new NormalModeCommand(robot.drivebase));
 
         resetGyroButton.whenPressed(new ResetGyroCommand(robot.drivebase));
+    }
+    private void bindDroneControls() {
+        droneReleaseButton.whenPressed((new DroneLaunch(robot.drone)));
     }
 }
