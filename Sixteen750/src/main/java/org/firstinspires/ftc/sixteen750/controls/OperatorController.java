@@ -15,6 +15,7 @@ import org.firstinspires.ftc.sixteen750.commands.placement.ArmServoInputCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.ArmServoOutputCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.LiftIntakeSequential;
 import org.firstinspires.ftc.sixteen750.commands.placement.LiftLowSequential;
+import org.firstinspires.ftc.sixteen750.commands.placement.LiftMediumCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.LiftMediumSequential;
 import org.firstinspires.ftc.sixteen750.commands.placement.ScoreHoldCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.ServoHold;
@@ -91,7 +92,7 @@ public class OperatorController {
 
     private void bindPlacementControls() {
 //        placementHighButton.whenPressed(new LiftHighCommand(robot.placement));
-        placementMediumButton.whenPressed(new LiftMediumSequential(robot.placement));
+        placementMediumButton.whenPressed(new LiftMediumCommand(robot.placement));
         placementLowButton.whenPressed(new LiftLowSequential(robot.placement));
         placementIntakeButton.whenPressed(new LiftIntakeSequential(robot.placement));
 
@@ -115,6 +116,6 @@ public class OperatorController {
 //        hangDownButton.whenPressed(new HangDown(robot.hang));
     }
     private void bindDroneControls() {
-        DroneReleaseButton.whenPressed((new DroneLaunch(robot.drone)));
+//        DroneReleaseButton.whenPressed((new DroneLaunch(robot.drone)));
     }
 }
