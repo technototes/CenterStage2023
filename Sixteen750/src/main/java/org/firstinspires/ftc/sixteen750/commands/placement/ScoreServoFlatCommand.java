@@ -4,17 +4,17 @@ import com.technototes.library.command.Command;
 
 import org.firstinspires.ftc.sixteen750.subsystems.PlacementSubsystem;
 
-public class ScoreHoldCommand implements Command {
+public class ScoreServoFlatCommand implements Command {
 
     private PlacementSubsystem placement;
 
-    public ScoreHoldCommand(PlacementSubsystem i) {
+    public ScoreServoFlatCommand(PlacementSubsystem i) {
         placement = i;
         addRequirements(i);
     }
 
     @Override
     public void execute() {
-        placement.ScoreServoHold();
+        placement.ScoreServoFlat();
     }
 }
