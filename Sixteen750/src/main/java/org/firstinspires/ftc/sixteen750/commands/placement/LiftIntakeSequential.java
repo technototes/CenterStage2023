@@ -8,6 +8,6 @@ import org.firstinspires.ftc.sixteen750.subsystems.PlacementSubsystem;
 public class LiftIntakeSequential extends SequentialCommandGroup {
 
     public LiftIntakeSequential(PlacementSubsystem s) {
-        super(new ServoHold(s), new LiftIntakeCommand(s), new WaitCommand(0.3), new ServoIntakes(s));
+        super(new ScoreHoldCommand(s), new ArmHoldCommand(s), new WaitCommand(0.3), new LiftIntakeCommand(s), new WaitCommand(0.3), new ServoIntakes(s));
     }
 }

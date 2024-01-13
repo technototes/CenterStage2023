@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.sixteen750.controls;
 
+import com.qualcomm.robotcore.hardware.Servo;
 import com.technototes.library.control.CommandButton;
 import com.technototes.library.control.CommandGamepad;
 
@@ -15,6 +16,7 @@ import org.firstinspires.ftc.sixteen750.commands.placement.ArmServoOutputCommand
 import org.firstinspires.ftc.sixteen750.commands.placement.LiftIntakeSequential;
 import org.firstinspires.ftc.sixteen750.commands.placement.LiftLowSequential;
 import org.firstinspires.ftc.sixteen750.commands.placement.LiftMediumSequential;
+import org.firstinspires.ftc.sixteen750.commands.placement.ScoreHoldCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.ServoHold;
 import org.firstinspires.ftc.sixteen750.commands.placement.ScoreServoFlatCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.ScoreServoInputCommand;
@@ -95,7 +97,7 @@ public class OperatorController {
 
         armServoIntakeButton.whenPressed(new ArmServoInputCommand(robot.placement));
         armServoOutputButton.whenPressed(new ArmServoOutputCommand(robot.placement));
-        armServoHoldButton.whenPressed(new ArmHoldCommand(robot.placement));
+        armServoHoldButton.whenPressed(new ScoreHoldCommand(robot.placement));
         scoreServoIntakeButton.whenPressed(new ScoreServoInputCommand(robot.placement));
         scoreServoOutputButton.whenPressed(new ScoreServoOutputCommand(robot.placement));
         scoreServoHoldButton.whenPressed(new ServoHold(robot.placement));

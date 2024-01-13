@@ -11,8 +11,8 @@ import org.firstinspires.ftc.sixteen750.subsystems.PlacementSubsystem;
 
 @Config
 public class PixelScoring extends SequentialCommandGroup {
-    private static double WAIT1 = 0.1;
-    private static double WAIT2 = 0.5;
+    public static double WAIT1 = 2;
+    public static double WAIT2 = 2;
         public PixelScoring(PlacementSubsystem s) {
             super(new LiftMediumSequential(s),
                     new WaitCommand(WAIT1),
