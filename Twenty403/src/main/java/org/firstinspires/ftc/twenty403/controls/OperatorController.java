@@ -7,6 +7,8 @@ import org.firstinspires.ftc.twenty403.Setup;
 import org.firstinspires.ftc.twenty403.commands.arm.IntakeManualSlurpCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.IntakeSpitCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.IntakeStopCommand;
+import org.firstinspires.ftc.twenty403.commands.arm.ShoulderLargeDecrementCommand;
+import org.firstinspires.ftc.twenty403.commands.arm.ShoulderLargeIncrementCommand;
 import org.firstinspires.ftc.twenty403.commands.drone.DroneCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.ArmFirstLineCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.ArmIntakeCommand;
@@ -43,6 +45,8 @@ public class OperatorController {
     public CommandButton manualSlurp;
     public CommandButton spit;
     public CommandButton stopIntake;
+    public CommandButton largeShoulderInc;
+    public CommandButton largeShoulderDec;
 
     public OperatorController(CommandGamepad g, Robot r) {
         this.robot = r;
@@ -61,7 +65,8 @@ public class OperatorController {
     private void AssignNamedControllerButton() {
         armFirstLine = gamepad.ps_circle;
         armSecondLine = gamepad.ps_triangle;
-        //armThirdLine = gamepad.ps_options;
+        largeShoulderDec = gamepad.leftStickButton;
+        largeShoulderInc = gamepad.rightStickButton;
         armIntakeButton = gamepad.ps_cross;
         shoulderResetZero = gamepad.ps_options;
         shoulderDecrementButton = gamepad.dpadDown;
@@ -80,7 +85,7 @@ public class OperatorController {
     public void bindClawControls() {
         armIntakeButton.whenPressed(new ArmIntakeCommand(robot.armSubsystem));
         armNeutralButton.whenPressed(new ArmNeutralCommand(robot.armSubsystem));
-        armFirstLine.whenPressed(new ArmFirstLineCommand((robot.armSubsystem)));
+        armFirstLine.whenPressed(new ArmSecondLineCommand((robot.armSubsystem)));
         armSecondLine.whenPressed(new ArmSecondLineCommand((robot.armSubsystem)));
         //armThirdLine.whenPressed(new ArmThirdLineCommand((robot.armSubsystem)));
         shoulderResetZero.whenPressed(new ShoulderNeutralCommand((robot.armSubsystem)));
@@ -93,6 +98,8 @@ public class OperatorController {
         manualSlurp.whenReleased(new IntakeStopCommand(robot.armSubsystem));
         spit.whenPressed(new IntakeSpitCommand(robot.armSubsystem));
         spit.whenReleased(new IntakeStopCommand(robot.armSubsystem));
+        largeShoulderDec.whenPressed(new ShoulderLargeDecrementCommand(robot.armSubsystem));
+        //largeShoulderInc.whenPressed(new ShoulderLargeIncrementCommand(robot.armSubsystem));
     }
 
     public void bindDroneControls() {
