@@ -60,7 +60,7 @@ public class TestingController {
         }
 
         if (Setup.Connected.DRONE) {
-//            bindDroneControls();
+            bindDroneControls();
         }
     }
 
@@ -79,13 +79,13 @@ public class TestingController {
 
         armServoIntakeButton = gamepad.ps_triangle;
         armServoOutputButton = gamepad.ps_square;
-        scoreServoIntakeButton = gamepad.ps_circle;
+//        scoreServoIntakeButton = gamepad.ps_circle;
         scoreServoOutputButton = gamepad.ps_cross;
 
         //hangUpButton = gamepad.ps_square;
         //screwUpButton = gamepad.rightBumper;
         //screwDownButton = gamepad.leftBumper;
-//        DroneReleaseButton = gamepad.ps_circle;
+        DroneReleaseButton = gamepad.ps_circle;
     }
 
     private void bindIntakeControls() {
@@ -103,7 +103,7 @@ public class TestingController {
 
         armServoOutputButton.whenPressed(new ArmServoOutputCommand(robot.placement));
         armServoIntakeButton.whenPressed(new ArmServoInputCommand(robot.placement));
-        scoreServoIntakeButton.whenPressed(new ScoreServoInputCommand(robot.placement));
+//        scoreServoIntakeButton.whenPressed(new ScoreServoInputCommand(robot.placement));
         scoreServoOutputButton.whenPressed(new ScoreServoOutputCommand(robot.placement));
     }
 

@@ -45,10 +45,9 @@ public class DriverController {
         driveLeftStick = gamepad.leftStick;
         driveRightStick = gamepad.rightStick;
         driveStraighten = gamepad.rightTrigger;
-        turboButton = gamepad.rightBumper;
-        snailButton = gamepad.leftBumper;
+        turboButton = gamepad.leftBumper;
+        snailButton = gamepad.rightBumper;
         droneReleaseButton = gamepad.ps_cross;
-
     }
 
     public void bindDriveControls() {

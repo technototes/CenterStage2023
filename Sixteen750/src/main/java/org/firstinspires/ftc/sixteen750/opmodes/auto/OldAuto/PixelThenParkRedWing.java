@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.sixteen750.opmodes.auto;
+package org.firstinspires.ftc.sixteen750.opmodes.auto.OldAuto;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
@@ -12,14 +12,14 @@ import org.firstinspires.ftc.sixteen750.Hardware;
 import org.firstinspires.ftc.sixteen750.Robot;
 import org.firstinspires.ftc.sixteen750.Setup;
 import org.firstinspires.ftc.sixteen750.commands.VisionCommand;
-import org.firstinspires.ftc.sixteen750.commands.auto.red.StagePixelSelection;
+import org.firstinspires.ftc.sixteen750.commands.auto.red.WingPixelSelection;
 import org.firstinspires.ftc.sixteen750.controls.DriverController;
 import org.firstinspires.ftc.sixteen750.helpers.StartingPosition;
 
 // The last 4 weird things are '🟥' and '🪶' (wing)
-@Autonomous(name = "PixelThenParkRedStage")
+@Autonomous(name = "PixelThenParkRedWing")
 @SuppressWarnings("unused")
-public class PixelThenParkRedStage extends CommandOpMode {
+public class PixelThenParkRedWing extends CommandOpMode {
 
     public Robot robot;
     public DriverController controls;
@@ -29,13 +29,13 @@ public class PixelThenParkRedStage extends CommandOpMode {
     public void uponInit() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         hardware = new Hardware(hardwareMap);
-        robot = new Robot(hardware, Alliance.RED, StartingPosition.Backstage);
-        robot.drivebase.setPoseEstimate(AutoConstants.StageRed.START.toPose());
+        robot = new Robot(hardware, Alliance.RED, StartingPosition.Wing);
+        robot.drivebase.setPoseEstimate(AutoConstants.WingRed.START.toPose());
         CommandScheduler
             .getInstance()
             .scheduleForState(
                 new SequentialCommandGroup(
-                    new StagePixelSelection(robot),
+                    new WingPixelSelection(robot),
                     //                    new RecordFinalHeading(robot.drivebase),
                     CommandScheduler.getInstance()::terminateOpMode
                 ),

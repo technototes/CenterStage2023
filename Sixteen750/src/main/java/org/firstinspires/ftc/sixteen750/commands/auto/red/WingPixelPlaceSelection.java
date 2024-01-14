@@ -14,7 +14,7 @@ public class WingPixelPlaceSelection extends ChoiceCommand {
         super(
             new Pair<>(r.vision.pipeline::left, new WingPixelPlaceLeft(r)),
             new Pair<>(r.vision.pipeline::middle, new WingPixelPlaceMiddle(r)),
-            new Pair<>(r.vision.pipeline::right, new WingPixelPlaceRight(r))
+            new Pair<>(r.vision.pipeline::right, new WingPixelPlaceRight(r)) //this has more code than other 2
         );
     }
 }
