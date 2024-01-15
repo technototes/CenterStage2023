@@ -1,22 +1,18 @@
 package org.firstinspires.ftc.sixteen750.controls;
 
-import com.qualcomm.robotcore.hardware.Servo;
 import com.technototes.library.control.CommandButton;
 import com.technototes.library.control.CommandGamepad;
 
 import org.firstinspires.ftc.sixteen750.Robot;
 import org.firstinspires.ftc.sixteen750.Setup;
-import org.firstinspires.ftc.sixteen750.commands.DroneLaunch;
 import org.firstinspires.ftc.sixteen750.commands.intake.EjectCommand;
 import org.firstinspires.ftc.sixteen750.commands.intake.IntakeCommand;
 import org.firstinspires.ftc.sixteen750.commands.intake.StopCommand;
-import org.firstinspires.ftc.sixteen750.commands.placement.ArmHoldCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.ArmServoInputCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.ArmServoOutputCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.LiftIntakeSequential;
 import org.firstinspires.ftc.sixteen750.commands.placement.LiftLowSequential;
 import org.firstinspires.ftc.sixteen750.commands.placement.LiftMediumCommand;
-import org.firstinspires.ftc.sixteen750.commands.placement.LiftMediumSequential;
 import org.firstinspires.ftc.sixteen750.commands.placement.ScoreHoldCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.ServoHold;
 import org.firstinspires.ftc.sixteen750.commands.placement.ScoreServoFlatCommand;
@@ -32,7 +28,7 @@ public class OperatorController {
     public CommandButton intakeButton, ejectButton,stopButton,pauseButton;
     public CommandButton placementHighButton,placementLowButton,placementMediumButton,placementIntakeButton;
     public CommandButton armServoOutputButton, scoreServoOutputButton, servoOutputButton, scoreServoIntakeButton, armServoIntakeButton, servoIntakeButton;
-    public CommandButton scoreServoHoldButton, scoreServoFlatButton,armServoHoldButton;
+    public CommandButton servoHoldButton, scoreServoFlatButton, scoreServoHoldButton;
     public CommandButton DroneReleaseButton;
     public CommandButton hangUpButton,hangDownButton,screwUpButton,screwDownButton;
     public OperatorController(CommandGamepad g, Robot r) {
@@ -64,11 +60,11 @@ public class OperatorController {
 
         armServoIntakeButton = gamepad.ps_triangle;
         armServoOutputButton = gamepad.ps_square;
-        armServoHoldButton = gamepad.leftStickButton;
+        scoreServoHoldButton = gamepad.leftStickButton;
 
         scoreServoIntakeButton = gamepad.ps_circle;
         scoreServoOutputButton = gamepad.ps_cross;
-        scoreServoHoldButton = gamepad.rightStickButton;
+        servoHoldButton = gamepad.rightStickButton;
 
         scoreServoFlatButton = gamepad.dpadUp;
 
@@ -99,10 +95,10 @@ public class OperatorController {
 
         armServoIntakeButton.whenPressed(new ArmServoInputCommand(robot.placement));
         armServoOutputButton.whenPressed(new ArmServoOutputCommand(robot.placement));
-        armServoHoldButton.whenPressed(new ScoreHoldCommand(robot.placement));
+        scoreServoHoldButton.whenPressed(new ScoreHoldCommand(robot.placement));
         scoreServoIntakeButton.whenPressed(new ScoreServoInputCommand(robot.placement));
         scoreServoOutputButton.whenPressed(new ScoreServoOutputCommand(robot.placement));
-        scoreServoHoldButton.whenPressed(new ServoHold(robot.placement));
+        servoHoldButton.whenPressed(new ServoHold(robot.placement));
         scoreServoFlatButton.whenPressed(new ScoreServoFlatCommand(robot.placement));
         servoIntakeButton.whenPressed(new ServoIntakes(robot.placement));
         servoOutputButton.whenPressed(new ServoOutputs(robot.placement));
