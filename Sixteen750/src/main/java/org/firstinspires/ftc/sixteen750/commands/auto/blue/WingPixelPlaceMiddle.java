@@ -12,12 +12,12 @@ public class WingPixelPlaceMiddle extends SequentialCommandGroup {
     public WingPixelPlaceMiddle(Robot r) {
         super(
                 new TrajectorySequenceCommand(r.drivebase, WingBlue.START_TO_MIDDLE_SPIKE),
-                new TrajectorySequenceCommand(r.drivebase, WingBlue.MIDDLE_SPIKE_TO_CLEAR),
-                new TrajectorySequenceCommand(r.drivebase, WingBlue.ClEAR_TO_LEFT_CLEAR),
-                new TrajectorySequenceCommand(r.drivebase, WingBlue.LEFT_CLEAR_TO_PLACE_MIDDLE),
+                new TrajectorySequenceCommand(r.drivebase, WingBlue.MIDDLE_SPIKE_TO_CLEAR)
+//                new TrajectorySequenceCommand(r.drivebase, WingBlue.ClEAR_TO_LEFT_CLEAR),
+//                new TrajectorySequenceCommand(r.drivebase, WingBlue.LEFT_CLEAR_TO_PLACE_MIDDLE),
                 //place command
-                new PixelScoring(r.placement),
-                new TrajectorySequenceCommand(r.drivebase, WingBlue.PLACE_MIDDLE_TO_LEFT_CLEAR)
+//                new PixelScoring(r.placement),
+//                new TrajectorySequenceCommand(r.drivebase, WingBlue.PLACE_MIDDLE_TO_LEFT_CLEAR)
         );
     }
 }

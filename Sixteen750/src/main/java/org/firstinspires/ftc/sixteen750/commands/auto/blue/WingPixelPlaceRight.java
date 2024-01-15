@@ -12,12 +12,12 @@ public class WingPixelPlaceRight extends SequentialCommandGroup {
     public WingPixelPlaceRight(Robot r) {
         super(
                 new TrajectorySequenceCommand(r.drivebase, WingBlue.START_TO_RIGHT_SPIKE),
-                new TrajectorySequenceCommand(r.drivebase, WingBlue.RIGHT_SPIKE_TO_CLEAR),
-                new TrajectorySequenceCommand(r.drivebase, WingBlue.ClEAR_TO_LEFT_CLEAR),
-                new TrajectorySequenceCommand(r.drivebase, WingBlue.LEFT_CLEAR_TO_PLACE_RIGHT),
+                new TrajectorySequenceCommand(r.drivebase, WingBlue.RIGHT_SPIKE_TO_CLEAR)
+//                new TrajectorySequenceCommand(r.drivebase, WingBlue.ClEAR_TO_LEFT_CLEAR),
+//                new TrajectorySequenceCommand(r.drivebase, WingBlue.LEFT_CLEAR_TO_PLACE_RIGHT),
                 //place command
-                new PixelScoring(r.placement),
-                new TrajectorySequenceCommand(r.drivebase, WingBlue.PLACE_RIGHT_TO_LEFT_CLEAR)
+//                new PixelScoring(r.placement),
+//                new TrajectorySequenceCommand(r.drivebase, WingBlue.PLACE_RIGHT_TO_LEFT_CLEAR)
         );
     }
 }
