@@ -12,15 +12,15 @@ import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
 import org.firstinspires.ftc.twenty403.commands.VisionCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.ArmNeutralCommand;
-import org.firstinspires.ftc.twenty403.commands.auto.blue.BlueStageParkCorner;
+import org.firstinspires.ftc.twenty403.commands.auto.blue.BlueStageParkCenter;
 import org.firstinspires.ftc.twenty403.controls.DriverController;
 import org.firstinspires.ftc.twenty403.helpers.StartingPosition;
 import org.firstinspires.ftc.twenty403.subsystems.ArmSubsystem;
 
 // The last 4 weird things are '🟥' and '🪶' (wing)
-@Autonomous(name = "PixelThenParkCornerBlueStage")
+@Autonomous(name = "PushPlaceParkCenterBlueStage")
 @SuppressWarnings("unused")
-public class PixelThenParkCornerBlueStage extends CommandOpMode {
+public class PushPlaceParkCenterBlueStage extends CommandOpMode {
 
     public Robot robot;
     public DriverController controls;
@@ -35,8 +35,9 @@ public class PixelThenParkCornerBlueStage extends CommandOpMode {
         robot.drivebaseSubsystem.setPoseEstimate(AutoConstants.StageBlue.START.toPose());
         CommandScheduler
             .getInstance()
-            .scheduleForState(new BlueStageParkCorner(robot), OpModeState.RUN);
+            .scheduleForState(new BlueStageParkCenter(robot), OpModeState.RUN);
         CommandScheduler.getInstance().scheduleInit(new ArmNeutralCommand(robot.armSubsystem));
+
         if (Setup.Connected.WEBCAM) {
             CommandScheduler.getInstance().scheduleInit(new VisionCommand(robot.vision));
         }
