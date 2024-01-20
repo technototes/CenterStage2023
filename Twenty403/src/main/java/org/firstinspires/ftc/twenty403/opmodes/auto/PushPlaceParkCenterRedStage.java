@@ -12,15 +12,15 @@ import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
 import org.firstinspires.ftc.twenty403.commands.VisionCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.ArmNeutralCommand;
-import org.firstinspires.ftc.twenty403.commands.auto.red.RedWingParkCorner;
+import org.firstinspires.ftc.twenty403.commands.auto.red.RedStageParkCenter;
 import org.firstinspires.ftc.twenty403.controls.DriverController;
 import org.firstinspires.ftc.twenty403.helpers.StartingPosition;
 import org.firstinspires.ftc.twenty403.subsystems.ArmSubsystem;
 
 // The last 4 weird things are '🟥' and '🪶' (wing)
-@Autonomous(name = "PixelThenParkCornerRedWing")
+@Autonomous(name = "PushPlaceParkCenterRedStage")
 @SuppressWarnings("unused")
-public class PixelThenParkCornerRedWing extends CommandOpMode {
+public class PushPlaceParkCenterRedStage extends CommandOpMode {
 
     public Robot robot;
     public DriverController controls;
@@ -31,11 +31,11 @@ public class PixelThenParkCornerRedWing extends CommandOpMode {
     public void uponInit() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         hardware = new Hardware(hardwareMap);
-        robot = new Robot(hardware, Alliance.RED, StartingPosition.Wing);
-        robot.drivebaseSubsystem.setPoseEstimate(AutoConstants.WingRed.START.toPose());
+        robot = new Robot(hardware, Alliance.RED, StartingPosition.Backstage);
+        robot.drivebaseSubsystem.setPoseEstimate(AutoConstants.StageRed.START.toPose());
         CommandScheduler
             .getInstance()
-            .scheduleForState(new RedWingParkCorner(robot), OpModeState.RUN);
+            .scheduleForState(new RedStageParkCenter(robot), CommandOpMode.OpModeState.RUN);
         CommandScheduler.getInstance().scheduleInit(new ArmNeutralCommand(robot.armSubsystem));
         if (Setup.Connected.WEBCAM) {
             CommandScheduler.getInstance().scheduleInit(new VisionCommand(robot.vision));
