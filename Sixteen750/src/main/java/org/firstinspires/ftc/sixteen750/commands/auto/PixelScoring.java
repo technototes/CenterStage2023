@@ -20,7 +20,6 @@ public class PixelScoring extends SequentialCommandGroup {
                     new ServoOutputs(s),
                     new WaitCommand(WAIT2),
                     new LiftIntakeSequential(s)
-
             );
         }
     }
