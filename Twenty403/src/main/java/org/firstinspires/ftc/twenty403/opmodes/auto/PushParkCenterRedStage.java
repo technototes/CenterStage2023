@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.technototes.library.command.CommandScheduler;
 import com.technototes.library.structure.CommandOpMode;
 import com.technototes.library.util.Alliance;
+
 import org.firstinspires.ftc.twenty403.AutoConstants;
 import org.firstinspires.ftc.twenty403.Hardware;
 import org.firstinspires.ftc.twenty403.Robot;
@@ -13,14 +14,15 @@ import org.firstinspires.ftc.twenty403.Setup;
 import org.firstinspires.ftc.twenty403.commands.VisionCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.ArmNeutralCommand;
 import org.firstinspires.ftc.twenty403.commands.auto.red.RedStageParkCenter;
+import org.firstinspires.ftc.twenty403.commands.auto.red.StagePixelSelection;
 import org.firstinspires.ftc.twenty403.controls.DriverController;
 import org.firstinspires.ftc.twenty403.helpers.StartingPosition;
 import org.firstinspires.ftc.twenty403.subsystems.ArmSubsystem;
 
 // The last 4 weird things are '🟥' and '🪶' (wing)
-@Autonomous(name = "PixelThenParkCenterRedStage")
+@Autonomous(name = "PushParkCenterRedStage")
 @SuppressWarnings("unused")
-public class PixelThenParkCenterRedStage extends CommandOpMode {
+public class PushParkCenterRedStage extends CommandOpMode {
 
     public Robot robot;
     public DriverController controls;
@@ -35,7 +37,7 @@ public class PixelThenParkCenterRedStage extends CommandOpMode {
         robot.drivebaseSubsystem.setPoseEstimate(AutoConstants.StageRed.START.toPose());
         CommandScheduler
             .getInstance()
-            .scheduleForState(new RedStageParkCenter(robot), CommandOpMode.OpModeState.RUN);
+            .scheduleForState(new StagePixelSelection(robot), OpModeState.RUN);
         CommandScheduler.getInstance().scheduleInit(new ArmNeutralCommand(robot.armSubsystem));
         if (Setup.Connected.WEBCAM) {
             CommandScheduler.getInstance().scheduleInit(new VisionCommand(robot.vision));

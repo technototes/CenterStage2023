@@ -5,20 +5,16 @@ import com.technototes.library.control.CommandGamepad;
 
 import org.firstinspires.ftc.sixteen750.Robot;
 import org.firstinspires.ftc.sixteen750.Setup;
-import org.firstinspires.ftc.sixteen750.commands.DroneLaunch;
 import org.firstinspires.ftc.sixteen750.commands.intake.EjectCommand;
 import org.firstinspires.ftc.sixteen750.commands.intake.IntakeCommand;
 import org.firstinspires.ftc.sixteen750.commands.intake.StopCommand;
-import org.firstinspires.ftc.sixteen750.commands.placement.ArmHoldCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.ArmServoInputCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.ArmServoOutputCommand;
-import org.firstinspires.ftc.sixteen750.commands.placement.LiftIntakeCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.LiftIntakeSequential;
-import org.firstinspires.ftc.sixteen750.commands.placement.LiftLowCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.LiftLowSequential;
 import org.firstinspires.ftc.sixteen750.commands.placement.LiftMediumCommand;
-import org.firstinspires.ftc.sixteen750.commands.placement.LiftMediumSequential;
-import org.firstinspires.ftc.sixteen750.commands.placement.ScoreHoldSequential;
+import org.firstinspires.ftc.sixteen750.commands.placement.ScoreHoldCommand;
+import org.firstinspires.ftc.sixteen750.commands.placement.ServoHold;
 import org.firstinspires.ftc.sixteen750.commands.placement.ScoreServoFlatCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.ScoreServoInputCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.ScoreServoOutputCommand;
@@ -32,7 +28,7 @@ public class OperatorController {
     public CommandButton intakeButton, ejectButton,stopButton,pauseButton;
     public CommandButton placementHighButton,placementLowButton,placementMediumButton,placementIntakeButton;
     public CommandButton armServoOutputButton, scoreServoOutputButton, servoOutputButton, scoreServoIntakeButton, armServoIntakeButton, servoIntakeButton;
-    public CommandButton scoreServoHoldButton, scoreServoFlatButton,armServoHoldButton;
+    public CommandButton servoHoldButton, scoreServoFlatButton, scoreServoHoldButton;
     public CommandButton DroneReleaseButton;
     public CommandButton hangUpButton,hangDownButton,screwUpButton,screwDownButton;
     public OperatorController(CommandGamepad g, Robot r) {
@@ -64,11 +60,11 @@ public class OperatorController {
 
         armServoIntakeButton = gamepad.ps_triangle;
         armServoOutputButton = gamepad.ps_square;
-        armServoHoldButton = gamepad.leftStickButton;
+        scoreServoHoldButton = gamepad.leftStickButton;
 
         scoreServoIntakeButton = gamepad.ps_circle;
         scoreServoOutputButton = gamepad.ps_cross;
-        scoreServoHoldButton = gamepad.rightStickButton;
+        servoHoldButton = gamepad.rightStickButton;
 
         scoreServoFlatButton = gamepad.dpadUp;
 
@@ -81,6 +77,7 @@ public class OperatorController {
 
 //        screwUpButton = gamepad.rightBumper;
 //        screwDownButton = gamepad.leftBumper;
+
     }
 
     private void bindIntakeControls() {
@@ -92,16 +89,16 @@ public class OperatorController {
 
     private void bindPlacementControls() {
 //        placementHighButton.whenPressed(new LiftHighCommand(robot.placement));
-        placementMediumButton.whenPressed(new LiftMediumSequential(robot.placement));
+        placementMediumButton.whenPressed(new LiftMediumCommand(robot.placement));
         placementLowButton.whenPressed(new LiftLowSequential(robot.placement));
         placementIntakeButton.whenPressed(new LiftIntakeSequential(robot.placement));
 
         armServoIntakeButton.whenPressed(new ArmServoInputCommand(robot.placement));
         armServoOutputButton.whenPressed(new ArmServoOutputCommand(robot.placement));
-        armServoHoldButton.whenPressed(new ArmHoldCommand(robot.placement));
+        scoreServoHoldButton.whenPressed(new ScoreHoldCommand(robot.placement));
         scoreServoIntakeButton.whenPressed(new ScoreServoInputCommand(robot.placement));
         scoreServoOutputButton.whenPressed(new ScoreServoOutputCommand(robot.placement));
-        scoreServoHoldButton.whenPressed(new ScoreHoldSequential(robot.placement));
+        servoHoldButton.whenPressed(new ServoHold(robot.placement));
         scoreServoFlatButton.whenPressed(new ScoreServoFlatCommand(robot.placement));
         servoIntakeButton.whenPressed(new ServoIntakes(robot.placement));
         servoOutputButton.whenPressed(new ServoOutputs(robot.placement));
@@ -116,6 +113,7 @@ public class OperatorController {
 //        hangDownButton.whenPressed(new HangDown(robot.hang));
     }
     private void bindDroneControls() {
-        DroneReleaseButton.whenPressed((new DroneLaunch(robot.drone)));
+//        DroneReleaseButton.whenPressed((new DroneLaunch(robot.drone)));
     }
+
 }

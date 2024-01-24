@@ -19,10 +19,10 @@ import org.firstinspires.ftc.sixteen750.Setup;
 public class PlacementSubsystem implements Subsystem, Loggable {
 //TODO: if time: can we change speed of servo?
     // numbers need to be calibrated for the lift
-    public static double LOW_POS = -600; //TODO: test
+    public static double LOW_POS = -950; //TODO: test
     public static double MEDIUM_POS = -1350; //tested
 //    public static double HIGH_POS = 1000;
-    public static double INTAKELIFT_POS = -100; //TODO: test
+    public static double INTAKELIFT_POS = 0; //TODO: test
     public static double MIN_MOTOR_SPEED = -0.7; //TODO: test
     public static double MAX_MOTOR_SPEED = 1;
 
@@ -31,12 +31,12 @@ public class PlacementSubsystem implements Subsystem, Loggable {
 //    public static double ArmServo = 0.5;
 
     public static double ScoreServoInput = 0.4; //tested 1/9/24
-    public static double ScoreServoOutput = 0.7; //tested 1/8/24
+    public static double ScoreServoOutput = 0.55; //tested 1/8/24
     public static double ScoreServoHold = 0; //tested 1/8/24
-    public static double ScoreServoFlat = 0.35; //tested 1/8/24
+    public static double ScoreServoFlat = 0.33; //tested 1/8/24
     public static double ArmServoInput = 0.53; //tested 1/8/24 0.55
-    public static double ArmServoOutput = 0.1; //possible range from 0.2 - 0 tested 1/8/24
-    public static double ArmServoHold = 0.57; //possibly unnecessary
+    public static double ArmServoOutput = 0.05; //possible range from 0.2 - 0 tested 1/8/24
+    public static double ArmServoHold = 0.555; //possibly unnecessary
 
     public static PIDCoefficients PID = new PIDCoefficients(0.0027, 0.0, 0.00015);
     public Servo armServo;

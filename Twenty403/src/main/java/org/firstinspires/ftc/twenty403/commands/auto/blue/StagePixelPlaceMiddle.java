@@ -22,7 +22,7 @@ public class StagePixelPlaceMiddle extends SequentialCommandGroup {
         //place command
         new SafetyStopCommand(r.safetySubsystem),
         new PixelScoring(r.armSubsystem),
-        new SafetyStopCommand(r.safetySubsystem),
+        new SafetyStartCommand(r.safetySubsystem),
         new TrajectorySequenceCommand(r.drivebaseSubsystem, AutoConstants.StageBlue.PLACE_MIDDLE_TO_MID_PARK_CENTER)
         );
     }

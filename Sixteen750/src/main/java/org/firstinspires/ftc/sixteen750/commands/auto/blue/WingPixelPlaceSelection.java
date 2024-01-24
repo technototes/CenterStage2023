@@ -12,7 +12,7 @@ public class WingPixelPlaceSelection extends ChoiceCommand {
         // Each of these commands starts at "START" and ends at "CLEAR"
         // So you can use this command as the first part of a command sequence
         super(
-            new Pair<>(r.vision.pipeline::left, new WingPixelPlaceLeft(r)),
+            new Pair<>(r.vision.pipeline::left, new WingPixelPlaceLeft(r)), //this has more
             new Pair<>(r.vision.pipeline::middle, new WingPixelPlaceMiddle(r)),
             new Pair<>(r.vision.pipeline::right, new WingPixelPlaceRight(r))
         );
