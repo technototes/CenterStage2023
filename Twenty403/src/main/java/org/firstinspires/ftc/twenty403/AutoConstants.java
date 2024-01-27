@@ -22,9 +22,9 @@ public class AutoConstants {
 
         public static ConfigurablePoseD PARK_CORNER = new ConfigurablePoseD(-60,56,0); // may need to be 180 (0 needs test)
         public static ConfigurablePoseD RIGHT_CLEAR = new ConfigurablePoseD(-35,56,-90); // for pixel placement
-        public static ConfigurablePoseD PLACE_LEFT = new ConfigurablePoseD(-45,30,0); //not fine tuned heading needs to be zero (backwards placement)
+        public static ConfigurablePoseD PLACE_LEFT = new ConfigurablePoseD(-47,30,0); //not fine tuned heading needs to be zero (backwards placement)
         public static ConfigurablePoseD PLACE_MIDDLE = new ConfigurablePoseD(-47,35,0);// not fine tuned
-        public static ConfigurablePoseD PLACE_RIGHT = new ConfigurablePoseD(-45,40,0);// not fine tuned
+        public static ConfigurablePoseD PLACE_RIGHT = new ConfigurablePoseD(-47,40,0);// not fine tuned
         //testing constants
         public static ConfigurablePoseD TELESTART = new ConfigurablePoseD(0,0,90);
         public static ConfigurablePoseD FORWARD = new ConfigurablePoseD(48,0,0);
@@ -145,9 +145,9 @@ public class AutoConstants {
 
         public static ConfigurablePoseD PARK_CORNER = new ConfigurablePoseD(-60,-56,0); // may need to be 180 (0 needs test)
         public static ConfigurablePoseD LEFT_CLEAR = new ConfigurablePoseD(-35,-56,90);// for pixel placement
-        public static ConfigurablePoseD PLACE_LEFT = new ConfigurablePoseD(-45,-40,0);
+        public static ConfigurablePoseD PLACE_LEFT = new ConfigurablePoseD(-47,-40,0);
         public static ConfigurablePoseD PLACE_MIDDLE = new ConfigurablePoseD(-47,-35,0);
-        public static ConfigurablePoseD PLACE_RIGHT = new ConfigurablePoseD(-45,-28,0);
+        public static ConfigurablePoseD PLACE_RIGHT = new ConfigurablePoseD(-47,-28,0);
         public static ConfigurablePoseD MID_PARK_CENTER = new ConfigurablePoseD(-35,-12,0);
         public static ConfigurablePoseD PIXEL_INTAKE = new ConfigurablePoseD(50,-10,0);
 
@@ -248,9 +248,9 @@ public class AutoConstants {
 
         public static ConfigurablePoseD PARK_CENTER = new ConfigurablePoseD(-59,12,0); // may need to be 180 (0 needs test)
         public static ConfigurablePoseD MID_PARK_CENTER = new ConfigurablePoseD(-39,12,0);
-        public static ConfigurablePoseD PLACE_LEFT = new ConfigurablePoseD(-45,30,0); // not fine tuned
+        public static ConfigurablePoseD PLACE_LEFT = new ConfigurablePoseD(-47,30,0); // not fine tuned
         public static ConfigurablePoseD PLACE_MIDDLE = new ConfigurablePoseD(-47,35,0); // not fine tuned
-        public static ConfigurablePoseD PLACE_RIGHT = new ConfigurablePoseD(-45,40,0); // not fine tuned
+        public static ConfigurablePoseD PLACE_RIGHT = new ConfigurablePoseD(-47,40,0); // not fine tuned
         public static ConfigurablePoseD PIXEL_INTAKE = new ConfigurablePoseD(50,12,0);
 
 
@@ -343,9 +343,9 @@ public class AutoConstants {
         public static ConfigurablePoseD PARK_CENTER = new ConfigurablePoseD(-59,-12,0); // may need to be 180 (0 needs test)
         public static ConfigurablePoseD LEFT_CLEAR = new ConfigurablePoseD(-35,-56,90);
         public static ConfigurablePoseD MID_PARK_CENTER = new ConfigurablePoseD(-35,-12,0);
-        public static ConfigurablePoseD PLACE_LEFT = new ConfigurablePoseD(-45,-40,0);
+        public static ConfigurablePoseD PLACE_LEFT = new ConfigurablePoseD(-47,-40,0);
         public static ConfigurablePoseD PLACE_MIDDLE = new ConfigurablePoseD(-47,-35,0);
-        public static ConfigurablePoseD PLACE_RIGHT = new ConfigurablePoseD(-45,-24,0);
+        public static ConfigurablePoseD PLACE_RIGHT = new ConfigurablePoseD(-47,-24,0);
 
 
 
