@@ -11,7 +11,7 @@ public class BlueStageParkCorner extends SequentialCommandGroup {
             new StagePixelPlaceSelection(robot),
             new ParkCornerPositioning(robot),
             new ParkCorner(robot, robot.position),
-            CommandScheduler.getInstance()::terminateOpMode
+            CommandScheduler::terminateOpMode
         );
     }
 }

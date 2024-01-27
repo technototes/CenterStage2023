@@ -13,7 +13,7 @@ public class BlueWingParkCenter extends SequentialCommandGroup {
             new ParkCenterPositioning(robot),
             new ParkCenter(robot, robot.position),
             new RecordFinalHeading(robot.drivebaseSubsystem),
-            CommandScheduler.getInstance()::terminateOpMode
+            CommandScheduler::terminateOpMode
         );
     }
 }

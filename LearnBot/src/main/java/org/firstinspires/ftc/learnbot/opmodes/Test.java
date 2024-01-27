@@ -32,6 +32,6 @@ public class Test extends CommandOpMode implements Loggable {
                 driverGamepad.leftTrigger,
                 driverGamepad.leftTrigger.getAsButton(.5)
             );
-        CommandScheduler.getInstance().scheduleJoystick(trigTest);
+        CommandScheduler.scheduleJoystick(trigTest);
     }
 }

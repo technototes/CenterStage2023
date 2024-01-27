@@ -34,12 +34,10 @@ public class PushParkCornerBlueWing extends CommandOpMode {
         hardware = new Hardware(hardwareMap);
         robot = new Robot(hardware, Alliance.BLUE, StartingPosition.Wing);
         robot.drivebaseSubsystem.setPoseEstimate(AutoConstants.WingBlue.START.toPose());
-        CommandScheduler
-            .getInstance()
-            .scheduleForState(new WingPixelSelection(robot), OpModeState.RUN);
-        CommandScheduler.getInstance().scheduleInit(new ArmNeutralCommand(robot.armSubsystem));
+        CommandScheduler.scheduleForState(new WingPixelSelection(robot), OpModeState.RUN);
+        CommandScheduler.scheduleInit(new ArmNeutralCommand(robot.armSubsystem));
         if (Setup.Connected.WEBCAM) {
-            CommandScheduler.getInstance().scheduleInit(new VisionCommand(robot.vision));
+            CommandScheduler.scheduleInit(new VisionCommand(robot.vision));
         }
     }
 }

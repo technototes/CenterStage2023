@@ -51,16 +51,14 @@ public class DriverController {
     }
 
     public void bindDriveControls() {
-        CommandScheduler
-            .getInstance()
-            .scheduleJoystick(
-                new JoystickDriveCommand(
-                    robot.drivebase,
-                    driveLeftStick,
-                    driveRightStick,
-                    driveStraighten
-                )
-            );
+        CommandScheduler.scheduleJoystick(
+            new JoystickDriveCommand(
+                robot.drivebase,
+                driveLeftStick,
+                driveRightStick,
+                driveStraighten
+            )
+        );
 
         turboButton.whenPressed(new TurboModeCommand(robot.drivebase));
         turboButton.whenReleased(new NormalModeCommand(robot.drivebase));

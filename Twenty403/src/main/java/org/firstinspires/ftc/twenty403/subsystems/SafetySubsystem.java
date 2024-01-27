@@ -208,12 +208,12 @@ public class SafetySubsystem implements Subsystem, Loggable {
     public SafetySubsystem(Hardware hw) {
         myHw = hw;
         timer = new ElapsedTime();
-        CommandScheduler.getInstance().register(this);
+        CommandScheduler.register(this);
     }
 
     private void stopAuto(String reason) {
         if (monitoringEnabled == true) {
-            CommandScheduler.getInstance().terminateOpMode();
+            CommandScheduler.terminateOpMode();
         }
     }
 
@@ -240,7 +240,7 @@ public class SafetySubsystem implements Subsystem, Loggable {
     public distanceSensorBad() {
         if (monitoringEnabled == true)
             if (distanceSensor1bad() || distanceSensor2bad());
-            CommandScheduler.getInstance().terminateOpMode();
+            CommandScheduler.terminateOpMode();
 
     } */
 }

@@ -33,12 +33,13 @@ public class PushPlaceParkCenterRedStage extends CommandOpMode {
         hardware = new Hardware(hardwareMap);
         robot = new Robot(hardware, Alliance.RED, StartingPosition.Backstage);
         robot.drivebaseSubsystem.setPoseEstimate(AutoConstants.StageRed.START.toPose());
-        CommandScheduler
-            .getInstance()
-            .scheduleForState(new RedStageParkCenter(robot), CommandOpMode.OpModeState.RUN);
-        CommandScheduler.getInstance().scheduleInit(new ArmNeutralCommand(robot.armSubsystem));
+        CommandScheduler.scheduleForState(
+            new RedStageParkCenter(robot),
+            CommandOpMode.OpModeState.RUN
+        );
+        CommandScheduler.scheduleInit(new ArmNeutralCommand(robot.armSubsystem));
         if (Setup.Connected.WEBCAM) {
-            CommandScheduler.getInstance().scheduleInit(new VisionCommand(robot.vision));
+            CommandScheduler.scheduleInit(new VisionCommand(robot.vision));
         }
     }
 }

@@ -39,7 +39,7 @@ public class TestController implements Loggable {
         this.modeToggle = gamepad.rightStickButton;
         //        this.motorMovement = new MotorMovementCommand(r.test, this.motorAxis);
         //        this.modeToggle.whenPressed(new ToggleMotorStopModeCommand(r.test));
-        //        CommandScheduler.getInstance().scheduleJoystick(motorMovement);
+        //        CommandScheduler.scheduleJoystick(motorMovement);
         this.trigger = gamepad.leftTrigger;
         this.threshold = gamepad.rightTrigger.getAsButton(0.5);
     }

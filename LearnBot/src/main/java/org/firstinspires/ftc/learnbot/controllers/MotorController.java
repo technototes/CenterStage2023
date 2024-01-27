@@ -32,7 +32,7 @@ public class MotorController implements Loggable {
 
         if (Setup.Connected.MOTOR) {
             this.motorMovement = new AnalogMotorControlCmd(r.motorTestSubsystem, motorAxis);
-            CommandScheduler.getInstance().scheduleJoystick(motorMovement);
+            CommandScheduler.scheduleJoystick(motorMovement);
             toggleAnalogControl.whenPressed(new AnalogMotorToggleControlCmd(r.motorTestSubsystem));
             toggleStopMode.whenPressed(new AnalogMotorToggleStopModeCmd(r.motorTestSubsystem));
             motorDecButton.whenPressed(new AnalogMotorDecCmd(r.motorTestSubsystem));

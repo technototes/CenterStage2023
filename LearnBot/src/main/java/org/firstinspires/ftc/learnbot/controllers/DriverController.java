@@ -20,7 +20,6 @@ public class DriverController {
 
     public void bindDriveControls() {
         CommandScheduler
-            .getInstance()
             .scheduleJoystick(
                 new DriveCommand(robot.drivebaseSubsystem, driveLeftStick, driveRightStick)
             );

@@ -49,11 +49,9 @@ public class SingleController {
     }
 
     public void bindDriveControls() {
-        CommandScheduler
-            .getInstance()
-            .scheduleJoystick(
-                new JoystickDriveCommand(robot.drivebaseSubsystem, driveLeftStick, driveRightStick)
-            );
+        CommandScheduler.scheduleJoystick(
+            new JoystickDriveCommand(robot.drivebaseSubsystem, driveLeftStick, driveRightStick)
+        );
         //turboButton.whenPressed(new TurboCommand(robot.drivebaseSubsystem));
         //turboButton.whenReleased(new SlowCommand(robot.drivebaseSubsystem));
         resetGyroButton.whenPressed(new ResetGyroCommand(robot.drivebaseSubsystem));
