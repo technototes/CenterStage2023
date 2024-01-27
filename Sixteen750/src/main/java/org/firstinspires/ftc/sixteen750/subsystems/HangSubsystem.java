@@ -31,7 +31,7 @@ public class HangSubsystem implements Subsystem, Loggable {
 
     private boolean isHardware;
 
-    @Log(name="HangServo")
+    @Log(name = "HangServo")
     public double servoPos;
 
     @Log(name = "Hang Motor")

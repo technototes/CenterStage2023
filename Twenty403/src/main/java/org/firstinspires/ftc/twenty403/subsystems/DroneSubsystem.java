@@ -25,6 +25,7 @@ public class DroneSubsystem implements Subsystem, Loggable {
     public void launch() {
         activateDroneServo(launch_pos);
     }
+
     public void unlaunch() {
         deactivateDroneServo(launch_pos);
     }
@@ -39,6 +40,7 @@ public class DroneSubsystem implements Subsystem, Loggable {
             launchServo.setPower(c);
         }
     }
+
     private void deactivateDroneServo(double c) {
         if (launchServo != null) {
             launchServo.setPower(0);

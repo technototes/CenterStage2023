@@ -11,7 +11,7 @@ import org.firstinspires.ftc.twenty403.commands.auto.SafetyStopCommand;
 public class WingPixelMiddle extends SequentialCommandGroup {
 
     public WingPixelMiddle(Robot r) {
-            super(
+        super(
             new SafetyStartCommand(r.safetySubsystem),
             new TrajectorySequenceCommand(r.drivebaseSubsystem, WingBlue.START_TO_MIDDLE_SPIKE),
             new TrajectorySequenceCommand(r.drivebaseSubsystem, WingBlue.MIDDLE_SPIKE_TO_CLEAR),
@@ -19,6 +19,6 @@ public class WingPixelMiddle extends SequentialCommandGroup {
             new WaitCommand(5),
             new SafetyStartCommand(r.safetySubsystem),
             new TrajectorySequenceCommand(r.drivebaseSubsystem, WingBlue.CLEAR_TO_PARK_CORNER)
-            );
+        );
     }
 }

@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.sixteen750.commands.auto.red;
 
 import com.technototes.library.command.Command;
-
 import org.firstinspires.ftc.sixteen750.subsystems.DrivebaseSubsystem;
 
 public class RecordFinalHeading implements Command {

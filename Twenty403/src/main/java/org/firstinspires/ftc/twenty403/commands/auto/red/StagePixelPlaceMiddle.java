@@ -13,16 +13,31 @@ public class StagePixelPlaceMiddle extends SequentialCommandGroup {
 
     public StagePixelPlaceMiddle(Robot r) {
         super(
-        new SafetyStartCommand(r.safetySubsystem),
-        new TrajectorySequenceCommand(r.drivebaseSubsystem, AutoConstants.StageRed.START_TO_MIDDLE_SPIKE),
-        new TrajectorySequenceCommand(r.drivebaseSubsystem,AutoConstants.StageRed.MIDDLE_SPIKE_TO_CLEAR),
-        new TrajectorySequenceCommand(r.drivebaseSubsystem, AutoConstants.StageRed.ClEAR_TO_RIGHT_CLEAR),
-        new TrajectorySequenceCommand(r.drivebaseSubsystem, AutoConstants.StageRed.RIGHT_CLEAR_TO_PLACE_MIDDLE),
-        //place command
-        new SafetyStopCommand(r.safetySubsystem),
-        new PixelScoring(r.armSubsystem),
-        new SafetyStartCommand(r.safetySubsystem),
-        new TrajectorySequenceCommand(r.drivebaseSubsystem, AutoConstants.StageRed.PLACE_MIDDLE_TO_MID_PARK_CENTER)
+            new SafetyStartCommand(r.safetySubsystem),
+            new TrajectorySequenceCommand(
+                r.drivebaseSubsystem,
+                AutoConstants.StageRed.START_TO_MIDDLE_SPIKE
+            ),
+            new TrajectorySequenceCommand(
+                r.drivebaseSubsystem,
+                AutoConstants.StageRed.MIDDLE_SPIKE_TO_CLEAR
+            ),
+            new TrajectorySequenceCommand(
+                r.drivebaseSubsystem,
+                AutoConstants.StageRed.ClEAR_TO_RIGHT_CLEAR
+            ),
+            new TrajectorySequenceCommand(
+                r.drivebaseSubsystem,
+                AutoConstants.StageRed.RIGHT_CLEAR_TO_PLACE_MIDDLE
+            ),
+            //place command
+            new SafetyStopCommand(r.safetySubsystem),
+            new PixelScoring(r.armSubsystem),
+            new SafetyStartCommand(r.safetySubsystem),
+            new TrajectorySequenceCommand(
+                r.drivebaseSubsystem,
+                AutoConstants.StageRed.PLACE_MIDDLE_TO_MID_PARK_CENTER
+            )
         );
     }
 }

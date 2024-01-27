@@ -69,6 +69,7 @@ public class DriverController {
 
         resetGyroButton.whenPressed(new ResetGyroCommand(robot.drivebase));
     }
+
     private void bindDroneControls() {
         droneReleaseButton.whenPressed((new DroneLaunch(robot.drone)));
     }

@@ -17,18 +17,19 @@ import org.firstinspires.ftc.sixteen750.Setup;
 
 @Config
 public class PlacementSubsystem implements Subsystem, Loggable {
-//TODO: if time: can we change speed of servo?
+
+    //TODO: if time: can we change speed of servo?
     // numbers need to be calibrated for the lift
     public static double LOW_POS = -950; //TODO: test
     public static double MEDIUM_POS = -1350; //tested
-//    public static double HIGH_POS = 1000;
+    //    public static double HIGH_POS = 1000;
     public static double INTAKELIFT_POS = 0; //TODO: test
     public static double MIN_MOTOR_SPEED = -0.7; //TODO: test
     public static double MAX_MOTOR_SPEED = 1;
 
-//    public static double ScoreServo = 0.5;
+    //    public static double ScoreServo = 0.5;
 
-//    public static double ArmServo = 0.5;
+    //    public static double ArmServo = 0.5;
 
     public static double ScoreServoInput = 0.4; //tested 1/9/24
     public static double ScoreServoOutput = 0.55; //tested 1/8/24
@@ -97,7 +98,7 @@ public class PlacementSubsystem implements Subsystem, Loggable {
 
     public void LiftHeightHigh() {
         //Mechanically we can't get to the high line
-//        leftPidController.setTargetPosition(HIGH_POS);
+        //        leftPidController.setTargetPosition(HIGH_POS);
     }
 
     public void LiftHeightMedium() {
@@ -111,8 +112,6 @@ public class PlacementSubsystem implements Subsystem, Loggable {
         //        armServo.setPosition(0);
         //        scoreServo.setPosition(0);
     }
-
-
 
     public void periodic() {
         double targetSpeed = leftPidController.update(getLiftCurrentPosition());
@@ -130,21 +129,26 @@ public class PlacementSubsystem implements Subsystem, Loggable {
             liftMotor.setSpeed(speed);
         }
     }
+
     public void ArmServoOutput() {
         // the arm's position to score
         armServo.setPosition(ArmServoOutput);
     }
-//TODO: idea to add a increment decrement for scoreservooutput
+
+    //TODO: idea to add a increment decrement for scoreservooutput
     public void ScoreServoOutput() {
         // the intake system's postion to score
         scoreServo.setPosition(ScoreServoOutput);
     }
-    public void ScoreServoHold(){
+
+    public void ScoreServoHold() {
         scoreServo.setPosition(ScoreServoHold);
     }
-    public void ArmServoHold(){
+
+    public void ArmServoHold() {
         armServo.setPosition(ArmServoHold);
     }
+
     public void ArmServoInput() {
         // positions for the arm of the bot
         armServo.setPosition(ArmServoInput);
@@ -154,6 +158,7 @@ public class PlacementSubsystem implements Subsystem, Loggable {
         // positions for the arm of the bot
         scoreServo.setPosition(ScoreServoInput);
     }
+
     public void ScoreServoFlat() {
         scoreServo.setPosition(ScoreServoFlat);
     }

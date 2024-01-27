@@ -13,21 +13,21 @@ public class WingPixelPlaceRight extends SequentialCommandGroup {
 
     public WingPixelPlaceRight(Robot r) {
         super(
-        new SafetyStartCommand(r.safetySubsystem),
-        new TrajectorySequenceCommand(r.drivebaseSubsystem, WingRed.START_TO_MID_CLEAR),
-        new TrajectorySequenceCommand(r.drivebaseSubsystem, WingRed.MID_CLEAR_TO_RIGHT_SPIKE),
-        new TrajectorySequenceCommand(r.drivebaseSubsystem, WingRed.RIGHT_SPIKE_TO_MID_CLEAR),
-        new TrajectorySequenceCommand(r.drivebaseSubsystem, WingRed.MID_CLEAR_TO_CLEAR),
-        new SafetyStopCommand(r.safetySubsystem),
-        new WaitCommand(5),
-        new SafetyStartCommand(r.safetySubsystem),
-        new TrajectorySequenceCommand(r.drivebaseSubsystem, WingRed.ClEAR_TO_RIGHT_CLEAR),
-        new TrajectorySequenceCommand(r.drivebaseSubsystem, WingRed.RIGHT_CLEAR_TO_PLACE_RIGHT),
-        //place command
-        new SafetyStopCommand(r.safetySubsystem),
-        new PixelScoring(r.armSubsystem),
-        new SafetyStartCommand(r.safetySubsystem),
-        new TrajectorySequenceCommand(r.drivebaseSubsystem, WingRed.PLACE_RIGHT_TO_RIGHT_CLEAR)
+            new SafetyStartCommand(r.safetySubsystem),
+            new TrajectorySequenceCommand(r.drivebaseSubsystem, WingRed.START_TO_MID_CLEAR),
+            new TrajectorySequenceCommand(r.drivebaseSubsystem, WingRed.MID_CLEAR_TO_RIGHT_SPIKE),
+            new TrajectorySequenceCommand(r.drivebaseSubsystem, WingRed.RIGHT_SPIKE_TO_MID_CLEAR),
+            new TrajectorySequenceCommand(r.drivebaseSubsystem, WingRed.MID_CLEAR_TO_CLEAR),
+            new SafetyStopCommand(r.safetySubsystem),
+            new WaitCommand(5),
+            new SafetyStartCommand(r.safetySubsystem),
+            new TrajectorySequenceCommand(r.drivebaseSubsystem, WingRed.ClEAR_TO_RIGHT_CLEAR),
+            new TrajectorySequenceCommand(r.drivebaseSubsystem, WingRed.RIGHT_CLEAR_TO_PLACE_RIGHT),
+            //place command
+            new SafetyStopCommand(r.safetySubsystem),
+            new PixelScoring(r.armSubsystem),
+            new SafetyStartCommand(r.safetySubsystem),
+            new TrajectorySequenceCommand(r.drivebaseSubsystem, WingRed.PLACE_RIGHT_TO_RIGHT_CLEAR)
         );
     }
 }

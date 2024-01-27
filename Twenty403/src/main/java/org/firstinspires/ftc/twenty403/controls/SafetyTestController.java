@@ -5,7 +5,6 @@ import com.technototes.library.control.CommandAxis;
 import com.technototes.library.control.CommandButton;
 import com.technototes.library.control.CommandGamepad;
 import com.technototes.library.control.Stick;
-
 import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
 import org.firstinspires.ftc.twenty403.commands.auto.SafetyTestOdoFCommand;
@@ -49,13 +48,11 @@ public class SafetyTestController {
     }
 
     public void bindDriveControls() {
-
         odoFFail.whenPressed(new SafetyTestOdoFCommand(robot.safetySubsystem));
         odoRFail.whenPressed(new SafetyTestOdoRCommand(robot.safetySubsystem));
         wheelflFail.whenPressed(new SafetyTestWheelFLCommand(robot.safetySubsystem));
         wheelfrFail.whenPressed(new SafetyTestWheelFRCommand(robot.safetySubsystem));
         wheelrlFail.whenPressed(new SafetyTestWheelRLCommand(robot.safetySubsystem));
         wheelrrFail.whenPressed(new SafetyTestWheelRRCommand(robot.safetySubsystem));
-
     }
 }

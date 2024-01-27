@@ -32,8 +32,8 @@ public class ServoTestingOpMode extends CommandOpMode {
         hardware = new Hardware(hardwareMap);
         robot = new Robot(hardware, Alliance.NONE, StartingPosition.Unspecified);
         controls = new TestingController(codriverGamepad, robot);
-//        CommandScheduler
-//            .getInstance()
-//            .scheduleForState(new DroneStart(robot.drone), OpModeState.INIT);
+        //        CommandScheduler
+        //            .getInstance()
+        //            .scheduleForState(new DroneStart(robot.drone), OpModeState.INIT);
     }
 }

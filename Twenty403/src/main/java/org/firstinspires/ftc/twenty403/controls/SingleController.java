@@ -6,9 +6,9 @@ import com.technototes.library.control.CommandGamepad;
 import com.technototes.library.control.Stick;
 import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
-import org.firstinspires.ftc.twenty403.commands.drone.DroneCommand;
 import org.firstinspires.ftc.twenty403.commands.driving.JoystickDriveCommand;
 import org.firstinspires.ftc.twenty403.commands.driving.ResetGyroCommand;
+import org.firstinspires.ftc.twenty403.commands.drone.DroneCommand;
 
 public class SingleController {
 
