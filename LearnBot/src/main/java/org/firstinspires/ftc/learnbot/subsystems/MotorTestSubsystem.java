@@ -2,6 +2,7 @@ package org.firstinspires.ftc.learnbot.subsystems;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.technototes.library.command.MethodCommand;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.motor.Motor;
 import com.technototes.library.hardware.sensor.Rev2MDistanceSensor;
@@ -10,6 +11,7 @@ import com.technototes.library.logger.Log;
 import com.technototes.library.logger.Loggable;
 import com.technototes.library.subsystem.Subsystem;
 import org.firstinspires.ftc.learnbot.Hardware;
+import com.technototes.library.command.Command;
 
 @Config
 public class MotorTestSubsystem implements Subsystem, Loggable {
@@ -35,6 +37,7 @@ public class MotorTestSubsystem implements Subsystem, Loggable {
         curPower = 0.0;
     }
 
+    public Command MotorInc() { return new MethodCommand(this::motorInc, this); }
     public void motorInc() {
         if (controlMode.equals("digital")) setPower(getPower() + POWER_CHANGE);
     }

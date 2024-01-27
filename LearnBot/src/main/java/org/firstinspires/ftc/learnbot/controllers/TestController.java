@@ -6,9 +6,7 @@ import com.technototes.library.control.CommandGamepad;
 import com.technototes.library.logger.Loggable;
 import org.firstinspires.ftc.learnbot.Robot;
 import org.firstinspires.ftc.learnbot.commands.AnalogMotorControlCmd;
-import org.firstinspires.ftc.learnbot.commands.LiftHighCommand;
-import org.firstinspires.ftc.learnbot.commands.LiftLowCommand;
-import org.firstinspires.ftc.learnbot.commands.LiftMidCommand;
+import org.firstinspires.ftc.learnbot.commands.Cmd;
 
 public class TestController implements Loggable {
 
@@ -45,8 +43,8 @@ public class TestController implements Loggable {
     }
 
     public void bindControls() {
-        liftLow.whenPressed(new LiftLowCommand(robot.placementSubsystem));
-        liftMid.whenPressed(new LiftMidCommand(robot.placementSubsystem));
-        liftHigh.whenPressed(new LiftHighCommand(robot.placementSubsystem));
+        liftLow.whenPressed(Cmd.Placement.LiftLow(robot.placementSubsystem));
+        liftMid.whenPressed(Cmd.Placement.LiftMedium(robot.placementSubsystem));
+        liftHigh.whenPressed(Cmd.Placement.LiftHigh(robot.placementSubsystem));
     }
 }
