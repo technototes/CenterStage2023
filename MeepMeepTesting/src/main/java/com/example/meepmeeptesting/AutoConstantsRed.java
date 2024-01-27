@@ -3,6 +3,7 @@ package com.example.meepmeeptesting;
 import static java.lang.Math.toRadians;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.acmerobotics.roadrunner.trajectory.TrajectoryBuilder;
 import com.acmerobotics.roadrunner.trajectory.constraints.AngularVelocityConstraint;
@@ -11,6 +12,7 @@ import com.acmerobotics.roadrunner.trajectory.constraints.MinVelocityConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.ProfileAccelerationConstraint;
 
 import java.util.Arrays;
+import java.util.Vector;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -58,6 +60,15 @@ public class AutoConstantsRed {
                 START_TO_MIDSPIKE =
                         () -> function.apply(START)
                                 .lineToLinearHeading(MIDSPIKE)
+                                .build(),
+                SPLINE_START_TO_MIDSPIKE =
+                        () -> function.apply(START)
+                                .splineTo(new Vector2d(25, 32), toRadians(180))
+                                .build(),
+                SPLINE_MIDSPIKE_TO_START =
+                        () -> function.apply(RIGHT_SPIKE)
+//                                .trajectoryBuilder(new Pose2d(), toRadians(-90))
+                                .splineTo(new Vector2d(36, 60), toRadians(-90))
                                 .build(),
                 MIDSPIKE_TO_RIGHT_SPIKE =
                         () -> function.apply(MIDSPIKE)
