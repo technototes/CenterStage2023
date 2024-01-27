@@ -64,9 +64,9 @@ public class OperatorController {
 
         scoreServoIntakeButton = gamepad.ps_circle;
         scoreServoOutputButton = gamepad.ps_cross;
-        servoHoldButton = gamepad.rightStickButton;
+        servoHoldButton = gamepad.dpadUp;
 
-        scoreServoFlatButton = gamepad.dpadUp;
+        scoreServoFlatButton = gamepad.leftStickButton;
 
         servoIntakeButton = gamepad.ps_share;
         //TODO: separate the output button
