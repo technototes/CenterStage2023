@@ -11,6 +11,7 @@ import org.firstinspires.ftc.sixteen750.commands.intake.StopCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.ArmServoInputCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.ArmServoOutputCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.LiftIntakeSequential;
+import org.firstinspires.ftc.sixteen750.commands.placement.LiftLowCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.LiftLowSequential;
 import org.firstinspires.ftc.sixteen750.commands.placement.LiftMediumCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.ScoreHoldCommand;
@@ -60,15 +61,16 @@ public class OperatorController {
 
         armServoIntakeButton = gamepad.ps_triangle;
         armServoOutputButton = gamepad.ps_square;
-        scoreServoHoldButton = gamepad.leftStickButton;
+        scoreServoHoldButton = gamepad.dpadUp;
 
         scoreServoIntakeButton = gamepad.ps_circle;
         scoreServoOutputButton = gamepad.ps_cross;
-        servoHoldButton = gamepad.dpadUp;
+        servoHoldButton = gamepad.rightStickButton;
 
         scoreServoFlatButton = gamepad.leftStickButton;
 
         servoIntakeButton = gamepad.ps_share;
+
         //TODO: separate the output button
         servoOutputButton = gamepad.ps_options;
 
@@ -90,7 +92,7 @@ public class OperatorController {
     private void bindPlacementControls() {
 //        placementHighButton.whenPressed(new LiftHighCommand(robot.placement));
         placementMediumButton.whenPressed(new LiftMediumCommand(robot.placement));
-        placementLowButton.whenPressed(new LiftLowSequential(robot.placement));
+        placementLowButton.whenPressed(new LiftLowCommand(robot.placement));
         placementIntakeButton.whenPressed(new LiftIntakeSequential(robot.placement));
 
         armServoIntakeButton.whenPressed(new ArmServoInputCommand(robot.placement));
