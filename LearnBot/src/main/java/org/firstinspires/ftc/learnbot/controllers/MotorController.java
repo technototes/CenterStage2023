@@ -8,7 +8,7 @@ import com.technototes.library.logger.Loggable;
 import org.firstinspires.ftc.learnbot.OnlyMotorRobot;
 import org.firstinspires.ftc.learnbot.Setup;
 import org.firstinspires.ftc.learnbot.commands.AnalogMotorControlCmd;
-import org.firstinspires.ftc.learnbot.commands.Cmd;
+import org.firstinspires.ftc.learnbot.commands.EZCmd;
 
 public class MotorController implements Loggable {
 
@@ -30,9 +30,9 @@ public class MotorController implements Loggable {
         if (Setup.Connected.MOTOR) {
             this.motorMovement = new AnalogMotorControlCmd(r.motorTestSubsystem, motorAxis);
             CommandScheduler.scheduleJoystick(motorMovement);
-            toggleAnalogControl.whenPressed(Cmd.AnalogMotor.ToggleStopMode(r.motorTestSubsystem));
-            toggleStopMode.whenPressed(Cmd.AnalogMotor.ToggleStopMode(r.motorTestSubsystem));
-            motorDecButton.whenPressed(Cmd.AnalogMotor.Decrement(r.motorTestSubsystem));
+            toggleAnalogControl.whenPressed(EZCmd.AnalogMotor.ToggleStopMode(r.motorTestSubsystem));
+            toggleStopMode.whenPressed(EZCmd.AnalogMotor.ToggleStopMode(r.motorTestSubsystem));
+            motorDecButton.whenPressed(EZCmd.AnalogMotor.Decrement(r.motorTestSubsystem));
             // motorIncButton.whenPressed(Cmd.AnalogMotor.Increment(r.motorTestSubsystem));
             motorIncButton.whilePressed(r.motorTestSubsystem.MotorInc());
         }
