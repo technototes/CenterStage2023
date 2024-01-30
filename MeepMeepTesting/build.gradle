@@ -17,10 +17,37 @@ repositories {
     // alternatively you can add `142.251.33.115 maven.brott.dev` to your etc/hosts, `nslookup ghs.googlehosted.com` to get the latest IP address
     maven { url = 'https://acmerobotics.z13.web.core.windows.net/' }
 }
+
 // Do not use apply from here
 // Include common definitions from above.
 //apply from: '../build.common.gradle'
 //apply from: '../build.dependencies.gradle'
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java']
+        }
+    }
+    auto {
+        java {
+            srcDirs = ['../LearnBot/src/main/java']
+            // Add the generated sources directory to the source set
+            srcDirs += "$buildDir/generated-sources"
+        }
+    }
+}
+
+task preprocessJava(type: Exec) {
+    workingDir = 'src'
+    def inputFiles = sourceSets.auto.allJava.getFiles()
+    outputs.dir "$buildDir/generated-sources"
+    commandLine 'node', '../../scripts/preprocessor.mjs', buildDir, inputFiles
+}
+
+compileJava {
+    dependsOn preprocessJava
+}
 
 dependencies {
     implementation 'com.github.NoahBres:MeepMeep:2.0.2'
