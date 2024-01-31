@@ -35,7 +35,7 @@ sourceSets {
     }
 }
 
-task preprocessJava {
+task makeMeepMeepJava {
     def loc = '../Sixteen750/src/main/java/org/firstinspires/ftc'
     inputs.dir(loc)
     outputs.dir processedLocations
@@ -50,9 +50,19 @@ task preprocessJava {
     }
 }
 
-compileJava {
-    dependsOn preprocessJava
+task cleanMeepMeep {
+    delete processedLocations
 }
+
+compileJava {
+    dependsOn makeMeepMeepJava
+}
+
+clean {
+    dependsOn cleanMeepMeep
+}
+
+makeMeepMeepJava.mustRunAfter cleanMeepMeep
 
 dependencies {
     implementation 'com.github.NoahBres:MeepMeep:2.0.2'
