@@ -5,12 +5,15 @@ import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.DriveShim;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 import com.noahbres.meepmeep.roadrunner.trajectorysequence.TrajectorySequence;
+import com.robotcode.shared.TestClass;
+
 import java.io.*;
 import javax.imageio.ImageIO;
 
 public class Twenty403Testing {
 
     //Wing Red
+    TestClass vals;
 
     public static void main(String[] args) {
         // Make this as large as possible while still fitting on our laptop screens:

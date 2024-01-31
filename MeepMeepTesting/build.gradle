@@ -23,26 +23,31 @@ repositories {
 //apply from: '../build.common.gradle'
 //apply from: '../build.dependencies.gradle'
 
+def processedLocations = "$buildDir/generated-sources"
+
 sourceSets {
     main {
         java {
-            srcDirs = ['src/main/java']
-        }
-    }
-    auto {
-        java {
-            srcDirs = ['../LearnBot/src/main/java']
+            srcDirs 'src/main/java'
             // Add the generated sources directory to the source set
-            srcDirs += "$buildDir/generated-sources"
+            srcDirs processedLocations
         }
     }
 }
 
-task preprocessJava(type: Exec) {
-    workingDir = 'src'
-    def inputFiles = sourceSets.auto.allJava.getFiles()
-    outputs.dir "$buildDir/generated-sources"
-    commandLine 'node', '../../scripts/preprocessor.mjs', buildDir, inputFiles
+task preprocessJava {
+    def loc = '../Sixteen750/src/main/java/org/firstinspires/ftc'
+    inputs.dir(loc)
+    outputs.dir processedLocations
+
+    def inputLoc = file(loc)
+    println("Files: ${inputLoc}")
+    def inputFiles = files(inputLoc)
+    doLast {
+        exec {
+            commandLine 'node', '../scripts/preprocessor.mjs', buildDir, inputFiles.asFileTree.files
+        }
+    }
 }
 
 compileJava {
