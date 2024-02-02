@@ -47,7 +47,10 @@ async function main() {
   // First, Remove the comments and collect the result in the fileContents map.
   for (const file of files) {
     const contents = await removeComments(file);
-    fileContents.set(file, contents.filter((c) => c.trim().length > 0));
+    fileContents.set(
+      file,
+      contents.filter((c) => c.trim().length > 0),
+    );
   }
 
   // TODO: Finish the simple stuff up.
@@ -123,11 +126,43 @@ function processFile(lines) {
     // Deal with old Java syntax
     line = line.replace(noStaticClass, '$1public class ');
     // TODO: More cleanup here
-    // First one: ConfigurableD(a, b, c) => Pose2d(a, b, toRadians(c))
+    if (line.indexOf('Configurable') >= 0) {
+      // First one: ConfigurableD(a, b, c) => Pose2d(a, b, toRadians(c))
+      line = fixConfigurable(line);
+    }
     // Followed immediately by the removal of .toPose()'s
     result += line + '\n';
   }
   return result;
+}
+
+
+// This is a helper to convert "ConfigurablePose[D]" into Pose2d's
+const CONFIG = 'ConfigurablePose';
+const NUMBER = /^\s*(-?\s*(?:(\d*\.?\d+)|(\d+\.?\d*)))\s*$/;
+function fixConfigurable(line) {
+  let res = '';
+  let prevStart = 0;
+  for (
+    let cfgIndex = line.indexOf(CONFIG);
+    cfgIndex >= 0;
+    cfgIndex = line.indexOf(CONFIG, cfgIndex + 1)
+  ) {
+    // Find the end of the word
+    let pos = cfgIndex + CONFIG.length;
+    const isCfgD = line[pos] === 'D';
+    res += line.substring(prevStart, cfgIndex) + 'Pose2d';
+    pos += isCfgD ? 1 : 0;
+    prevStart = pos;
+    if (isCfgD && line[pos] === '(') {
+      const end = findClosingParen(line, pos);
+      const comma = findPreviousCommand(line, pos, end);
+      const val = NUMBER.exec(line.substring(command, end));
+
+    }
+  }
+  res += line.substring(prevStart);
+  return res;
 }
 
 const PLAIN = Symbol('plain');
