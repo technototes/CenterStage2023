@@ -45,7 +45,7 @@ task makeMeepMeepJava {
     def inputFiles = files(inputLoc)
     doLast {
         exec {
-            commandLine 'node', '../scripts/preprocessor.mjs', buildDir, inputFiles.asFileTree.files
+            commandLine 'yarn', 'meep', buildDir, inputFiles.asFileTree.files
         }
     }
 }

@@ -9,6 +9,11 @@
   dependencies:
     "@jridgewell/trace-mapping" "0.3.9"
 
+"@freik/typechk@^0.5.11":
+  version "0.5.11"
+  resolved "https://registry.yarnpkg.com/@freik/typechk/-/typechk-0.5.11.tgz#512b1252ccbe21cc6f37e7ec6204b07eaaa93492"
+  integrity sha512-EpvIKMbsye7Q6+szXQ/4tTyYKWTAarC9NDU2gJBu/IvtMmb4L0SsTvYXxXaoK/BN0LIFd0PiIDI7tvOvQd9c+Q==
+
 "@jridgewell/resolve-uri@^3.0.3":
   version "3.1.1"
   resolved "https://registry.npmjs.org/@jridgewell/resolve-uri/-/resolve-uri-3.1.1.tgz"
@@ -109,6 +114,14 @@ java-parser@2.0.5:
   version "2.0.5"
   resolved "https://registry.npmjs.org/java-parser/-/java-parser-2.0.5.tgz"
   integrity sha512-AwieTO24Itcu0GgP9pBXs8gkqBtkmReclpBgXF4NkbIjdS7cn7hqpebjTmb5ouYYLFR+m3yh5fR3nW1NRrthdg==
+  dependencies:
+    chevrotain "6.5.0"
+    lodash "4.17.21"
+
+java-parser@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/java-parser/-/java-parser-2.2.0.tgz#66602ac10691c579fe6d03be8d4fe667281bad60"
+  integrity sha512-20/Rpuv4FnzTNgWkJBqs2M4qwBuPLMqOqNiwU5j7vKvrw4Ej+re8Aoc92KbDFb61M1u/Sd4Ygst+CpEcKXvhBQ==
   dependencies:
     chevrotain "6.5.0"
     lodash "4.17.21"

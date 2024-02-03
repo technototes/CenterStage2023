@@ -1,8 +1,7 @@
-// This is raw Javascript because it's invoked from gradle, and I'm trying
-// to avoid a build step for these scripts on the student machine.
-
 import * as fs from 'fs/promises';
 import * as path from 'path';
+import { BaseJavaCstVisitorWithDefaults, BinaryExpressionCtx, ClassBodyCtx, ClassBodyDeclarationCtx, ClassDeclarationCtx, ClassMemberDeclarationCtx, CstNode, ExpressionCtx, ExpressionStatementCtx, FieldDeclarationCtx, ImportDeclarationCtx, LambdaExpressionCtx, LambdaParameterCtx, LambdaParametersCtx, PackageDeclarationCtx, PrimaryCtx, PrimaryPrefixCtx, PrimarySuffixCtx, TernaryExpressionCtx, UnaryExpressionCtx, VariableDeclaratorCtx, VariableDeclaratorIdCtx, VariableDeclaratorListCtx, VariableInitializerCtx, parse } from "java-parser";
+import { hasField, hasFieldType, isArray, isNonNullable } from '@freik/typechk';
 
 /*** BEGIN CONFIGURATION STUFF ***/
 // This is the package name that we're going to use for our generated code.
@@ -19,6 +18,7 @@ const importMap = new Map([
 const extraImports = ['static java.lang.Math.toRadians'];
 /*** END CONFIGURATION STUFF ***/
 
+console.log(process.argv);
 const [, , outDir, filesAsString] = process.argv;
 const outputLocation = path.join(outDir, 'generated-sources', ...packageDir);
 
@@ -34,9 +34,136 @@ const files = filesNoBrackets
 
 // Filename to string[] where the contents have had comments stripped
 // and blank lines are removed.
-const fileContents = new Map();
+const fileContents = new Map<string, string[]>();
+const parsedFiles = new Map<string, CstNode>();
 
-async function main() {
+function unsupported(name: string, obj: object): void {
+  if (obj.hasOwnProperty(name)) {
+    throw new Error(`${name} is unsupported`);
+  }
+}
+function required(obj: unknown, message?: string): obj is NonNullable<unknown> {
+  if (!obj) {
+    throw new Error(message ?? "Required type not found :(");
+  }
+  return true;
+}
+function assert(obj: unknown, message: string): obj is NonNullable<unknown> {
+  if (!obj) {
+    throw new Error(message);
+  }
+  return true;
+}
+class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
+  output: string[];
+  constructor() {
+    super();
+    this.output = [];
+    this.validateVisitor();
+  }
+  packageDeclaration(ctx: PackageDeclarationCtx, param?: unknown) {
+    // console.log("package:", ctx);
+  }
+  importDeclaration(ctx: ImportDeclarationCtx, param?: unknown) {
+    // console.log("import: ", ctx);
+  }
+  classDeclaration(ctx: ClassDeclarationCtx, param?: any) {
+    // console.log("classDecl: ", ctx)
+    if (ctx.normalClassDeclaration) {
+      this.visit(ctx.normalClassDeclaration);
+    }
+  }
+  classBodyDeclaration(ctx: ClassBodyDeclarationCtx, param?: any) {
+    // console.log("classBody: ", ctx);
+    if (ctx.classMemberDeclaration) {
+      this.visit(ctx.classMemberDeclaration);
+    }
+    unsupported("constructorDeclaration", ctx);
+    unsupported("instanceInitializer", ctx);
+    unsupported("staticInitializer", ctx);
+  }
+  classMemberDeclaration(ctx: ClassMemberDeclarationCtx, param?: any) {
+    unsupported("methodDeclaration", ctx);
+    unsupported("interfaceDeclaration", ctx);
+    if (ctx.fieldDeclaration) {
+      this.visit(ctx.fieldDeclaration);
+    }
+    if (ctx.classDeclaration) {
+      this.visit(ctx.classDeclaration);
+    }
+  }
+  fieldDeclaration(ctx: FieldDeclarationCtx, param?: any) {
+    // console.log("field: ", ctx);
+    // TODO: Validate field modifiers "public static"
+    this.visit(ctx.variableDeclaratorList);
+  }
+  variableDeclaratorList(ctx: VariableDeclaratorListCtx, param?: any) {
+    // console.log("varDeclList: ", ctx);
+    this.visit(ctx.variableDeclarator);
+  }
+  variableDeclarator(ctx: VariableDeclaratorCtx, param?: any) {
+    // console.log("varDecl: ", ctx);
+    this.visit(ctx.variableDeclaratorId);
+    if (required(ctx.variableInitializer, "Uninitialized variable not supported")) {
+      this.visit(ctx.variableInitializer);
+    }
+  }
+  variableDeclaratorId(ctx: VariableDeclaratorIdCtx, param?: any) {
+    if (required(ctx.Identifier, 'Unsupported Identifier-less varDeclID')) {
+      console.log('varDeclId: ', ctx.Identifier[0].image);
+    }
+  }
+  variableInitializer(ctx: VariableInitializerCtx, param?: any) {
+    console.log("varInit: ", ctx);
+    if (required(ctx.expression, "Unsupported varInit type")) {
+      this.visit(ctx.expression);
+    }
+  }
+  expression(ctx: ExpressionCtx, param?: any) {
+    if (ctx.lambdaExpression) {
+      this.visit(ctx.lambdaExpression);
+    }
+    if (ctx.ternaryExpression) {
+      this.visit(ctx.ternaryExpression);
+    }
+  }
+  lambdaExpression(ctx: LambdaExpressionCtx, param?: any) {
+    this.visit(ctx.lambdaParameters);
+    this.visit(ctx.lambdaBody);
+  }
+  // Ternary expression is the container for all non-lambdas
+  // which is definitely a little weird, but whatever...
+  ternaryExpression(ctx: TernaryExpressionCtx, param?: any) {
+    unsupported("QuestionMark", ctx);
+    unsupported("Colon", ctx);
+    this.visit(ctx.binaryExpression);
+  }
+  binaryExpression(ctx: BinaryExpressionCtx, param?: any) {
+    assert(!(ctx.AssignmentOperator || ctx.BinaryOperator || ctx.Greater || ctx.Instanceof ||
+      ctx.Less || ctx.pattern || ctx.referenceType), "unsupported child of binary expression");
+    if (ctx.expression) {
+      this.visit(ctx.expression);
+    }
+    this.visit(ctx.unaryExpression);
+  }
+  unaryExpression(ctx: UnaryExpressionCtx, param?: any) {
+    this.visit(ctx.primary);
+  }
+  primary(ctx: PrimaryCtx, param?: any) {
+    if (ctx.primarySuffix) {
+      this.visit(ctx.primarySuffix);
+    }
+    this.visit(ctx.primaryPrefix);
+  }
+  primaryPrefix(ctx: PrimaryPrefixCtx, param?: any) {
+    console.log("primaryPrefix", ctx);
+  }
+  primarySuffix(ctx: PrimarySuffixCtx, param?: any) {
+    console.log("primarySuffix", ctx);
+  }
+}
+
+async function main(): Promise<void> {
   // Make the output directory structure
   try {
     await fs.mkdir(outputLocation, { recursive: true });
@@ -44,14 +171,27 @@ async function main() {
     console.error(e);
   }
 
+  const transformer = new AutoConstVisitor();
   // First, Remove the comments and collect the result in the fileContents map.
   for (const file of files) {
     const contents = await removeComments(file);
+    const cstNode = parse(contents.join('\n'));
+    parsedFiles.set(file, cstNode);
+    transformer.visit(cstNode);
     fileContents.set(
       file,
       contents.filter((c) => c.trim().length > 0),
     );
   }
+
+  parsedFiles.forEach((cst, key) => {
+    console.log("Name: ", key);
+    if (hasField(cst.children, 'ordinaryCompilationUnit')) {
+      console.log(typeof cst.children.ordinaryCompilationUnit);
+      console.log(cst.children.ordinaryCompilationUnit);
+    }
+  })
+  // console.log(parsedFiles);
 
   // TODO: Finish the simple stuff up.
 
@@ -110,7 +250,7 @@ const isImport = /^\s*import\s/;
 const noStaticClass = /^(\s*)public\s+static\s+class\s+/;
 // Rip off all the imports and transform the file as necessary,
 // returning the output as a string.
-function processFile(lines) {
+function processFile(lines: string[]): string {
   // Skip package, imports
   let result = '';
   let inHeader = true;
@@ -140,7 +280,7 @@ function processFile(lines) {
 // This is a helper to convert "ConfigurablePose[D]" into Pose2d's
 const CONFIG = 'ConfigurablePose';
 const NUMBER = /^\s*(-?\s*(?:(\d*\.?\d+)|(\d+\.?\d*)))\s*$/;
-function fixConfigurable(line) {
+function fixConfigurable(line: string): string {
   let res = '';
   let prevStart = 0;
   for (
@@ -154,12 +294,14 @@ function fixConfigurable(line) {
     res += line.substring(prevStart, cfgIndex) + 'Pose2d';
     pos += isCfgD ? 1 : 0;
     prevStart = pos;
+    /*
     if (isCfgD && line[pos] === '(') {
       const end = findClosingParen(line, pos);
       const comma = findPreviousCommand(line, pos, end);
       const val = NUMBER.exec(line.substring(command, end));
 
     }
+    */
   }
   res += line.substring(prevStart);
   return res;
@@ -171,7 +313,7 @@ const IN_SQSTRING = Symbol('in sqstring');
 const IN_MLCOMMENT = Symbol('in multiline comment');
 const IN_SLCOMMENT = Symbol('in singleline comment');
 
-async function removeComments(file) {
+async function removeComments(file: string): Promise<string[]> {
   const contents = await fs.readFile(file, 'utf8');
   // This is a big ol' state-machine-based parser to remove
   // comments. I should draw the state machine out explicitly
@@ -247,12 +389,12 @@ async function removeComments(file) {
 }
 
 // Just get the import path and nothing else.
-function cleanupImport(line) {
+function cleanupImport(line: string): string {
   return line.replace(/import\s+/g, '').replace(/;.*/g, '');
 }
 
 // Produces a single, unique set of import statements from the group of files.
-function collectImports() {
+function collectImports(): string {
   const imports = new Set(extraImports);
   for (const [, lines] of fileContents) {
     for (let line of lines) {

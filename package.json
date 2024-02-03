@@ -45,6 +45,8 @@
     "open:win32": "start \"\"",
     "open:macos": "open",
     "open:linux": "xdg-open",
+    "- // i": "build stuff for the MeepMeep thing",
+    "meep": "ts-node scripts/preprocessor.ts",
     "- // z": "This is the script that presents the students with a workflow",
     "work": "ts-node scripts/workflow.ts"
   },
@@ -56,6 +58,8 @@
     "simple-git": "^3.19.1"
   },
   "dependencies": {
+    "@freik/typechk": "^0.5.11",
+    "java-parser": "^2.2.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   }
