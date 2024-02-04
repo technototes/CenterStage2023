@@ -1,0 +1,34 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Generic",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${workspaceFolder}/scripts/preprocessor.ts",
+      "outFiles": [
+        "${workspaceFolder}/**/*.js"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "MeepMeep",
+      "runtimeArgs": [
+          "-r",
+          "ts-node/register"
+      ],
+      "args": [
+          "${workspaceFolder}/scripts/preprocessor.ts",
+          "/Users/freik/src/ftc/CenterStage2023/MeepMeepTesting/build",
+          "[/Users/freik/src/ftc/CenterStage2023/Sixteen750/src/main/java/org/firstinspires/ftc/sixteen750/AutoConstants.java, /Users/freik/src/ftc/CenterStage2023/LearnBot/src/main/java/org/firstinspires/ftc/learnbot/opmodes/BasicAuto.java, /Users/freik/src/ftc/CenterStage2023/MeepMeepTesting/src/main/java/com/example/meepmeeptesting/AutoConstantsBlue.java, /Users/freik/src/ftc/CenterStage2023/MeepMeepTesting/src/main/java/com/example/meepmeeptesting/AutoConstantsRed.java, /Users/freik/src/ftc/CenterStage2023/RoadRunnerQuickStart/src/main/java/org/firstinspires/ftc/teamcode/drive/opmode/AutomaticFeedforwardTuner.java, /Users/freik/src/ftc/CenterStage2023/Twenty403/src/main/java/org/firstinspires/ftc/twenty403/AutoConstants.java]"
+      ]
+    }
+  ]
+}
