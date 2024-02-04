@@ -83,14 +83,7 @@ function assert(obj: unknown, message: string): obj is NonNullable<unknown> {
   return true;
 }
 
-function visit(desc: string, obj: unknown): void {
-  if (isNonNullable(obj) && hasField(obj, desc) && hasFieldType(obj, "visit", isFunction)) {
-    console.log(`// { // ${desc}`);
-    obj.visit.apply(obj, obj[desc]);
-    console.log(`// }  ${desc}`);
-  }
-}
-
+let curFile: string = '';
 class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
   output: string[];
   constructor() {
@@ -98,6 +91,22 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
     this.output = [];
     this.validateVisitor();
   }
+
+  maybeVisit(field: unknown, name?: string): void {
+    if (!isNonNullable(field)) return;
+    if (name) console.log(`// { // ${name}`);
+    this.visit(field as CstNode);
+    if (name) console.log(`// } // ${name}`);
+  }
+
+  mustVisit(obj: unknown, name?: string): void {
+    if (isNonNullable(obj)) {
+      this.maybeVisit(obj as CstNode, name);
+    } else {
+      throw new Error(`Missing required child element ${name ?? ''}`);
+    }
+  }
+
   packageDeclaration(ctx: PackageDeclarationCtx, param?: unknown) {
     // console.log("package:", ctx);
     // TODO: Switch this to our new package
@@ -108,45 +117,34 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
   }
   classDeclaration(ctx: ClassDeclarationCtx, param?: any) {
     // console.log("classDecl: ", ctx)
-    visit("normalClassDeclaration", this);
+    this.mustVisit(ctx.normalClassDeclaration);
   }
   classBodyDeclaration(ctx: ClassBodyDeclarationCtx, param?: any) {
-    if (ctx.classMemberDeclaration) {
-      console.log("// class body {");
-      this.visit(ctx.classMemberDeclaration);
-      console.log("// } class body")
-    }
     unsupported('constructorDeclaration', ctx);
     unsupported('instanceInitializer', ctx);
     unsupported('staticInitializer', ctx);
+    this.mustVisit(ctx.classMemberDeclaration);
   }
   classMemberDeclaration(ctx: ClassMemberDeclarationCtx, param?: any) {
     unsupported('methodDeclaration', ctx);
     unsupported('interfaceDeclaration', ctx);
-    if (ctx.fieldDeclaration) {
-      this.visit(ctx.fieldDeclaration);
-    }
-    if (ctx.classDeclaration) {
-      this.visit(ctx.classDeclaration);
-    }
+    this.maybeVisit(ctx.fieldDeclaration);
+    this.maybeVisit(ctx.classDeclaration);
   }
   fieldDeclaration(ctx: FieldDeclarationCtx, param?: any) {
     // console.log("field: ", ctx);
     // TODO: Validate field modifiers "public static"
-    this.visit(ctx.variableDeclaratorList);
+    this.maybeVisit(ctx.fieldModifier);
+    this.mustVisit(ctx.variableDeclaratorList);
   }
   variableDeclaratorList(ctx: VariableDeclaratorListCtx, param?: any) {
     // console.log("varDeclList: ", ctx);
-    this.visit(ctx.variableDeclarator);
+    this.mustVisit(ctx.variableDeclarator);
   }
   variableDeclarator(ctx: VariableDeclaratorCtx, param?: any) {
     // console.log("varDecl: ", ctx);
-    this.visit(ctx.variableDeclaratorId);
-    if (
-      required(ctx.variableInitializer, 'Uninitialized variable not supported')
-    ) {
-      this.visit(ctx.variableInitializer);
-    }
+    this.mustVisit(ctx.variableDeclaratorId);
+    this.mustVisit(ctx.variableInitializer);
   }
   variableDeclaratorId(ctx: VariableDeclaratorIdCtx, param?: any) {
     if (required(ctx.Identifier, 'Unsupported Identifier-less varDeclID')) {
@@ -154,29 +152,22 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
     }
   }
   variableInitializer(ctx: VariableInitializerCtx, param?: any) {
-    console.log('varInit: ', ctx);
-    if (required(ctx.expression, 'Unsupported varInit type')) {
-      this.visit(ctx.expression);
-    }
+    this.mustVisit(ctx.expression);
   }
   expression(ctx: ExpressionCtx, param?: any) {
-    if (ctx.lambdaExpression) {
-      this.visit(ctx.lambdaExpression);
-    }
-    if (ctx.ternaryExpression) {
-      this.visit(ctx.ternaryExpression);
-    }
+    this.maybeVisit(ctx.lambdaExpression);
+    this.maybeVisit(ctx.ternaryExpression);
   }
   lambdaExpression(ctx: LambdaExpressionCtx, param?: any) {
-    this.visit(ctx.lambdaParameters);
-    this.visit(ctx.lambdaBody);
+    this.mustVisit(ctx.lambdaParameters);
+    this.mustVisit(ctx.lambdaBody);
   }
   // Ternary expression is the container for all non-lambdas
   // which is definitely a little weird, but whatever...
   ternaryExpression(ctx: TernaryExpressionCtx, param?: any) {
     unsupported('QuestionMark', ctx);
     unsupported('Colon', ctx);
-    this.visit(ctx.binaryExpression);
+    this.mustVisit(ctx.binaryExpression);
   }
   binaryExpression(ctx: BinaryExpressionCtx, param?: any) {
     assert(
@@ -191,28 +182,19 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
       ),
       'unsupported child of binary expression',
     );
-    if (ctx.expression) {
-      this.visit(ctx.expression);
-    }
-    this.visit(ctx.unaryExpression);
+    this.maybeVisit(ctx.expression);
+    this.mustVisit(ctx.unaryExpression);
   }
   unaryExpression(ctx: UnaryExpressionCtx, param?: any) {
-    this.visit(ctx.primary);
+    this.mustVisit(ctx.primary);
   }
   primary(ctx: PrimaryCtx, param?: any) {
-    if (ctx.primarySuffix) {
-      this.visit(ctx.primarySuffix);
-    }
-    this.visit(ctx.primaryPrefix);
+    this.maybeVisit(ctx.primarySuffix);
+    this.mustVisit(ctx.primaryPrefix);
   }
   primaryPrefix(ctx: PrimaryPrefixCtx, param?: any) {
-    console.log('primaryPrefix', ctx);
-    if (ctx.newExpression) {
-      this.visit(ctx.newExpression);
-    }
-    if (ctx.fqnOrRefType) {
-      this.visit(ctx.fqnOrRefType);
-    }
+    this.maybeVisit(ctx.newExpression);
+    this.maybeVisit(ctx.fqnOrRefType);
   }
   primarySuffix(ctx: PrimarySuffixCtx, param?: any) {
     console.log('primarySuffix', ctx);
@@ -237,7 +219,8 @@ async function main(): Promise<void> {
   // First, Remove the comments and collect the result in the fileContents map.
   for (const file of files) {
     const contents = await removeComments(file);
-    const cstNode = parse(contents.join('\n'));
+    curFile = contents.join('\n');
+    const cstNode = parse(curFile);
     parsedFiles.set(file, cstNode);
     transformer.visit(cstNode);
     fileContents.set(
