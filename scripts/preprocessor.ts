@@ -1,6 +1,34 @@
 import * as fs from 'fs/promises';
 import * as path from 'path';
-import { BaseJavaCstVisitorWithDefaults, BinaryExpressionCtx, ClassBodyCtx, ClassBodyDeclarationCtx, ClassDeclarationCtx, ClassMemberDeclarationCtx, CstNode, ExpressionCtx, ExpressionStatementCtx, FieldDeclarationCtx, ImportDeclarationCtx, LambdaExpressionCtx, LambdaParameterCtx, LambdaParametersCtx, PackageDeclarationCtx, PrimaryCtx, PrimaryPrefixCtx, PrimarySuffixCtx, TernaryExpressionCtx, UnaryExpressionCtx, VariableDeclaratorCtx, VariableDeclaratorIdCtx, VariableDeclaratorListCtx, VariableInitializerCtx, parse } from "java-parser";
+import {
+  BaseJavaCstVisitorWithDefaults,
+  BinaryExpressionCtx,
+  ClassBodyCtx,
+  ClassBodyDeclarationCtx,
+  ClassDeclarationCtx,
+  ClassMemberDeclarationCtx,
+  CstNode,
+  ExpressionCtx,
+  ExpressionStatementCtx,
+  FieldDeclarationCtx,
+  FqnOrRefTypeCtx,
+  ImportDeclarationCtx,
+  LambdaExpressionCtx,
+  LambdaParameterCtx,
+  LambdaParametersCtx,
+  NewExpressionCtx,
+  PackageDeclarationCtx,
+  PrimaryCtx,
+  PrimaryPrefixCtx,
+  PrimarySuffixCtx,
+  TernaryExpressionCtx,
+  UnaryExpressionCtx,
+  VariableDeclaratorCtx,
+  VariableDeclaratorIdCtx,
+  VariableDeclaratorListCtx,
+  VariableInitializerCtx,
+  parse,
+} from 'java-parser';
 import { hasField, hasFieldType, isArray, isNonNullable } from '@freik/typechk';
 
 /*** BEGIN CONFIGURATION STUFF ***/
@@ -44,7 +72,7 @@ function unsupported(name: string, obj: object): void {
 }
 function required(obj: unknown, message?: string): obj is NonNullable<unknown> {
   if (!obj) {
-    throw new Error(message ?? "Required type not found :(");
+    throw new Error(message ?? 'Required type not found :(');
   }
   return true;
 }
@@ -78,13 +106,13 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
     if (ctx.classMemberDeclaration) {
       this.visit(ctx.classMemberDeclaration);
     }
-    unsupported("constructorDeclaration", ctx);
-    unsupported("instanceInitializer", ctx);
-    unsupported("staticInitializer", ctx);
+    unsupported('constructorDeclaration', ctx);
+    unsupported('instanceInitializer', ctx);
+    unsupported('staticInitializer', ctx);
   }
   classMemberDeclaration(ctx: ClassMemberDeclarationCtx, param?: any) {
-    unsupported("methodDeclaration", ctx);
-    unsupported("interfaceDeclaration", ctx);
+    unsupported('methodDeclaration', ctx);
+    unsupported('interfaceDeclaration', ctx);
     if (ctx.fieldDeclaration) {
       this.visit(ctx.fieldDeclaration);
     }
@@ -104,7 +132,9 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
   variableDeclarator(ctx: VariableDeclaratorCtx, param?: any) {
     // console.log("varDecl: ", ctx);
     this.visit(ctx.variableDeclaratorId);
-    if (required(ctx.variableInitializer, "Uninitialized variable not supported")) {
+    if (
+      required(ctx.variableInitializer, 'Uninitialized variable not supported')
+    ) {
       this.visit(ctx.variableInitializer);
     }
   }
@@ -114,8 +144,8 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
     }
   }
   variableInitializer(ctx: VariableInitializerCtx, param?: any) {
-    console.log("varInit: ", ctx);
-    if (required(ctx.expression, "Unsupported varInit type")) {
+    console.log('varInit: ', ctx);
+    if (required(ctx.expression, 'Unsupported varInit type')) {
       this.visit(ctx.expression);
     }
   }
@@ -134,13 +164,23 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
   // Ternary expression is the container for all non-lambdas
   // which is definitely a little weird, but whatever...
   ternaryExpression(ctx: TernaryExpressionCtx, param?: any) {
-    unsupported("QuestionMark", ctx);
-    unsupported("Colon", ctx);
+    unsupported('QuestionMark', ctx);
+    unsupported('Colon', ctx);
     this.visit(ctx.binaryExpression);
   }
   binaryExpression(ctx: BinaryExpressionCtx, param?: any) {
-    assert(!(ctx.AssignmentOperator || ctx.BinaryOperator || ctx.Greater || ctx.Instanceof ||
-      ctx.Less || ctx.pattern || ctx.referenceType), "unsupported child of binary expression");
+    assert(
+      !(
+        ctx.AssignmentOperator ||
+        ctx.BinaryOperator ||
+        ctx.Greater ||
+        ctx.Instanceof ||
+        ctx.Less ||
+        ctx.pattern ||
+        ctx.referenceType
+      ),
+      'unsupported child of binary expression',
+    );
     if (ctx.expression) {
       this.visit(ctx.expression);
     }
@@ -156,10 +196,22 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
     this.visit(ctx.primaryPrefix);
   }
   primaryPrefix(ctx: PrimaryPrefixCtx, param?: any) {
-    console.log("primaryPrefix", ctx);
+    console.log('primaryPrefix', ctx);
+    if (ctx.newExpression) {
+      this.visit(ctx.newExpression);
+    }
+    if (ctx.fqnOrRefType) {
+      this.visit(ctx.fqnOrRefType);
+    }
   }
   primarySuffix(ctx: PrimarySuffixCtx, param?: any) {
-    console.log("primarySuffix", ctx);
+    console.log('primarySuffix', ctx);
+  }
+  fqnOrRefType(ctx: FqnOrRefTypeCtx, param?: any) {
+    console.log('Fqn', ctx);
+  }
+  newExpression(ctx: NewExpressionCtx, param?: any) {
+    console.log('new', ctx);
   }
 }
 
@@ -185,12 +237,12 @@ async function main(): Promise<void> {
   }
 
   parsedFiles.forEach((cst, key) => {
-    console.log("Name: ", key);
+    console.log('Name: ', key);
     if (hasField(cst.children, 'ordinaryCompilationUnit')) {
       console.log(typeof cst.children.ordinaryCompilationUnit);
       console.log(cst.children.ordinaryCompilationUnit);
     }
-  })
+  });
   // console.log(parsedFiles);
 
   // TODO: Finish the simple stuff up.
@@ -275,7 +327,6 @@ function processFile(lines: string[]): string {
   }
   return result;
 }
-
 
 // This is a helper to convert "ConfigurablePose[D]" into Pose2d's
 const CONFIG = 'ConfigurablePose';
