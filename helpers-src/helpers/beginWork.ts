@@ -1,11 +1,11 @@
 import simpleGit from 'simple-git';
-import { Error, MenuItem, Sleep } from './menu';
-import { hasGithubAccess, onlyRobotConnection } from './connectivity';
+import { Error, MenuItem, Sleep } from './menu.js';
+import { hasGithubAccess, onlyRobotConnection } from './connectivity.js';
 import {
   DEFAULT_BRANCH_NAME,
   GetBranchName,
   PickBranchToContinue,
-} from './branch';
+} from './branch.js';
 
 const git = simpleGit();
 

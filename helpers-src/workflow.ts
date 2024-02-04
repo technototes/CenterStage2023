@@ -2,11 +2,11 @@
  * This is the 'student workflow' script.
  * See the readme.md file for what it's supposed to do.
  */
-import { Error, Menu } from './helpers/menu';
-import { invoke } from './helpers/invoke';
-import { hasGithubAccess, anyRobotConnection } from './helpers/connectivity';
-import { ResumeWork, StartWork } from './helpers/beginWork';
-import { FinishWork, StopWork } from './helpers/endWork';
+import { Error, Menu } from './helpers/menu.js';
+import { invoke } from './helpers/invoke.js';
+import { hasGithubAccess, anyRobotConnection } from './helpers/connectivity.js';
+import { ResumeWork, StartWork } from './helpers/beginWork.js';
+import { FinishWork, StopWork } from './helpers/endWork.js';
 
 async function workflow() {
   console.clear();

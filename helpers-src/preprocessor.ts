@@ -29,7 +29,7 @@ import {
   VariableInitializerCtx,
   parse,
 } from 'java-parser';
-import { hasField, hasFieldType, isArray, isNonNullable } from '@freik/typechk';
+import { hasField, hasFieldType, isArray, isFunction, isNonNullable } from '@freik/typechk';
 
 /*** BEGIN CONFIGURATION STUFF ***/
 // This is the package name that we're going to use for our generated code.
@@ -82,6 +82,15 @@ function assert(obj: unknown, message: string): obj is NonNullable<unknown> {
   }
   return true;
 }
+
+function visit(desc: string, obj: unknown): void {
+  if (isNonNullable(obj) && hasField(obj, desc) && hasFieldType(obj, "visit", isFunction)) {
+    console.log(`// { // ${desc}`);
+    obj.visit.apply(obj, obj[desc]);
+    console.log(`// }  ${desc}`);
+  }
+}
+
 class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
   output: string[];
   constructor() {
@@ -91,20 +100,21 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
   }
   packageDeclaration(ctx: PackageDeclarationCtx, param?: unknown) {
     // console.log("package:", ctx);
+    // TODO: Switch this to our new package
   }
   importDeclaration(ctx: ImportDeclarationCtx, param?: unknown) {
     // console.log("import: ", ctx);
+    // TODO: Reroute imports as needed
   }
   classDeclaration(ctx: ClassDeclarationCtx, param?: any) {
     // console.log("classDecl: ", ctx)
-    if (ctx.normalClassDeclaration) {
-      this.visit(ctx.normalClassDeclaration);
-    }
+    visit("normalClassDeclaration", this);
   }
   classBodyDeclaration(ctx: ClassBodyDeclarationCtx, param?: any) {
-    // console.log("classBody: ", ctx);
     if (ctx.classMemberDeclaration) {
+      console.log("// class body {");
       this.visit(ctx.classMemberDeclaration);
+      console.log("// } class body")
     }
     unsupported('constructorDeclaration', ctx);
     unsupported('instanceInitializer', ctx);

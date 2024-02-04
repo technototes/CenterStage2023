@@ -1,4 +1,4 @@
-import { Ask, Menu, MenuItem } from './menu';
+import { Ask, Menu, MenuItem } from './menu.js';
 import { promises as fsp } from 'node:fs';
 import { simpleGit, type SimpleGit } from 'simple-git';
 

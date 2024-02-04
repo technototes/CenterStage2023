@@ -1,0 +1,4 @@
+export function GetGitHubUrlFromRepo(repo) {
+    return repo;
+}
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZ2l0aHViLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vaGVscGVycy1zcmMvaGVscGVycy9naXRodWIudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEsTUFBTSxVQUFVLG9CQUFvQixDQUFDLElBQVk7SUFDL0MsT0FBTyxJQUFJLENBQUM7QUFDZCxDQUFDIn0=
