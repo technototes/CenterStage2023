@@ -1,0 +1,10 @@
+{
+  "java.configuration.updateBuildConfiguration": "disabled",
+  "search.exclude": {
+    "**/.yarn": true,
+    "**/.pnp.*": true,
+    "helpers/**": true
+  },
+  "typescript.enablePromptUseWorkspaceTsdk": true, 
+  "files.readonlyInclude": {"helpers/**/*": true}
+}

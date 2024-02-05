@@ -80,13 +80,6 @@ lint/outputs/
 lint/tmp/
 # lint/reports/
 
-.project
-**/.settings
-**/.classpath
-node_modules
-TechnoLib
-tsconfig.tsbuildinfo
-
 # yarn stuff
 .yarn/*
 !.yarn/cache
@@ -95,3 +88,12 @@ tsconfig.tsbuildinfo
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+
+.project
+**/.settings
+**/.classpath
+node_modules
+TechnoLib
+tsconfig.tsbuildinfo
+helpers/**/*.map

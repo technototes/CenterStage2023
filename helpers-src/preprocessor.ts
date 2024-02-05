@@ -229,7 +229,7 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
       throw new Error(`Missing required child element`);
     }
   }
-  
+
   // Rewire the package:
   packageDeclaration(ctx: PackageDeclarationCtx, param?: unknown) {
     codeSpit("// Original package: ", ctx.Identifier.map(token => token.image).join('.'));
@@ -249,12 +249,12 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
       codeSpit("import ", stat, actual, star, ';');
     }
   }
-  
+
   // Filter out any '@Config's from class declarations
   classDeclaration(ctx: ClassDeclarationCtx, param?: any) {
     // console.log("classDecl: ", ctx)
     if (ctx.classModifier) {
-      const modifers = ctx.classModifier.map(mod=>getItemContent(mod)).filter(v => v != '@Config').join(' ') + " ";
+      const modifers = ctx.classModifier.map(mod => getItemContent(mod)).filter(v => v != '@Config').join(' ') + " ";
       codeAdd(modifers);
     }
     this.mustVisit(ctx.normalClassDeclaration);
@@ -267,7 +267,7 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
     codeSpit("}");
   }
   typeIdentifier(ctx: TypeIdentifierCtx, param?: any) {
-    codeAdd(ctx.Identifier.map(tok=>tok.image).join('.'));
+    codeAdd(ctx.Identifier.map(tok => tok.image).join('.'));
   }
   classBodyDeclaration(ctx: ClassBodyDeclarationCtx, param?: any) {
     unsupported('constructorDeclaration', ctx);
