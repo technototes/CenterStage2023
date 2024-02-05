@@ -182,28 +182,31 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
         this.mustVisit(ctx.classBody);
         codeSpit("}");
     }
+    // spit out the type identifier
     typeIdentifier(ctx, param) {
         codeAdd(ctx.Identifier.map(tok => tok.image).join('.'));
     }
+    // We're picky about the type of class bodies supported
     classBodyDeclaration(ctx, param) {
+        // No constructor!
         unsupported('constructorDeclaration', ctx);
+        // No instance initializers!
         unsupported('instanceInitializer', ctx);
+        // No static initializers!
         unsupported('staticInitializer', ctx);
         this.mustVisit(ctx.classMemberDeclaration);
     }
     classMemberDeclaration(ctx, param) {
+        // We don't support methods!
         unsupported('methodDeclaration', ctx);
+        // We don't support interfaces, either.
         unsupported('interfaceDeclaration', ctx);
         this.maybeVisit(ctx.fieldDeclaration);
         this.maybeVisit(ctx.classDeclaration);
     }
     fieldDeclaration(ctx, param) {
-        // console.log("field: ", ctx);
-        // TODO: Validate field modifiers "public static"
-        // This is a list
-        this.maybeVisit(ctx.fieldModifier);
-        const modifiers = getContent(ctx.fieldModifier);
-        console.log(`The modifiers: "${modifiers}"`);
+        // Add the field modifiers
+        codeAdd(getContent(ctx.fieldModifier));
         this.mustVisit(ctx.variableDeclaratorList);
     }
     variableDeclaratorList(ctx, param) {
