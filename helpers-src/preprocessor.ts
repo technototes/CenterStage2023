@@ -1,12 +1,14 @@
 import * as fs from 'fs/promises';
 import * as path from 'path';
 import {
+  ArgumentListCtx,
   BaseJavaCstVisitorWithDefaults,
   BinaryExpressionCtx,
   ClassBodyCtx,
   ClassBodyDeclarationCtx,
   ClassDeclarationCtx,
   ClassMemberDeclarationCtx,
+  ClassModifierCtx,
   CstNode,
   ExpressionCtx,
   ExpressionStatementCtx,
@@ -17,19 +19,33 @@ import {
   LambdaParameterCtx,
   LambdaParametersCtx,
   NewExpressionCtx,
+  NormalClassDeclarationCtx,
   PackageDeclarationCtx,
   PrimaryCtx,
   PrimaryPrefixCtx,
   PrimarySuffixCtx,
   TernaryExpressionCtx,
+  TypeIdentifierCtx,
   UnaryExpressionCtx,
+  UnqualifiedClassInstanceCreationExpressionCtx,
   VariableDeclaratorCtx,
   VariableDeclaratorIdCtx,
   VariableDeclaratorListCtx,
   VariableInitializerCtx,
   parse,
 } from 'java-parser';
-import { hasField, hasFieldType, isArray, isFunction, isNonNullable } from '@freik/typechk';
+import {
+  chkBothOf,
+  chkFieldType,
+  hasField,
+  hasFieldType,
+  hasStrField,
+  isArray,
+  isBothOf,
+  isFunction,
+  isNonNullable,
+  isNumber,
+} from '@freik/typechk';
 
 /*** BEGIN CONFIGURATION STUFF ***/
 // This is the package name that we're going to use for our generated code.
@@ -42,6 +58,10 @@ const importMap = new Map([
     'com.technototes.path.geometry.ConfigurablePoseD',
     'com.acmerobotics.roadrunner.geometry.Pose2d',
   ],
+  [
+    'com.technototes.path.geometry.ConfigurablePose',
+    'com.acmerobotics.roadrunner.geometry.Pose2d',
+  ]
 ]);
 const extraImports = ['static java.lang.Math.toRadians'];
 /*** END CONFIGURATION STUFF ***/
@@ -65,6 +85,30 @@ const files = filesNoBrackets
 const fileContents = new Map<string, string[]>();
 const parsedFiles = new Map<string, CstNode>();
 
+// Some output state:
+const imports = new Set<string>([removeImports.values()].map(v => getImportKey('', v, '')));
+
+let prev = '';
+function codeSpit(...args: string[]): void {
+  if (prev.length > 0) {
+    args = [prev, ...args];
+    prev = '';
+  }
+  if (args.length > 1) {
+    console.log(">>>", args.join(""));
+  } else {
+    console.log(">>>", args[0]);
+  }
+}
+
+function codeAdd(...args: string[]): void {
+  prev += args.join("");
+}
+
+function getImportKey(stat, imprt, star): string {
+  return `${stat} ${imprt}.${star}`;
+}
+
 function unsupported(name: string, obj: object): void {
   if (obj.hasOwnProperty(name)) {
     throw new Error(`${name} is unsupported`);
@@ -84,40 +128,146 @@ function assert(obj: unknown, message: string): obj is NonNullable<unknown> {
 }
 
 let curFile: string = '';
+
+function getCode(start: number, end: number): string {
+  return curFile.substring(start, end + 1);
+}
+
+function getItemContent(f: unknown): string {
+  if (
+    hasFieldType(
+      f,
+      'location',
+      chkBothOf(
+        chkFieldType('startOffset', isNumber),
+        chkFieldType('endOffset', isNumber),
+      ),
+    )
+  ) {
+    return getCode(f.location.startOffset, f.location.endOffset);
+  }
+  return '';
+}
+
+function getContent(field: unknown, sep?: string): string {
+  return isArray(field) ? field.map(getItemContent).join(sep ?? " ") : getItemContent(field);
+}
+
+let trimStart = -1;
+let trimEnd = -1;
+
+function trimCode(start: number, end: number, forget?: boolean): string {
+  end++;
+  // Do we include a new line?
+  const prevEnd = end;
+  const nl = curFile.indexOf('\n', start);
+  if (nl < end) {
+    end = nl;
+  }
+  if (end - start > 80) {
+    // Just cut it down to 50 characters
+    end = start + 50;
+  }
+  if (!forget) {
+    if (trimStart === start && trimEnd === end) {
+      return " ^";
+    }
+    trimStart = start;
+    trimEnd = end;
+  }
+  return end === prevEnd
+    ? curFile.substring(start, end)
+    : `${curFile.substring(start, end)}...`;
+}
+
 class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
   output: string[];
+  depth: string;
   constructor() {
     super();
     this.output = [];
+    this.depth = '';
     this.validateVisitor();
   }
 
-  maybeVisit(field: unknown, name?: string): void {
+  maybeVisit(field: unknown): void {
     if (!isNonNullable(field)) return;
-    if (name) console.log(`// { // ${name}`);
+    let content = '';
+    if (isArray(field)) {
+      const multiple = field.length > 1;
+      for (let i = 0; i < field.length; i++) {
+        const f = field[i];
+        if (hasStrField(f, 'name')) {
+          content += i !== 0 ? ', ' : f.name;
+        }
+        content += multiple ? `[${i}]:` : '->';
+        if (
+          hasFieldType(
+            f,
+            'location',
+            chkBothOf(
+              chkFieldType('startOffset', isNumber),
+              chkFieldType('endOffset', isNumber),
+            ),
+          )
+        ) {
+          content += trimCode(f.location.startOffset, f.location.endOffset);
+        }
+      }
+    }
+    if (content/* && !content.endsWith("^")*/) console.log(`${this.depth}// ${content}`);
+    const prevDepth = this.depth;
+    this.depth += " ";
     this.visit(field as CstNode);
-    if (name) console.log(`// } // ${name}`);
+    this.depth = prevDepth;
   }
 
-  mustVisit(obj: unknown, name?: string): void {
+  mustVisit(obj: unknown): void {
     if (isNonNullable(obj)) {
-      this.maybeVisit(obj as CstNode, name);
+      this.maybeVisit(obj as CstNode);
     } else {
-      throw new Error(`Missing required child element ${name ?? ''}`);
+      throw new Error(`Missing required child element`);
     }
   }
-
+  
+  // Rewire the package:
   packageDeclaration(ctx: PackageDeclarationCtx, param?: unknown) {
-    // console.log("package:", ctx);
-    // TODO: Switch this to our new package
+    codeSpit("// Original package: ", ctx.Identifier.map(token => token.image).join('.'));
+    codeSpit("package ", packageDir.join('.'), ";");
   }
+
+  // Copy, reroute, or remove imports:
   importDeclaration(ctx: ImportDeclarationCtx, param?: unknown) {
     // console.log("import: ", ctx);
-    // TODO: Reroute imports as needed
+    const stat = ctx.Static ? 'static ' : '';
+    const star = ctx.Star ? '*' : '';
+    const imprt = ctx.packageOrTypeName.map(cst => cst.children.Identifier.map(tok => tok.image).join('.')).join('.');
+    const actual = importMap.has(imprt) ? importMap.get(imprt) : imprt;
+    const key = `${stat} ${actual}.${star}`;
+    if (!imports.has(key)) {
+      imports.add(key);
+      codeSpit("import ", stat, actual, star, ';');
+    }
   }
+  
+  // Filter out any '@Config's from class declarations
   classDeclaration(ctx: ClassDeclarationCtx, param?: any) {
     // console.log("classDecl: ", ctx)
+    if (ctx.classModifier) {
+      const modifers = ctx.classModifier.map(mod=>getItemContent(mod)).filter(v => v != '@Config').join(' ') + " ";
+      codeAdd(modifers);
+    }
     this.mustVisit(ctx.normalClassDeclaration);
+  }
+  normalClassDeclaration(ctx: NormalClassDeclarationCtx, param?: any) {
+    codeAdd("class ");
+    this.mustVisit(ctx.typeIdentifier);
+    codeSpit(" {");
+    this.mustVisit(ctx.classBody);
+    codeSpit("}");
+  }
+  typeIdentifier(ctx: TypeIdentifierCtx, param?: any) {
+    codeAdd(ctx.Identifier.map(tok=>tok.image).join('.'));
   }
   classBodyDeclaration(ctx: ClassBodyDeclarationCtx, param?: any) {
     unsupported('constructorDeclaration', ctx);
@@ -134,11 +284,15 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
   fieldDeclaration(ctx: FieldDeclarationCtx, param?: any) {
     // console.log("field: ", ctx);
     // TODO: Validate field modifiers "public static"
+    // This is a list
     this.maybeVisit(ctx.fieldModifier);
+    const modifiers = getContent(ctx.fieldModifier);
+    console.log(`The modifiers: "${modifiers}"`);
     this.mustVisit(ctx.variableDeclaratorList);
   }
   variableDeclaratorList(ctx: VariableDeclaratorListCtx, param?: any) {
     // console.log("varDeclList: ", ctx);
+    // This is a list
     this.mustVisit(ctx.variableDeclarator);
   }
   variableDeclarator(ctx: VariableDeclaratorCtx, param?: any) {
@@ -189,21 +343,32 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
     this.mustVisit(ctx.primary);
   }
   primary(ctx: PrimaryCtx, param?: any) {
+    // This is a list...
     this.maybeVisit(ctx.primarySuffix);
     this.mustVisit(ctx.primaryPrefix);
   }
   primaryPrefix(ctx: PrimaryPrefixCtx, param?: any) {
     this.maybeVisit(ctx.newExpression);
     this.maybeVisit(ctx.fqnOrRefType);
+    this.maybeVisit(ctx.literal);
   }
   primarySuffix(ctx: PrimarySuffixCtx, param?: any) {
     console.log('primarySuffix', ctx);
   }
   fqnOrRefType(ctx: FqnOrRefTypeCtx, param?: any) {
-    console.log('Fqn', ctx);
+    this.mustVisit(ctx.fqnOrRefTypePartFirst);
+    this.maybeVisit(ctx.fqnOrRefTypePartRest);
   }
   newExpression(ctx: NewExpressionCtx, param?: any) {
-    console.log('new', ctx);
+    // console.log('new', ctx);
+    this.maybeVisit(ctx.unqualifiedClassInstanceCreationExpression);
+  }
+  unqualifiedClassInstanceCreationExpression(ctx: UnqualifiedClassInstanceCreationExpressionCtx, param?: any) {
+    this.mustVisit(ctx.classOrInterfaceTypeToInstantiate);
+    this.maybeVisit(ctx.argumentList);
+  }
+  argumentList(ctx: ArgumentListCtx, param?: any) {
+    this.mustVisit(ctx.expression);
   }
 }
 
