@@ -19,6 +19,10 @@ const importMap = new Map([
     ]
 ]);
 const extraImports = ['static java.lang.Math.toRadians'];
+const typeMap = new Map([
+    ['ConfigurablePose', 'Pose2d'],
+    ['ConfigurablePoseD', 'Pose2d'],
+]);
 /*** END CONFIGURATION STUFF ***/
 console.log(process.argv);
 const [, , outDir, filesAsString] = process.argv;
@@ -33,6 +37,16 @@ const files = filesNoBrackets
 // and blank lines are removed.
 const fileContents = new Map();
 const parsedFiles = new Map();
+const tokenStack = [];
+function pushThing(name) {
+    tokenStack.push(name);
+}
+function popThing() {
+    tokenStack.pop();
+}
+function topThing() {
+    return tokenStack[tokenStack.length - 1] || '';
+}
 // Some output state:
 const imports = new Set([removeImports.values()].map(v => getImportKey('', v, '')));
 let prev = '';
@@ -206,22 +220,30 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
     }
     fieldDeclaration(ctx, param) {
         // Add the field modifiers
-        codeAdd(getContent(ctx.fieldModifier));
+        codeAdd(getContent(ctx.fieldModifier), " ");
+        this.mustVisit(ctx.unannType);
         this.mustVisit(ctx.variableDeclaratorList);
     }
+    unannType(ctx, param) {
+        this.mustVisit(ctx.unannReferenceType);
+    }
+    unannReferenceType(ctx, param) {
+        this.mustVisit(ctx.unannClassOrInterfaceType);
+    }
+    unannClassOrInterfaceType(ctx, param) {
+        const typeName = getContent(ctx.unannClassType);
+        codeAdd(typeMap.get(typeName) || typeName);
+    }
     variableDeclaratorList(ctx, param) {
-        // console.log("varDeclList: ", ctx);
-        // This is a list
         this.mustVisit(ctx.variableDeclarator);
     }
     variableDeclarator(ctx, param) {
-        // console.log("varDecl: ", ctx);
         this.mustVisit(ctx.variableDeclaratorId);
         this.mustVisit(ctx.variableInitializer);
     }
     variableDeclaratorId(ctx, param) {
         if (required(ctx.Identifier, 'Unsupported Identifier-less varDeclID')) {
-            console.log('varDeclId: ', ctx.Identifier[0].image);
+            codeAdd(" ", ctx.Identifier[0].image, " =");
         }
     }
     variableInitializer(ctx, param) {
@@ -278,11 +300,26 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
         this.maybeVisit(ctx.unqualifiedClassInstanceCreationExpression);
     }
     unqualifiedClassInstanceCreationExpression(ctx, param) {
-        this.mustVisit(ctx.classOrInterfaceTypeToInstantiate);
+        const typeName = getContent(ctx.classOrInterfaceTypeToInstantiate);
+        codeAdd(" ", typeMap.get(typeName) || typeName);
+        pushThing(typeName);
         this.maybeVisit(ctx.argumentList);
+        popThing();
     }
     argumentList(ctx, param) {
-        this.mustVisit(ctx.expression);
+        codeAdd("(");
+        const top = topThing();
+        ctx.expression.forEach((node, idx) => {
+            const prefix = idx === 0 ? '' : ", ";
+            const code = getContent(node);
+            if (idx === 2 && top === "ConfigurablePoseD") {
+                codeAdd(prefix, "toRadians(", code, ")");
+            }
+            else {
+                codeAdd(prefix, code);
+            }
+        });
+        codeSpit(");");
     }
 }
 async function main() {

@@ -26,6 +26,10 @@ import {
   PrimarySuffixCtx,
   TernaryExpressionCtx,
   TypeIdentifierCtx,
+  UnannClassOrInterfaceTypeCtx,
+  UnannClassTypeCtx,
+  UnannReferenceTypeCtx,
+  UnannTypeCtx,
   UnaryExpressionCtx,
   UnqualifiedClassInstanceCreationExpressionCtx,
   VariableDeclaratorCtx,
@@ -64,6 +68,11 @@ const importMap = new Map([
   ]
 ]);
 const extraImports = ['static java.lang.Math.toRadians'];
+const typeMap = new Map([
+  ['ConfigurablePose', 'Pose2d'],
+  ['ConfigurablePoseD', 'Pose2d'],
+]);
+
 /*** END CONFIGURATION STUFF ***/
 
 console.log(process.argv);
@@ -84,7 +93,16 @@ const files = filesNoBrackets
 // and blank lines are removed.
 const fileContents = new Map<string, string[]>();
 const parsedFiles = new Map<string, CstNode>();
-
+const tokenStack: string[] = [];
+function pushThing(name: string): void {
+  tokenStack.push(name);
+}
+function popThing(): void {
+  tokenStack.pop();
+}
+function topThing(): string {
+  return tokenStack[tokenStack.length - 1] || '';
+}
 // Some output state:
 const imports = new Set<string>([removeImports.values()].map(v => getImportKey('', v, '')));
 
@@ -290,22 +308,30 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
   }
   fieldDeclaration(ctx: FieldDeclarationCtx, param?: any) {
     // Add the field modifiers
-    codeAdd(getContent(ctx.fieldModifier));
+    codeAdd(getContent(ctx.fieldModifier), " ");
+    this.mustVisit(ctx.unannType);
     this.mustVisit(ctx.variableDeclaratorList);
   }
+  unannType(ctx: UnannTypeCtx, param?: any) {
+    this.mustVisit(ctx.unannReferenceType);
+  }
+  unannReferenceType(ctx: UnannReferenceTypeCtx, param?: any) {
+    this.mustVisit(ctx.unannClassOrInterfaceType);
+  }
+  unannClassOrInterfaceType(ctx: UnannClassOrInterfaceTypeCtx, param?: any) {
+    const typeName = getContent(ctx.unannClassType);
+    codeAdd(typeMap.get(typeName) || typeName);
+  }
   variableDeclaratorList(ctx: VariableDeclaratorListCtx, param?: any) {
-    // console.log("varDeclList: ", ctx);
-    // This is a list
     this.mustVisit(ctx.variableDeclarator);
   }
   variableDeclarator(ctx: VariableDeclaratorCtx, param?: any) {
-    // console.log("varDecl: ", ctx);
     this.mustVisit(ctx.variableDeclaratorId);
     this.mustVisit(ctx.variableInitializer);
   }
   variableDeclaratorId(ctx: VariableDeclaratorIdCtx, param?: any) {
     if (required(ctx.Identifier, 'Unsupported Identifier-less varDeclID')) {
-      console.log('varDeclId: ', ctx.Identifier[0].image);
+      codeAdd(" ", ctx.Identifier[0].image, " =");
     }
   }
   variableInitializer(ctx: VariableInitializerCtx, param?: any) {
@@ -367,11 +393,25 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
     this.maybeVisit(ctx.unqualifiedClassInstanceCreationExpression);
   }
   unqualifiedClassInstanceCreationExpression(ctx: UnqualifiedClassInstanceCreationExpressionCtx, param?: any) {
-    this.mustVisit(ctx.classOrInterfaceTypeToInstantiate);
+    const typeName = getContent(ctx.classOrInterfaceTypeToInstantiate);
+    codeAdd(" ", typeMap.get(typeName) || typeName);
+    pushThing(typeName);
     this.maybeVisit(ctx.argumentList);
+    popThing();
   }
   argumentList(ctx: ArgumentListCtx, param?: any) {
-    this.mustVisit(ctx.expression);
+    codeAdd("(");
+    const top = topThing();
+    ctx.expression.forEach((node, idx)=> {
+      const prefix = idx === 0 ? '' : ", ";
+      const code = getContent(node);
+      if (idx === 2 && top === "ConfigurablePoseD") {
+        codeAdd(prefix, "toRadians(",code, ")");
+      } else {
+        codeAdd(prefix, code);
+      }
+    });
+    codeSpit(");");
   }
 }
 
