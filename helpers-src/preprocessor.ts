@@ -15,6 +15,7 @@ import {
   FieldDeclarationCtx,
   FqnOrRefTypeCtx,
   ImportDeclarationCtx,
+  LambdaBodyCtx,
   LambdaExpressionCtx,
   LambdaParameterCtx,
   LambdaParametersCtx,
@@ -71,6 +72,7 @@ const extraImports = ['static java.lang.Math.toRadians'];
 const typeMap = new Map([
   ['ConfigurablePose', 'Pose2d'],
   ['ConfigurablePoseD', 'Pose2d'],
+  ['Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>', 'Supplier<Trajectory>']
 ]);
 
 /*** END CONFIGURATION STUFF ***/
@@ -93,16 +95,34 @@ const files = filesNoBrackets
 // and blank lines are removed.
 const fileContents = new Map<string, string[]>();
 const parsedFiles = new Map<string, CstNode>();
-const tokenStack: string[] = [];
-function pushThing(name: string): void {
-  tokenStack.push(name);
+
+// A crappy, poorly written context stack
+enum TokenKind {
+  NewType, LambdaParam, DeclType
+};
+type Token = { kind: TokenKind, value: string };
+const tokenStack: Token[] = [];
+function pushThing(kind: TokenKind, value): void {
+  tokenStack.push({ kind, value });
 }
 function popThing(): void {
   tokenStack.pop();
 }
-function topThing(): string {
-  return tokenStack[tokenStack.length - 1] || '';
+function topThing(): Token | undefined {
+  return tokenStack[tokenStack.length - 1];
 }
+function topOfKind(tk: TokenKind): string | undefined {
+  for (let i = tokenStack.length - 1; i >= 0; i--) {
+    if (tokenStack[i].kind === tk) {
+      return tokenStack[i].value;
+    }
+  }
+  return undefined;
+}
+
+// A really dumb symbol table
+const symbolTypes = new Map<string, string>();
+
 // Some output state:
 const imports = new Set<string>([removeImports.values()].map(v => getImportKey('', v, '')));
 
@@ -311,15 +331,24 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
     codeAdd(getContent(ctx.fieldModifier), " ");
     this.mustVisit(ctx.unannType);
     this.mustVisit(ctx.variableDeclaratorList);
+    if (topThing()?.kind === TokenKind.DeclType) {
+      popThing();
+    } else { 
+      throw new Error("Unexpected stack situation");
+    }
   }
   unannType(ctx: UnannTypeCtx, param?: any) {
-    this.mustVisit(ctx.unannReferenceType);
+    this.maybeVisit(ctx.unannReferenceType);
+    if (ctx.unannPrimitiveTypeWithOptionalDimsSuffix) {
+      codeAdd(getContent(ctx.unannPrimitiveTypeWithOptionalDimsSuffix));
+    }
   }
   unannReferenceType(ctx: UnannReferenceTypeCtx, param?: any) {
     this.mustVisit(ctx.unannClassOrInterfaceType);
   }
   unannClassOrInterfaceType(ctx: UnannClassOrInterfaceTypeCtx, param?: any) {
     const typeName = getContent(ctx.unannClassType);
+    pushThing(TokenKind.DeclType, typeName);
     codeAdd(typeMap.get(typeName) || typeName);
   }
   variableDeclaratorList(ctx: VariableDeclaratorListCtx, param?: any) {
@@ -331,7 +360,14 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
   }
   variableDeclaratorId(ctx: VariableDeclaratorIdCtx, param?: any) {
     if (required(ctx.Identifier, 'Unsupported Identifier-less varDeclID')) {
-      codeAdd(" ", ctx.Identifier[0].image, " =");
+      const varName = ctx.Identifier[0].image;
+      codeAdd(" ", varName, " = ");
+      // This is setting us up to keep track of variable name types, 
+      // so we can yoink ".toPose()" modifiers later in the file...
+      const declType = topThing();
+      if (declType?.kind === TokenKind.DeclType) {
+        symbolTypes.set(varName, declType.value);
+      }
     }
   }
   variableInitializer(ctx: VariableInitializerCtx, param?: any) {
@@ -342,8 +378,20 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
     this.maybeVisit(ctx.ternaryExpression);
   }
   lambdaExpression(ctx: LambdaExpressionCtx, param?: any) {
-    this.mustVisit(ctx.lambdaParameters);
+    const params = getContent(ctx.lambdaParameters, ", ");
+    pushThing(TokenKind.LambdaParam, params);
+    codeAdd(params);
+    codeAdd(" -> ");
     this.mustVisit(ctx.lambdaBody);
+    popThing();
+  }
+  lambdaBody(ctx: LambdaBodyCtx, param?: any) {
+    const expr = getContent(ctx.expression);
+    console.log("Expr:  ", expr);
+    unsupported("block", ctx);
+    // TODO: Set the context so we can flip from b -> b.apply(..).build() to 
+    // function.apply(...)
+    this.mustVisit(ctx.expression);
   }
   // Ternary expression is the container for all non-lambdas
   // which is definitely a little weird, but whatever...
@@ -395,18 +443,18 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
   unqualifiedClassInstanceCreationExpression(ctx: UnqualifiedClassInstanceCreationExpressionCtx, param?: any) {
     const typeName = getContent(ctx.classOrInterfaceTypeToInstantiate);
     codeAdd(" ", typeMap.get(typeName) || typeName);
-    pushThing(typeName);
+    pushThing(TokenKind.NewType, typeName);
     this.maybeVisit(ctx.argumentList);
     popThing();
   }
   argumentList(ctx: ArgumentListCtx, param?: any) {
     codeAdd("(");
     const top = topThing();
-    ctx.expression.forEach((node, idx)=> {
+    ctx.expression.forEach((node, idx) => {
       const prefix = idx === 0 ? '' : ", ";
       const code = getContent(node);
-      if (idx === 2 && top === "ConfigurablePoseD") {
-        codeAdd(prefix, "toRadians(",code, ")");
+      if (idx === 2 && top.kind === TokenKind.NewType && top.value === "ConfigurablePoseD") {
+        codeAdd(prefix, "toRadians(", code, ")");
       } else {
         codeAdd(prefix, code);
       }
