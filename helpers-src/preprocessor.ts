@@ -127,8 +127,9 @@ function topOfKind(tk: TokenKind): string | undefined {
   return undefined;
 }
 
-// A really dumb symbol table
+// A really dumb symbol table (That I'm only filling, but never using...)
 const symbolTypes = new Map<string, string>();
+let classHelpersEmitted = false;
 
 // Some output state:
 const imports = new Set<string>(
@@ -229,6 +230,19 @@ function trimCode(start: number, end: number, forget?: boolean): string {
     : `${curFile.substring(start, end)}...`;
 }
 
+function emitClassHelpers() {
+  if (classHelpersEmitted) {
+    return;
+  }
+  classHelpersEmitted = true;
+  codeSpit(`
+  public static MinVelocityConstraint MIN_VEL = new MinVelocityConstraint(Arrays.asList(
+    new AngularVelocityConstraint(60 /*MAX_ANG_VEL*/),
+    new MecanumVelocityConstraint(60 /*MAX_VEL*/, 14 /*TRACK_WIDTH*/)));
+  public static ProfileAccelerationConstraint PROF_ACCEL = new ProfileAccelerationConstraint(20/*MAX_ACCEL*/);
+  public static Function<Pose2d, TrajectoryBuilder> func = pose -> new TrajectoryBuilder(pose, MIN_VEL, PROF_ACCEL);")`);
+}
+
 class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
   output: string[];
   depth: string;
@@ -316,6 +330,7 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
           .join(' ') + ' ';
       codeAdd(modifers);
     }
+    classHelpersEmitted = false;
     this.mustVisit(ctx.normalClassDeclaration);
   }
   normalClassDeclaration(ctx: NormalClassDeclarationCtx, param?: any) {
@@ -348,6 +363,7 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
     this.maybeVisit(ctx.classDeclaration);
   }
   fieldDeclaration(ctx: FieldDeclarationCtx, param?: any) {
+    emitClassHelpers();
     // Add the field modifiers
     codeAdd(getContent(ctx.fieldModifier), ' ');
     this.mustVisit(ctx.unannType);
@@ -420,7 +436,7 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
       const cleanupExpr = expr
         .substring(top.value.length)
         .replaceAll('.toPose()', '');
-      codeSpit('() -> ', 'func', cleanupExpr);
+      codeSpit('() -> ', 'func', cleanupExpr, ';');
     } else if (top) {
       codeSpit(top.value, ' -> ', expr);
     } else {

@@ -16,13 +16,16 @@ const importMap = new Map([
     [
         'com.technototes.path.geometry.ConfigurablePose',
         'com.acmerobotics.roadrunner.geometry.Pose2d',
-    ]
+    ],
 ]);
 const extraImports = ['static java.lang.Math.toRadians'];
 const typeMap = new Map([
     ['ConfigurablePose', 'Pose2d'],
     ['ConfigurablePoseD', 'Pose2d'],
-    ['Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>', 'Supplier<Trajectory>']
+    [
+        'Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>',
+        'Supplier<Trajectory>',
+    ],
 ]);
 /*** END CONFIGURATION STUFF ***/
 console.log(process.argv);
@@ -45,7 +48,6 @@ var TokenKind;
     TokenKind[TokenKind["LambdaParam"] = 1] = "LambdaParam";
     TokenKind[TokenKind["DeclType"] = 2] = "DeclType";
 })(TokenKind || (TokenKind = {}));
-;
 const tokenStack = [];
 function pushThing(kind, value) {
     tokenStack.push({ kind, value });
@@ -64,10 +66,11 @@ function topOfKind(tk) {
     }
     return undefined;
 }
-// A really dumb symbol table
+// A really dumb symbol table (That I'm only filling, but never using...)
 const symbolTypes = new Map();
+let classHelpersEmitted = false;
 // Some output state:
-const imports = new Set([removeImports.values()].map(v => getImportKey('', v, '')));
+const imports = new Set([removeImports.values()].map((v) => getImportKey('', v, '')));
 let prev = '';
 function codeSpit(...args) {
     if (prev.length > 0) {
@@ -75,14 +78,14 @@ function codeSpit(...args) {
         prev = '';
     }
     if (args.length > 1) {
-        console.log(">>>", args.join(""));
+        console.log('>>>', args.join(''));
     }
     else {
-        console.log(">>>", args[0]);
+        console.log('>>>', args[0]);
     }
 }
 function codeAdd(...args) {
-    prev += args.join("");
+    prev += args.join('');
 }
 function getImportKey(stat, imprt, star) {
     return `${stat} ${imprt}.${star}`;
@@ -115,7 +118,9 @@ function getItemContent(f) {
     return '';
 }
 function getContent(field, sep) {
-    return isArray(field) ? field.map(getItemContent).join(sep ?? " ") : getItemContent(field);
+    return isArray(field)
+        ? field.map(getItemContent).join(sep ?? ' ')
+        : getItemContent(field);
 }
 let trimStart = -1;
 let trimEnd = -1;
@@ -133,7 +138,7 @@ function trimCode(start, end, forget) {
     }
     if (!forget) {
         if (trimStart === start && trimEnd === end) {
-            return " ^";
+            return ' ^';
         }
         trimStart = start;
         trimEnd = end;
@@ -141,6 +146,18 @@ function trimCode(start, end, forget) {
     return end === prevEnd
         ? curFile.substring(start, end)
         : `${curFile.substring(start, end)}...`;
+}
+function emitClassHelpers() {
+    if (classHelpersEmitted) {
+        return;
+    }
+    classHelpersEmitted = true;
+    codeSpit(`
+  public static MinVelocityConstraint MIN_VEL = new MinVelocityConstraint(Arrays.asList(
+    new AngularVelocityConstraint(60 /*MAX_ANG_VEL*/),
+    new MecanumVelocityConstraint(60 /*MAX_VEL*/, 14 /*TRACK_WIDTH*/)));
+  public static ProfileAccelerationConstraint PROF_ACCEL = new ProfileAccelerationConstraint(20/*MAX_ACCEL*/);
+  public static Function<Pose2d, TrajectoryBuilder> func = pose -> new TrajectoryBuilder(pose, MIN_VEL, PROF_ACCEL);")`);
 }
 class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
     constructor() {
@@ -169,7 +186,7 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
         if (content /* && !content.endsWith("^")*/)
             console.log(`${this.depth}// ${content}`);
         const prevDepth = this.depth;
-        this.depth += " ";
+        this.depth += ' ';
         this.visit(field);
         this.depth = prevDepth;
     }
@@ -183,41 +200,47 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
     }
     // Rewire the package:
     packageDeclaration(ctx, param) {
-        codeSpit("// Original package: ", ctx.Identifier.map(token => token.image).join('.'));
-        codeSpit("package ", packageDir.join('.'), ";");
+        codeSpit('// Original package: ', ctx.Identifier.map((token) => token.image).join('.'));
+        codeSpit('package ', packageDir.join('.'), ';');
     }
     // Copy, reroute, or remove imports:
     importDeclaration(ctx, param) {
         // console.log("import: ", ctx);
         const stat = ctx.Static ? 'static ' : '';
         const star = ctx.Star ? '*' : '';
-        const imprt = ctx.packageOrTypeName.map(cst => cst.children.Identifier.map(tok => tok.image).join('.')).join('.');
+        const imprt = ctx.packageOrTypeName
+            .map((cst) => cst.children.Identifier.map((tok) => tok.image).join('.'))
+            .join('.');
         const actual = importMap.has(imprt) ? importMap.get(imprt) : imprt;
         const key = `${stat} ${actual}.${star}`;
         if (!imports.has(key)) {
             imports.add(key);
-            codeSpit("import ", stat, actual, star, ';');
+            codeSpit('import ', stat, actual, star, ';');
         }
     }
     // Filter out any '@Config's from class declarations
     classDeclaration(ctx, param) {
         // console.log("classDecl: ", ctx)
         if (ctx.classModifier) {
-            const modifers = ctx.classModifier.map(mod => getItemContent(mod)).filter(v => v != '@Config').join(' ') + " ";
+            const modifers = ctx.classModifier
+                .map((mod) => getItemContent(mod))
+                .filter((v) => v != '@Config')
+                .join(' ') + ' ';
             codeAdd(modifers);
         }
+        classHelpersEmitted = false;
         this.mustVisit(ctx.normalClassDeclaration);
     }
     normalClassDeclaration(ctx, param) {
-        codeAdd("class ");
+        codeAdd('class ');
         this.mustVisit(ctx.typeIdentifier);
-        codeSpit(" {");
+        codeSpit(' {');
         this.mustVisit(ctx.classBody);
-        codeSpit("}");
+        codeSpit('}');
     }
     // spit out the type identifier
     typeIdentifier(ctx, param) {
-        codeAdd(ctx.Identifier.map(tok => tok.image).join('.'));
+        codeAdd(ctx.Identifier.map((tok) => tok.image).join('.'));
     }
     // We're picky about the type of class bodies supported
     classBodyDeclaration(ctx, param) {
@@ -238,15 +261,16 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
         this.maybeVisit(ctx.classDeclaration);
     }
     fieldDeclaration(ctx, param) {
+        emitClassHelpers();
         // Add the field modifiers
-        codeAdd(getContent(ctx.fieldModifier), " ");
+        codeAdd(getContent(ctx.fieldModifier), ' ');
         this.mustVisit(ctx.unannType);
         this.mustVisit(ctx.variableDeclaratorList);
         if (topThing()?.kind === TokenKind.DeclType) {
             popThing();
         }
         else {
-            throw new Error("Unexpected stack situation");
+            throw new Error('Unexpected stack situation');
         }
     }
     unannType(ctx, param) {
@@ -273,8 +297,8 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
     variableDeclaratorId(ctx, param) {
         if (required(ctx.Identifier, 'Unsupported Identifier-less varDeclID')) {
             const varName = ctx.Identifier[0].image;
-            codeAdd(" ", varName, " = ");
-            // This is setting us up to keep track of variable name types, 
+            codeAdd(' ', varName, ' = ');
+            // This is setting us up to keep track of variable name types,
             // so we can yoink ".toPose()" modifiers later in the file...
             const declType = topThing();
             if (declType?.kind === TokenKind.DeclType) {
@@ -290,7 +314,7 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
         this.maybeVisit(ctx.ternaryExpression);
     }
     lambdaExpression(ctx, param) {
-        const params = getContent(ctx.lambdaParameters, ", ");
+        const params = getContent(ctx.lambdaParameters, ', ');
         // We need to transform b -> b.apply(...) to () -> func.apply(...)
         // Push the parameter(s) to the lambda for the lambdaBody to process
         pushThing(TokenKind.LambdaParam, params);
@@ -298,18 +322,24 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
     }
     lambdaBody(ctx, param) {
         const expr = getContent(ctx.expression);
-        console.log("Expr:  ", expr);
-        unsupported("block", ctx);
+        console.log('Expr:  ', expr);
+        unsupported('block', ctx);
         const top = topThing();
-        if (top && top.kind === TokenKind.LambdaParam && expr.startsWith(`${top.value}.apply(`)) {
-            const cleanupExpr = expr.substring(top.value.length).replaceAll(".toPose()", "");
-            codeSpit('() -> ', 'func', cleanupExpr);
+        if (top &&
+            top.kind === TokenKind.LambdaParam &&
+            expr.startsWith(`${top.value}.apply(`)) {
+            // This is pretty dumb given that we have the full syntax tree,
+            // But it's *easy* :D
+            const cleanupExpr = expr
+                .substring(top.value.length)
+                .replaceAll('.toPose()', '');
+            codeSpit('() -> ', 'func', cleanupExpr, ';');
         }
         else if (top) {
             codeSpit(top.value, ' -> ', expr);
         }
         else {
-            throw new Error("Unexpected Lambda body stack");
+            throw new Error('Unexpected Lambda body stack');
         }
         popThing();
     }
@@ -369,25 +399,27 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
     }
     unqualifiedClassInstanceCreationExpression(ctx, param) {
         const typeName = getContent(ctx.classOrInterfaceTypeToInstantiate);
-        codeAdd(" ", typeMap.get(typeName) || typeName);
+        codeAdd(' ', typeMap.get(typeName) || typeName);
         pushThing(TokenKind.NewType, typeName);
         this.maybeVisit(ctx.argumentList);
         popThing();
     }
     argumentList(ctx, param) {
-        codeAdd("(");
+        codeAdd('(');
         const top = topThing();
         ctx.expression.forEach((node, idx) => {
-            const prefix = idx === 0 ? '' : ", ";
+            const prefix = idx === 0 ? '' : ', ';
             const code = getContent(node);
-            if (idx === 2 && top.kind === TokenKind.NewType && top.value === "ConfigurablePoseD") {
-                codeAdd(prefix, "toRadians(", code, ")");
+            if (idx === 2 &&
+                top.kind === TokenKind.NewType &&
+                top.value === 'ConfigurablePoseD') {
+                codeAdd(prefix, 'toRadians(', code, ')');
             }
             else {
                 codeAdd(prefix, code);
             }
         });
-        codeSpit(");");
+        codeSpit(');');
     }
 }
 async function main() {
