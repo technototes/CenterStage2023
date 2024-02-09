@@ -160,7 +160,7 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
                 if (hasStrField(f, 'name')) {
                     content += i !== 0 ? ', ' : f.name;
                 }
-                content += multiple ? `[${i}]:` : '->';
+                content += multiple ? `[${i}]:` : '=>';
                 if (hasFieldType(f, 'location', chkBothOf(chkFieldType('startOffset', isNumber), chkFieldType('endOffset', isNumber)))) {
                     content += trimCode(f.location.startOffset, f.location.endOffset);
                 }
@@ -291,19 +291,27 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
     }
     lambdaExpression(ctx, param) {
         const params = getContent(ctx.lambdaParameters, ", ");
+        // We need to transform b -> b.apply(...) to () -> func.apply(...)
+        // Push the parameter(s) to the lambda for the lambdaBody to process
         pushThing(TokenKind.LambdaParam, params);
-        codeAdd(params);
-        codeAdd(" -> ");
         this.mustVisit(ctx.lambdaBody);
-        popThing();
     }
     lambdaBody(ctx, param) {
         const expr = getContent(ctx.expression);
         console.log("Expr:  ", expr);
         unsupported("block", ctx);
-        // TODO: Set the context so we can flip from b -> b.apply(..).build() to 
-        // function.apply(...)
-        this.mustVisit(ctx.expression);
+        const top = topThing();
+        if (top && top.kind === TokenKind.LambdaParam && expr.startsWith(`${top.value}.apply(`)) {
+            const cleanupExpr = expr.substring(top.value.length).replaceAll(".toPose()", "");
+            codeSpit('() -> ', 'func', cleanupExpr);
+        }
+        else if (top) {
+            codeSpit(top.value, ' -> ', expr);
+        }
+        else {
+            throw new Error("Unexpected Lambda body stack");
+        }
+        popThing();
     }
     // Ternary expression is the container for all non-lambdas
     // which is definitely a little weird, but whatever...
@@ -341,7 +349,19 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
     }
     fqnOrRefType(ctx, param) {
         this.mustVisit(ctx.fqnOrRefTypePartFirst);
-        this.maybeVisit(ctx.fqnOrRefTypePartRest);
+        codeAdd(getContent(ctx.fqnOrRefTypePartRest));
+    }
+    fqnOrRefTypePartFirst(ctx, param) {
+        this.mustVisit(ctx.fqnOrRefTypePartCommon);
+    }
+    fqnOrRefTypePartCommon(ctx, param) {
+        const lambdaArg = topThing();
+        if (lambdaArg && lambdaArg.kind === TokenKind.LambdaParam) {
+            codeAdd('func');
+        }
+        else {
+            codeAdd(getContent(ctx));
+        }
     }
     newExpression(ctx, param) {
         // console.log('new', ctx);

@@ -14,6 +14,8 @@ import {
   ExpressionStatementCtx,
   FieldDeclarationCtx,
   FqnOrRefTypeCtx,
+  FqnOrRefTypePartCommonCtx,
+  FqnOrRefTypePartFirstCtx,
   ImportDeclarationCtx,
   LambdaBodyCtx,
   LambdaExpressionCtx,
@@ -66,13 +68,16 @@ const importMap = new Map([
   [
     'com.technototes.path.geometry.ConfigurablePose',
     'com.acmerobotics.roadrunner.geometry.Pose2d',
-  ]
+  ],
 ]);
 const extraImports = ['static java.lang.Math.toRadians'];
 const typeMap = new Map([
   ['ConfigurablePose', 'Pose2d'],
   ['ConfigurablePoseD', 'Pose2d'],
-  ['Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>', 'Supplier<Trajectory>']
+  [
+    'Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>',
+    'Supplier<Trajectory>',
+  ],
 ]);
 
 /*** END CONFIGURATION STUFF ***/
@@ -98,9 +103,11 @@ const parsedFiles = new Map<string, CstNode>();
 
 // A crappy, poorly written context stack
 enum TokenKind {
-  NewType, LambdaParam, DeclType
-};
-type Token = { kind: TokenKind, value: string };
+  NewType,
+  LambdaParam,
+  DeclType,
+}
+type Token = { kind: TokenKind; value: string };
 const tokenStack: Token[] = [];
 function pushThing(kind: TokenKind, value): void {
   tokenStack.push({ kind, value });
@@ -124,7 +131,9 @@ function topOfKind(tk: TokenKind): string | undefined {
 const symbolTypes = new Map<string, string>();
 
 // Some output state:
-const imports = new Set<string>([removeImports.values()].map(v => getImportKey('', v, '')));
+const imports = new Set<string>(
+  [removeImports.values()].map((v) => getImportKey('', v, '')),
+);
 
 let prev = '';
 function codeSpit(...args: string[]): void {
@@ -133,14 +142,14 @@ function codeSpit(...args: string[]): void {
     prev = '';
   }
   if (args.length > 1) {
-    console.log(">>>", args.join(""));
+    console.log('>>>', args.join(''));
   } else {
-    console.log(">>>", args[0]);
+    console.log('>>>', args[0]);
   }
 }
 
 function codeAdd(...args: string[]): void {
-  prev += args.join("");
+  prev += args.join('');
 }
 
 function getImportKey(stat, imprt, star): string {
@@ -188,7 +197,9 @@ function getItemContent(f: unknown): string {
 }
 
 function getContent(field: unknown, sep?: string): string {
-  return isArray(field) ? field.map(getItemContent).join(sep ?? " ") : getItemContent(field);
+  return isArray(field)
+    ? field.map(getItemContent).join(sep ?? ' ')
+    : getItemContent(field);
 }
 
 let trimStart = -1;
@@ -208,7 +219,7 @@ function trimCode(start: number, end: number, forget?: boolean): string {
   }
   if (!forget) {
     if (trimStart === start && trimEnd === end) {
-      return " ^";
+      return ' ^';
     }
     trimStart = start;
     trimEnd = end;
@@ -238,7 +249,7 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
         if (hasStrField(f, 'name')) {
           content += i !== 0 ? ', ' : f.name;
         }
-        content += multiple ? `[${i}]:` : '->';
+        content += multiple ? `[${i}]:` : '=>';
         if (
           hasFieldType(
             f,
@@ -253,9 +264,10 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
         }
       }
     }
-    if (content/* && !content.endsWith("^")*/) console.log(`${this.depth}// ${content}`);
+    if (content /* && !content.endsWith("^")*/)
+      console.log(`${this.depth}// ${content}`);
     const prevDepth = this.depth;
-    this.depth += " ";
+    this.depth += ' ';
     this.visit(field as CstNode);
     this.depth = prevDepth;
   }
@@ -270,8 +282,11 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
 
   // Rewire the package:
   packageDeclaration(ctx: PackageDeclarationCtx, param?: unknown) {
-    codeSpit("// Original package: ", ctx.Identifier.map(token => token.image).join('.'));
-    codeSpit("package ", packageDir.join('.'), ";");
+    codeSpit(
+      '// Original package: ',
+      ctx.Identifier.map((token) => token.image).join('.'),
+    );
+    codeSpit('package ', packageDir.join('.'), ';');
   }
 
   // Copy, reroute, or remove imports:
@@ -279,12 +294,14 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
     // console.log("import: ", ctx);
     const stat = ctx.Static ? 'static ' : '';
     const star = ctx.Star ? '*' : '';
-    const imprt = ctx.packageOrTypeName.map(cst => cst.children.Identifier.map(tok => tok.image).join('.')).join('.');
+    const imprt = ctx.packageOrTypeName
+      .map((cst) => cst.children.Identifier.map((tok) => tok.image).join('.'))
+      .join('.');
     const actual = importMap.has(imprt) ? importMap.get(imprt) : imprt;
     const key = `${stat} ${actual}.${star}`;
     if (!imports.has(key)) {
       imports.add(key);
-      codeSpit("import ", stat, actual, star, ';');
+      codeSpit('import ', stat, actual, star, ';');
     }
   }
 
@@ -292,21 +309,25 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
   classDeclaration(ctx: ClassDeclarationCtx, param?: any) {
     // console.log("classDecl: ", ctx)
     if (ctx.classModifier) {
-      const modifers = ctx.classModifier.map(mod => getItemContent(mod)).filter(v => v != '@Config').join(' ') + " ";
+      const modifers =
+        ctx.classModifier
+          .map((mod) => getItemContent(mod))
+          .filter((v) => v != '@Config')
+          .join(' ') + ' ';
       codeAdd(modifers);
     }
     this.mustVisit(ctx.normalClassDeclaration);
   }
   normalClassDeclaration(ctx: NormalClassDeclarationCtx, param?: any) {
-    codeAdd("class ");
+    codeAdd('class ');
     this.mustVisit(ctx.typeIdentifier);
-    codeSpit(" {");
+    codeSpit(' {');
     this.mustVisit(ctx.classBody);
-    codeSpit("}");
+    codeSpit('}');
   }
   // spit out the type identifier
   typeIdentifier(ctx: TypeIdentifierCtx, param?: any) {
-    codeAdd(ctx.Identifier.map(tok => tok.image).join('.'));
+    codeAdd(ctx.Identifier.map((tok) => tok.image).join('.'));
   }
   // We're picky about the type of class bodies supported
   classBodyDeclaration(ctx: ClassBodyDeclarationCtx, param?: any) {
@@ -328,13 +349,13 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
   }
   fieldDeclaration(ctx: FieldDeclarationCtx, param?: any) {
     // Add the field modifiers
-    codeAdd(getContent(ctx.fieldModifier), " ");
+    codeAdd(getContent(ctx.fieldModifier), ' ');
     this.mustVisit(ctx.unannType);
     this.mustVisit(ctx.variableDeclaratorList);
     if (topThing()?.kind === TokenKind.DeclType) {
       popThing();
-    } else { 
-      throw new Error("Unexpected stack situation");
+    } else {
+      throw new Error('Unexpected stack situation');
     }
   }
   unannType(ctx: UnannTypeCtx, param?: any) {
@@ -361,8 +382,8 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
   variableDeclaratorId(ctx: VariableDeclaratorIdCtx, param?: any) {
     if (required(ctx.Identifier, 'Unsupported Identifier-less varDeclID')) {
       const varName = ctx.Identifier[0].image;
-      codeAdd(" ", varName, " = ");
-      // This is setting us up to keep track of variable name types, 
+      codeAdd(' ', varName, ' = ');
+      // This is setting us up to keep track of variable name types,
       // so we can yoink ".toPose()" modifiers later in the file...
       const declType = topThing();
       if (declType?.kind === TokenKind.DeclType) {
@@ -378,20 +399,34 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
     this.maybeVisit(ctx.ternaryExpression);
   }
   lambdaExpression(ctx: LambdaExpressionCtx, param?: any) {
-    const params = getContent(ctx.lambdaParameters, ", ");
+    const params = getContent(ctx.lambdaParameters, ', ');
+    // We need to transform b -> b.apply(...) to () -> func.apply(...)
+    // Push the parameter(s) to the lambda for the lambdaBody to process
     pushThing(TokenKind.LambdaParam, params);
-    codeAdd(params);
-    codeAdd(" -> ");
     this.mustVisit(ctx.lambdaBody);
-    popThing();
   }
   lambdaBody(ctx: LambdaBodyCtx, param?: any) {
     const expr = getContent(ctx.expression);
-    console.log("Expr:  ", expr);
-    unsupported("block", ctx);
-    // TODO: Set the context so we can flip from b -> b.apply(..).build() to 
-    // function.apply(...)
-    this.mustVisit(ctx.expression);
+    console.log('Expr:  ', expr);
+    unsupported('block', ctx);
+    const top = topThing();
+    if (
+      top &&
+      top.kind === TokenKind.LambdaParam &&
+      expr.startsWith(`${top.value}.apply(`)
+    ) {
+      // This is pretty dumb given that we have the full syntax tree,
+      // But it's *easy* :D
+      const cleanupExpr = expr
+        .substring(top.value.length)
+        .replaceAll('.toPose()', '');
+      codeSpit('() -> ', 'func', cleanupExpr);
+    } else if (top) {
+      codeSpit(top.value, ' -> ', expr);
+    } else {
+      throw new Error('Unexpected Lambda body stack');
+    }
+    popThing();
   }
   // Ternary expression is the container for all non-lambdas
   // which is definitely a little weird, but whatever...
@@ -434,32 +469,50 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
   }
   fqnOrRefType(ctx: FqnOrRefTypeCtx, param?: any) {
     this.mustVisit(ctx.fqnOrRefTypePartFirst);
-    this.maybeVisit(ctx.fqnOrRefTypePartRest);
+    codeAdd(getContent(ctx.fqnOrRefTypePartRest));
+  }
+  fqnOrRefTypePartFirst(ctx: FqnOrRefTypePartFirstCtx, param?: any) {
+    this.mustVisit(ctx.fqnOrRefTypePartCommon);
+  }
+  fqnOrRefTypePartCommon(ctx: FqnOrRefTypePartCommonCtx, param?: any) {
+    const lambdaArg = topThing();
+    if (lambdaArg && lambdaArg.kind === TokenKind.LambdaParam) {
+      codeAdd('func');
+    } else {
+      codeAdd(getContent(ctx));
+    }
   }
   newExpression(ctx: NewExpressionCtx, param?: any) {
     // console.log('new', ctx);
     this.maybeVisit(ctx.unqualifiedClassInstanceCreationExpression);
   }
-  unqualifiedClassInstanceCreationExpression(ctx: UnqualifiedClassInstanceCreationExpressionCtx, param?: any) {
+  unqualifiedClassInstanceCreationExpression(
+    ctx: UnqualifiedClassInstanceCreationExpressionCtx,
+    param?: any,
+  ) {
     const typeName = getContent(ctx.classOrInterfaceTypeToInstantiate);
-    codeAdd(" ", typeMap.get(typeName) || typeName);
+    codeAdd(' ', typeMap.get(typeName) || typeName);
     pushThing(TokenKind.NewType, typeName);
     this.maybeVisit(ctx.argumentList);
     popThing();
   }
   argumentList(ctx: ArgumentListCtx, param?: any) {
-    codeAdd("(");
+    codeAdd('(');
     const top = topThing();
     ctx.expression.forEach((node, idx) => {
-      const prefix = idx === 0 ? '' : ", ";
+      const prefix = idx === 0 ? '' : ', ';
       const code = getContent(node);
-      if (idx === 2 && top.kind === TokenKind.NewType && top.value === "ConfigurablePoseD") {
-        codeAdd(prefix, "toRadians(", code, ")");
+      if (
+        idx === 2 &&
+        top.kind === TokenKind.NewType &&
+        top.value === 'ConfigurablePoseD'
+      ) {
+        codeAdd(prefix, 'toRadians(', code, ')');
       } else {
         codeAdd(prefix, code);
       }
     });
-    codeSpit(");");
+    codeSpit(');');
   }
 }
 
