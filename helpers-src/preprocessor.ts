@@ -4,14 +4,11 @@ import {
   ArgumentListCtx,
   BaseJavaCstVisitorWithDefaults,
   BinaryExpressionCtx,
-  ClassBodyCtx,
   ClassBodyDeclarationCtx,
   ClassDeclarationCtx,
   ClassMemberDeclarationCtx,
-  ClassModifierCtx,
   CstNode,
   ExpressionCtx,
-  ExpressionStatementCtx,
   FieldDeclarationCtx,
   FqnOrRefTypeCtx,
   FqnOrRefTypePartCommonCtx,
@@ -19,8 +16,6 @@ import {
   ImportDeclarationCtx,
   LambdaBodyCtx,
   LambdaExpressionCtx,
-  LambdaParameterCtx,
-  LambdaParametersCtx,
   NewExpressionCtx,
   NormalClassDeclarationCtx,
   PackageDeclarationCtx,
@@ -30,7 +25,6 @@ import {
   TernaryExpressionCtx,
   TypeIdentifierCtx,
   UnannClassOrInterfaceTypeCtx,
-  UnannClassTypeCtx,
   UnannReferenceTypeCtx,
   UnannTypeCtx,
   UnaryExpressionCtx,
@@ -44,12 +38,8 @@ import {
 import {
   chkBothOf,
   chkFieldType,
-  hasField,
   hasFieldType,
-  hasStrField,
   isArray,
-  isBothOf,
-  isFunction,
   isNonNullable,
   isNumber,
 } from '@freik/typechk';
@@ -82,7 +72,7 @@ const typeMap = new Map([
 
 /*** END CONFIGURATION STUFF ***/
 
-console.log(process.argv);
+// console.log(process.argv);
 const [, , outDir, filesAsString] = process.argv;
 const outputLocation = path.join(outDir, 'generated-sources', ...packageDir);
 
@@ -93,7 +83,8 @@ const files = filesNoBrackets
   .filter(
     (val) =>
       val.toLocaleLowerCase().indexOf('auto') >= 0 &&
-      val.toLocaleLowerCase().indexOf('const') >= 0,
+      val.toLocaleLowerCase().indexOf('const') >= 0 &&
+      val.toLocaleLowerCase().indexOf('meepmeep') < 0,
   );
 
 // Filename to string[] where the contents have had comments stripped
@@ -136,21 +127,28 @@ const imports = new Set<string>(
   [removeImports.values()].map((v) => getImportKey('', v, '')),
 );
 
+const theCode:string[] = [];
+
 let prev = '';
+
 function codeSpit(...args: string[]): void {
   if (prev.length > 0) {
     args = [prev, ...args];
     prev = '';
   }
   if (args.length > 1) {
-    console.log('>>>', args.join(''));
+    theCode.push(args.join(''))
   } else {
-    console.log('>>>', args[0]);
+    theCode.push(args[0]);
   }
 }
 
 function codeAdd(...args: string[]): void {
   prev += args.join('');
+}
+
+function codeReset() {
+  prev = '';
 }
 
 function getImportKey(stat, imprt, star): string {
@@ -235,12 +233,11 @@ function emitClassHelpers() {
     return;
   }
   classHelpersEmitted = true;
-  codeSpit(`
-  public static MinVelocityConstraint MIN_VEL = new MinVelocityConstraint(Arrays.asList(
-    new AngularVelocityConstraint(60 /*MAX_ANG_VEL*/),
-    new MecanumVelocityConstraint(60 /*MAX_VEL*/, 14 /*TRACK_WIDTH*/)));
-  public static ProfileAccelerationConstraint PROF_ACCEL = new ProfileAccelerationConstraint(20/*MAX_ACCEL*/);
-  public static Function<Pose2d, TrajectoryBuilder> func = pose -> new TrajectoryBuilder(pose, MIN_VEL, PROF_ACCEL);")`);
+  // public static MinVelocityConstraint MIN_VEL = new MinVelocityConstraint(Arrays.asList(
+  //    new AngularVelocityConstraint(60 /*MAX_ANG_VEL*/),
+  //    new MecanumVelocityConstraint(60 /*MAX_VEL*/, 14 /*TRACK_WIDTH*/)));
+  // public static ProfileAccelerationConstraint PROF_ACCEL = new ProfileAccelerationConstraint(20/*MAX_ACCEL*/);
+  codeSpit('public static Function<Pose2d, TrajectoryBuilder> func;'); // = pose -> new TrajectoryBuilder(pose, MIN_VEL, PROF_ACCEL);")`);
 }
 
 class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
@@ -255,6 +252,7 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
 
   maybeVisit(field: unknown): void {
     if (!isNonNullable(field)) return;
+    /*
     let content = '';
     if (isArray(field)) {
       const multiple = field.length > 1;
@@ -278,8 +276,9 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
         }
       }
     }
-    if (content /* && !content.endsWith("^")*/)
+    if (content)
       console.log(`${this.depth}// ${content}`);
+    */
     const prevDepth = this.depth;
     this.depth += ' ';
     this.visit(field as CstNode);
@@ -300,7 +299,7 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
       '// Original package: ',
       ctx.Identifier.map((token) => token.image).join('.'),
     );
-    codeSpit('package ', packageDir.join('.'), ';');
+    // codeSpit('package ', packageDir.join('.'), ';');
   }
 
   // Copy, reroute, or remove imports:
@@ -313,10 +312,7 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
       .join('.');
     const actual = importMap.has(imprt) ? importMap.get(imprt) : imprt;
     const key = `${stat} ${actual}.${star}`;
-    if (!imports.has(key)) {
-      imports.add(key);
-      codeSpit('import ', stat, actual, star, ';');
-    }
+    imports.add(key);
   }
 
   // Filter out any '@Config's from class declarations
@@ -371,7 +367,8 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
     if (topThing()?.kind === TokenKind.DeclType) {
       popThing();
     } else {
-      throw new Error('Unexpected stack situation');
+      // No constants, random variables, whatever.
+      codeReset();
     }
   }
   unannType(ctx: UnannTypeCtx, param?: any) {
@@ -423,7 +420,7 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
   }
   lambdaBody(ctx: LambdaBodyCtx, param?: any) {
     const expr = getContent(ctx.expression);
-    console.log('Expr:  ', expr);
+    // console.log('Expr:  ', expr);
     unsupported('block', ctx);
     const top = topThing();
     if (
@@ -481,7 +478,8 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
     this.maybeVisit(ctx.literal);
   }
   primarySuffix(ctx: PrimarySuffixCtx, param?: any) {
-    console.log('primarySuffix', ctx);
+    // console.log('primarySuffix', ctx);
+    codeAdd(getContent(ctx));
   }
   fqnOrRefType(ctx: FqnOrRefTypeCtx, param?: any) {
     this.mustVisit(ctx.fqnOrRefTypePartFirst);
@@ -554,6 +552,7 @@ async function main(): Promise<void> {
     );
   }
 
+  /*
   parsedFiles.forEach((cst, key) => {
     console.log('Name: ', key);
     if (hasField(cst.children, 'ordinaryCompilationUnit')) {
@@ -561,6 +560,7 @@ async function main(): Promise<void> {
       console.log(cst.children.ordinaryCompilationUnit);
     }
   });
+  */
   // console.log(parsedFiles);
 
   // TODO: Finish the simple stuff up.
@@ -578,7 +578,8 @@ async function main(): Promise<void> {
   // difficult, and doesn't change regularly, so it's probably not worth
   // the effort.
 
-  let output = `/*
+  let output = `package ${packageDir.join('.')};
+/*
  * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  * !!!!!!!!!!!WARNING!!!!!!!!!!!!!
  * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -602,17 +603,9 @@ async function main(): Promise<void> {
  * you should reach out to Kevin to figure out what's going on.
  */
 
-package ${packageDir.join('.')};
-
 `;
   output += collectImports();
-  output += '\n\npublic class MeepMeepConstants {\n';
-
-  for (const lines of fileContents.values()) {
-    console.log('Lines: ', lines.length);
-    output += processFile(lines);
-  }
-  output += '\n}\n';
+  output += theCode.join('\n');
 
   await fs.writeFile(
     path.join(outputLocation, 'MeepMeepConstants.java'),

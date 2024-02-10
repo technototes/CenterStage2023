@@ -1,7 +1,7 @@
 import * as fs from 'fs/promises';
 import * as path from 'path';
 import { BaseJavaCstVisitorWithDefaults, parse, } from 'java-parser';
-import { chkBothOf, chkFieldType, hasField, hasFieldType, hasStrField, isArray, isNonNullable, isNumber, } from '@freik/typechk';
+import { chkBothOf, chkFieldType, hasFieldType, isArray, isNonNullable, isNumber, } from '@freik/typechk';
 /*** BEGIN CONFIGURATION STUFF ***/
 // This is the package name that we're going to use for our generated code.
 const packageDir = ['com', 'robotcode', 'shared'];
@@ -28,7 +28,7 @@ const typeMap = new Map([
     ],
 ]);
 /*** END CONFIGURATION STUFF ***/
-console.log(process.argv);
+// console.log(process.argv);
 const [, , outDir, filesAsString] = process.argv;
 const outputLocation = path.join(outDir, 'generated-sources', ...packageDir);
 // We're only finding files that include "auto" and "const" in their paths.
@@ -36,7 +36,8 @@ const filesNoBrackets = filesAsString.substring(1, filesAsString.length - 1);
 const files = filesNoBrackets
     .split(', ')
     .filter((val) => val.toLocaleLowerCase().indexOf('auto') >= 0 &&
-    val.toLocaleLowerCase().indexOf('const') >= 0);
+    val.toLocaleLowerCase().indexOf('const') >= 0 &&
+    val.toLocaleLowerCase().indexOf('meepmeep') < 0);
 // Filename to string[] where the contents have had comments stripped
 // and blank lines are removed.
 const fileContents = new Map();
@@ -71,6 +72,7 @@ const symbolTypes = new Map();
 let classHelpersEmitted = false;
 // Some output state:
 const imports = new Set([removeImports.values()].map((v) => getImportKey('', v, '')));
+const theCode = [];
 let prev = '';
 function codeSpit(...args) {
     if (prev.length > 0) {
@@ -78,14 +80,17 @@ function codeSpit(...args) {
         prev = '';
     }
     if (args.length > 1) {
-        console.log('>>>', args.join(''));
+        theCode.push(args.join(''));
     }
     else {
-        console.log('>>>', args[0]);
+        theCode.push(args[0]);
     }
 }
 function codeAdd(...args) {
     prev += args.join('');
+}
+function codeReset() {
+    prev = '';
 }
 function getImportKey(stat, imprt, star) {
     return `${stat} ${imprt}.${star}`;
@@ -152,12 +157,11 @@ function emitClassHelpers() {
         return;
     }
     classHelpersEmitted = true;
-    codeSpit(`
-  public static MinVelocityConstraint MIN_VEL = new MinVelocityConstraint(Arrays.asList(
-    new AngularVelocityConstraint(60 /*MAX_ANG_VEL*/),
-    new MecanumVelocityConstraint(60 /*MAX_VEL*/, 14 /*TRACK_WIDTH*/)));
-  public static ProfileAccelerationConstraint PROF_ACCEL = new ProfileAccelerationConstraint(20/*MAX_ACCEL*/);
-  public static Function<Pose2d, TrajectoryBuilder> func = pose -> new TrajectoryBuilder(pose, MIN_VEL, PROF_ACCEL);")`);
+    // public static MinVelocityConstraint MIN_VEL = new MinVelocityConstraint(Arrays.asList(
+    //    new AngularVelocityConstraint(60 /*MAX_ANG_VEL*/),
+    //    new MecanumVelocityConstraint(60 /*MAX_VEL*/, 14 /*TRACK_WIDTH*/)));
+    // public static ProfileAccelerationConstraint PROF_ACCEL = new ProfileAccelerationConstraint(20/*MAX_ACCEL*/);
+    codeSpit('public static Function<Pose2d, TrajectoryBuilder> func;'); // = pose -> new TrajectoryBuilder(pose, MIN_VEL, PROF_ACCEL);")`);
 }
 class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
     constructor() {
@@ -169,22 +173,33 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
     maybeVisit(field) {
         if (!isNonNullable(field))
             return;
+        /*
         let content = '';
         if (isArray(field)) {
-            const multiple = field.length > 1;
-            for (let i = 0; i < field.length; i++) {
-                const f = field[i];
-                if (hasStrField(f, 'name')) {
-                    content += i !== 0 ? ', ' : f.name;
-                }
-                content += multiple ? `[${i}]:` : '=>';
-                if (hasFieldType(f, 'location', chkBothOf(chkFieldType('startOffset', isNumber), chkFieldType('endOffset', isNumber)))) {
-                    content += trimCode(f.location.startOffset, f.location.endOffset);
-                }
+          const multiple = field.length > 1;
+          for (let i = 0; i < field.length; i++) {
+            const f = field[i];
+            if (hasStrField(f, 'name')) {
+              content += i !== 0 ? ', ' : f.name;
             }
+            content += multiple ? `[${i}]:` : '=>';
+            if (
+              hasFieldType(
+                f,
+                'location',
+                chkBothOf(
+                  chkFieldType('startOffset', isNumber),
+                  chkFieldType('endOffset', isNumber),
+                ),
+              )
+            ) {
+              content += trimCode(f.location.startOffset, f.location.endOffset);
+            }
+          }
         }
-        if (content /* && !content.endsWith("^")*/)
-            console.log(`${this.depth}// ${content}`);
+        if (content)
+          console.log(`${this.depth}// ${content}`);
+        */
         const prevDepth = this.depth;
         this.depth += ' ';
         this.visit(field);
@@ -201,7 +216,7 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
     // Rewire the package:
     packageDeclaration(ctx, param) {
         codeSpit('// Original package: ', ctx.Identifier.map((token) => token.image).join('.'));
-        codeSpit('package ', packageDir.join('.'), ';');
+        // codeSpit('package ', packageDir.join('.'), ';');
     }
     // Copy, reroute, or remove imports:
     importDeclaration(ctx, param) {
@@ -213,10 +228,7 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
             .join('.');
         const actual = importMap.has(imprt) ? importMap.get(imprt) : imprt;
         const key = `${stat} ${actual}.${star}`;
-        if (!imports.has(key)) {
-            imports.add(key);
-            codeSpit('import ', stat, actual, star, ';');
-        }
+        imports.add(key);
     }
     // Filter out any '@Config's from class declarations
     classDeclaration(ctx, param) {
@@ -270,7 +282,8 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
             popThing();
         }
         else {
-            throw new Error('Unexpected stack situation');
+            // No constants, random variables, whatever.
+            codeReset();
         }
     }
     unannType(ctx, param) {
@@ -322,7 +335,7 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
     }
     lambdaBody(ctx, param) {
         const expr = getContent(ctx.expression);
-        console.log('Expr:  ', expr);
+        // console.log('Expr:  ', expr);
         unsupported('block', ctx);
         const top = topThing();
         if (top &&
@@ -375,7 +388,8 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
         this.maybeVisit(ctx.literal);
     }
     primarySuffix(ctx, param) {
-        console.log('primarySuffix', ctx);
+        // console.log('primarySuffix', ctx);
+        codeAdd(getContent(ctx));
     }
     fqnOrRefType(ctx, param) {
         this.mustVisit(ctx.fqnOrRefTypePartFirst);
@@ -440,13 +454,15 @@ async function main() {
         transformer.visit(cstNode);
         fileContents.set(file, contents.filter((c) => c.trim().length > 0));
     }
+    /*
     parsedFiles.forEach((cst, key) => {
-        console.log('Name: ', key);
-        if (hasField(cst.children, 'ordinaryCompilationUnit')) {
-            console.log(typeof cst.children.ordinaryCompilationUnit);
-            console.log(cst.children.ordinaryCompilationUnit);
-        }
+      console.log('Name: ', key);
+      if (hasField(cst.children, 'ordinaryCompilationUnit')) {
+        console.log(typeof cst.children.ordinaryCompilationUnit);
+        console.log(cst.children.ordinaryCompilationUnit);
+      }
     });
+    */
     // console.log(parsedFiles);
     // TODO: Finish the simple stuff up.
     // At this point, I have a 'files' array of only things that
@@ -460,7 +476,8 @@ async function main() {
     // from Technolib/RR setup code from the bot, but that's just not very
     // difficult, and doesn't change regularly, so it's probably not worth
     // the effort.
-    let output = `/*
+    let output = `package ${packageDir.join('.')};
+/*
  * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  * !!!!!!!!!!!WARNING!!!!!!!!!!!!!
  * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -484,16 +501,9 @@ async function main() {
  * you should reach out to Kevin to figure out what's going on.
  */
 
-package ${packageDir.join('.')};
-
 `;
     output += collectImports();
-    output += '\n\npublic class MeepMeepConstants {\n';
-    for (const lines of fileContents.values()) {
-        console.log('Lines: ', lines.length);
-        output += processFile(lines);
-    }
-    output += '\n}\n';
+    output += theCode.join('\n');
     await fs.writeFile(path.join(outputLocation, 'MeepMeepConstants.java'), output);
 }
 const isPackage = /^\s*package\s/;
