@@ -17,13 +17,21 @@ const importMap = new Map([
         'com.technototes.path.geometry.ConfigurablePose',
         'com.acmerobotics.roadrunner.geometry.Pose2d',
     ],
+    [
+        'com.technototes.path.trajectorysequence.TrajectorySequence',
+        'com.acmerobotics.roadrunner.trajectory.Trajectory',
+    ],
+    [
+        'com.technototes.path.trajectorysequence.TrajectorySequenceBuilder',
+        'com.acmerobotics.roadrunner.trajectory.TrajectoryBuilder',
+    ],
 ]);
 const extraImports = ['static java.lang.Math.toRadians'];
 const typeMap = new Map([
     ['ConfigurablePose', 'Pose2d'],
     ['ConfigurablePoseD', 'Pose2d'],
     [
-        'Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>',
+        'Function<Function<Pose2d,TrajectorySequenceBuilder>,TrajectorySequence>',
         'Supplier<Trajectory>',
     ],
 ]);
@@ -71,7 +79,7 @@ function topOfKind(tk) {
 const symbolTypes = new Map();
 let classHelpersEmitted = false;
 // Some output state:
-const imports = new Set([removeImports.values()].map((v) => getImportKey('', v, '')));
+const imports = new Set(extraImports);
 const theCode = [];
 let prev = '';
 function codeSpit(...args) {
@@ -91,9 +99,6 @@ function codeAdd(...args) {
 }
 function codeReset() {
     prev = '';
-}
-function getImportKey(stat, imprt, star) {
-    return `${stat} ${imprt}.${star}`;
 }
 function unsupported(name, obj) {
     if (obj.hasOwnProperty(name)) {
@@ -126,6 +131,9 @@ function getContent(field, sep) {
     return isArray(field)
         ? field.map(getItemContent).join(sep ?? ' ')
         : getItemContent(field);
+}
+function noWhitespace(input) {
+    return input.replace(/\s/g, '');
 }
 let trimStart = -1;
 let trimEnd = -1;
@@ -222,24 +230,28 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
     importDeclaration(ctx, param) {
         // console.log("import: ", ctx);
         const stat = ctx.Static ? 'static ' : '';
-        const star = ctx.Star ? '*' : '';
+        const star = ctx.Star ? '.*' : '';
         const imprt = ctx.packageOrTypeName
             .map((cst) => cst.children.Identifier.map((tok) => tok.image).join('.'))
             .join('.');
         const actual = importMap.has(imprt) ? importMap.get(imprt) : imprt;
-        const key = `${stat} ${actual}.${star}`;
+        const key = `${stat}${actual}${star}`;
         imports.add(key);
     }
     // Filter out any '@Config's from class declarations
     classDeclaration(ctx, param) {
         // console.log("classDecl: ", ctx)
+        /*
         if (ctx.classModifier) {
-            const modifers = ctx.classModifier
-                .map((mod) => getItemContent(mod))
-                .filter((v) => v != '@Config')
-                .join(' ') + ' ';
-            codeAdd(modifers);
+          const modifers =
+            ctx.classModifier
+              .map((mod) => getItemContent(mod))
+              .filter((v) => v != '@Config')
+              .join(' ') + ' ';
+          codeAdd(modifers);
         }
+        */
+        codeAdd('public static ');
         classHelpersEmitted = false;
         this.mustVisit(ctx.normalClassDeclaration);
     }
@@ -296,7 +308,7 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
         this.mustVisit(ctx.unannClassOrInterfaceType);
     }
     unannClassOrInterfaceType(ctx, param) {
-        const typeName = getContent(ctx.unannClassType);
+        const typeName = noWhitespace(getContent(ctx.unannClassType));
         pushThing(TokenKind.DeclType, typeName);
         codeAdd(typeMap.get(typeName) || typeName);
     }
@@ -334,7 +346,7 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
         this.mustVisit(ctx.lambdaBody);
     }
     lambdaBody(ctx, param) {
-        const expr = getContent(ctx.expression);
+        const expr = noWhitespace(getContent(ctx.expression));
         // console.log('Expr:  ', expr);
         unsupported('block', ctx);
         const top = topThing();
@@ -503,63 +515,10 @@ async function main() {
 
 `;
     output += collectImports();
+    output += '\n\npublic class MeepMeepConstants {\n';
     output += theCode.join('\n');
+    output += '\n}\n';
     await fs.writeFile(path.join(outputLocation, 'MeepMeepConstants.java'), output);
-}
-const isPackage = /^\s*package\s/;
-const isImport = /^\s*import\s/;
-const noStaticClass = /^(\s*)public\s+static\s+class\s+/;
-// Rip off all the imports and transform the file as necessary,
-// returning the output as a string.
-function processFile(lines) {
-    // Skip package, imports
-    let result = '';
-    let inHeader = true;
-    for (let line of lines) {
-        if (inHeader && (isPackage.test(line) || isImport.test(line))) {
-            continue;
-        }
-        inHeader = false;
-        // No FTC Dashboard
-        if (line.trim() === '@Config') {
-            continue;
-        }
-        // Deal with old Java syntax
-        line = line.replace(noStaticClass, '$1public class ');
-        // TODO: More cleanup here
-        if (line.indexOf('Configurable') >= 0) {
-            // First one: ConfigurableD(a, b, c) => Pose2d(a, b, toRadians(c))
-            line = fixConfigurable(line);
-        }
-        // Followed immediately by the removal of .toPose()'s
-        result += line + '\n';
-    }
-    return result;
-}
-// This is a helper to convert "ConfigurablePose[D]" into Pose2d's
-const CONFIG = 'ConfigurablePose';
-const NUMBER = /^\s*(-?\s*(?:(\d*\.?\d+)|(\d+\.?\d*)))\s*$/;
-function fixConfigurable(line) {
-    let res = '';
-    let prevStart = 0;
-    for (let cfgIndex = line.indexOf(CONFIG); cfgIndex >= 0; cfgIndex = line.indexOf(CONFIG, cfgIndex + 1)) {
-        // Find the end of the word
-        let pos = cfgIndex + CONFIG.length;
-        const isCfgD = line[pos] === 'D';
-        res += line.substring(prevStart, cfgIndex) + 'Pose2d';
-        pos += isCfgD ? 1 : 0;
-        prevStart = pos;
-        /*
-        if (isCfgD && line[pos] === '(') {
-          const end = findClosingParen(line, pos);
-          const comma = findPreviousCommand(line, pos, end);
-          const val = NUMBER.exec(line.substring(command, end));
-    
-        }
-        */
-    }
-    res += line.substring(prevStart);
-    return res;
 }
 const PLAIN = Symbol('plain');
 const IN_DQSTRING = Symbol('in dqstring');
@@ -641,28 +600,10 @@ async function removeComments(file) {
     }
     return result.split('\n');
 }
-// Just get the import path and nothing else.
-function cleanupImport(line) {
-    return line.replace(/import\s+/g, '').replace(/;.*/g, '');
-}
 // Produces a single, unique set of import statements from the group of files.
 function collectImports() {
-    const imports = new Set(extraImports);
-    for (const [, lines] of fileContents) {
-        for (let line of lines) {
-            const trimmed = line.trim();
-            if (trimmed.startsWith('import')) {
-                const theImport = cleanupImport(trimmed);
-                // Don't add the import if we're supposed to remove it.
-                if (!removeImports.has(theImport)) {
-                    // Get a 'mapped' import and add it's replacement if it exists.
-                    const mapped = importMap.get(theImport);
-                    imports.add(mapped || theImport);
-                }
-            }
-        }
-    }
-    return Array.from(imports)
+    return [...imports]
+        .filter((val) => !removeImports.has(val))
         .sort()
         .map((i) => `import ${i};`)
         .join('\n');
