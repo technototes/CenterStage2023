@@ -36,16 +36,20 @@ sourceSets {
 }
 
 task makeMeepMeepJava {
-    def loc = '../Sixteen750/src/main/java/org/firstinspires/ftc'
+    def loc = '../Sixteen750/src/main/java/org/firstinspires/ftc/sixteen750/'
     inputs.dir(loc)
     outputs.dir processedLocations
 
     def inputLoc = file(loc)
     println("Files: ${inputLoc}")
     def inputFiles = files(inputLoc)
+    def filtered = inputFiles.asFileTree.matching {
+        include '**/*Const*'
+        include '**/*Drivebase*'
+    }
     doLast {
         exec {
-            commandLine 'yarn', 'meep', buildDir, inputFiles.asFileTree.files
+            commandLine 'c:\\program files\\nodejs\\yarn.cmd', 'meep', buildDir, filtered.files
         }
     }
 }

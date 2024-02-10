@@ -68,7 +68,10 @@ const importMap = new Map([
     'com.acmerobotics.roadrunner.trajectory.TrajectoryBuilder',
   ],
 ]);
-const extraImports = ['static java.lang.Math.toRadians'];
+const extraImports = [
+  'static java.lang.Math.toRadians',
+  'java.util.function.Supplier',
+];
 const typeMap = new Map([
   ['ConfigurablePose', 'Pose2d'],
   ['ConfigurablePoseD', 'Pose2d'],
@@ -94,11 +97,6 @@ const files = filesNoBrackets
       val.toLocaleLowerCase().indexOf('const') >= 0 &&
       val.toLocaleLowerCase().indexOf('meepmeep') < 0,
   );
-
-// Filename to string[] where the contents have had comments stripped
-// and blank lines are removed.
-const fileContents = new Map<string, string[]>();
-const parsedFiles = new Map<string, CstNode>();
 
 // A crappy, poorly written context stack
 enum TokenKind {
@@ -207,33 +205,6 @@ function noWhitespace(input: string): string {
   return input.replace(/\s/g, '');
 }
 
-let trimStart = -1;
-let trimEnd = -1;
-
-function trimCode(start: number, end: number, forget?: boolean): string {
-  end++;
-  // Do we include a new line?
-  const prevEnd = end;
-  const nl = curFile.indexOf('\n', start);
-  if (nl < end) {
-    end = nl;
-  }
-  if (end - start > 80) {
-    // Just cut it down to 50 characters
-    end = start + 50;
-  }
-  if (!forget) {
-    if (trimStart === start && trimEnd === end) {
-      return ' ^';
-    }
-    trimStart = start;
-    trimEnd = end;
-  }
-  return end === prevEnd
-    ? curFile.substring(start, end)
-    : `${curFile.substring(start, end)}...`;
-}
-
 function emitClassHelpers() {
   if (classHelpersEmitted) {
     return;
@@ -248,47 +219,15 @@ function emitClassHelpers() {
 
 class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
   output: string[];
-  depth: string;
   constructor() {
     super();
     this.output = [];
-    this.depth = '';
     this.validateVisitor();
   }
 
   maybeVisit(field: unknown): void {
     if (!isNonNullable(field)) return;
-    /*
-    let content = '';
-    if (isArray(field)) {
-      const multiple = field.length > 1;
-      for (let i = 0; i < field.length; i++) {
-        const f = field[i];
-        if (hasStrField(f, 'name')) {
-          content += i !== 0 ? ', ' : f.name;
-        }
-        content += multiple ? `[${i}]:` : '=>';
-        if (
-          hasFieldType(
-            f,
-            'location',
-            chkBothOf(
-              chkFieldType('startOffset', isNumber),
-              chkFieldType('endOffset', isNumber),
-            ),
-          )
-        ) {
-          content += trimCode(f.location.startOffset, f.location.endOffset);
-        }
-      }
-    }
-    if (content)
-      console.log(`${this.depth}// ${content}`);
-    */
-    const prevDepth = this.depth;
-    this.depth += ' ';
     this.visit(field as CstNode);
-    this.depth = prevDepth;
   }
 
   mustVisit(obj: unknown): void {
@@ -310,7 +249,6 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
 
   // Copy, reroute, or remove imports:
   importDeclaration(ctx: ImportDeclarationCtx, param?: unknown) {
-    // console.log("import: ", ctx);
     const stat = ctx.Static ? 'static ' : '';
     const star = ctx.Star ? '.*' : '';
     const imprt = ctx.packageOrTypeName
@@ -321,25 +259,14 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
     imports.add(key);
   }
 
-  // Filter out any '@Config's from class declarations
   classDeclaration(ctx: ClassDeclarationCtx, param?: any) {
-    // console.log("classDecl: ", ctx)
-    /*
-    if (ctx.classModifier) {
-      const modifers =
-        ctx.classModifier
-          .map((mod) => getItemContent(mod))
-          .filter((v) => v != '@Config')
-          .join(' ') + ' ';
-      codeAdd(modifers);
-    }
-    */
-    codeAdd('public static ');
+    // Class declarations are smashed to just be public static:
+    codeAdd('public static class ');
     classHelpersEmitted = false;
     this.mustVisit(ctx.normalClassDeclaration);
   }
   normalClassDeclaration(ctx: NormalClassDeclarationCtx, param?: any) {
-    codeAdd('class ');
+    // No extends/implements are carried over
     this.mustVisit(ctx.typeIdentifier);
     codeSpit(' {');
     this.mustVisit(ctx.classBody);
@@ -376,7 +303,7 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
     if (topThing()?.kind === TokenKind.DeclType) {
       popThing();
     } else {
-      // No constants, random variables, whatever.
+      // No constants, random variables, whatever. Delete 'em!
       codeReset();
     }
   }
@@ -479,8 +406,8 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
   }
   primary(ctx: PrimaryCtx, param?: any) {
     // This is a list...
-    this.maybeVisit(ctx.primarySuffix);
     this.mustVisit(ctx.primaryPrefix);
+    this.maybeVisit(ctx.primarySuffix);
   }
   primaryPrefix(ctx: PrimaryPrefixCtx, param?: any) {
     this.maybeVisit(ctx.newExpression);
@@ -508,6 +435,7 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
   }
   newExpression(ctx: NewExpressionCtx, param?: any) {
     // console.log('new', ctx);
+    codeAdd('new');
     this.maybeVisit(ctx.unqualifiedClassInstanceCreationExpression);
   }
   unqualifiedClassInstanceCreationExpression(
@@ -549,17 +477,12 @@ async function main(): Promise<void> {
   }
 
   const transformer = new AutoConstVisitor();
-  // First, Remove the comments and collect the result in the fileContents map.
+  // Remove the comments then parse the file
   for (const file of files) {
     const contents = await removeComments(file);
     curFile = contents.join('\n');
     const cstNode = parse(curFile);
-    parsedFiles.set(file, cstNode);
     transformer.visit(cstNode);
-    fileContents.set(
-      file,
-      contents.filter((c) => c.trim().length > 0),
-    );
   }
 
   /*
