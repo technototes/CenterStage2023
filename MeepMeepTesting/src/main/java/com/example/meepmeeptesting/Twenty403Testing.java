@@ -6,11 +6,13 @@ import com.acmerobotics.roadrunner.trajectory.constraints.AngularVelocityConstra
 import com.acmerobotics.roadrunner.trajectory.constraints.MecanumVelocityConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.MinVelocityConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.ProfileAccelerationConstraint;
+
 import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.DriveShim;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 import com.noahbres.meepmeep.roadrunner.trajectorysequence.TrajectorySequence;
+
 import com.robotcode.shared.MeepMeepConstants.AutoConstants.WingRed;
 import com.robotcode.shared.MeepMeepConstants.AutoConstants.WingBlue;
 
@@ -26,21 +28,23 @@ public class Twenty403Testing {
 
     public static void main(String[] args) {
         // Make this as large as possible while still fitting on our laptop screens:
-        MeepMeep meepMeep = new MeepMeep(900);
+        MeepMeep meepMeep = new MeepMeep(600);
+        // TODO: Pull this data from the drivebase code, thereby eliminating the need for the
+        // "func = (Pose2d pose) -> ..." line of code
+
+        // Constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, trackWidth
+        // maxVel: The fastest dist/sec we'll travel (velocity)
+        // maxAcc: The fastest rate (dist/sec/sec) we'll change our velocity (acceleration)
+        // maxAngVel: the fastest degrees/sec we'll rotate (angular velocity)
+        // maxAngAcc: the fastest rate (deg/sec/sec) we'll change our rotation (angular acceleration)
+        // trackWidth: The width of our wheelbase (not clear what this really affects...)
         MinVelocityConstraint min_vel = new MinVelocityConstraint(Arrays.asList(
-                    new AngularVelocityConstraint(120 /*MAX_ANG_VEL*/),
-                    new MecanumVelocityConstraint(120 /*MAX_VEL*/, 14 /*TRACK_WIDTH*/)));
-        ProfileAccelerationConstraint prof_accel = new ProfileAccelerationConstraint(80/*MAX_ACCEL*/);
+                    new AngularVelocityConstraint(60 /*maxAngVel*/),
+                    new MecanumVelocityConstraint(60 /*maxVel*/, 14 /*trackWidth*/)));
+        ProfileAccelerationConstraint prof_accel = new ProfileAccelerationConstraint(30/*maxAcc*/);
         WingRed.func = (Pose2d pose) -> new TrajectoryBuilder(pose, min_vel, prof_accel);
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
             .setDimensions(17.5, 18)
-            // Constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, trackWidth
-            // maxVel: The fastest dist/sec we'll travel (velocity)
-            // maxAcc: The fastest rate (dist/sec/sec) we'll change our velocity (acceleration)
-            // maxAngVel: the fastest degrees/sec we'll rotate (angular velocity)
-            // maxAngAcc: the fastest rate (deg/sec/sec) we'll change our rotation (angular acceleration)
-            // trackWidth: The width of our wheelbase (not clear what this really affects...)
-//            .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 9.5)
             .followTrajectorySequence(drive -> getRedTrajectory(drive));
         try {
             // Try to load the field image from the repo:
