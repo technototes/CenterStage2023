@@ -5,6 +5,25 @@ __metadata:
   version: 8
   cacheKey: 10c0
 
+"@freik/containers@npm:^0.2.13":
+  version: 0.2.13
+  resolution: "@freik/containers@npm:0.2.13"
+  dependencies:
+    "@freik/helpers": "npm:^0.3.12"
+    "@freik/typechk": "npm:^0.5.11"
+  checksum: 10c0/5bbead9472a2543cdfc6791a4b2c90a07bbc3f58a932d41673d637d3cd9afaa90be5d11d1c50cac2997b7680eb4ed0286d6c2e8c18af3f122122be1a70272937
+  languageName: node
+  linkType: hard
+
+"@freik/helpers@npm:^0.3.12":
+  version: 0.3.12
+  resolution: "@freik/helpers@npm:0.3.12"
+  dependencies:
+    "@freik/typechk": "npm:^0.5.11"
+  checksum: 10c0/2ecb26fcd11601536547e1261adef45da0e4a50c7949a97721ac1e6f8ec0bb2bb2d1a61d9a4155277389841c082657da075117f290f23d4781c21df5569f5f28
+  languageName: node
+  linkType: hard
+
 "@freik/typechk@npm:^0.5.11":
   version: 0.5.11
   resolution: "@freik/typechk@npm:0.5.11"
@@ -28,12 +47,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^20.11.16":
-  version: 20.11.16
-  resolution: "@types/node@npm:20.11.16"
+"@types/node@npm:^20.11.17":
+  version: 20.11.17
+  resolution: "@types/node@npm:20.11.17"
   dependencies:
     undici-types: "npm:~5.26.4"
-  checksum: 10c0/4886b90278e9c877a84efd3edd4667cd990e032d77268d2a798b99ebc1901ea336fa7dfbe9eaf4ad6ad1da9ce2ec31baf300038a3905838692362eb19904ebde
+  checksum: 10c0/1f30dae80b416cbf38f133a619ffb0e9fb9e7bc58f82d900bf73816ae5781740c4640892bf5971dd9c12570d5d05241646be3e7540bb4e059322ec6af4e51e15
   languageName: node
   linkType: hard
 
@@ -62,8 +81,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "ftc-maintenance-sripts@workspace:."
   dependencies:
+    "@freik/containers": "npm:^0.2.13"
     "@freik/typechk": "npm:^0.5.11"
-    "@types/node": "npm:^20.11.16"
+    "@types/node": "npm:^20.11.17"
     java-parser: "npm:^2.2.0"
     prettier: "npm:^3.2.5"
     prettier-plugin-java: "npm:^2.5.0"

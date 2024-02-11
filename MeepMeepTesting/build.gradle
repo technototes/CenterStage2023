@@ -36,20 +36,30 @@ sourceSets {
 }
 
 task makeMeepMeepJava {
-    def loc = '../Sixteen750/src/main/java/org/firstinspires/ftc/sixteen750/'
-    inputs.dir(loc)
+    def buildCommand
+    def osName = System.properties['os.name'].toLowerCase()
+
+    if (osName.contains('win')) {
+        buildCommand = 'c:\\program files\\nodejs\\yarn.cmd'
+    } else if (oName.continas('mac')) {
+        buildCommand = '/opt/bin/yarn'
+    } else {
+        throw new GradleException("Unsupported operating system")
+    }
+
+    def theFiles = files (
+        '../Sixteen750/src/main/java/org/firstinspires/ftc/sixteen750/subsystems/DrivebaseSubsystem.java',
+        '../Sixteen750/src/main/java/org/firstinspires/ftc/sixteen750/AutoConstants.java',
+        '../Twenty403/src/main/java/org/firstinspires/ftc/twenty403/subsystems/DrivebaseSubsystem.java',
+        // '../Twenty403/src/main/java/org/firstinspires/ftc/twenty403/AutoConstants.java'
+    )
+
+    inputs.files theFiles.asFileTree.files
     outputs.dir processedLocations
 
-    def inputLoc = file(loc)
-    println("Files: ${inputLoc}")
-    def inputFiles = files(inputLoc)
-    def filtered = inputFiles.asFileTree.matching {
-        include '**/*Const*'
-        include '**/*Drivebase*'
-    }
     doLast {
         exec {
-            commandLine 'c:\\program files\\nodejs\\yarn.cmd', 'meep', buildDir, filtered.files
+            commandLine buildCommand, 'meep', buildDir, theFiles.files
         }
     }
 }

@@ -43,6 +43,8 @@ import {
   isNonNullable,
   isNumber,
 } from '@freik/typechk';
+import { MakeStack } from '@freik/containers';
+import { removeComments } from './helpers/removeComments.js';
 
 /*** BEGIN CONFIGURATION STUFF ***/
 // This is the package name that we're going to use for our generated code.
@@ -83,7 +85,6 @@ const typeMap = new Map([
 
 /*** END CONFIGURATION STUFF ***/
 
-// console.log(process.argv);
 const [, , outDir, filesAsString] = process.argv;
 const outputLocation = path.join(outDir, 'generated-sources', ...packageDir);
 
@@ -97,32 +98,6 @@ const files = filesNoBrackets
       val.toLocaleLowerCase().indexOf('const') >= 0 &&
       val.toLocaleLowerCase().indexOf('meepmeep') < 0,
   );
-
-// A crappy, poorly written context stack
-enum TokenKind {
-  NewType,
-  LambdaParam,
-  DeclType,
-}
-type Token = { kind: TokenKind; value: string };
-const tokenStack: Token[] = [];
-function pushThing(kind: TokenKind, value): void {
-  tokenStack.push({ kind, value });
-}
-function popThing(): void {
-  tokenStack.pop();
-}
-function topThing(): Token | undefined {
-  return tokenStack[tokenStack.length - 1];
-}
-function topOfKind(tk: TokenKind): string | undefined {
-  for (let i = tokenStack.length - 1; i >= 0; i--) {
-    if (tokenStack[i].kind === tk) {
-      return tokenStack[i].value;
-    }
-  }
-  return undefined;
-}
 
 // A really dumb symbol table (That I'm only filling, but never using...)
 const symbolTypes = new Map<string, string>();
@@ -217,7 +192,17 @@ function emitClassHelpers() {
   codeSpit('public static Function<Pose2d, TrajectoryBuilder> func;'); // = pose -> new TrajectoryBuilder(pose, MIN_VEL, PROF_ACCEL);")`);
 }
 
-class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
+// A little "context" stack
+enum TokenKind {
+  NewType,
+  LambdaParam,
+  DeclType,
+}
+type Token = { kind: TokenKind; value: string };
+const MakeToken = (kind: TokenKind, value: string) => ({kind, value});
+const tokenStack = MakeStack<Token>();
+
+class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {   
   output: string[];
   constructor() {
     super();
@@ -300,8 +285,8 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
     codeAdd(getContent(ctx.fieldModifier), ' ');
     this.mustVisit(ctx.unannType);
     this.mustVisit(ctx.variableDeclaratorList);
-    if (topThing()?.kind === TokenKind.DeclType) {
-      popThing();
+    if (tokenStack.peek()?.kind === TokenKind.DeclType) {
+      tokenStack.pop();
     } else {
       // No constants, random variables, whatever. Delete 'em!
       codeReset();
@@ -318,7 +303,7 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
   }
   unannClassOrInterfaceType(ctx: UnannClassOrInterfaceTypeCtx, param?: any) {
     const typeName = noWhitespace(getContent(ctx.unannClassType));
-    pushThing(TokenKind.DeclType, typeName);
+    tokenStack.push(MakeToken(TokenKind.DeclType, typeName));
     codeAdd(typeMap.get(typeName) || typeName);
   }
   variableDeclaratorList(ctx: VariableDeclaratorListCtx, param?: any) {
@@ -334,7 +319,7 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
       codeAdd(' ', varName, ' = ');
       // This is setting us up to keep track of variable name types,
       // so we can yoink ".toPose()" modifiers later in the file...
-      const declType = topThing();
+      const declType = tokenStack.peek();
       if (declType?.kind === TokenKind.DeclType) {
         symbolTypes.set(varName, declType.value);
       }
@@ -351,7 +336,7 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
     const params = getContent(ctx.lambdaParameters, ', ');
     // We need to transform b -> b.apply(...) to () -> func.apply(...)
     // Push the parameter(s) to the lambda for the lambdaBody to process
-    pushThing(TokenKind.LambdaParam, params);
+    tokenStack.push(MakeToken(TokenKind.LambdaParam, params));
     this.mustVisit(ctx.lambdaBody);
   }
   lambdaBody(ctx: LambdaBodyCtx, param?: any) {
@@ -359,7 +344,7 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
     // console.log('Expr:  ', expr);
 
     unsupported('block', ctx);
-    const top = topThing();
+    const top = tokenStack.pop();
     if (
       top &&
       top.kind === TokenKind.LambdaParam &&
@@ -376,7 +361,6 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
     } else {
       throw new Error('Unexpected Lambda body stack');
     }
-    popThing();
   }
   // Ternary expression is the container for all non-lambdas
   // which is definitely a little weird, but whatever...
@@ -426,7 +410,7 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
     this.mustVisit(ctx.fqnOrRefTypePartCommon);
   }
   fqnOrRefTypePartCommon(ctx: FqnOrRefTypePartCommonCtx, param?: any) {
-    const lambdaArg = topThing();
+    const lambdaArg = tokenStack.peek();
     if (lambdaArg && lambdaArg.kind === TokenKind.LambdaParam) {
       codeAdd('func');
     } else {
@@ -444,13 +428,13 @@ class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
   ) {
     const typeName = getContent(ctx.classOrInterfaceTypeToInstantiate);
     codeAdd(' ', typeMap.get(typeName) || typeName);
-    pushThing(TokenKind.NewType, typeName);
+    tokenStack.push(MakeToken(TokenKind.NewType, typeName));
     this.maybeVisit(ctx.argumentList);
-    popThing();
+    tokenStack.pop();
   }
   argumentList(ctx: ArgumentListCtx, param?: any) {
     codeAdd('(');
-    const top = topThing();
+    const top = tokenStack.peek();
     ctx.expression.forEach((node, idx) => {
       const prefix = idx === 0 ? '' : ', ';
       const code = getContent(node);
@@ -479,7 +463,8 @@ async function main(): Promise<void> {
   const transformer = new AutoConstVisitor();
   // Remove the comments then parse the file
   for (const file of files) {
-    const contents = await removeComments(file);
+    const origFileContents = await fs.readFile(file, 'utf8');
+    const contents = removeComments(origFileContents);
     curFile = contents.join('\n');
     const cstNode = parse(curFile);
     transformer.visit(cstNode);
@@ -535,9 +520,14 @@ async function main(): Promise<void> {
  * If you're note using fully qualified names, and things are still messed up
  * you should reach out to Kevin to figure out what's going on.
  */
-
 `;
+
+/* You can move this before the ` to see the raw input to the script:
+ * ${process.argv.join("\n * ")};
+ */
+
   output += collectImports();
+
   output += '\n\npublic class MeepMeepConstants {\n';
   output += theCode.join('\n');
   output += '\n}\n';
@@ -545,87 +535,6 @@ async function main(): Promise<void> {
     path.join(outputLocation, 'MeepMeepConstants.java'),
     output,
   );
-}
-
-const PLAIN = Symbol('plain');
-const IN_DQSTRING = Symbol('in dqstring');
-const IN_SQSTRING = Symbol('in sqstring');
-const IN_MLCOMMENT = Symbol('in multiline comment');
-const IN_SLCOMMENT = Symbol('in singleline comment');
-
-async function removeComments(file: string): Promise<string[]> {
-  const contents = await fs.readFile(file, 'utf8');
-  // This is a big ol' state-machine-based parser to remove
-  // comments. I should draw the state machine out explicitly
-  // sometime. Currently, I'm assuming it's not perfect, but
-  // it works well enough for now...
-  let result = '';
-  let state = PLAIN;
-  let justSawSlash = false;
-  let justSawBackslash = false;
-  let justSawStar = false;
-  for (const char of contents) {
-    switch (state) {
-      case IN_SLCOMMENT:
-        if (char === '\n') {
-          state = PLAIN;
-          result += '\n';
-        }
-        continue;
-      case IN_MLCOMMENT:
-        if (justSawStar && char === '/') {
-          state = PLAIN;
-          justSawStar = false;
-          continue;
-        }
-        justSawStar = char === '*';
-        continue;
-      case IN_DQSTRING:
-        if (char === '"') {
-          state = justSawBackslash ? IN_DQSTRING : PLAIN;
-        }
-        break;
-      case IN_SQSTRING:
-        if (char === '"') {
-          state = justSawBackslash ? IN_SQSTRING : PLAIN;
-        }
-        break;
-      case PLAIN:
-        if (justSawSlash) {
-          if (char === '/') {
-            justSawSlash = false;
-            state = IN_SLCOMMENT;
-            continue;
-          }
-          if (char === '*') {
-            justSawSlash = false;
-            state = IN_MLCOMMENT;
-            continue;
-          }
-          // Output the slash that we saw in the previous iteration,
-          // since it wasn't part of a comment.
-          result += '/';
-        }
-        if (char === '"') {
-          state = IN_DQSTRING;
-        } else if (char === "'") {
-          state = IN_SQSTRING;
-        }
-        break;
-    }
-    justSawSlash = char === '/';
-    justSawBackslash = char === '\\';
-    if (!justSawSlash && char !== '\r') {
-      // For a front-slash not in a string, don't output it.
-      // It might be the beginning of a comment. We handle it above...
-      result += char;
-    }
-  }
-  // Deal with any trailing states
-  if (justSawSlash && state === PLAIN) {
-    result += '/';
-  }
-  return result.split('\n');
 }
 
 // Produces a single, unique set of import statements from the group of files.
