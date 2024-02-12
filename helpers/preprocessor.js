@@ -131,6 +131,7 @@ var TokenKind;
 const MakeToken = (kind, value) => ({ kind, value });
 const tokenStack = MakeStack();
 class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
+    output;
     constructor() {
         super();
         this.output = [];
