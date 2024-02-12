@@ -14,7 +14,8 @@
     "noEmitOnError": true,
     "pretty": true,
     "removeComments": false,
-    "rootDir": "helpers-src"
+    "rootDir": "helpers-src",
+    "emitDecoratorMetadata": false
   },
   "include": ["helpers-src/**/*.ts"]
 }
