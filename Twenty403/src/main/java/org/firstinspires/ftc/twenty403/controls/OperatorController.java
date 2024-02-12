@@ -85,7 +85,7 @@ public class OperatorController {
     public void bindClawControls() {
         armIntakeButton.whenPressed(new ArmIntakeCommand(robot.armSubsystem));
         armNeutralButton.whenPressed(new ArmNeutralCommand(robot.armSubsystem));
-        armFirstLine.whenPressed(new ArmSecondLineCommand((robot.armSubsystem)));
+        //armFirstLine.whenPressed(new ArmSecondLineCommand((robot.armSubsystem)));
         armSecondLine.whenPressed(new ArmSecondLineCommand((robot.armSubsystem)));
         //armThirdLine.whenPressed(new ArmThirdLineCommand((robot.armSubsystem)));
         shoulderResetZero.whenPressed(new ShoulderNeutralCommand((robot.armSubsystem)));
@@ -93,16 +93,16 @@ public class OperatorController {
         shoulderDecrementButton.whenPressed(new ShoulderDecrementCommand(robot.armSubsystem));
         wristIncrementButton.whenPressed(new WristIncrementCommand(robot.armSubsystem));
         wristDecrementButton.whenPressed(new WristDecrementCommand(robot.armSubsystem));
-        HangButton.whenPressed(new HangSequential(robot.armSubsystem));
+        //HangButton.whenPressed(new HangSequential(robot.armSubsystem));
         manualSlurp.whilePressed(new IntakeManualSlurpCommand(robot.armSubsystem));
         manualSlurp.whenReleased(new IntakeStopCommand(robot.armSubsystem));
         spit.whenPressed(new IntakeSpitCommand(robot.armSubsystem));
         spit.whenReleased(new IntakeStopCommand(robot.armSubsystem));
-        largeShoulderDec.whenPressed(new ShoulderLargeDecrementCommand(robot.armSubsystem));
+        //largeShoulderDec.whenPressed(new ShoulderLargeDecrementCommand(robot.armSubsystem));
         //largeShoulderInc.whenPressed(new ShoulderLargeIncrementCommand(robot.armSubsystem));
     }
 
     public void bindDroneControls() {
-        launchDroneButton.whenPressed(new DroneSequential(robot.droneSubsystem));
+        //launchDroneButton.whenPressed(new DroneSequential(robot.droneSubsystem));
     }
 }
