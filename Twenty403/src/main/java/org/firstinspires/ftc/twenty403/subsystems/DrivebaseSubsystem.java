@@ -31,7 +31,7 @@ public class DrivebaseSubsystem
 
         public static double SLOW_MOTOR_SPEED = 0.4;
         public static double SLOW_ROTATION_SCALE = 0.5;
-        public static double NORMAL_MOTOR_SPEED = 1.5;
+        public static double NORMAL_MOTOR_SPEED = 0.8;
         public static double NORMAL_ROTATION_SCALE = 0.3;
         public static double TRIGGER_THRESHOLD = 0.7;
 
