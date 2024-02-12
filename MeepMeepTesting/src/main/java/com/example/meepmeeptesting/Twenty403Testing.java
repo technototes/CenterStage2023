@@ -36,12 +36,12 @@ public class Twenty403Testing {
         // maxVel: The fastest dist/sec we'll travel (velocity)
         // maxAcc: The fastest rate (dist/sec/sec) we'll change our velocity (acceleration)
         // maxAngVel: the fastest degrees/sec we'll rotate (angular velocity)
-        // maxAngAcc: the fastest rate (deg/sec/sec) we'll change our rotation (angular acceleration)
-        // trackWidth: The width of our wheelbase (not clear what this really affects...)
+        // maxAngAcc: the fastest rate (deg/sec/sec) we'll change our rotation (angular acceleration) @MaxAngleAccel
+        // trackWidth: The width of our wheelbase (not clear what this really affects...) @TrackWidth
         MinVelocityConstraint min_vel = new MinVelocityConstraint(Arrays.asList(
-                    new AngularVelocityConstraint(60 /*maxAngVel*/),
-                    new MecanumVelocityConstraint(60 /*maxVel*/, 14 /*trackWidth*/)));
-        ProfileAccelerationConstraint prof_accel = new ProfileAccelerationConstraint(30/*maxAcc*/);
+                    new AngularVelocityConstraint(60 /* @MaxAngleVelo */),
+                    new MecanumVelocityConstraint(60 /* @MaxVelo */, 14 /* @TrackWidth */)));
+        ProfileAccelerationConstraint prof_accel = new ProfileAccelerationConstraint(30 /* @MaxAccel */);
         WingRed.func = (Pose2d pose) -> new TrajectoryBuilder(pose, min_vel, prof_accel);
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
             .setDimensions(17.5, 18)
