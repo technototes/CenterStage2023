@@ -11,6 +11,7 @@ include ':FtcRobotController'
 
 include ':Sixteen750'
 include ':Twenty403'
+include ':ProtoBot'
 
 include ':LearnBot'                                                      // FLIP: BUILD ALL BOTS
 include ':RoadRunnerQuickStart'                                          // FLIP: BUILD ALL BOTS
