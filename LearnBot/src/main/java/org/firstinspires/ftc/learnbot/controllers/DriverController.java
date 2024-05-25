@@ -6,7 +6,11 @@ import com.technototes.library.control.CommandButton;
 import com.technototes.library.control.CommandGamepad;
 import com.technototes.library.control.Stick;
 import org.firstinspires.ftc.learnbot.Robot;
-import org.firstinspires.ftc.learnbot.commands.DriveCommand;
+import org.firstinspires.ftc.learnbot.commands.drivingOutReach.JoystickDriveCommand;
+import org.firstinspires.ftc.learnbot.commands.drivingOutReach.NormalModeCommand;
+import org.firstinspires.ftc.learnbot.commands.drivingOutReach.ResetGyroCommand;
+import org.firstinspires.ftc.learnbot.commands.drivingOutReach.SnailModeCommand;
+import org.firstinspires.ftc.learnbot.commands.drivingOutReach.TurboModeCommand;
 
 public class DriverController {
 
@@ -16,8 +20,7 @@ public class DriverController {
     public Stick driveLeftStick, driveRightStick;
     public CommandButton resetGyroButton, turboButton, snailButton;
     public CommandButton override;
-//    TODO: Add drive straighten
-//    public CommandAxis driveStraighten;
+    public CommandAxis driveStraighten;
 
 
     public DriverController(CommandGamepad g, Robot r) {
@@ -34,7 +37,7 @@ public class DriverController {
         resetGyroButton = gamepad.ps_options;
         driveLeftStick = gamepad.leftStick;
         driveRightStick = gamepad.rightStick;
-//        driveStraighten = gamepad.rightTrigger;
+        driveStraighten = gamepad.rightTrigger;
         turboButton = gamepad.leftBumper;
         snailButton = gamepad.rightBumper;
     }
@@ -44,10 +47,18 @@ public class DriverController {
         CommandScheduler
             .getInstance()
             .scheduleJoystick(
-                new DriveCommand(
+                new JoystickDriveCommand(
                         robot.drivebaseSubsystem,
                         driveLeftStick,
-                        driveRightStick)
+                        driveRightStick,
+                        driveStraighten)
             );
+        turboButton.whenPressed(new TurboModeCommand(robot.drivebaseSubsystem));
+        turboButton.whenReleased(new NormalModeCommand(robot.drivebaseSubsystem));
+        snailButton.whenPressed(new SnailModeCommand(robot.drivebaseSubsystem));
+        snailButton.whenReleased(new NormalModeCommand(robot.drivebaseSubsystem));
+
+        resetGyroButton.whenPressed(new ResetGyroCommand(robot.drivebaseSubsystem));
+
     }
 }
