@@ -6,9 +6,9 @@ import com.technototes.library.control.CommandGamepad;
 import com.technototes.library.logger.Loggable;
 import org.firstinspires.ftc.learnbot.Robot;
 import org.firstinspires.ftc.learnbot.commands.AnalogMotorControlCmd;
-import org.firstinspires.ftc.learnbot.commands.LiftHighCommand;
-import org.firstinspires.ftc.learnbot.commands.LiftLowCommand;
-import org.firstinspires.ftc.learnbot.commands.LiftMidCommand;
+import org.firstinspires.ftc.learnbot.commands.liftCommands.LiftHighCommand;
+import org.firstinspires.ftc.learnbot.commands.liftCommands.LiftLowCommand;
+import org.firstinspires.ftc.learnbot.commands.liftCommands.LiftMidCommand;
 
 public class TestController implements Loggable {
 

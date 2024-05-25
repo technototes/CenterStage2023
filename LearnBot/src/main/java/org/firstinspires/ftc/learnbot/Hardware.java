@@ -5,11 +5,14 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.technototes.library.hardware.motor.EncodedMotor;
+import com.technototes.library.hardware.motor.Motor;
 import com.technototes.library.hardware.sensor.ColorDistanceSensor;
 import com.technototes.library.hardware.sensor.IMU;
 import com.technototes.library.hardware.sensor.Rev2MDistanceSensor;
 import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.logger.Loggable;
+import com.technototes.vision.hardware.Webcam;
+
 import java.util.List;
 import org.firstinspires.ftc.robotcore.external.navigation.VoltageUnit;
 
@@ -17,20 +20,29 @@ public class Hardware implements Loggable {
 
     public List<LynxModule> hubs;
 
-    public EncodedMotor<DcMotorEx> theMotor;
-    public EncodedMotor<DcMotorEx> flMotor;
-    public EncodedMotor<DcMotorEx> frMotor;
-    public EncodedMotor<DcMotorEx> rlMotor;
-    public EncodedMotor<DcMotorEx> rrMotor;
-    public IMU imu;
+    public EncodedMotor<DcMotorEx> theMotor,flMotor,frMotor,rlMotor,rrMotor;
+    public Motor<DcMotorEx> placeholder1;
+    public DcMotorEx liftMotor;
+
+    public Servo placeholder2;
     public Servo servo;
+
+
+    public IMU imu;
+    public Webcam camera;
+
     public Rev2MDistanceSensor distanceSensor;
     public ColorDistanceSensor colorSensor;
 
-    public DcMotorEx liftMotor;
 
     public Hardware(HardwareMap hwmap) {
         hubs = hwmap.getAll(LynxModule.class);
+        imu =
+                new IMU(
+                        Setup.HardwareNames.IMU,
+                        RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
+                        RevHubOrientationOnRobot.UsbFacingDirection.UP
+                );
         if (Setup.Connected.DRIVEBASE) {
             this.frMotor = new EncodedMotor<>(Setup.HardwareNames.FRMOTOR);
             this.flMotor = new EncodedMotor<>(Setup.HardwareNames.FLMOTOR);
@@ -39,6 +51,12 @@ public class Hardware implements Loggable {
         }
         if (Setup.Connected.MOTOR) {
             this.theMotor = new EncodedMotor<>(Setup.HardwareNames.MOTOR);
+        }
+        if (Setup.Connected.FLYWHEEL){
+            this.placeholder1 = new Motor<>(Setup.HardwareNames.FLYWHEELMOTOR);
+        }
+        if (Setup.Connected.WEBCAM) {
+            camera = new Webcam(Setup.HardwareNames.CAMERA);
         }
         if (Setup.Connected.TESTSUBSYSTEM) {
             if (Setup.Connected.SERVO) {
@@ -54,8 +72,8 @@ public class Hardware implements Loggable {
         this.imu =
             new IMU(
                 Setup.HardwareNames.IMU,
-                RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD
+                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+                RevHubOrientationOnRobot.UsbFacingDirection.UP
             );
     }
 

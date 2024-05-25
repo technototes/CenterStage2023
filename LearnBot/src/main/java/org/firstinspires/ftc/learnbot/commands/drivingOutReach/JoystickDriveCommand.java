@@ -8,8 +8,8 @@ import com.technototes.library.control.Stick;
 import com.technototes.library.logger.Loggable;
 import com.technototes.library.util.MathUtils;
 
-import org.firstinspires.ftc.sixteen750.Setup;
-import org.firstinspires.ftc.sixteen750.subsystems.DrivebaseSubsystem;
+import org.firstinspires.ftc.learnbot.subsystems.DrivebaseSubsystem;
+import org.firstinspires.ftc.learnbot.Setup;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
@@ -62,7 +62,7 @@ public class JoystickDriveCommand implements Command, Loggable {
             // Normalize the error to -1 to 1
             double normalized = Math.max(Math.min(offBy / 45, 1.), -1.);
             // Dead zone of 5 degreesLiftHighJunctionCommand(liftSubsystem)
-            if (Math.abs(normalized) < Setup.OtherSettings.STRAIGHTEN_DEAD_ZONE) {
+            if (Math.abs(normalized) < Setup.OtherSettings.STICK_DEAD_ZONE) {
                 return 0.0;
             }
             // Scale it by the cube root, the scale that down by 30%

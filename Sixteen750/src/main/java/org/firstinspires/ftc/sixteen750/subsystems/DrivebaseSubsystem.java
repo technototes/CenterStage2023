@@ -145,13 +145,18 @@ public class DrivebaseSubsystem
     public String locState = "none";
 
     public DrivebaseSubsystem(
-        EncodedMotor<DcMotorEx> fl,
+            EncodedMotor<DcMotorEx> fl,
         EncodedMotor<DcMotorEx> fr,
         EncodedMotor<DcMotorEx> rl,
         EncodedMotor<DcMotorEx> rr,
         IMU i
     ) {
-        super(fl, fr, rl, rr, i, () -> DriveConstants.class);
+        super(fl,
+                fr,
+                rl,
+                rr,
+                i,
+                () -> DriveConstants.class);
         fl2 = fl;
         fr2 = fr;
         rl2 = rl;
