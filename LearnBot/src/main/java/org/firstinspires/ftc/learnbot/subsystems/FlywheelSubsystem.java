@@ -11,6 +11,9 @@ public class FlywheelSubsystem implements Subsystem, Loggable {
 
     public static double INTAKE_SPEED = -0.8; //tested 1/9/24
     public static double OUTPUT_SPEED = .3;
+
+    public static double MIN_FLYWHEEL_MOTOR_SPEED = -0.5;
+    public static double MAX_FLYWHEEL_MOTOR_SPEED = 0.5;
     public Motor<DcMotorEx> leftMotor;
     //public Motor<DcMotorEx> rightMotor;
     private boolean isHardware;

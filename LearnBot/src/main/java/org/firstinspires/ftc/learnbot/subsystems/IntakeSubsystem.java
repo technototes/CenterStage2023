@@ -12,19 +12,11 @@ import com.technototes.library.subsystem.Subsystem;
 
 @Config
 public class IntakeSubsystem implements Subsystem, Loggable {
-
-    public static double MIN_FLYWHEEL_MOTOR_SPEED = -0.5;
-    public static double MAX_FLYWHEEL_MOTOR_SPEED = 0.5;
-
     public static double MIN_INTAKE_SPEED = -1;
     public static double MAX_INTAKE_SPEED = 1;
     public static double SPIT_SPEED = -.3;
 
-    @Log(name = "shoulderPow")
-    public double shoulderPow;
-
     private CRServo intakeServo;
-    private EncodedMotor<DcMotorEx> flywheelMotor;
     private boolean haveHardware;
 
     public IntakeSubsystem(
@@ -32,13 +24,11 @@ public class IntakeSubsystem implements Subsystem, Loggable {
             EncodedMotor<DcMotorEx> shoulder
     ) {
         intakeServo = intake;
-        flywheelMotor = shoulder;
         haveHardware = true;
     }
 
     public IntakeSubsystem() {
         intakeServo = null;
-        flywheelMotor = null;
         haveHardware = false;
     }
 
@@ -54,26 +44,10 @@ public class IntakeSubsystem implements Subsystem, Loggable {
         setServoMotorPower(SPIT_SPEED);
     }
 
-    @Override
-    public void periodic() {
-            setShoulderMotorPower(shoulderPow);
-    }
-
     private void setServoMotorPower(double p) {
         if (haveHardware) {
             double clippedSpeed = Range.clip(p, MIN_INTAKE_SPEED, MAX_INTAKE_SPEED);
             intakeServo.setPower(clippedSpeed);
-        }
-    }
-
-    private void setShoulderMotorPower(double speed) {
-        if (haveHardware) {
-            double clippedSpeed = Range.clip(
-                    speed,
-                    MIN_FLYWHEEL_MOTOR_SPEED,
-                    MAX_FLYWHEEL_MOTOR_SPEED
-            );
-            flywheelMotor.setSpeed(clippedSpeed);
         }
     }
 
