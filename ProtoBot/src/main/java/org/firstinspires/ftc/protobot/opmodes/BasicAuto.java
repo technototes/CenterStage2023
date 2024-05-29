@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.learnbot.opmodes;
+package org.firstinspires.ftc.protobot.opmodes;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
@@ -8,9 +8,9 @@ import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.library.command.WaitCommand;
 import com.technototes.library.logger.Loggable;
 import com.technototes.library.structure.CommandOpMode;
-import org.firstinspires.ftc.learnbot.Hardware;
-import org.firstinspires.ftc.learnbot.Robot;
-import org.firstinspires.ftc.learnbot.Setup;
+import org.firstinspires.ftc.protobot.Hardware;
+import org.firstinspires.ftc.protobot.Robot;
+import org.firstinspires.ftc.protobot.Setup;
 
 /*
  * Some Emojis for opmode names:

@@ -1,8 +1,7 @@
-package org.firstinspires.ftc.learnbot.commands;
+package org.firstinspires.ftc.protobot.commands;
 
 import com.technototes.library.command.Command;
-
-import org.firstinspires.ftc.sixteen750.subsystems.DrivebaseSubsystem;
+import org.firstinspires.ftc.protobot.subsystems.DrivebaseSubsystem;
 
 public class TurboModeCommand implements Command {
 
@@ -14,6 +13,6 @@ public class TurboModeCommand implements Command {
 
     @Override
     public void execute() {
-        subsystem.setTurboMode();
+        subsystem.Turbo = true;
     }
 }

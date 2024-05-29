@@ -22,17 +22,17 @@ public class DriverController {
     public CommandButton override;
     public CommandAxis driveStraighten;
 
-
     public DriverController(CommandGamepad g, Robot r) {
         this.robot = r;
         gamepad = g;
 
         AssignNamedControllerButton();
-//        if (Setup.Connected.DRIVEBASE) {
-            bindDriveControls();
-//        }
+        //        if (Setup.Connected.DRIVEBASE) {
+        bindDriveControls();
+        //        }
 
     }
+
     private void AssignNamedControllerButton() {
         resetGyroButton = gamepad.ps_options;
         driveLeftStick = gamepad.leftStick;
@@ -42,16 +42,16 @@ public class DriverController {
         snailButton = gamepad.rightBumper;
     }
 
-
     public void bindDriveControls() {
         CommandScheduler
             .getInstance()
             .scheduleJoystick(
                 new JoystickDriveCommand(
-                        robot.drivebaseSubsystem,
-                        driveLeftStick,
-                        driveRightStick,
-                        driveStraighten)
+                    robot.drivebaseSubsystem,
+                    driveLeftStick,
+                    driveRightStick,
+                    driveStraighten
+                )
             );
         turboButton.whenPressed(new TurboModeCommand(robot.drivebaseSubsystem));
         turboButton.whenReleased(new NormalModeCommand(robot.drivebaseSubsystem));
@@ -59,6 +59,5 @@ public class DriverController {
         snailButton.whenReleased(new NormalModeCommand(robot.drivebaseSubsystem));
 
         resetGyroButton.whenPressed(new ResetGyroCommand(robot.drivebaseSubsystem));
-
     }
 }

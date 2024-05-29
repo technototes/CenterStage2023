@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.learnbot.commands;
+package org.firstinspires.ftc.protobot.commands;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -6,16 +6,22 @@ import com.technototes.library.command.Command;
 import com.technototes.library.control.Stick;
 import com.technototes.library.logger.Loggable;
 import com.technototes.library.util.MathUtils;
-
 import java.util.function.DoubleSupplier;
-import org.firstinspires.ftc.learnbot.subsystems.DrivebaseSubsystem;
+import org.firstinspires.ftc.protobot.Setup;
+import org.firstinspires.ftc.protobot.subsystems.DrivebaseSubsystem;
 
 public class DriveCommand implements Command, Loggable {
+
     public DoubleSupplier driveStraighten;
     public DrivebaseSubsystem subsystem;
     public DoubleSupplier x, y, r;
 
-    public DriveCommand(DrivebaseSubsystem sub, Stick stick1, Stick stick2, DoubleSupplier strtDrive) {
+    public DriveCommand(
+        DrivebaseSubsystem sub,
+        Stick stick1,
+        Stick stick2,
+        DoubleSupplier strtDrive
+    ) {
         addRequirements(sub);
         subsystem = sub;
         x = stick1.getXSupplier();
@@ -23,11 +29,12 @@ public class DriveCommand implements Command, Loggable {
         r = stick2.getXSupplier();
         driveStraighten = strtDrive;
     }
+
     private double getRotation(double headingInRads) {
         // Check to see if we're trying to straighten the robot
         if (
-                driveStraighten == null ||
-                        driveStraighten.getAsDouble() < DrivebaseSubsystem.DriveConstants.TRIGGER_THRESHOLD
+            driveStraighten == null ||
+            driveStraighten.getAsDouble() < DrivebaseSubsystem.DriveConstants.TRIGGER_THRESHOLD
         ) {
             // No straighten override: return the stick value
             // (with some adjustment...)
@@ -50,9 +57,9 @@ public class DriveCommand implements Command, Loggable {
             return Math.cbrt(normalized) * 0.3;
         }
     }
+
     @Override
     public void execute() {
-        subsystem.joystickDriveWithGyro(x.getAsDouble(), y.getAsDouble(), r.getAsDouble(), 0.0);
         if (!subsystem.isBusy()) {
             double curHeading = -subsystem.getExternalHeading();
 
@@ -66,10 +73,10 @@ public class DriveCommand implements Command, Loggable {
                 }
             }
             Vector2d input = new Vector2d(yvalue * subsystem.speed, xvalue * subsystem.speed)
-                    .rotated(curHeading);
+                .rotated(curHeading);
 
             subsystem.setWeightedDrivePower(
-                    new Pose2d(input.getX(), input.getY(), getRotation(curHeading))
+                new Pose2d(input.getX(), input.getY(), getRotation(curHeading))
             );
         }
         subsystem.update();

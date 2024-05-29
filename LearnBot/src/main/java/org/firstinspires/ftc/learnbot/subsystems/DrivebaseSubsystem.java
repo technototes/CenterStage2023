@@ -7,19 +7,23 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.sensor.IMU;
+import com.technototes.library.hardware.sensor.Rev2MDistanceSensor;
 import com.technototes.library.logger.Log;
 import com.technototes.library.logger.Loggable;
 import com.technototes.path.subsystem.MecanumConstants;
 import com.technototes.path.subsystem.PathingMecanumDrivebaseSubsystem;
-
 import java.util.function.Supplier;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class DrivebaseSubsystem
-        extends PathingMecanumDrivebaseSubsystem
-        implements Supplier<Pose2d>,Loggable {
+    extends PathingMecanumDrivebaseSubsystem
+    implements Supplier<Pose2d>, Loggable {
+
     @Override
     public Pose2d get() {
-        return getPoseEstimate();    }
+        return getPoseEstimate();
+    }
+
     // Notes from Kevin:
     // The 5203 motors when direct driven
     // move about 63 inches forward and is measured as roughly 3000 ticks on the encoders
@@ -45,10 +49,10 @@ public class DrivebaseSubsystem
 
         @MotorVeloPID
         public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(
-                20,
-                0,
-                3,
-                MecanumConstants.getMotorVelocityF((MAX_RPM / 60) * TICKS_PER_REV)
+            20,
+            0,
+            3,
+            MecanumConstants.getMotorVelocityF((MAX_RPM / 60) * TICKS_PER_REV)
         );
 
         @WheelRadius
@@ -56,6 +60,7 @@ public class DrivebaseSubsystem
 
         @GearRatio
         public static double GEAR_RATIO = 0.6; // output (wheel) speed / input (motor) speed og: 1 / 19.2;
+
         //gear ration is actually .667 but i think it might mess up what we already have
         @TrackWidth
         public static double TRACK_WIDTH = 11.75; // 2021: 10; // in
@@ -65,7 +70,7 @@ public class DrivebaseSubsystem
 
         @KV
         public static double kV =
-                1.0 / MecanumConstants.rpmToVelocity(MAX_RPM, WHEEL_RADIUS, GEAR_RATIO);
+            1.0 / MecanumConstants.rpmToVelocity(MAX_RPM, WHEEL_RADIUS, GEAR_RATIO);
 
         @KA
         public static double kA = 0;
@@ -119,6 +124,7 @@ public class DrivebaseSubsystem
         public static double ARR_SCALE = 0.9;
         public static double ARL_SCALE = 0.9;
     }
+
     private static final boolean ENABLE_POSE_DIAGNOSTICS = true;
 
     @Log(name = "Pose2d: ")
@@ -136,6 +142,9 @@ public class DrivebaseSubsystem
     @Log.Number(name = "RR")
     public EncodedMotor<DcMotorEx> rr2;
 
+    @Log.Number(name = "Dist")
+    public Rev2MDistanceSensor distanceSensor;
+
     @Log(name = "Turbo")
     public boolean Turbo = false;
 
@@ -144,24 +153,25 @@ public class DrivebaseSubsystem
 
     @Log
     public String locState = "none";
+
     @Log(name = "cur heading")
     double curHeading;
 
+    double curDistance;
+
     public DrivebaseSubsystem(
-                              EncodedMotor<DcMotorEx> flMotor,
-                              EncodedMotor<DcMotorEx> frMotor,
-                              EncodedMotor<DcMotorEx> rlMotor,
-                              EncodedMotor<DcMotorEx> rrMotor,
-                              IMU imu) {
-        super(
-                flMotor,
-                frMotor,
-                rlMotor,
-                rrMotor,
-                imu,
-                () -> DriveConstants.class);
+        EncodedMotor<DcMotorEx> flMotor,
+        EncodedMotor<DcMotorEx> frMotor,
+        EncodedMotor<DcMotorEx> rlMotor,
+        EncodedMotor<DcMotorEx> rrMotor,
+        IMU imu,
+        Rev2MDistanceSensor distanceSensor
+    ) {
+        super(flMotor, frMotor, rlMotor, rrMotor, imu, () -> DriveConstants.class);
         curHeading = imu.gyroHeading();
+        this.distanceSensor = distanceSensor;
     }
+
     @Override
     public void periodic() {
         if (ENABLE_POSE_DIAGNOSTICS) {
@@ -169,12 +179,14 @@ public class DrivebaseSubsystem
             Pose2d pose = getPoseEstimate();
             Pose2d poseVelocity = getPoseVelocity();
             poseDisplay =
-                    pose.toString() +
-                            " : " +
-                            (poseVelocity != null ? poseVelocity.toString() : "<null>");
+                pose.toString() +
+                " : " +
+                (poseVelocity != null ? poseVelocity.toString() : "<null>");
         }
         curHeading = this.imu.gyroHeading();
+        curDistance = this.distanceSensor.getDistance(DistanceUnit.CM);
     }
+
     public void fast() {
         speed = DriveConstants.FAST_MOTOR_SPEED;
     }
@@ -201,8 +213,15 @@ public class DrivebaseSubsystem
         Snail = false;
         Turbo = false;
     }
+
     @Override
     public void setMotorPowers(double lfv, double lrv, double rrv, double rfv) {
+        // Slug is Snail mode + "slow down so you don't hit someone's leg" mode
+        boolean Slug = Snail;
+        if (curDistance < 30) {
+            Slug = true;
+        }
+
         // TODO: Use the stick position to determine how to scale these values
         // in Turbo mode (If the robot is driving in a straight line, the values are
         // going to max out at sqrt(2)/2, rather than: We can go faster, but we don't
@@ -211,23 +230,23 @@ public class DrivebaseSubsystem
         double maxlfvlrv = Math.max(Math.abs(lfv), Math.abs(lrv));
         double maxrfvrrv = Math.max(Math.abs(rfv), Math.abs(rrv));
         double maxall = Math.max(maxlfvlrv, maxrfvrrv);
-        if (Snail == true) {
+        if (Slug == true) {
             maxall = 1.0 / DriveConstants.SLOW_MOTOR_SPEED;
         }
-        if (Turbo == false && Snail == false) {
+        if (Turbo == false && Slug == false) {
             maxall = 1.0 / DriveConstants.AUTO_MOTOR_SPEED;
         }
         leftFront.setVelocity(
-                (lfv * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.AFL_SCALE) / maxall
+            (lfv * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.AFL_SCALE) / maxall
         );
         leftRear.setVelocity(
-                (lrv * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.ARL_SCALE) / maxall
+            (lrv * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.ARL_SCALE) / maxall
         );
         rightRear.setVelocity(
-                (rrv * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.ARR_SCALE) / maxall
+            (rrv * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.ARR_SCALE) / maxall
         );
         rightFront.setVelocity(
-                (rfv * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.AFR_SCALE) / maxall
+            (rfv * DriveConstants.MAX_TICKS_PER_SEC * DriveConstants.AFR_SCALE) / maxall
         );
     }
 }
