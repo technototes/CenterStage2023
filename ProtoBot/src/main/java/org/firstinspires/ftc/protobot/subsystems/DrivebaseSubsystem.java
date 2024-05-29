@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.learnbot.subsystems;
+package org.firstinspires.ftc.protobot.subsystems;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
@@ -15,11 +15,11 @@ import com.technototes.library.subsystem.Subsystem;
 import com.technototes.library.subsystem.drivebase.SimpleMecanumDrivebaseSubsystem;
 import com.technototes.path.subsystem.MecanumConstants;
 import com.technototes.path.subsystem.PathingMecanumDrivebaseSubsystem;
-
 import java.util.function.Supplier;
 
-public class DrivebaseSubsystem extends PathingMecanumDrivebaseSubsystem
-        implements Supplier<Pose2d>, Loggable  {
+public class DrivebaseSubsystem
+    extends PathingMecanumDrivebaseSubsystem
+    implements Supplier<Pose2d>, Loggable {
 
     @Override
     public Pose2d get() {
@@ -47,10 +47,10 @@ public class DrivebaseSubsystem extends PathingMecanumDrivebaseSubsystem
 
         @MotorVeloPID
         public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(
-                20,
-                0,
-                3,
-                MecanumConstants.getMotorVelocityF((MAX_RPM / 60) * TICKS_PER_REV)
+            20,
+            0,
+            3,
+            MecanumConstants.getMotorVelocityF((MAX_RPM / 60) * TICKS_PER_REV)
         );
 
         @WheelRadius
@@ -58,6 +58,7 @@ public class DrivebaseSubsystem extends PathingMecanumDrivebaseSubsystem
 
         @GearRatio
         public static double GEAR_RATIO = 0.6; // output (wheel) speed / input (motor) speed og: 1 / 19.2;
+
         //gear ration is actually .667 but i think it might mess up what we already have
         @TrackWidth
         public static double TRACK_WIDTH = 11.75; // 2021: 10; // in
@@ -67,7 +68,7 @@ public class DrivebaseSubsystem extends PathingMecanumDrivebaseSubsystem
 
         @KV
         public static double kV =
-                1.0 / MecanumConstants.rpmToVelocity(MAX_RPM, WHEEL_RADIUS, GEAR_RATIO);
+            1.0 / MecanumConstants.rpmToVelocity(MAX_RPM, WHEEL_RADIUS, GEAR_RATIO);
 
         @KA
         public static double kA = 0;
@@ -121,6 +122,7 @@ public class DrivebaseSubsystem extends PathingMecanumDrivebaseSubsystem
         public static double ARR_SCALE = 0.9;
         public static double ARL_SCALE = 0.9;
     }
+
     private static final boolean ENABLE_POSE_DIAGNOSTICS = true;
 
     @Log(name = "Pose2d: ")
@@ -150,8 +152,14 @@ public class DrivebaseSubsystem extends PathingMecanumDrivebaseSubsystem
     @Log(name = "cur heading")
     double curHeading;
 
-    public DrivebaseSubsystem(IMU imu, Motor flMotor, Motor frMotor, Motor rlMotor, Motor rrMotor) {
-        super(() -> imu.gyroHeading(), flMotor, frMotor, rlMotor, rrMotor);
+    public DrivebaseSubsystem(
+        IMU imu,
+        EncodedMotor<DcMotorEx> flMotor,
+        EncodedMotor<DcMotorEx> frMotor,
+        EncodedMotor<DcMotorEx> rlMotor,
+        EncodedMotor<DcMotorEx> rrMotor
+    ) {
+        super(flMotor, frMotor, rlMotor, rrMotor, imu, () -> DriveConstants.class);
         curHeading = imu.gyroHeading();
     }
 
@@ -172,6 +180,6 @@ public class DrivebaseSubsystem extends PathingMecanumDrivebaseSubsystem
 
     @Override
     public void periodic() {
-        curHeading = this.getGyro();
+        curHeading = this.getExternalHeading();
     }
 }

@@ -1,14 +1,11 @@
-package org.firstinspires.ftc.learnbot;
+package org.firstinspires.ftc.protobot;
 
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.technototes.library.hardware.motor.EncodedMotor;
-import com.technototes.library.hardware.sensor.ColorDistanceSensor;
 import com.technototes.library.hardware.sensor.IMU;
-import com.technototes.library.hardware.sensor.Rev2MDistanceSensor;
-import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.logger.Loggable;
 import java.util.List;
 import org.firstinspires.ftc.robotcore.external.navigation.VoltageUnit;
@@ -32,7 +29,6 @@ public class Hardware implements Loggable {
             this.rrMotor = new EncodedMotor<>(Setup.HardwareNames.RRMOTOR);
             this.rlMotor = new EncodedMotor<>(Setup.HardwareNames.RLMOTOR);
         }
-
 
         this.imu =
             new IMU(

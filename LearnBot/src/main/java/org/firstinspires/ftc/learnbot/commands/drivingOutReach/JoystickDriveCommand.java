@@ -7,12 +7,10 @@ import com.technototes.library.command.Command;
 import com.technototes.library.control.Stick;
 import com.technototes.library.logger.Loggable;
 import com.technototes.library.util.MathUtils;
-
-import org.firstinspires.ftc.learnbot.subsystems.DrivebaseSubsystem;
-import org.firstinspires.ftc.learnbot.Setup;
-
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
+import org.firstinspires.ftc.learnbot.Setup;
+import org.firstinspires.ftc.learnbot.subsystems.DrivebaseSubsystem;
 
 public class JoystickDriveCommand implements Command, Loggable {
 

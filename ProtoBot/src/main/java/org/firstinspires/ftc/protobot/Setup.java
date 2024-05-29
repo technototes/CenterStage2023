@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.learnbot;
+package org.firstinspires.ftc.protobot;
 
 import com.acmerobotics.dashboard.config.Config;
 
@@ -8,12 +8,11 @@ public class Setup {
     public static class Connected {
 
         public static boolean DRIVEBASE = false;
-
-
     }
 
     @Config
     public static class HardwareNames {
+
         public static String FLMOTOR = "fl";
         public static String FRMOTOR = "fr";
         public static String RLMOTOR = "rl";
@@ -25,5 +24,6 @@ public class Setup {
     public static class OtherSettings {
 
         public static int AUTOTIME = 25;
+        public static double STRAIGHTEN_DEAD_ZONE = 0.1;
     }
 }
