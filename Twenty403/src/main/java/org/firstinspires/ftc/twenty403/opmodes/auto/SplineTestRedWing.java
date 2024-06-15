@@ -6,21 +6,23 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.technototes.library.command.CommandScheduler;
 import com.technototes.library.structure.CommandOpMode;
 import com.technototes.library.util.Alliance;
+
 import org.firstinspires.ftc.twenty403.AutoConstants;
 import org.firstinspires.ftc.twenty403.Hardware;
 import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
 import org.firstinspires.ftc.twenty403.commands.VisionCommand;
 import org.firstinspires.ftc.twenty403.commands.arm.ArmNeutralCommand;
-import org.firstinspires.ftc.twenty403.commands.auto.blue.BlueWingParkCenter;
+import org.firstinspires.ftc.twenty403.commands.auto.red.RedWingParkCorner;
+import org.firstinspires.ftc.twenty403.commands.auto.red.SplineWingPushPlacePark;
 import org.firstinspires.ftc.twenty403.controls.DriverController;
 import org.firstinspires.ftc.twenty403.helpers.StartingPosition;
 import org.firstinspires.ftc.twenty403.subsystems.ArmSubsystem;
 
 // The last 4 weird things are '🟥' and '🪶' (wing)
-@Autonomous(name = "BWCenter")
+@Autonomous(name = "SplineTestRedWing")
 @SuppressWarnings("unused")
-public class PushPlaceParkCenterBlueWing extends CommandOpMode {
+public class SplineTestRedWing extends CommandOpMode {
 
     public Robot robot;
     public DriverController controls;
@@ -31,11 +33,11 @@ public class PushPlaceParkCenterBlueWing extends CommandOpMode {
     public void uponInit() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         hardware = new Hardware(hardwareMap);
-        robot = new Robot(hardware, Alliance.BLUE, StartingPosition.Wing);
-        robot.drivebaseSubsystem.setPoseEstimate(AutoConstants.WingBlue.START.toPose());
+        robot = new Robot(hardware, Alliance.RED, StartingPosition.Wing);
+        robot.drivebaseSubsystem.setPoseEstimate(AutoConstants.WingRed.START.toPose());
         CommandScheduler
             .getInstance()
-            .scheduleForState(new BlueWingParkCenter(robot), OpModeState.RUN);
+            .scheduleForState(new SplineWingPushPlacePark(robot), OpModeState.RUN); // RedWingParkCorner
         CommandScheduler.getInstance().scheduleInit(new ArmNeutralCommand(robot.armSubsystem));
         if (Setup.Connected.WEBCAM) {
             CommandScheduler.getInstance().scheduleInit(new VisionCommand(robot.vision));

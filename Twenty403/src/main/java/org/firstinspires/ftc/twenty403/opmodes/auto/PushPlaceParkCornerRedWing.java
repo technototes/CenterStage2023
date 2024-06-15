@@ -18,7 +18,7 @@ import org.firstinspires.ftc.twenty403.helpers.StartingPosition;
 import org.firstinspires.ftc.twenty403.subsystems.ArmSubsystem;
 
 // The last 4 weird things are '🟥' and '🪶' (wing)
-@Autonomous(name = "PushPlaceParkCornerRedWing")
+@Autonomous(name = "RWCorner")
 @SuppressWarnings("unused")
 public class PushPlaceParkCornerRedWing extends CommandOpMode {
 
@@ -35,7 +35,7 @@ public class PushPlaceParkCornerRedWing extends CommandOpMode {
         robot.drivebaseSubsystem.setPoseEstimate(AutoConstants.WingRed.START.toPose());
         CommandScheduler
             .getInstance()
-            .scheduleForState(new RedWingParkCorner(robot), OpModeState.RUN);
+            .scheduleForState(new RedWingParkCorner(robot), OpModeState.RUN); // RedWingParkCorner
         CommandScheduler.getInstance().scheduleInit(new ArmNeutralCommand(robot.armSubsystem));
         if (Setup.Connected.WEBCAM) {
             CommandScheduler.getInstance().scheduleInit(new VisionCommand(robot.vision));
