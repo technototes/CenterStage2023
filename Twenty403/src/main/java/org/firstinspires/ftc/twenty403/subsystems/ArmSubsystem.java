@@ -30,7 +30,7 @@ public class ArmSubsystem implements Subsystem, Loggable {
 
     public static double MIN_INTAKE_SPEED = -.5;
     public static double MAX_INTAKE_SPEED = .5;
-    public static double SPIT_SPEED = -1.5;
+    public static double SPIT_SPEED = -.15;
 
     public static double WRIST_ARM_INTAKE = 0.7; //collect (change vals)
     public static double WRIST_RESET_POSITION = 0.2; //reset (change vals)
