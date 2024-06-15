@@ -7,6 +7,7 @@ import com.technototes.library.command.CommandScheduler;
 import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.library.structure.CommandOpMode;
 import com.technototes.library.util.Alliance;
+import java.util.Set;
 import org.firstinspires.ftc.sixteen750.AutoConstants;
 import org.firstinspires.ftc.sixteen750.Hardware;
 import org.firstinspires.ftc.sixteen750.Robot;
@@ -16,8 +17,6 @@ import org.firstinspires.ftc.sixteen750.commands.driving.ResetGyroCommand;
 import org.firstinspires.ftc.sixteen750.controls.DriverController;
 import org.firstinspires.ftc.sixteen750.controls.OperatorController;
 import org.firstinspires.ftc.sixteen750.helpers.StartingPosition;
-
-import java.util.Set;
 
 @TeleOp(name = "Dual Control")
 @SuppressWarnings("unused")
@@ -40,17 +39,11 @@ public class DualTeleOp extends CommandOpMode {
             robot.drivebase.setPoseEstimate(AutoConstants.WingRed.START.toPose());
             CommandScheduler
                 .getInstance()
-                .scheduleForState(
-                    new ResetGyroCommand(robot.drivebase),
-                    OpModeState.INIT
-                );
+                .scheduleForState(new ResetGyroCommand(robot.drivebase), OpModeState.INIT);
             if (Setup.Connected.DRONE) {
                 CommandScheduler
                     .getInstance()
-                    .scheduleForState(
-                            new DroneStart(robot.drone),
-                            OpModeState.INIT
-                    );
+                    .scheduleForState(new DroneStart(robot.drone), OpModeState.INIT);
             }
         }
     }

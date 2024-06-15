@@ -2,7 +2,6 @@ package org.firstinspires.ftc.sixteen750.controls;
 
 import com.technototes.library.control.CommandButton;
 import com.technototes.library.control.CommandGamepad;
-
 import org.firstinspires.ftc.sixteen750.Robot;
 import org.firstinspires.ftc.sixteen750.Setup;
 import org.firstinspires.ftc.sixteen750.commands.intake.EjectCommand;
@@ -15,10 +14,10 @@ import org.firstinspires.ftc.sixteen750.commands.placement.LiftLowCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.LiftLowSequential;
 import org.firstinspires.ftc.sixteen750.commands.placement.LiftMediumCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.ScoreHoldCommand;
-import org.firstinspires.ftc.sixteen750.commands.placement.ServoHold;
 import org.firstinspires.ftc.sixteen750.commands.placement.ScoreServoFlatCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.ScoreServoInputCommand;
 import org.firstinspires.ftc.sixteen750.commands.placement.ScoreServoOutputCommand;
+import org.firstinspires.ftc.sixteen750.commands.placement.ServoHold;
 import org.firstinspires.ftc.sixteen750.commands.placement.ServoIntakes;
 import org.firstinspires.ftc.sixteen750.commands.placement.ServoOutputs;
 
@@ -26,12 +25,13 @@ public class OperatorController {
 
     public Robot robot;
     public CommandGamepad gamepad;
-    public CommandButton intakeButton, ejectButton,stopButton,pauseButton;
-    public CommandButton placementHighButton,placementLowButton,placementMediumButton,placementIntakeButton;
+    public CommandButton intakeButton, ejectButton, stopButton, pauseButton;
+    public CommandButton placementHighButton, placementLowButton, placementMediumButton, placementIntakeButton;
     public CommandButton armServoOutputButton, scoreServoOutputButton, servoOutputButton, scoreServoIntakeButton, armServoIntakeButton, servoIntakeButton;
     public CommandButton servoHoldButton, scoreServoFlatButton, scoreServoHoldButton;
     public CommandButton DroneReleaseButton;
-    public CommandButton hangUpButton,hangDownButton,screwUpButton,screwDownButton;
+    public CommandButton hangUpButton, hangDownButton, screwUpButton, screwDownButton;
+
     public OperatorController(CommandGamepad g, Robot r) {
         robot = r;
         gamepad = g;
@@ -46,7 +46,7 @@ public class OperatorController {
             bindPlacementControls();
         }
         if (Setup.Connected.DRONE) {
-//            bindDroneControls();
+            //            bindDroneControls();
         }
     }
 
@@ -54,7 +54,7 @@ public class OperatorController {
         intakeButton = gamepad.leftBumper;
         ejectButton = gamepad.rightBumper;
 
-//        placementHighButton = gamepad.dpadUp;
+        //        placementHighButton = gamepad.dpadUp;
         placementIntakeButton = gamepad.dpadDown;
         placementMediumButton = gamepad.dpadRight;
         placementLowButton = gamepad.dpadLeft;
@@ -72,15 +72,13 @@ public class OperatorController {
 
         scoreServoFlatButton = gamepad.ps_share;
 
-
         //TODO: separate the output button
         servoOutputButton = gamepad.ps_options;
+        //        hangUpButton = gamepad.leftStickButton;
+        //        hangDownButton = gamepad.rightStickButton;
 
-//        hangUpButton = gamepad.leftStickButton;
-//        hangDownButton = gamepad.rightStickButton;
-
-//        screwUpButton = gamepad.rightBumper;
-//        screwDownButton = gamepad.leftBumper;
+        //        screwUpButton = gamepad.rightBumper;
+        //        screwDownButton = gamepad.leftBumper;
 
     }
 
@@ -92,7 +90,7 @@ public class OperatorController {
     }
 
     private void bindPlacementControls() {
-//        placementHighButton.whenPressed(new LiftHighCommand(robot.placement));
+        //        placementHighButton.whenPressed(new LiftHighCommand(robot.placement));
         placementMediumButton.whenPressed(new LiftMediumCommand(robot.placement));
         placementLowButton.whenPressed(new LiftLowCommand(robot.placement));
         placementIntakeButton.whenPressed(new LiftIntakeSequential(robot.placement));
@@ -109,15 +107,15 @@ public class OperatorController {
     }
 
     private void bindHangControls() {
-//        hangUpButton.whenPressed(new HangUp(robot.hang));
-//        screwUpButton.whenPressed(new LeadScrewUp(robot.hang));
-//        screwDownButton.whenPressed(new LeadScrewDown(robot.hang));
-//        screwDownButton.whenReleased(new LeadScrewStop(robot.hang));
-//        screwUpButton.whenReleased(new LeadScrewStop(robot.hang));
-//        hangDownButton.whenPressed(new HangDown(robot.hang));
-    }
-    private void bindDroneControls() {
-//        DroneReleaseButton.whenPressed((new DroneLaunch(robot.drone)));
+        //        hangUpButton.whenPressed(new HangUp(robot.hang));
+        //        screwUpButton.whenPressed(new LeadScrewUp(robot.hang));
+        //        screwDownButton.whenPressed(new LeadScrewDown(robot.hang));
+        //        screwDownButton.whenReleased(new LeadScrewStop(robot.hang));
+        //        screwUpButton.whenReleased(new LeadScrewStop(robot.hang));
+        //        hangDownButton.whenPressed(new HangDown(robot.hang));
     }
 
+    private void bindDroneControls() {
+        //        DroneReleaseButton.whenPressed((new DroneLaunch(robot.drone)));
+    }
 }

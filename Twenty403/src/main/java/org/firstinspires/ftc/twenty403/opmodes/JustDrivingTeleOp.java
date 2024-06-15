@@ -40,8 +40,8 @@ public class JustDrivingTeleOp extends CommandOpMode {
         }
         if (Setup.Connected.ARMSUBSYSTEM) {
             CommandScheduler
-                    .getInstance()
-                    .scheduleForState(new ArmNeutralCommand(robot.armSubsystem), OpModeState.INIT);
+                .getInstance()
+                .scheduleForState(new ArmNeutralCommand(robot.armSubsystem), OpModeState.INIT);
         }
     }
 }

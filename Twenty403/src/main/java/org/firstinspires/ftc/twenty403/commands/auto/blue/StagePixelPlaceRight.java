@@ -13,18 +13,39 @@ public class StagePixelPlaceRight extends SequentialCommandGroup {
 
     public StagePixelPlaceRight(Robot r) {
         super(
-        new SafetyStartCommand(r.safetySubsystem),
-        new TrajectorySequenceCommand(r.drivebaseSubsystem, AutoConstants.StageBlue.START_TO_MID_CLEAR),
-        new TrajectorySequenceCommand(r.drivebaseSubsystem, AutoConstants.StageBlue.MID_CLEAR_TO_RIGHT_SPIKE),
-        new TrajectorySequenceCommand(r.drivebaseSubsystem, AutoConstants.StageBlue.RIGHT_SPIKE_TO_MID_CLEAR),
-        new TrajectorySequenceCommand(r.drivebaseSubsystem, AutoConstants.StageBlue.MID_CLEAR_TO_CLEAR),
-        new TrajectorySequenceCommand(r.drivebaseSubsystem, AutoConstants.StageBlue.CLEAR_TO_LEFT_CLEAR),
-        new TrajectorySequenceCommand(r.drivebaseSubsystem, AutoConstants.StageBlue.LEFT_CLEAR_TO_PLACE_RIGHT),
-        //place command
-        new SafetyStopCommand(r.safetySubsystem),
-        new PixelScoring(r.armSubsystem),
-        new SafetyStartCommand(r.safetySubsystem),
-        new TrajectorySequenceCommand(r.drivebaseSubsystem, AutoConstants.StageBlue.PLACE_RIGHT_TO_MID_PARK_CENTER)
+            new SafetyStartCommand(r.safetySubsystem),
+            new TrajectorySequenceCommand(
+                r.drivebaseSubsystem,
+                AutoConstants.StageBlue.START_TO_MID_CLEAR
+            ),
+            new TrajectorySequenceCommand(
+                r.drivebaseSubsystem,
+                AutoConstants.StageBlue.MID_CLEAR_TO_RIGHT_SPIKE
+            ),
+            new TrajectorySequenceCommand(
+                r.drivebaseSubsystem,
+                AutoConstants.StageBlue.RIGHT_SPIKE_TO_MID_CLEAR
+            ),
+            new TrajectorySequenceCommand(
+                r.drivebaseSubsystem,
+                AutoConstants.StageBlue.MID_CLEAR_TO_CLEAR
+            ),
+            new TrajectorySequenceCommand(
+                r.drivebaseSubsystem,
+                AutoConstants.StageBlue.CLEAR_TO_LEFT_CLEAR
+            ),
+            new TrajectorySequenceCommand(
+                r.drivebaseSubsystem,
+                AutoConstants.StageBlue.LEFT_CLEAR_TO_PLACE_RIGHT
+            ),
+            //place command
+            new SafetyStopCommand(r.safetySubsystem),
+            new PixelScoring(r.armSubsystem),
+            new SafetyStartCommand(r.safetySubsystem),
+            new TrajectorySequenceCommand(
+                r.drivebaseSubsystem,
+                AutoConstants.StageBlue.PLACE_RIGHT_TO_MID_PARK_CENTER
+            )
         );
     }
 }
