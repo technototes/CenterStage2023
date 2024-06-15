@@ -51,12 +51,12 @@ public class Hardware implements Loggable {
         }
         if (Setup.Connected.ARMSUBSYSTEM) {
             wristServo = new Servo(Setup.HardwareNames.WRISTSERVO);
-            intakeServo = hwmap.get(CRServo.class,Setup.HardwareNames.INTAKESERVO);
+            intakeServo = hwmap.get(CRServo.class, Setup.HardwareNames.INTAKESERVO);
             shoulderMotor = new EncodedMotor<>(Setup.HardwareNames.SHOULDERMOTOR);
             shoulder2Motor = new Motor<>(Setup.HardwareNames.SHOULDER2);
         }
         if (Setup.Connected.DRONESUBSYSTEM) {
-            launchServo = hwmap.get(CRServo.class,Setup.HardwareNames.DRONESERVO);
+            launchServo = hwmap.get(CRServo.class, Setup.HardwareNames.DRONESERVO);
         }
         if (Setup.Connected.ODOSUBSYSTEM) {
             odoR = new MotorEncoder(Setup.HardwareNames.ODOR);

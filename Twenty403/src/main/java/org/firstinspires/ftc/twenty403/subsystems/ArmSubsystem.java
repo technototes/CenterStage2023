@@ -15,6 +15,7 @@ import com.technototes.library.subsystem.Subsystem;
 
 @Config
 public class ArmSubsystem implements Subsystem, Loggable {
+
     public static int SHOULDER_ARM_INTAKE = 30; //collect (change vals)
     public static int SHOULDER_RESET_POSITION = 8; //reset (change vals)
     public static int SHOULDER_FIRST_LINE_SCORING = 1350; //change vals
@@ -67,7 +68,13 @@ public class ArmSubsystem implements Subsystem, Loggable {
     private PIDFController shoulderPidController;
     public int shoulderResetPos;
     public double wristResetPos;
-    public ArmSubsystem(CRServo intake, Servo wrist, EncodedMotor<DcMotorEx> shoulder, Motor<DcMotorEx> shoulder2) {
+
+    public ArmSubsystem(
+        CRServo intake,
+        Servo wrist,
+        EncodedMotor<DcMotorEx> shoulder,
+        Motor<DcMotorEx> shoulder2
+    ) {
         intakeServo = intake;
         wristServo = wrist;
         shoulderMotor = shoulder;
@@ -145,12 +152,15 @@ public class ArmSubsystem implements Subsystem, Loggable {
     public void wrist_increment() {
         setWristPos(wristTargetPos + WRIST_MANUAL_STEP);
     }
+
     public void shoulder_largeDecrement() {
         setShoulderPos(shoulderTargetPos - SHOULDER_LARGE_STEP);
     }
+
     public void shoulder_largeIncrement() {
         setShoulderPos(shoulderTargetPos + SHOULDER_LARGE_STEP);
     }
+
     public void wrist_decrement() {
         setWristPos(wristTargetPos - WRIST_MANUAL_STEP);
     }
@@ -190,13 +200,22 @@ public class ArmSubsystem implements Subsystem, Loggable {
     public void shoulderThirdLineScoring() {
         setShoulderPos(SHOULDER_THIRD_LINE_SCORING);
     }
-    public void stopIntake() {setServoMotorPower(0);}
-    public void slurpIntake() {setServoMotorPower(MAX_INTAKE_SPEED);}
-    public void spitIntake() {setServoMotorPower(SPIT_SPEED);}
+
+    public void stopIntake() {
+        setServoMotorPower(0);
+    }
+
+    public void slurpIntake() {
+        setServoMotorPower(MAX_INTAKE_SPEED);
+    }
+
+    public void spitIntake() {
+        setServoMotorPower(SPIT_SPEED);
+    }
 
     @Override
     public void periodic() {
-        if (!hangMode){
+        if (!hangMode) {
             shoulderPos = getShoulderCurrentPos();
             shoulderPow = shoulderPidController.update(shoulderPos);
             setShoulderMotorPower(shoulderPow);
@@ -226,13 +245,10 @@ public class ArmSubsystem implements Subsystem, Loggable {
             return 0;
         }
     }
+
     private void setServoMotorPower(double p) {
         if (haveHardware) {
-            double clippedSpeed = Range.clip(
-                    p,
-                    MIN_INTAKE_SPEED,
-                    MAX_INTAKE_SPEED
-            );
+            double clippedSpeed = Range.clip(p, MIN_INTAKE_SPEED, MAX_INTAKE_SPEED);
             intakeServo.setPower(clippedSpeed);
         }
     }
@@ -249,28 +265,33 @@ public class ArmSubsystem implements Subsystem, Loggable {
         }
     }
 
-    public void enterHangMode(){
+    public void enterHangMode() {
         hangMode = true;
         setShoulderMotorPower(0);
     }
-    public void leaveHangMode(){
+
+    public void leaveHangMode() {
         hangMode = false;
         setShoulderMotorPower(0);
-        setShoulderPos(getShoulderCurrentPos());//so arm doesn't swing/move
+        setShoulderPos(getShoulderCurrentPos()); //so arm doesn't swing/move
     }
-    private void setHangMotorPower(double speed){
+
+    private void setHangMotorPower(double speed) {
         if (haveHardware) {
             shoulderMotor.setSpeed(speed);
             shoulder2Motor.setSpeed(-speed);
         }
     }
-    public void hangUp(){
+
+    public void hangUp() {
         setHangMotorPower(MAX_HANG_SPEED);
     }
-    public void hangDown(){
+
+    public void hangDown() {
         setHangMotorPower(MIN_HANG_SPEED);
     }
-    public void hangStop(){
+
+    public void hangStop() {
         setHangMotorPower(0);
     }
 }

@@ -12,9 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import org.firstinspires.ftc.twenty403.Hardware;
 
-
 @Config
 public class SafetySubsystem implements Subsystem, Loggable {
+
     public enum FailedPart {
         NONE,
         ODOF,
@@ -22,7 +22,7 @@ public class SafetySubsystem implements Subsystem, Loggable {
         WHEELFL,
         WHEELFR,
         WHEELRL,
-        WHEELRR
+        WHEELRR,
     }
 
     public Hardware myHw;
@@ -40,6 +40,7 @@ public class SafetySubsystem implements Subsystem, Loggable {
     public double previousRRPosition = 0;
     public static int OdoTickDiff = 1;
     public static double WheelTickDiff = 0;
+
     @Log
     public static double TimerThreshold = 750.0;
 
@@ -53,7 +54,6 @@ public class SafetySubsystem implements Subsystem, Loggable {
 
     @Log
     public String stopAutoReason = "not stopping";
-
 
     public boolean isOdoFailing(int currentOdoPosition, int previousOdoPosition) {
         if (Math.abs(previousOdoPosition - currentOdoPosition) < SafetySubsystem.OdoTickDiff) {
@@ -78,8 +78,7 @@ public class SafetySubsystem implements Subsystem, Loggable {
     private int getOdoFPosition() {
         if (failedPart == FailedPart.ODOF) {
             return 0;
-        }
-        else {
+        } else {
             return myHw.odoF.getCurrentPosition();
         }
     }
@@ -87,8 +86,7 @@ public class SafetySubsystem implements Subsystem, Loggable {
     private int getOdoRPosition() {
         if (failedPart == FailedPart.ODOR) {
             return 0;
-        }
-        else {
+        } else {
             return myHw.odoR.getCurrentPosition();
         }
     }
@@ -96,8 +94,7 @@ public class SafetySubsystem implements Subsystem, Loggable {
     private double getwheelflPosition() {
         if (failedPart == FailedPart.WHEELFL) {
             return 0.0;
-        }
-        else {
+        } else {
             return myHw.fl.getSensorValue();
         }
     }
@@ -105,8 +102,7 @@ public class SafetySubsystem implements Subsystem, Loggable {
     private double getwheelfrPosition() {
         if (failedPart == FailedPart.WHEELFR) {
             return 0.0;
-        }
-        else {
+        } else {
             return myHw.fr.getSensorValue();
         }
     }
@@ -114,8 +110,7 @@ public class SafetySubsystem implements Subsystem, Loggable {
     private double getwheelrlPosition() {
         if (failedPart == FailedPart.WHEELRL) {
             return 0.0;
-        }
-        else {
+        } else {
             return myHw.rl.getSensorValue();
         }
     }
@@ -123,13 +118,14 @@ public class SafetySubsystem implements Subsystem, Loggable {
     private double getwheelrrPosition() {
         if (failedPart == FailedPart.WHEELRR) {
             return 0.0;
-        }
-        else {
+        } else {
             return myHw.rr.getSensorValue();
         }
     }
+
     @Log
     public int count = 0;
+
     @Override
     public void periodic() {
         if (monitoringEnabled == false) {
@@ -137,8 +133,8 @@ public class SafetySubsystem implements Subsystem, Loggable {
             return;
         }
 
-        if (timer.milliseconds() < TimerThreshold){
-            int ms = (int)timer.milliseconds();
+        if (timer.milliseconds() < TimerThreshold) {
+            int ms = (int) timer.milliseconds();
             stopAutoReason = "Monitoring skipped" + ms;
             return;
         }
@@ -181,7 +177,6 @@ public class SafetySubsystem implements Subsystem, Loggable {
         previousOdoFPosition = odoFCurrentPosition;
         previousOdoRPosition = odoRCurrentPosition;
 
-
         if (
             isWheelFailing(wheelflCurrentPosition, previousFLPosition) ||
             isWheelFailing(wheelfrCurrentPosition, previousFRPosition) ||
@@ -199,17 +194,17 @@ public class SafetySubsystem implements Subsystem, Loggable {
         if (stopAutoFlag == true) {
             stopAuto(stopAutoReason);
         }
-
     }
+
     public void simulateFail(FailedPart fp) {
         if (failedPart == fp) {
             failedPart = FailedPart.NONE;
-        }
-        else {
+        } else {
             stopAutoReason = "failing a part:" + fp.toString();
             failedPart = fp;
         }
     }
+
     public SafetySubsystem(Hardware hw) {
         myHw = hw;
         timer = new ElapsedTime();
@@ -218,7 +213,7 @@ public class SafetySubsystem implements Subsystem, Loggable {
 
     private void stopAuto(String reason) {
         if (monitoringEnabled == true) {
-                CommandScheduler.getInstance().terminateOpMode();
+            CommandScheduler.getInstance().terminateOpMode();
         }
     }
 
@@ -256,6 +251,5 @@ public class SafetySubsystem implements Subsystem, Loggable {
 // stop monitoring if auto is going to a stop to go to next sequential command
 // start monitoring again after distance sensors are far away and if next sequential auto command is starting again
 // need to look at IMU to determine wonkiness
-
 //using elapsed timer instead of numfailed cause periodic does NOT occur every 1/2 second, but constantly, so need to add that
 //its a sequential command btw

@@ -47,11 +47,8 @@ public class ForwardBackward extends CommandOpMode {
             );
 
         CommandScheduler
-                .getInstance()
-                .scheduleForState(
-                        new SafetyStartCommand(robot.safetySubsystem),
-                        OpModeState.RUN
-                );
+            .getInstance()
+            .scheduleForState(new SafetyStartCommand(robot.safetySubsystem), OpModeState.RUN);
         if (Setup.Connected.WEBCAM) {
             CommandScheduler.getInstance().scheduleInit(new VisionCommand(robot.vision));
         }

@@ -50,10 +50,10 @@ public class TestingController {
         gamepad = g;
         AssignNamedControllerButton();
         if (Setup.Connected.INTAKE) {
-//            bindIntakeControls();
+            //            bindIntakeControls();
         }
         if (Setup.Connected.HANG) {
-//            bindHangControls();
+            //            bindHangControls();
         }
         if (Setup.Connected.PLACEMENT) {
             bindPlacementControls();
@@ -65,21 +65,19 @@ public class TestingController {
     }
 
     private void AssignNamedControllerButton() {
-//        intakeButton = gamepad.ps_triangle;
-//        stopButton = gamepad.ps_cross;
-//        ejectButton = gamepad.ps_cross;
-//        pauseButton = gamepad.ps_triangle;
+        //        intakeButton = gamepad.ps_triangle;
+        //        stopButton = gamepad.ps_cross;
+        //        ejectButton = gamepad.ps_cross;
+        //        pauseButton = gamepad.ps_triangle;
 
         placementHighButton = gamepad.dpadUp;
         placementIntakeButton = gamepad.dpadRight;
         placementMediumButton = gamepad.dpadLeft;
         placementLowButton = gamepad.dpadDown;
 
-
-
         armServoIntakeButton = gamepad.ps_triangle;
         armServoOutputButton = gamepad.ps_square;
-//        scoreServoIntakeButton = gamepad.ps_circle;
+        //        scoreServoIntakeButton = gamepad.ps_circle;
         scoreServoOutputButton = gamepad.ps_cross;
 
         //hangUpButton = gamepad.ps_square;
@@ -103,7 +101,7 @@ public class TestingController {
 
         armServoOutputButton.whenPressed(new ArmServoOutputCommand(robot.placement));
         armServoIntakeButton.whenPressed(new ArmServoInputCommand(robot.placement));
-//        scoreServoIntakeButton.whenPressed(new ScoreServoInputCommand(robot.placement));
+        //        scoreServoIntakeButton.whenPressed(new ScoreServoInputCommand(robot.placement));
         scoreServoOutputButton.whenPressed(new ScoreServoOutputCommand(robot.placement));
     }
 

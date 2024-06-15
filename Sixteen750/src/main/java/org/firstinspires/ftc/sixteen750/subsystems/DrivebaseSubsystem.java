@@ -53,6 +53,7 @@ public class DrivebaseSubsystem
 
         @GearRatio
         public static double GEAR_RATIO = 0.6; // output (wheel) speed / input (motor) speed og: 1 / 19.2;
+
         //gear ration is actually .667 but i think it might mess up what we already have
         @TrackWidth
         public static double TRACK_WIDTH = 11.75; // 2021: 10; // in
