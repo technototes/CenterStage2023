@@ -18,7 +18,7 @@ import org.firstinspires.ftc.twenty403.helpers.StartingPosition;
 import org.firstinspires.ftc.twenty403.subsystems.ArmSubsystem;
 
 // The last 4 weird things are '🟥' and '🪶' (wing)
-@Autonomous(name = "PushPlaceParkCornerBlueStage")
+@Autonomous(name = "BSCorner")
 @SuppressWarnings("unused")
 public class PushPlaceParkCornerBlueStage extends CommandOpMode {
 
