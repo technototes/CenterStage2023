@@ -16,7 +16,7 @@ import com.technototes.library.subsystem.Subsystem;
 @Config
 public class ArmSubsystem implements Subsystem, Loggable {
     public static int SHOULDER_ARM_INTAKE = 30; //collect (change vals)
-    public static int SHOULDER_RESET_POSITION = 9; //reset (change vals)
+    public static int SHOULDER_RESET_POSITION = 8; //reset (change vals)
     public static int SHOULDER_FIRST_LINE_SCORING = 1350; //change vals
     public static int SHOULDER_SECOND_LINE_SCORING = 1200; //change vals
     public static int SHOULDER_THIRD_LINE_SCORING = 1140; //change vals
@@ -28,15 +28,15 @@ public class ArmSubsystem implements Subsystem, Loggable {
     public static double MIN_HANG_SPEED = -1;
     public static double MAX_HANG_SPEED = 1;
 
-    public static double MIN_INTAKE_SPEED = -1;
-    public static double MAX_INTAKE_SPEED = 1;
-    public static double SPIT_SPEED = -.3;
+    public static double MIN_INTAKE_SPEED = -.5;
+    public static double MAX_INTAKE_SPEED = .5;
+    public static double SPIT_SPEED = -1.5;
 
-    public static double WRIST_ARM_INTAKE = 0.4; //collect (change vals)
-    public static double WRIST_RESET_POSITION = 0; //reset (change vals)
-    public static double WRIST_FIRST_LINE_SCORING = 0; // change vals
-    public static double WRIST_SECOND_LINE_SCORING = 0; // change vals
-    public static double WRIST_THIRD_LINE_SCORING = 0; // change vals
+    public static double WRIST_ARM_INTAKE = 0.7; //collect (change vals)
+    public static double WRIST_RESET_POSITION = 0.2; //reset (change vals)
+    public static double WRIST_FIRST_LINE_SCORING = 0.2; // change vals
+    public static double WRIST_SECOND_LINE_SCORING = 0.2; // change vals
+    public static double WRIST_THIRD_LINE_SCORING = 0.2; // chan5ge vals
     public static double WRIST_MANUAL_STEP = 0.05; //increment/decrement (change vals)
 
     public static boolean USE_SHOULDER_BRAKE = true;

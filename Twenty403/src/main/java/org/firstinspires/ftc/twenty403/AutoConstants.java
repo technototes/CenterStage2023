@@ -22,9 +22,9 @@ public class AutoConstants {
 
         public static ConfigurablePoseD PARK_CORNER = new ConfigurablePoseD(-60,56,0); // may need to be 180 (0 needs test)
         public static ConfigurablePoseD RIGHT_CLEAR = new ConfigurablePoseD(-35,56,-90); // for pixel placement
-        public static ConfigurablePoseD PLACE_LEFT = new ConfigurablePoseD(-45,30,0); //not fine tuned heading needs to be zero (backwards placement)
+        public static ConfigurablePoseD PLACE_LEFT = new ConfigurablePoseD(-47,30,0); //not fine tuned heading needs to be zero (backwards placement)
         public static ConfigurablePoseD PLACE_MIDDLE = new ConfigurablePoseD(-47,35,0);// not fine tuned
-        public static ConfigurablePoseD PLACE_RIGHT = new ConfigurablePoseD(-45,40,0);// not fine tuned
+        public static ConfigurablePoseD PLACE_RIGHT = new ConfigurablePoseD(-47,40,0);// not fine tuned
         //testing constants
         public static ConfigurablePoseD TELESTART = new ConfigurablePoseD(0,0,90);
         public static ConfigurablePoseD FORWARD = new ConfigurablePoseD(48,0,0);
@@ -33,8 +33,9 @@ public class AutoConstants {
         public static ConfigurablePoseD SIDE_LEFT = new ConfigurablePoseD(0,0,0);
         public static ConfigurablePoseD MID_PARK_CENTER = new ConfigurablePoseD(-35,12,0);
         public static ConfigurablePoseD PIXEL_INTAKE = new ConfigurablePoseD(50,12,0);
-
-
+        public static ConfigurablePoseD MID_SPLINE_CLEAR = new ConfigurablePoseD(35,34,-180);
+        public static ConfigurablePoseD START_STAGE = new ConfigurablePoseD(35,58,0);
+        public static ConfigurablePoseD HEAD_TO_STAGE = new ConfigurablePoseD(0,58,0);
         // These are 'trajectory pieces' which should be named like this:
         // {STARTING_POSITION}_TO_{ENDING_POSITION}
         public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
@@ -130,6 +131,19 @@ public class AutoConstants {
         public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
                 SIDE_RIGHT_TO_SIDE_LEFT = b ->
                 b.apply(SIDE_RIGHT.toPose()).lineToLinearHeading(SIDE_LEFT.toPose()).build();
+        public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
+                SPLINE_START_TO_RIGHT_SPIKE = b ->
+                b.apply(START.toPose())
+                        .splineTo(MID_SPLINE_CLEAR.toPose().vec(), Math.PI - MID_SPLINE_CLEAR.getHeading())
+                        .splineToLinearHeading(RIGHT_SPIKE.toPose(), RIGHT_SPIKE.getHeading()).build();
+        public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
+                RIGHT_SPIKE_TO_STAGE = b ->
+                b.apply(RIGHT_SPIKE.toPose())
+                        .splineToLinearHeading(MID_SPLINE_CLEAR.toPose(), Math.PI - MID_SPLINE_CLEAR.getHeading())
+                        .splineToConstantHeading(START_STAGE.toPose().vec(),Math.PI - START_STAGE.getHeading())
+                        .splineToConstantHeading(HEAD_TO_STAGE.toPose().vec(),Math.PI - START_STAGE.getHeading())
+                        .splineToConstantHeading(PLACE_RIGHT.toPose().vec(),Math.PI - START_STAGE.getHeading())
+                        .build();
     }
 
     @Config
@@ -145,9 +159,9 @@ public class AutoConstants {
 
         public static ConfigurablePoseD PARK_CORNER = new ConfigurablePoseD(-60,-56,0); // may need to be 180 (0 needs test)
         public static ConfigurablePoseD LEFT_CLEAR = new ConfigurablePoseD(-35,-56,90);// for pixel placement
-        public static ConfigurablePoseD PLACE_LEFT = new ConfigurablePoseD(-45,-40,0);
+        public static ConfigurablePoseD PLACE_LEFT = new ConfigurablePoseD(-47,-40,0);
         public static ConfigurablePoseD PLACE_MIDDLE = new ConfigurablePoseD(-47,-35,0);
-        public static ConfigurablePoseD PLACE_RIGHT = new ConfigurablePoseD(-45,-28,0);
+        public static ConfigurablePoseD PLACE_RIGHT = new ConfigurablePoseD(-47,-28,0);
         public static ConfigurablePoseD MID_PARK_CENTER = new ConfigurablePoseD(-35,-12,0);
         public static ConfigurablePoseD PIXEL_INTAKE = new ConfigurablePoseD(50,-10,0);
 
@@ -248,9 +262,9 @@ public class AutoConstants {
 
         public static ConfigurablePoseD PARK_CENTER = new ConfigurablePoseD(-59,12,0); // may need to be 180 (0 needs test)
         public static ConfigurablePoseD MID_PARK_CENTER = new ConfigurablePoseD(-39,12,0);
-        public static ConfigurablePoseD PLACE_LEFT = new ConfigurablePoseD(-45,30,0); // not fine tuned
+        public static ConfigurablePoseD PLACE_LEFT = new ConfigurablePoseD(-47,30,0); // not fine tuned
         public static ConfigurablePoseD PLACE_MIDDLE = new ConfigurablePoseD(-47,35,0); // not fine tuned
-        public static ConfigurablePoseD PLACE_RIGHT = new ConfigurablePoseD(-45,40,0); // not fine tuned
+        public static ConfigurablePoseD PLACE_RIGHT = new ConfigurablePoseD(-47,40,0); // not fine tuned
         public static ConfigurablePoseD PIXEL_INTAKE = new ConfigurablePoseD(50,12,0);
 
 
@@ -343,9 +357,9 @@ public class AutoConstants {
         public static ConfigurablePoseD PARK_CENTER = new ConfigurablePoseD(-59,-12,0); // may need to be 180 (0 needs test)
         public static ConfigurablePoseD LEFT_CLEAR = new ConfigurablePoseD(-35,-56,90);
         public static ConfigurablePoseD MID_PARK_CENTER = new ConfigurablePoseD(-35,-12,0);
-        public static ConfigurablePoseD PLACE_LEFT = new ConfigurablePoseD(-45,-40,0);
+        public static ConfigurablePoseD PLACE_LEFT = new ConfigurablePoseD(-47,-40,0);
         public static ConfigurablePoseD PLACE_MIDDLE = new ConfigurablePoseD(-47,-35,0);
-        public static ConfigurablePoseD PLACE_RIGHT = new ConfigurablePoseD(-45,-24,0);
+        public static ConfigurablePoseD PLACE_RIGHT = new ConfigurablePoseD(-47,-24,0);
 
 
 
