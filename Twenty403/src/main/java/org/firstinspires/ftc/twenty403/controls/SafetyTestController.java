@@ -1,10 +1,7 @@
 package org.firstinspires.ftc.twenty403.controls;
 
-import com.technototes.library.command.CommandScheduler;
-import com.technototes.library.control.CommandAxis;
 import com.technototes.library.control.CommandButton;
 import com.technototes.library.control.CommandGamepad;
-import com.technototes.library.control.Stick;
 import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
 import org.firstinspires.ftc.twenty403.commands.auto.SafetyTestOdoFCommand;
@@ -13,11 +10,6 @@ import org.firstinspires.ftc.twenty403.commands.auto.SafetyTestWheelFLCommand;
 import org.firstinspires.ftc.twenty403.commands.auto.SafetyTestWheelFRCommand;
 import org.firstinspires.ftc.twenty403.commands.auto.SafetyTestWheelRLCommand;
 import org.firstinspires.ftc.twenty403.commands.auto.SafetyTestWheelRRCommand;
-import org.firstinspires.ftc.twenty403.commands.driving.JoystickDriveCommand;
-import org.firstinspires.ftc.twenty403.commands.driving.NormalModeCommand;
-import org.firstinspires.ftc.twenty403.commands.driving.ResetGyroCommand;
-import org.firstinspires.ftc.twenty403.commands.driving.SnailModeCommand;
-import org.firstinspires.ftc.twenty403.commands.driving.TurboModeCommand;
 
 public class SafetyTestController {
 

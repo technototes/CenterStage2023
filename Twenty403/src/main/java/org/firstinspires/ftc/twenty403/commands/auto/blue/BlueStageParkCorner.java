@@ -13,7 +13,7 @@ public class BlueStageParkCorner extends SequentialCommandGroup {
             new ParkCornerPositioning(robot),
             new ParkCorner(robot, robot.position),
             new RecordFinalHeading(robot.drivebaseSubsystem),
-            CommandScheduler.getInstance()::terminateOpMode
+            CommandScheduler::terminateOpMode
         );
     }
 }

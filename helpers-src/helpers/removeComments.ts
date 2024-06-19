@@ -1,4 +1,3 @@
-
 const PLAIN = Symbol('plain');
 const IN_DQSTRING = Symbol('in dqstring');
 const IN_SQSTRING = Symbol('in sqstring');

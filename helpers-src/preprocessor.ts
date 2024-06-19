@@ -199,7 +199,7 @@ enum TokenKind {
   DeclType,
 }
 type Token = { kind: TokenKind; value: string };
-const MakeToken = (kind: TokenKind, value: string) => ({kind, value});
+const MakeToken = (kind: TokenKind, value: string) => ({ kind, value });
 const tokenStack = MakeStack<Token>();
 
 class AutoConstVisitor extends BaseJavaCstVisitorWithDefaults {
@@ -509,19 +509,16 @@ async function main(): Promise<void> {
  */
 `;
 
-/* You can move this before the ` to see the raw input to the script:
- * ${process.argv.join("\n * ")};
- */
+  /* You can move this before the ` to see the raw input to the script:
+   * ${process.argv.join("\n * ")};
+   */
 
   output += collectImports();
 
-  output += `\n\npublic class ${className} {\n`
+  output += `\n\npublic class ${className} {\n`;
   output += theCode.join('\n');
   output += '\n}\n';
-  await fs.writeFile(
-    path.join(outputLocation, `${className}.java`),
-    output,
-  );
+  await fs.writeFile(path.join(outputLocation, `${className}.java`), output);
 }
 
 // Produces a single, unique set of import statements from the group of files.

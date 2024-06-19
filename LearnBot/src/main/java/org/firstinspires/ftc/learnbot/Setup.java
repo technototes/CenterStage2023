@@ -33,10 +33,4 @@ public class Setup {
         public static String CAMERA = "camera";
     }
 
-    @Config
-    public static class OtherSettings {
-
-        public static double STICK_DEAD_ZONE = 0.1;
-        public static int AUTOTIME = 25;
-    }
 }

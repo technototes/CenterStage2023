@@ -7,11 +7,9 @@ import com.technototes.library.control.CommandGamepad;
 import com.technototes.library.logger.Loggable;
 import org.firstinspires.ftc.learnbot.OnlyMotorRobot;
 import org.firstinspires.ftc.learnbot.Setup;
+import org.firstinspires.ftc.learnbot.commands.AnalogMotor;
 import org.firstinspires.ftc.learnbot.commands.AnalogMotorControlCmd;
-import org.firstinspires.ftc.learnbot.commands.AnalogMotorDecCmd;
-import org.firstinspires.ftc.learnbot.commands.AnalogMotorIncCmd;
-import org.firstinspires.ftc.learnbot.commands.AnalogMotorToggleControlCmd;
-import org.firstinspires.ftc.learnbot.commands.AnalogMotorToggleStopModeCmd;
+import org.firstinspires.ftc.learnbot.commands.EZCmd;
 
 public class MotorController implements Loggable {
 
@@ -32,11 +30,12 @@ public class MotorController implements Loggable {
 
         if (Setup.Connected.MOTOR) {
             this.motorMovement = new AnalogMotorControlCmd(r.motorTestSubsystem, motorAxis);
-            CommandScheduler.getInstance().scheduleJoystick(motorMovement);
-            toggleAnalogControl.whenPressed(new AnalogMotorToggleControlCmd(r.motorTestSubsystem));
-            toggleStopMode.whenPressed(new AnalogMotorToggleStopModeCmd(r.motorTestSubsystem));
-            motorDecButton.whenPressed(new AnalogMotorDecCmd(r.motorTestSubsystem));
-            motorIncButton.whenPressed(new AnalogMotorIncCmd(r.motorTestSubsystem));
+            CommandScheduler.scheduleJoystick(motorMovement);
+            toggleAnalogControl.whenPressed(EZCmd.AnalogMotor.ToggleStopMode(r.motorTestSubsystem));
+            toggleStopMode.whenPressed(EZCmd.AnalogMotor.ToggleStopMode(r.motorTestSubsystem));
+
+            motorDecButton.whilePressed(r.motorTestSubsystem.MotorDec());
+            motorIncButton.whilePressed(r.motorTestSubsystem.MotorInc());
         }
     }
 }

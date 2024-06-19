@@ -6,9 +6,8 @@ import com.technototes.library.control.CommandGamepad;
 import com.technototes.library.control.Stick;
 import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
+import org.firstinspires.ftc.twenty403.commands.EZCmd;
 import org.firstinspires.ftc.twenty403.commands.driving.JoystickDriveCommand;
-import org.firstinspires.ftc.twenty403.commands.driving.ResetGyroCommand;
-import org.firstinspires.ftc.twenty403.commands.drone.DroneCommand;
 
 public class SingleController {
 
@@ -30,10 +29,6 @@ public class SingleController {
         if (Setup.Connected.DRIVEBASE) {
             bindDriveControls();
         }
-        /*if (Setup.Connected.ARMSUBSYSTEM) {
-            bindClawControls();
-        }*/
-
         if (Setup.Connected.DRONESUBSYSTEM) {
             bindDroneControls();
         }
@@ -49,24 +44,16 @@ public class SingleController {
     }
 
     public void bindDriveControls() {
-        CommandScheduler
-            .getInstance()
-            .scheduleJoystick(
-                new JoystickDriveCommand(robot.drivebaseSubsystem, driveLeftStick, driveRightStick)
-            );
-        //turboButton.whenPressed(new TurboCommand(robot.drivebaseSubsystem));
-        //turboButton.whenReleased(new SlowCommand(robot.drivebaseSubsystem));
-        resetGyroButton.whenPressed(new ResetGyroCommand(robot.drivebaseSubsystem));
+        CommandScheduler.scheduleJoystick(
+            new JoystickDriveCommand(robot.drivebaseSubsystem, driveLeftStick, driveRightStick)
+        );
+        turboButton.whenPressed(EZCmd.Drive.TurboMode(robot.drivebaseSubsystem));
+        turboButton.whenReleased(EZCmd.Drive.NormalMode(robot.drivebaseSubsystem));
+        resetGyroButton.whenPressed(EZCmd.Drive.ResetGyro(robot.drivebaseSubsystem));
     }
 
-    /*public void bindClawControls() {
-        clawOpenButton.whenPressed(new ClawOpenCommand(robot.armSubsystem));
-        clawCloseButton.whenPressed(new ClawCloseCommand(robot.armSubsystem));
-        //        armFirstLineButton.whenPressed(new 6)
-    }*/
-
     public void bindDroneControls() {
-        launchDroneButton.whenPressed(new DroneCommand(robot.droneSubsystem));
+        launchDroneButton.whenPressed(EZCmd.Drone.Launch(robot.droneSubsystem));
     }
 
     public void bindLiftControls() {

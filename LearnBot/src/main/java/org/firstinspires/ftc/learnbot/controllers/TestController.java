@@ -6,9 +6,7 @@ import com.technototes.library.control.CommandGamepad;
 import com.technototes.library.logger.Loggable;
 import org.firstinspires.ftc.learnbot.Robot;
 import org.firstinspires.ftc.learnbot.commands.AnalogMotorControlCmd;
-import org.firstinspires.ftc.learnbot.commands.liftCommands.LiftHighCommand;
-import org.firstinspires.ftc.learnbot.commands.liftCommands.LiftLowCommand;
-import org.firstinspires.ftc.learnbot.commands.liftCommands.LiftMidCommand;
+import org.firstinspires.ftc.learnbot.commands.EZCmd;
 
 public class TestController implements Loggable {
 
@@ -39,14 +37,14 @@ public class TestController implements Loggable {
         this.modeToggle = gamepad.rightStickButton;
         //        this.motorMovement = new MotorMovementCommand(r.test, this.motorAxis);
         //        this.modeToggle.whenPressed(new ToggleMotorStopModeCommand(r.test));
-        //        CommandScheduler.getInstance().scheduleJoystick(motorMovement);
+        //        CommandScheduler.scheduleJoystick(motorMovement);
         this.trigger = gamepad.leftTrigger;
         this.threshold = gamepad.rightTrigger.getAsButton(0.5);
     }
 
     public void bindControls() {
-        liftLow.whenPressed(new LiftLowCommand(robot.placementSubsystem));
-        liftMid.whenPressed(new LiftMidCommand(robot.placementSubsystem));
-        liftHigh.whenPressed(new LiftHighCommand(robot.placementSubsystem));
+        liftLow.whenPressed(EZCmd.Placement.LiftLow(robot.placementSubsystem));
+        liftMid.whenPressed(EZCmd.Placement.LiftMedium(robot.placementSubsystem));
+        liftHigh.whenPressed(EZCmd.Placement.LiftHigh(robot.placementSubsystem));
     }
 }

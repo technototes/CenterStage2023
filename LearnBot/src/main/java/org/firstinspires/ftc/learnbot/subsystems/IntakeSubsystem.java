@@ -12,6 +12,7 @@ import com.technototes.library.subsystem.Subsystem;
 
 @Config
 public class IntakeSubsystem implements Subsystem, Loggable {
+
     public static double MIN_INTAKE_SPEED = -1;
     public static double MAX_INTAKE_SPEED = 1;
     public static double SPIT_SPEED = -.3;
@@ -19,10 +20,7 @@ public class IntakeSubsystem implements Subsystem, Loggable {
     private CRServo intakeServo;
     private boolean haveHardware;
 
-    public IntakeSubsystem(
-            CRServo intake,
-            EncodedMotor<DcMotorEx> shoulder
-    ) {
+    public IntakeSubsystem(CRServo intake, EncodedMotor<DcMotorEx> shoulder) {
         intakeServo = intake;
         haveHardware = true;
     }
@@ -50,6 +48,4 @@ public class IntakeSubsystem implements Subsystem, Loggable {
             intakeServo.setPower(clippedSpeed);
         }
     }
-
 }
-

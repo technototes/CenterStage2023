@@ -9,7 +9,7 @@ public class VisionCommand implements Command {
 
     public VisionCommand(VisionSubsystem s) {
         subsystem = s;
-        addRequirements(subsystem);
+        addControlledSubsystems(subsystem);
     }
 
     @Override

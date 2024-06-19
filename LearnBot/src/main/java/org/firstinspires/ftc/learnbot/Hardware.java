@@ -34,12 +34,11 @@ public class Hardware implements Loggable {
 
     public Hardware(HardwareMap hwmap) {
         hubs = hwmap.getAll(LynxModule.class);
-        imu =
-            new IMU(
-                Setup.HardwareNames.IMU,
-                RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
-                RevHubOrientationOnRobot.UsbFacingDirection.UP
-            );
+        imu = new IMU(
+            Setup.HardwareNames.IMU,
+            RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
+            RevHubOrientationOnRobot.UsbFacingDirection.UP
+        );
         if (Setup.Connected.DRIVEBASE) {
             this.frMotor = new EncodedMotor<>(Setup.HardwareNames.FRMOTOR);
             this.flMotor = new EncodedMotor<>(Setup.HardwareNames.FLMOTOR);
@@ -66,12 +65,11 @@ public class Hardware implements Loggable {
                 this.colorSensor = new ColorDistanceSensor(Setup.HardwareNames.COLOR);
             }
         }
-        this.imu =
-            new IMU(
-                Setup.HardwareNames.IMU,
-                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
-                RevHubOrientationOnRobot.UsbFacingDirection.UP
-            );
+        this.imu = new IMU(
+            Setup.HardwareNames.IMU,
+            RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+            RevHubOrientationOnRobot.UsbFacingDirection.UP
+        );
     }
 
     // We can read the voltage from the different hubs for fun...

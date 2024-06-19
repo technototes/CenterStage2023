@@ -10,7 +10,7 @@ public class LeadScrewUp implements Command {
 
     public LeadScrewUp(HangSubsystem s) {
         leadscrewUp = s;
-        addRequirements(s);
+        addControlledSubsystems(s);
     }
 
     @Override

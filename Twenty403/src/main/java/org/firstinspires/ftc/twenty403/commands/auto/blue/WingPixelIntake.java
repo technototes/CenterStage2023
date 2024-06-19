@@ -5,8 +5,6 @@ import com.technototes.library.command.WaitCommand;
 import com.technototes.path.command.TrajectorySequenceCommand;
 import org.firstinspires.ftc.twenty403.AutoConstants;
 import org.firstinspires.ftc.twenty403.Robot;
-import org.firstinspires.ftc.twenty403.commands.arm.ArmIntakeCommand;
-import org.firstinspires.ftc.twenty403.commands.arm.ArmNeutralCommand;
 
 public class WingPixelIntake extends SequentialCommandGroup {
 

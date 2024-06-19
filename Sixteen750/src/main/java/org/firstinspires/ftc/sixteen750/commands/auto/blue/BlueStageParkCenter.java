@@ -10,7 +10,7 @@ public class BlueStageParkCenter extends SequentialCommandGroup {
         super(
             new StagePixelPlaceSelection(robot),
             new ParkCenter(robot, robot.position),
-            CommandScheduler.getInstance()::terminateOpMode
+            CommandScheduler::terminateOpMode
         );
     }
 }

@@ -9,7 +9,7 @@ public class LiftIntakeCommand implements Command {
 
     public LiftIntakeCommand(PlacementSubsystem i) {
         placement = i;
-        addRequirements(i);
+        addControlledSubsystems(i);
     }
 
     @Override

@@ -14,7 +14,7 @@ public class RedWingParkCenter extends SequentialCommandGroup {
             new ParkCenterPositioning(robot),
             new ParkCenter(robot, robot.position),
             new RecordFinalHeading(robot.drivebaseSubsystem),
-            CommandScheduler.getInstance()::terminateOpMode
+            CommandScheduler::terminateOpMode
         );
     }
 }

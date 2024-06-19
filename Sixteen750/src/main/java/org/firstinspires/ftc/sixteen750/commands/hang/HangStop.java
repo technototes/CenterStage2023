@@ -9,7 +9,7 @@ public class HangStop implements Command {
 
     public HangStop(HangSubsystem h) {
         hang = h;
-        addRequirements(h);
+        addControlledSubsystems(h);
     }
 
     @Override

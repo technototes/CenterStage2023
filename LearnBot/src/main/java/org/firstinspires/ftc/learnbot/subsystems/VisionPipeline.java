@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.learnbot.subsystems;
 
 import android.graphics.Bitmap;
-
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -10,7 +9,7 @@ import com.technototes.library.logger.Log;
 import com.technototes.library.logger.LogConfig;
 import com.technototes.library.logger.Loggable;
 import com.technototes.library.util.Alliance;
-
+import java.util.function.Supplier;
 import org.firstinspires.ftc.learnbot.helpers.StartingPosition;
 import org.opencv.android.Utils;
 import org.opencv.core.Core;
@@ -20,12 +19,11 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
-import java.util.function.Supplier;
-
 @Config
 public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>, Loggable {
 
     public Alliance alliance;
+
     //public StartingPosition side;
 
     public VisionPipeline(Alliance teamAlliance, StartingPosition startSide) {
@@ -185,21 +183,19 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
         int colorCountL = 0;
         int colorCountM = 0;
         if (this.alliance == Alliance.BLUE) {
-            colorCountM =
-                countColor(
-                    VisionConstants.BLUE,
-                    rectM,
-                    VisionConstants.Middle.X,
-                    VisionConstants.Middle.Y
-                );
+            colorCountM = countColor(
+                VisionConstants.BLUE,
+                rectM,
+                VisionConstants.Middle.X,
+                VisionConstants.Middle.Y
+            );
         } else {
-            colorCountM =
-                countColor(
-                    VisionConstants.RED1,
-                    rectM,
-                    VisionConstants.Middle.X,
-                    VisionConstants.Middle.Y
-                );
+            colorCountM = countColor(
+                VisionConstants.RED1,
+                rectM,
+                VisionConstants.Middle.X,
+                VisionConstants.Middle.Y
+            );
             colorCountM +=
             countColor(
                 VisionConstants.RED2,
@@ -209,21 +205,19 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
             );
         }
         if (this.alliance == Alliance.BLUE) {
-            colorCountL =
-                countColor(
-                    VisionConstants.BLUE,
-                    rectL,
-                    VisionConstants.Left.X,
-                    VisionConstants.Left.Y
-                );
+            colorCountL = countColor(
+                VisionConstants.BLUE,
+                rectL,
+                VisionConstants.Left.X,
+                VisionConstants.Left.Y
+            );
         } else {
-            colorCountL =
-                countColor(
-                    VisionConstants.RED1,
-                    rectL,
-                    VisionConstants.Left.X,
-                    VisionConstants.Left.Y
-                );
+            colorCountL = countColor(
+                VisionConstants.RED1,
+                rectL,
+                VisionConstants.Left.X,
+                VisionConstants.Left.Y
+            );
             colorCountL +=
             countColor(VisionConstants.RED2, rectL, VisionConstants.Left.X, VisionConstants.Left.Y);
         }

@@ -7,11 +7,8 @@ import com.technototes.library.control.CommandGamepad;
 import com.technototes.library.control.Stick;
 import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
+import org.firstinspires.ftc.twenty403.commands.EZCmd;
 import org.firstinspires.ftc.twenty403.commands.driving.JoystickDriveCommand;
-import org.firstinspires.ftc.twenty403.commands.driving.NormalModeCommand;
-import org.firstinspires.ftc.twenty403.commands.driving.ResetGyroCommand;
-import org.firstinspires.ftc.twenty403.commands.driving.SnailModeCommand;
-import org.firstinspires.ftc.twenty403.commands.driving.TurboModeCommand;
 
 public class DriverController {
 
@@ -47,23 +44,21 @@ public class DriverController {
     }
 
     public void bindDriveControls() {
-        CommandScheduler
-            .getInstance()
-            .scheduleJoystick(
-                new JoystickDriveCommand(
-                    robot.drivebaseSubsystem,
-                    driveLeftStick,
-                    driveRightStick,
-                    straightTrigger
-                )
-            );
+        CommandScheduler.scheduleJoystick(
+            new JoystickDriveCommand(
+                robot.drivebaseSubsystem,
+                driveLeftStick,
+                driveRightStick,
+                straightTrigger
+            )
+        );
 
         //turboButton.whenPressed(new TurboModeCommand(robot.drivebaseSubsystem));
         //turboButton.whenReleased(new NormalModeCommand(robot.drivebaseSubsystem));
 
-        snailButton.whenPressed(new SnailModeCommand(robot.drivebaseSubsystem));
-        snailButton.whenReleased(new NormalModeCommand(robot.drivebaseSubsystem));
+        snailButton.whenPressed(EZCmd.Drive.SnailMode(robot.drivebaseSubsystem));
+        snailButton.whenReleased(EZCmd.Drive.NormalMode(robot.drivebaseSubsystem));
 
-        resetGyroButton.whenPressed(new ResetGyroCommand(robot.drivebaseSubsystem));
+        resetGyroButton.whenPressed(EZCmd.Drive.ResetGyro(robot.drivebaseSubsystem));
     }
 }

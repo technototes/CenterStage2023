@@ -9,7 +9,7 @@ public class ArmServoOutputCommand implements Command {
 
     public ArmServoOutputCommand(PlacementSubsystem i) {
         placement = i;
-        addRequirements(i);
+        addControlledSubsystems(i);
     }
 
     @Override

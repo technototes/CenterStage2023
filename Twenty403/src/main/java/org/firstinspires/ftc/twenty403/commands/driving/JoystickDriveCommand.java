@@ -30,7 +30,7 @@ public class JoystickDriveCommand implements Command, Loggable {
         Stick rotStick,
         DoubleSupplier strtDrive
     ) {
-        addRequirements(sub);
+        addControlledSubsystems(sub);
         subsystem = sub;
         x = xyStick.getXSupplier();
         y = xyStick.getYSupplier();
@@ -92,11 +92,14 @@ public class JoystickDriveCommand implements Command, Loggable {
             double xvalue = -x.getAsDouble();
             if (straightDrive != null) {
                 if (straightDrive.getAsDouble() > TRIGGER_THRESHOLD) {
-                    if (Math.abs(yvalue) > Math.abs(xvalue)) xvalue = 0; else yvalue = 0;
+                    if (Math.abs(yvalue) > Math.abs(xvalue)) xvalue = 0;
+                    else yvalue = 0;
                 }
             }
-            Vector2d input = new Vector2d(yvalue * subsystem.speed, xvalue * subsystem.speed)
-                .rotated(curHeading);
+            Vector2d input = new Vector2d(
+                yvalue * subsystem.speed,
+                xvalue * subsystem.speed
+            ).rotated(curHeading);
             // TODO:
             // Calculate the magnitude of the motion to scale the speed by...
             // then call subsystem.setMag(mag)

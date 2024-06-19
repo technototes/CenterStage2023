@@ -9,7 +9,7 @@ public class EjectCommand implements Command {
 
     public EjectCommand(IntakeSubsystem i) {
         intake = i;
-        addRequirements(i);
+        addControlledSubsystems(i);
     }
 
     @Override

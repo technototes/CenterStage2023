@@ -52,4 +52,3 @@ public class FlywheelSubsystem implements Subsystem, Loggable {
         }
     }
 }
-

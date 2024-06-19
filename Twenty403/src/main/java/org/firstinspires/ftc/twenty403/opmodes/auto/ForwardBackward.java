@@ -36,21 +36,20 @@ public class ForwardBackward extends CommandOpMode {
         robot.drivebaseSubsystem.setPoseEstimate(AutoConstants.WingRed.BACKWARD.toPose());
         safety = new SafetyTestController(driverGamepad, robot);
         //robot.safetySubsystem.startMonitoring();
-        CommandScheduler
-            .getInstance()
-            .scheduleForState(
-                new SequentialCommandGroup(
-                    new ForwardBackwardCommand(robot),
-                    CommandScheduler.getInstance()::terminateOpMode
-                ),
-                OpModeState.RUN
-            );
+        CommandScheduler.scheduleForState(
+            new SequentialCommandGroup(
+                new ForwardBackwardCommand(robot),
+                CommandScheduler::terminateOpMode
+            ),
+            OpModeState.RUN
+        );
 
-        CommandScheduler
-            .getInstance()
-            .scheduleForState(new SafetyStartCommand(robot.safetySubsystem), OpModeState.RUN);
+        CommandScheduler.scheduleForState(
+            new SafetyStartCommand(robot.safetySubsystem),
+            OpModeState.RUN
+        );
         if (Setup.Connected.WEBCAM) {
-            CommandScheduler.getInstance().scheduleInit(new VisionCommand(robot.vision));
+            CommandScheduler.scheduleInit(new VisionCommand(robot.vision));
         }
     }
 }

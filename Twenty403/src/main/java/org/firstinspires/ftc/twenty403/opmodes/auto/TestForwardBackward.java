@@ -33,7 +33,7 @@
 //        robot = new Robot(hardware, Alliance.RED, StartingPosition.Wing);
 //        robot.drivebaseSubsystem.setPoseEstimate(AutoConstants.WingRed.START.toPose());
 //        CommandScheduler
-//            .getInstance()
+//
 //            .scheduleForState(
 //                new SequentialCommandGroup(
 //                    new DriveTestCommand(robot.drivebaseSubsystem, 1),
@@ -43,12 +43,12 @@
 //                    new DriveTestCommand(robot.drivebaseSubsystem, -1),
 //                    new WaitCommand(3),
 //                    new DriveTestCommand(robot.drivebaseSubsystem, 0),
-//                    CommandScheduler.getInstance()::terminateOpMode
+//                    CommandScheduler::terminateOpMode
 //                ),
 //                OpModeState.RUN
 //            );
 //        if (Setup.Connected.WEBCAM) {
-//            CommandScheduler.getInstance().scheduleInit(new VisionCommand(robot.vision));
+//            CommandScheduler.scheduleInit(new VisionCommand(robot.vision));
 //        }
 //    }
 //}

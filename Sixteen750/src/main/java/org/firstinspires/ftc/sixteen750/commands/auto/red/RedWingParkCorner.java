@@ -11,7 +11,7 @@ public class RedWingParkCorner extends SequentialCommandGroup {
             new WingPixelPlaceSelection(robot),
             new ParkCorner(robot, robot.position),
             new RecordFinalHeading(robot.drivebase),
-            CommandScheduler.getInstance()::terminateOpMode
+            CommandScheduler::terminateOpMode
         );
     }
 }

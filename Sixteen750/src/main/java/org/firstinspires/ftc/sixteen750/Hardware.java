@@ -43,12 +43,11 @@ public class Hardware implements Loggable {
 
     public Hardware(HardwareMap hwmap) {
         hubs = hwmap.getAll(LynxModule.class);
-        imu =
-            new IMU(
-                Setup.HardwareNames.IMU,
-                RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
-                RevHubOrientationOnRobot.UsbFacingDirection.UP
-            );
+        imu = new IMU(
+            Setup.HardwareNames.IMU,
+            RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
+            RevHubOrientationOnRobot.UsbFacingDirection.UP
+        );
 
         if (Setup.Connected.DRIVEBASE) {
             fl = new EncodedMotor<DcMotorEx>(Setup.HardwareNames.FLMOTOR);

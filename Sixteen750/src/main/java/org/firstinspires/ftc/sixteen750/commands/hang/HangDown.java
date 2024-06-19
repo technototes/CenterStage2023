@@ -9,7 +9,7 @@ public class HangDown implements Command {
 
     public HangDown(HangSubsystem h) {
         hang = h;
-        addRequirements(h);
+        addControlledSubsystems(h);
     }
 
     @Override

@@ -9,7 +9,7 @@ public class ArmServoInputCommand implements Command {
 
     public ArmServoInputCommand(PlacementSubsystem i) {
         placement = i;
-        addRequirements(i);
+        addControlledSubsystems(i);
     }
 
     @Override

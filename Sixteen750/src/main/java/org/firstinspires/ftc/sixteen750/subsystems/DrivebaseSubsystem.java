@@ -145,18 +145,13 @@ public class DrivebaseSubsystem
     public String locState = "none";
 
     public DrivebaseSubsystem(
-            EncodedMotor<DcMotorEx> fl,
+        EncodedMotor<DcMotorEx> fl,
         EncodedMotor<DcMotorEx> fr,
         EncodedMotor<DcMotorEx> rl,
         EncodedMotor<DcMotorEx> rr,
         IMU i
     ) {
-        super(fl,
-                fr,
-                rl,
-                rr,
-                i,
-                () -> DriveConstants.class);
+        super(fl, fr, rl, rr, i, () -> DriveConstants.class);
         fl2 = fl;
         fr2 = fr;
         rl2 = rl;
@@ -187,10 +182,9 @@ public class DrivebaseSubsystem
             updatePoseEstimate();
             Pose2d pose = getPoseEstimate();
             Pose2d poseVelocity = getPoseVelocity();
-            poseDisplay =
-                pose.toString() +
-                " : " +
-                (poseVelocity != null ? poseVelocity.toString() : "<null>");
+            poseDisplay = pose.toString() +
+            " : " +
+            (poseVelocity != null ? poseVelocity.toString() : "<null>");
         }
     }
 

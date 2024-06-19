@@ -37,13 +37,12 @@ public class DualTeleOp extends CommandOpMode {
             controlsDriver = new DriverController(driverGamepad, robot);
             // Just pick a starting point
             robot.drivebase.setPoseEstimate(AutoConstants.WingRed.START.toPose());
-            CommandScheduler
-                .getInstance()
-                .scheduleForState(new ResetGyroCommand(robot.drivebase), OpModeState.INIT);
+            CommandScheduler.scheduleForState(
+                new ResetGyroCommand(robot.drivebase),
+                OpModeState.INIT
+            );
             if (Setup.Connected.DRONE) {
-                CommandScheduler
-                    .getInstance()
-                    .scheduleForState(new DroneStart(robot.drone), OpModeState.INIT);
+                CommandScheduler.scheduleForState(new DroneStart(robot.drone), OpModeState.INIT);
             }
         }
     }

@@ -13,12 +13,8 @@ public class HeadingHelper {
     }
 
     public static boolean validHeading() {
-        double now = System.currentTimeMillis() / 1000;
-        if (now < FtcRobotControllerActivity.headingUpdateTime + 45) {
-            return true;
-        } else {
-            return false;
-        }
+        double now = System.currentTimeMillis() / 1000.0;
+        return now < FtcRobotControllerActivity.headingUpdateTime + 45;
     }
 
     public static double getSavedHeading() {

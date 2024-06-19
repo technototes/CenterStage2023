@@ -10,8 +10,7 @@ import org.firstinspires.ftc.twenty403.AutoConstants;
 import org.firstinspires.ftc.twenty403.Hardware;
 import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
-import org.firstinspires.ftc.twenty403.commands.arm.ArmNeutralCommand;
-import org.firstinspires.ftc.twenty403.commands.driving.ResetGyroCommand;
+import org.firstinspires.ftc.twenty403.commands.EZCmd;
 import org.firstinspires.ftc.twenty403.controls.DriverController;
 import org.firstinspires.ftc.twenty403.controls.OperatorController;
 import org.firstinspires.ftc.twenty403.helpers.StartingPosition;
@@ -34,14 +33,16 @@ public class JustDrivingTeleOp extends CommandOpMode {
         if (Setup.Connected.DRIVEBASE) {
             controlsDriver = new DriverController(driverGamepad, robot);
             robot.drivebaseSubsystem.setPoseEstimate(AutoConstants.WingRed.START.toPose());
-            CommandScheduler
-                .getInstance()
-                .scheduleForState(new ResetGyroCommand(robot.drivebaseSubsystem), OpModeState.INIT);
+            CommandScheduler.scheduleForState(
+                EZCmd.Drive.ResetGyro(robot.drivebaseSubsystem),
+                OpModeState.INIT
+            );
         }
         if (Setup.Connected.ARMSUBSYSTEM) {
-            CommandScheduler
-                .getInstance()
-                .scheduleForState(new ArmNeutralCommand(robot.armSubsystem), OpModeState.INIT);
+            CommandScheduler.scheduleForState(
+                EZCmd.Arm.Neutral(robot.armSubsystem),
+                OpModeState.INIT
+            );
         }
     }
 }

@@ -4,23 +4,7 @@ import com.technototes.library.control.CommandButton;
 import com.technototes.library.control.CommandGamepad;
 import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
-import org.firstinspires.ftc.twenty403.commands.arm.ArmFirstLineCommand;
-import org.firstinspires.ftc.twenty403.commands.arm.ArmIntakeCommand;
-import org.firstinspires.ftc.twenty403.commands.arm.ArmNeutralCommand;
-import org.firstinspires.ftc.twenty403.commands.arm.ArmSecondLineCommand;
-import org.firstinspires.ftc.twenty403.commands.arm.HangSequential;
-import org.firstinspires.ftc.twenty403.commands.arm.IntakeManualSlurpCommand;
-import org.firstinspires.ftc.twenty403.commands.arm.IntakeSpitCommand;
-import org.firstinspires.ftc.twenty403.commands.arm.IntakeStopCommand;
-import org.firstinspires.ftc.twenty403.commands.arm.ShoulderDecrementCommand;
-import org.firstinspires.ftc.twenty403.commands.arm.ShoulderIncrementCommand;
-import org.firstinspires.ftc.twenty403.commands.arm.ShoulderLargeDecrementCommand;
-import org.firstinspires.ftc.twenty403.commands.arm.ShoulderLargeIncrementCommand;
-import org.firstinspires.ftc.twenty403.commands.arm.ShoulderNeutralCommand;
-import org.firstinspires.ftc.twenty403.commands.arm.WristDecrementCommand;
-import org.firstinspires.ftc.twenty403.commands.arm.WristIncrementCommand;
-import org.firstinspires.ftc.twenty403.commands.drone.DroneCommand;
-import org.firstinspires.ftc.twenty403.commands.drone.DroneSequential;
+import org.firstinspires.ftc.twenty403.commands.EZCmd;
 
 public class OperatorController {
 
@@ -83,26 +67,26 @@ public class OperatorController {
     }
 
     public void bindClawControls() {
-        armIntakeButton.whenPressed(new ArmIntakeCommand(robot.armSubsystem));
-        armNeutralButton.whenPressed(new ArmNeutralCommand(robot.armSubsystem));
-        //armFirstLine.whenPressed(new ArmSecondLineCommand((robot.armSubsystem)));
-        armSecondLine.whenPressed(new ArmSecondLineCommand((robot.armSubsystem)));
-        //armThirdLine.whenPressed(new ArmThirdLineCommand((robot.armSubsystem)));
-        shoulderResetZero.whenPressed(new ShoulderNeutralCommand((robot.armSubsystem)));
-        shoulderIncrementButton.whenPressed(new ShoulderIncrementCommand(robot.armSubsystem));
-        shoulderDecrementButton.whenPressed(new ShoulderDecrementCommand(robot.armSubsystem));
-        wristIncrementButton.whenPressed(new WristIncrementCommand(robot.armSubsystem));
-        wristDecrementButton.whenPressed(new WristDecrementCommand(robot.armSubsystem));
-        //HangButton.whenPressed(new HangSequential(robot.armSubsystem));
-        manualSlurp.whilePressed(new IntakeManualSlurpCommand(robot.armSubsystem));
-        manualSlurp.whenReleased(new IntakeStopCommand(robot.armSubsystem));
-        spit.whenPressed(new IntakeSpitCommand(robot.armSubsystem));
-        spit.whenReleased(new IntakeStopCommand(robot.armSubsystem));
-        //largeShoulderDec.whenPressed(new ShoulderLargeDecrementCommand(robot.armSubsystem));
-        //largeShoulderInc.whenPressed(new ShoulderLargeIncrementCommand(robot.armSubsystem));
+        armIntakeButton.whenPressed(EZCmd.Arm.Intake(robot.armSubsystem));
+        armNeutralButton.whenPressed(EZCmd.Arm.Neutral(robot.armSubsystem));
+        armFirstLine.whenPressed(EZCmd.Arm.SecondLine(robot.armSubsystem));
+        armSecondLine.whenPressed(EZCmd.Arm.SecondLine(robot.armSubsystem));
+        armThirdLine.whenPressed(EZCmd.Arm.ThirdLine(robot.armSubsystem));
+        shoulderResetZero.whenPressed(EZCmd.Shoulder.Neutral(robot.armSubsystem));
+        shoulderIncrementButton.whenPressed(EZCmd.Shoulder.Increment(robot.armSubsystem));
+        shoulderDecrementButton.whenPressed(EZCmd.Shoulder.Decrement(robot.armSubsystem));
+        wristIncrementButton.whenPressed(EZCmd.Wrist.Increment(robot.armSubsystem));
+        wristDecrementButton.whenPressed(EZCmd.Wrist.Decrement(robot.armSubsystem));
+        HangButton.whenPressed(EZCmd.Hang.Auto(robot.armSubsystem));
+        manualSlurp.whilePressed(EZCmd.Intake.Slurp(robot.armSubsystem));
+        manualSlurp.whenReleased(EZCmd.Intake.Stop(robot.armSubsystem));
+        spit.whenPressed(EZCmd.Intake.Spit(robot.armSubsystem));
+        spit.whenReleased(EZCmd.Intake.Stop(robot.armSubsystem));
+        largeShoulderDec.whenPressed(EZCmd.Shoulder.LargeDecrement(robot.armSubsystem));
+        largeShoulderInc.whenPressed(EZCmd.Shoulder.LargeIncrement(robot.armSubsystem));
     }
 
     public void bindDroneControls() {
-        //launchDroneButton.whenPressed(new DroneSequential(robot.droneSubsystem));
+        launchDroneButton.whenPressed(EZCmd.Drone.Launch(robot.droneSubsystem));
     }
 }

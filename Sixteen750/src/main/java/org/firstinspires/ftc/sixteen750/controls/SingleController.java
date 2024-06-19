@@ -86,11 +86,9 @@ public class SingleController {
     }
 
     public void bindDriveControls() {
-        CommandScheduler
-            .getInstance()
-            .scheduleJoystick(
-                new JoystickDriveCommand(robot.drivebase, driveLeftStick, driveRightStick)
-            );
+        CommandScheduler.scheduleJoystick(
+            new JoystickDriveCommand(robot.drivebase, driveLeftStick, driveRightStick)
+        );
         turboButton.whenPressed(new TurboModeCommand(robot.drivebase));
         turboButton.whenReleased(new NormalModeCommand(robot.drivebase));
         snailButton.whenPressed(new SnailModeCommand(robot.drivebase));

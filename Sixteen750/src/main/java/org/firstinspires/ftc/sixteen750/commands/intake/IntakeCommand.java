@@ -9,7 +9,7 @@ public class IntakeCommand implements Command {
 
     public IntakeCommand(IntakeSubsystem i) {
         intake = i;
-        addRequirements(i);
+        addControlledSubsystems(i);
     }
 
     @Override
