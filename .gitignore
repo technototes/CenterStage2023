@@ -83,7 +83,9 @@ lint/tmp/
 .project
 **/.settings
 **/.classpath
-branches.txt
-scripts/branch-list.txt
 node_modules
 TechnoLib
+tsconfig.tsbuildinfo
+helpers/**/*.map
+
+.yarn/install-state.gz

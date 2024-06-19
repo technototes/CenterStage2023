@@ -1,1 +1,5 @@
-**/yarn.lock      -diff
+**/yarn.lock      binary
+helpers/**        binary
+.pnp.*            binary
+.yarn/*           binary
+

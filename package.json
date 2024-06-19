@@ -3,6 +3,7 @@
   "repository": "https://github.com/technototes/PowerPlay2022.git",
   "author": "Kevin Frei <kevinfrei@hotmail.com>",
   "license": "CC0-1.0",
+  "type": "module",
   "scripts": {
     "- // a": "These are all for fast building 'stuff':",
     "fast": "yarn gradle :Twenty403:assembleDebug :Sixteen750:assembleDebug",
@@ -16,17 +17,17 @@
     "buildlb": "yarn gradle :LearnBot:build",
     "full": "yarn gradle build",
     "- // c": "These scripts are for formatting code/scripts/markdown stuff:",
-    "format": "prettier --write Sixteen750/src/**/*.java Twenty403/src/**/*.java scripts/**/*.ts scripts/*.md",
-    "format16": "prettier --write Sixteen750/src/**/*.java",
-    "format20": "prettier --write Twenty403/src/**/*.java",
-    "formatlb": "prettier --write LearnBot/src/**/*.java",
-    "formatmm": "prettier --write MeepMeepTesting/src/**/*.java",
-    "formatjs": "prettier --write *.json scripts/**/*.ts scripts/*.md",
+    "format": "yarn prettier --write Sixteen750/src/**/*.java Twenty403/src/**/*.java helpers-src/**/*.ts */*.md",
+    "format16": "yarn prettier --write Sixteen750/src/**/*.java",
+    "format20": "yarn prettier --write Twenty403/src/**/*.java",
+    "formatlb": "yarn prettier --write LearnBot/src/**/*.java",
+    "formatmm": "yarn prettier --write MeepMeepTesting/src/**/*.java",
+    "formatjs": "yarn prettier --write *.json helpers-src/**/*.ts */*.md",
     "formatall": "yarn format && yarn formatjs && yarn formatmm && yarn formatlb",
     "- // d": "This will toggle using TechnoLib locally or from Maven",
-    "libflip": "ts-node scripts/flip.ts lib",
+    "libflip": "yarn node helpers/flip.js lib",
     "- // e": "Disable/enable 'all' bots & subbuilds",
-    "botflip": "ts-node scripts/flip.ts bot",
+    "botflip": "yarn node helpers/flip.js bot",
     "- // f": "Stuff for connecting/disconnecting from the bot",
     "connect": "yarn adb connect 192.168.43.1:5555",
     "disconnect": "yarn adb disconnect 192.168.43.1:5555",
@@ -34,30 +35,41 @@
     "- // g": "Open the FTC Dashboard!",
     "dash": "yarn open http://192.168.43.1:8080/dash",
     "- // h": "platform-specific commands",
-    "gradle": "run-script-os",
-    "gradle:win32": ".\\gradlew",
+    "gradle": "yarn run-script-os",
+    "gradle:win32": "gradlew",
     "gradle:default": "./gradlew",
-    "adb": "run-script-os",
-    "adb:win32": "scripts\\adb.cmd",
+    "adb": "yarn run-script-os",
+    "adb:win32": "helpers\\\\adb.cmd",
     "adb:macos": "~/Library/Android/sdk/platform-tools/adb",
     "adb:linux": "~/Android/Sdk/platform-tools/adb",
-    "open": "run-script-os",
+    "open": "yarn run-script-os",
     "open:win32": "start \"\"",
     "open:macos": "open",
     "open:linux": "xdg-open",
-    "- // z": "This is the script that presents the students with a workflow",
-    "work": "ts-node scripts/workflow.ts"
-  },
-  "devDependencies": {
-    "@types/node": "^20.8.9",
-    "prettier": "^3.0.3",
-    "prettier-plugin-java": "^2.3.1",
-    "run-script-os": "^1.1.6",
-    "simple-git": "^3.19.1"
+    "- // i": "build stuff for the MeepMeep thing",
+    "meep": "yarn node helpers/preprocessor.js",
+    "testmeep": "yarn node helpers/preprocessor.js /Users/freik/src/ftc/CenterStage2023/MeepMeepTesting/build '[/Users/freik/src/ftc/CenterStage2023/Sixteen750/src/main/java/org/firstinspires/ftc/sixteen750/AutoConstants.java, /Users/freik/src/ftc/CenterStage2023/LearnBot/src/main/java/org/firstinspires/ftc/learnbot/opmodes/BasicAuto.java, /Users/freik/src/ftc/CenterStage2023/MeepMeepTesting/src/main/java/com/example/meepmeeptesting/AutoConstantsBlue.java, /Users/freik/src/ftc/CenterStage2023/MeepMeepTesting/src/main/java/com/example/meepmeeptesting/AutoConstantsRed.java, /Users/freik/src/ftc/CenterStage2023/RoadRunnerQuickStart/src/main/java/org/firstinspires/ftc/teamcode/drive/opmode/AutomaticFeedforwardTuner.java, /Users/freik/src/ftc/CenterStage2023/Twenty403/src/main/java/org/firstinspires/ftc/twenty403/AutoConstants.java]'",
+    "- // j": "This is the script that presents the students with a workflow",
+    "work": "yarn node helpers/workflow.js",
+    "- // z": "Build stuff for all the scripts in helpers",
+    "types": "yarn tsc --noEmit",
+    "tsc": "yarn tsc"
   },
   "dependencies": {
-    "ts-node": "^10.9.1",
-    "typescript": "^5.2.2"
+    "@freik/containers": "^0.2.13",
+    "@freik/typechk": "^0.5.11",
+    "@types/node": "^20.14.6",
+    "java-parser": "^2.3.0",
+    "prettier": "^3.3.2",
+    "prettier-plugin-java": "^2.6.0",
+    "run-script-os": "^1.1.6",
+    "simple-git": "^3.25.0",
+    "typescript": "^5.4.5"
   },
-  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+  "packageManager": "yarn@4.3.0",
+  "dependenciesMeta": {
+    "prettier-plugin-java@2.6.0": {
+      "unplugged": true
+    }
+  }
 }
