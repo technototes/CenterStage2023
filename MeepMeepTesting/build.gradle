@@ -9,18 +9,99 @@ repositories {
     maven { url 'https://jitpack.io' }
 
     // Specifically for MeepMeep
-    maven { url = 'https://maven.brott.dev/' }
+    maven { url 'https://maven.brott.dev/' }
     // don't remove this extra maven url unless maven.brott.dev is redirecting to something else
     // `maven.brott.dev` is 302 redirecting to `acmerobotics.z13.web.core.windows.net`
     // if unable to access `maven.brott.dev` the above code can fail-over to `acmerobotics.z13.web.core.windows.net`
     // if experiencing DNS poisoning, try to add this to etc/hosts `52.239.247.97 acmerobotics.z13.web.core.windows.net`
     // alternatively you can add `142.251.33.115 maven.brott.dev` to your etc/hosts, `nslookup ghs.googlehosted.com` to get the latest IP address
-    maven { url = 'https://acmerobotics.z13.web.core.windows.net/' }
+    maven { url 'https://acmerobotics.z13.web.core.windows.net/' }
 }
+
 // Do not use apply from here
 // Include common definitions from above.
 //apply from: '../build.common.gradle'
 //apply from: '../build.dependencies.gradle'
+
+def processedLocations = "$buildDir/generated-sources"
+
+sourceSets {
+    main {
+        java {
+            srcDirs 'src/main/java'
+            // Add the generated sources directory to the source set
+            srcDirs processedLocations
+        }
+    }
+}
+
+// This is a custom gradle task to copy constants into the MeepMeep code base
+// and manipulate them to make it all buildable
+task makeMeepMeep16750Java {
+    def buildCommand
+    def osName = System.properties['os.name'].toLowerCase()
+
+    if (osName.contains('win')) {
+        buildCommand = 'yarn.cmd'
+    } else {
+        buildCommand = 'yarn'
+    }
+
+    def theFiles = files (
+            '../Sixteen750/src/main/java/org/firstinspires/ftc/sixteen750/subsystems/DrivebaseSubsystem.java',
+            '../Sixteen750/src/main/java/org/firstinspires/ftc/sixteen750/AutoConstants.java',
+    )
+
+    inputs.files theFiles.asFileTree.files
+    outputs.dir processedLocations
+
+    doLast {
+        exec {
+            commandLine buildCommand, 'meep', buildDir, 'DO_NOT_EDIT_16750', theFiles.files
+        }
+    }
+}
+
+task makeMeepMeep20403Java {
+    def buildCommand
+    def osName = System.properties['os.name'].toLowerCase()
+
+    if (osName.contains('win')) {
+        buildCommand = 'yarn.cmd'
+    } else {
+        buildCommand = 'yarn'
+    }
+
+    def theFiles = files (
+            '../Twenty403/src/main/java/org/firstinspires/ftc/twenty403/subsystems/DrivebaseSubsystem.java',
+            '../Twenty403/src/main/java/org/firstinspires/ftc/twenty403/AutoConstants.java',
+    )
+
+    inputs.files theFiles.asFileTree.files
+    outputs.dir processedLocations
+
+    doLast {
+        exec {
+            commandLine buildCommand, 'meep', buildDir, 'DO_NOT_EDIT_20403', theFiles.files
+        }
+    }
+}
+
+
+task cleanMeepMeep {
+    delete processedLocations
+}
+
+compileJava {
+    dependsOn makeMeepMeep16750Java, makeMeepMeep20403Java
+}
+
+clean {
+    dependsOn cleanMeepMeep
+}
+
+makeMeepMeep16750Java.mustRunAfter cleanMeepMeep
+makeMeepMeep20403Java.mustRunAfter cleanMeepMeep
 
 dependencies {
     implementation 'com.github.NoahBres:MeepMeep:2.0.2'

@@ -11,13 +11,18 @@ import java.util.function.Function;
 public class AutoConstants {
     @Config
     public static class WingRed {
+
         public static ConfigurablePoseD START = new ConfigurablePoseD(35, 60, -90);
+        public static ConfigurablePoseD START_STAGE = new ConfigurablePoseD(35, 58, 0);
         public static ConfigurablePoseD LEFT_SPIKE = new ConfigurablePoseD(43, 35, -60); // fine tuned
         public static ConfigurablePoseD MIDDLE_SPIKE = new ConfigurablePoseD(35, 31, -90); //  fine tuned
         public static ConfigurablePoseD RIGHT_SPIKE = new ConfigurablePoseD(31, 32, -180); // near the metal,  fine tuned
         // This is "clear of the pixels, ready to go somewhere else"
         public static ConfigurablePoseD CLEAR = new ConfigurablePoseD(39,56,-90);
         public static ConfigurablePoseD MID_CLEAR =  new ConfigurablePoseD(39, 32, -180); // fine tuned OKAYY
+        public static ConfigurablePoseD MID_SPLINE_CLEAR =  new ConfigurablePoseD(35, 34, -180); // fine tuned OKAYY
+        public static ConfigurablePoseD RIGHT_MID_CLEAR =  new ConfigurablePoseD(40, 32, -180); // fine tuned OKAYY
+        public static ConfigurablePoseD HEAD_TO_STAGE = new ConfigurablePoseD(0, 58, 0);
         public static ConfigurablePoseD PARK_CENTER = new ConfigurablePoseD(-59,12,-90); // may need to be 180 (0 needs test)
 
         public static ConfigurablePoseD PARK_CORNER = new ConfigurablePoseD(-60,56,-90); // may need to be 180 (0 needs test)
@@ -42,8 +47,8 @@ public class AutoConstants {
                 b.apply(START.toPose()).lineToLinearHeading(LEFT_SPIKE.toPose()).build(),
                 START_TO_MIDDLE_SPIKE = b ->
                         b.apply(START.toPose()).lineToLinearHeading(MIDDLE_SPIKE.toPose()).build(),
-                START_TO_RIGHT_SPIKE = b ->
-                        b.apply(START.toPose()).lineToLinearHeading(RIGHT_SPIKE.toPose()).build(),
+                //START_TO_RIGHT_SPIKE = b ->
+                //        b.apply(START.toPose()).lineToLinearHeading(RIGHT_SPIKE.toPose()).build(),
                 LEFT_SPIKE_TO_CLEAR = b ->
                         b.apply(LEFT_SPIKE.toPose()).lineToLinearHeading(CLEAR.toPose()).build(),
                 MIDDLE_SPIKE_TO_CLEAR = b ->
@@ -51,9 +56,23 @@ public class AutoConstants {
                 RIGHT_SPIKE_TO_CLEAR = b ->
                         b.apply(RIGHT_SPIKE.toPose()).lineToLinearHeading(CLEAR.toPose()).build();
         public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
+            START_TO_RIGHT_SPIKE = b ->
+                b.apply(START.toPose())
+                    .splineTo(MID_SPLINE_CLEAR.toPose().vec(), MID_SPLINE_CLEAR.getHeading())
+                    .splineToLinearHeading(RIGHT_SPIKE.toPose(), RIGHT_SPIKE.getHeading())
+                    .build();
+        public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
+            RIGHT_SPIKE_TO_STAGE = b ->
+                b.apply(RIGHT_SPIKE.toPose())
+                        .splineToLinearHeading(MID_SPLINE_CLEAR.toPose(), Math.PI - MID_SPLINE_CLEAR.getHeading())
+                        .splineToConstantHeading(START_STAGE.toPose().vec(), Math.PI - START_STAGE.getHeading())
+                        .splineToConstantHeading(HEAD_TO_STAGE.toPose().vec(), Math.PI - START_STAGE.getHeading())
+                        .splineToConstantHeading(PLACE_RIGHT.toPose().vec(), Math.PI - START_STAGE.getHeading())
+                        .build();
+        public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
 
                 START_TO_MID_CLEAR = b ->
-                b.apply(START.toPose()).lineToLinearHeading(MID_CLEAR.toPose()).build();
+                b.apply(START.toPose()).splineToLinearHeading(MID_CLEAR.toPose(), MID_CLEAR.getHeading()).build();
         public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
 
                 MID_CLEAR_TO_RIGHT_SPIKE = b ->
