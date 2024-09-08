@@ -11,7 +11,7 @@ public class BlueWingParkCenter extends SequentialCommandGroup {
             new WingPixelPlaceSelection(robot),
             new ParkCenterPositioning(robot),
             new ParkCenter(robot, robot.position),
-            CommandScheduler.getInstance()::terminateOpMode
+            CommandScheduler::terminateOpMode
         );
     }
 }

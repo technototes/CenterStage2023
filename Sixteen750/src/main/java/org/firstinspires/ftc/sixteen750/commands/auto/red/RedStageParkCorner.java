@@ -12,7 +12,7 @@ public class RedStageParkCorner extends SequentialCommandGroup {
             new ParkCornerPositioning(robot),
             new ParkCorner(robot, robot.position),
             new RecordFinalHeading(robot.drivebase),
-            CommandScheduler.getInstance()::terminateOpMode
+            CommandScheduler::terminateOpMode
         );
     }
 }

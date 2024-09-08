@@ -4,8 +4,7 @@ import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.path.command.TrajectorySequenceCommand;
 import org.firstinspires.ftc.twenty403.AutoConstants;
 import org.firstinspires.ftc.twenty403.Robot;
-import org.firstinspires.ftc.twenty403.commands.arm.ArmIntakeCommand;
-import org.firstinspires.ftc.twenty403.commands.arm.ArmNeutralCommand;
+import org.firstinspires.ftc.twenty403.commands.EZCmd;
 
 public class WingPixelIntake extends SequentialCommandGroup {
 
@@ -16,9 +15,9 @@ public class WingPixelIntake extends SequentialCommandGroup {
                 AutoConstants.WingRed.MID_PARK_CENTER_TO_PIXEL_INTAKE
             ),
             // intake
-            new ArmIntakeCommand(r.armSubsystem),
+            EZCmd.Arm.Intake(r.armSubsystem),
             //neutral position
-            new ArmNeutralCommand(r.armSubsystem),
+            EZCmd.Arm.Neutral(r.armSubsystem),
             //trajectories to place
             new TrajectorySequenceCommand(
                 r.drivebaseSubsystem,

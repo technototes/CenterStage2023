@@ -195,10 +195,9 @@ public class DrivebaseSubsystem
             updatePoseEstimate();
             Pose2d pose = getPoseEstimate();
             Pose2d poseVelocity = getPoseVelocity();
-            poseDisplay =
-                pose.toString() +
-                " : " +
-                (poseVelocity != null ? poseVelocity.toString() : "<null>");
+            poseDisplay = pose.toString() +
+            " : " +
+            (poseVelocity != null ? poseVelocity.toString() : "<null>");
         }
         heading = imu.gyroHeading();
     }

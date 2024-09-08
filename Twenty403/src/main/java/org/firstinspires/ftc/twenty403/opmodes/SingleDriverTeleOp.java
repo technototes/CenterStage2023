@@ -10,7 +10,7 @@ import org.firstinspires.ftc.twenty403.AutoConstants;
 import org.firstinspires.ftc.twenty403.Hardware;
 import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
-import org.firstinspires.ftc.twenty403.commands.driving.ResetGyroCommand;
+import org.firstinspires.ftc.twenty403.commands.EZCmd;
 import org.firstinspires.ftc.twenty403.controls.SingleController;
 import org.firstinspires.ftc.twenty403.helpers.StartingPosition;
 
@@ -30,8 +30,9 @@ public class SingleDriverTeleOp extends CommandOpMode {
         robot = new Robot(hardware, Alliance.NONE, StartingPosition.Unspecified);
         controls = new SingleController(driverGamepad, robot, setup);
         robot.drivebaseSubsystem.setPoseEstimate(AutoConstants.WingRed.TELESTART.toPose());
-        CommandScheduler
-            .getInstance()
-            .scheduleForState(new ResetGyroCommand(robot.drivebaseSubsystem), OpModeState.INIT);
+        CommandScheduler.scheduleForState(
+            EZCmd.Drive.ResetGyro(robot.drivebaseSubsystem),
+            OpModeState.INIT
+        );
     }
 }

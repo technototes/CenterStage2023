@@ -84,13 +84,12 @@ public class ArmSubsystem implements Subsystem, Loggable {
             shoulder.brake();
             shoulder2.brake();
         }
-        shoulderPidController =
-            new PIDFController(
-                shoulderPID,
-                0,
-                0,
-                0,
-                /*
+        shoulderPidController = new PIDFController(
+            shoulderPID,
+            0,
+            0,
+            0,
+            /*
 
             The function arguments for the Feed Forward function are Position (ticks) and
             Velocity (units?). So, for the shoulder, we want to check to see if which side of
@@ -111,9 +110,9 @@ public class ArmSubsystem implements Subsystem, Loggable {
                 When T is greater than 90, the "downward torque" is working *with* the motor
 
              */
-                (ticks, velocity) ->
-                    FEEDFORWARD_COEFFICIENT * Math.cos((Math.PI * ticks) / (2 * SHOULDER_VERTICAL))
-            );
+            (ticks, velocity) ->
+                FEEDFORWARD_COEFFICIENT * Math.cos((Math.PI * ticks) / (2 * SHOULDER_VERTICAL))
+        );
         resetArmNeutral();
     }
 

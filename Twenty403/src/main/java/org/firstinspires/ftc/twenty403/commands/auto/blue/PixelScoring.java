@@ -2,23 +2,19 @@ package org.firstinspires.ftc.twenty403.commands.auto.blue;
 
 import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.library.command.WaitCommand;
-import org.firstinspires.ftc.twenty403.commands.arm.ArmNeutralCommand;
-import org.firstinspires.ftc.twenty403.commands.arm.IntakeSpitCommand;
-import org.firstinspires.ftc.twenty403.commands.arm.ShoulderFirstLineScoring;
-import org.firstinspires.ftc.twenty403.commands.arm.ShoulderNeutralCommand;
-import org.firstinspires.ftc.twenty403.commands.arm.WristFirstLineScoring;
+import org.firstinspires.ftc.twenty403.commands.EZCmd;
 import org.firstinspires.ftc.twenty403.subsystems.ArmSubsystem;
 
 public class PixelScoring extends SequentialCommandGroup {
 
     public PixelScoring(ArmSubsystem s) {
         super(
-            new ShoulderFirstLineScoring(s),
-            new WristFirstLineScoring(s),
+            EZCmd.Shoulder.FirstLine(s),
+            EZCmd.Wrist.FirstLine(s),
             new WaitCommand(1),
-            new IntakeSpitCommand(s),
+            EZCmd.Intake.Spit(s),
             new WaitCommand(2),
-            new ArmNeutralCommand(s)
+            EZCmd.Arm.Neutral(s)
         );
     }
 }

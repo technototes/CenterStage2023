@@ -2,10 +2,10 @@
 
 Checking the accuracy of our odo pods when rotating
 
-5 rotations = 5 circumferances = $10 \pi r$
+5 rotations = 5 circumferences = $10 \pi r$
 
 421081 -> Radius is calculated as 13403 ticks
-103964 -> Radius is calculatee as 3309 ticks
+103964 -> Radius is calculated as 3309 ticks
 
 TicksPerRev = 8192
 WheelRadius = 17.5 mm
@@ -24,7 +24,7 @@ $x^2 + y^2 = 13403^2 = 179640409$
 $x^2 + y^2 = 3309^2 =  10949481$
 
 Metal chassis is 31.2cm wide
-The drivebase axles are 33.6cm apart
+The drive base axles are 33.6cm apart
 
 Measured "outer" pod is 17.8cm x 5.2cm from center
 Measured "inner" pod is 7.6cm x 4.9cm from center

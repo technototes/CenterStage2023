@@ -21,15 +21,14 @@ public class Robot implements Loggable {
         this.initialVoltage = hw.voltage();
         this.test = new TestSubsystem(hw);
         if (Setup.Connected.DRIVEBASE) {
-            this.drivebaseSubsystem =
-                new DrivebaseSubsystem(
-                    hw.flMotor,
-                    hw.frMotor,
-                    hw.rlMotor,
-                    hw.rrMotor,
-                    hw.imu,
-                    hw.distanceSensor
-                );
+            this.drivebaseSubsystem = new DrivebaseSubsystem(
+                hw.flMotor,
+                hw.frMotor,
+                hw.rlMotor,
+                hw.rrMotor,
+                hw.imu,
+                hw.distanceSensor
+            );
         }
         if (Setup.Connected.TESTSUBSYSTEM) {
             this.test = new TestSubsystem(hw);

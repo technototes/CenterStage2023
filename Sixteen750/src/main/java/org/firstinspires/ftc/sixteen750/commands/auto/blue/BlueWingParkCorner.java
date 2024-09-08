@@ -10,7 +10,7 @@ public class BlueWingParkCorner extends SequentialCommandGroup {
         super(
             new WingPixelPlaceSelection(robot),
             new ParkCorner(robot, robot.position),
-            CommandScheduler.getInstance()::terminateOpMode
+            CommandScheduler::terminateOpMode
         );
     }
 }

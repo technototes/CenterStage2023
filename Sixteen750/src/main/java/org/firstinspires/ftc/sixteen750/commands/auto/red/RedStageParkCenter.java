@@ -11,7 +11,7 @@ public class RedStageParkCenter extends SequentialCommandGroup {
             new StagePixelPlaceSelection(robot),
             new ParkCenter(robot, robot.position),
             new RecordFinalHeading(robot.drivebase),
-            CommandScheduler.getInstance()::terminateOpMode
+            CommandScheduler::terminateOpMode
         );
     }
 }

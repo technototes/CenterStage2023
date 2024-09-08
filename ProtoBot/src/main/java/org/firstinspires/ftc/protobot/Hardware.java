@@ -30,12 +30,11 @@ public class Hardware implements Loggable {
             this.rlMotor = new EncodedMotor<>(Setup.HardwareNames.RLMOTOR);
         }
 
-        this.imu =
-            new IMU(
-                Setup.HardwareNames.IMU,
-                RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD
-            );
+        this.imu = new IMU(
+            Setup.HardwareNames.IMU,
+            RevHubOrientationOnRobot.LogoFacingDirection.UP,
+            RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD
+        );
     }
 
     // We can read the voltage from the different hubs for fun...

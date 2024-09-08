@@ -32,17 +32,15 @@ public class BasicAuto extends CommandOpMode implements Loggable {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         hardware = new Hardware(hardwareMap);
         robot = new Robot(hardware);
-        CommandScheduler
-            .getInstance()
-            .scheduleForState(
-                new SequentialCommandGroup(
-                    // new TurboCommand(robot.drivebaseSubsystem),
-                    // new StartSpinningCmd(robot.spinner),
-                    new WaitCommand(Setup.OtherSettings.AUTOTIME),
-                    // new StopSpinningCmd(robot.spinner),
-                    CommandScheduler.getInstance()::terminateOpMode
-                ),
-                CommandOpMode.OpModeState.RUN
-            );
+        CommandScheduler.scheduleForState(
+            new SequentialCommandGroup(
+                // new TurboCommand(robot.drivebaseSubsystem),
+                // new StartSpinningCmd(robot.spinner),
+                new WaitCommand(Setup.OtherSettings.AUTOTIME),
+                // new StopSpinningCmd(robot.spinner),
+                CommandScheduler::terminateOpMode
+            ),
+            CommandOpMode.OpModeState.RUN
+        );
     }
 }

@@ -181,21 +181,19 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
         int colorCountL = 0;
         int colorCountM = 0;
         if (this.alliance == Alliance.BLUE) {
-            colorCountM =
-                countColor(
-                    VisionConstants.BLUE,
-                    rectM,
-                    VisionConstants.Middle.X,
-                    VisionConstants.Middle.Y
-                );
+            colorCountM = countColor(
+                VisionConstants.BLUE,
+                rectM,
+                VisionConstants.Middle.X,
+                VisionConstants.Middle.Y
+            );
         } else {
-            colorCountM =
-                countColor(
-                    VisionConstants.RED1,
-                    rectM,
-                    VisionConstants.Middle.X,
-                    VisionConstants.Middle.Y
-                );
+            colorCountM = countColor(
+                VisionConstants.RED1,
+                rectM,
+                VisionConstants.Middle.X,
+                VisionConstants.Middle.Y
+            );
             colorCountM +=
             countColor(
                 VisionConstants.RED2,
@@ -205,21 +203,19 @@ public class VisionPipeline extends OpenCvPipeline implements Supplier<Integer>,
             );
         }
         if (this.alliance == Alliance.BLUE) {
-            colorCountL =
-                countColor(
-                    VisionConstants.BLUE,
-                    rectL,
-                    VisionConstants.Left.X,
-                    VisionConstants.Left.Y
-                );
+            colorCountL = countColor(
+                VisionConstants.BLUE,
+                rectL,
+                VisionConstants.Left.X,
+                VisionConstants.Left.Y
+            );
         } else {
-            colorCountL =
-                countColor(
-                    VisionConstants.RED1,
-                    rectL,
-                    VisionConstants.Left.X,
-                    VisionConstants.Left.Y
-                );
+            colorCountL = countColor(
+                VisionConstants.RED1,
+                rectL,
+                VisionConstants.Left.X,
+                VisionConstants.Left.Y
+            );
             colorCountL +=
             countColor(VisionConstants.RED2, rectL, VisionConstants.Left.X, VisionConstants.Left.Y);
         }

@@ -10,8 +10,8 @@ import org.firstinspires.ftc.twenty403.AutoConstants;
 import org.firstinspires.ftc.twenty403.Hardware;
 import org.firstinspires.ftc.twenty403.Robot;
 import org.firstinspires.ftc.twenty403.Setup;
+import org.firstinspires.ftc.twenty403.commands.EZCmd;
 import org.firstinspires.ftc.twenty403.commands.VisionCommand;
-import org.firstinspires.ftc.twenty403.commands.arm.ArmNeutralCommand;
 import org.firstinspires.ftc.twenty403.commands.auto.blue.BlueStageParkCenter;
 import org.firstinspires.ftc.twenty403.controls.DriverController;
 import org.firstinspires.ftc.twenty403.helpers.StartingPosition;
@@ -33,13 +33,11 @@ public class PushPlaceParkCenterBlueStage extends CommandOpMode {
         hardware = new Hardware(hardwareMap);
         robot = new Robot(hardware, Alliance.BLUE, StartingPosition.Backstage);
         robot.drivebaseSubsystem.setPoseEstimate(AutoConstants.StageBlue.START.toPose());
-        CommandScheduler
-            .getInstance()
-            .scheduleForState(new BlueStageParkCenter(robot), OpModeState.RUN);
-        CommandScheduler.getInstance().scheduleInit(new ArmNeutralCommand(robot.armSubsystem));
+        CommandScheduler.scheduleForState(new BlueStageParkCenter(robot), OpModeState.RUN);
+        CommandScheduler.scheduleInit(EZCmd.Arm.Neutral(robot.armSubsystem));
 
         if (Setup.Connected.WEBCAM) {
-            CommandScheduler.getInstance().scheduleInit(new VisionCommand(robot.vision));
+            CommandScheduler.scheduleInit(new VisionCommand(robot.vision));
         }
     }
 }
