@@ -26,7 +26,7 @@ public class JoystickDriveCommand implements Command, Loggable {
         Stick rotStick,
         DoubleSupplier strtDrive
     ) {
-        addControlledSubsystems(sub);
+        addRequirements(sub);
         subsystem = sub;
         x = xyStick.getXSupplier();
         y = xyStick.getYSupplier();

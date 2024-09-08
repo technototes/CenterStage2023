@@ -14,6 +14,6 @@ public class SafetyStopCommand implements Command {
 
     public SafetyStopCommand(SafetySubsystem d) {
         subsystem = d;
-        addControlledSubsystems(d);
+        addRequirements(d);
     }
 }

@@ -9,7 +9,7 @@ public class ScoreHoldCommand implements Command {
 
     public ScoreHoldCommand(PlacementSubsystem i) {
         placement = i;
-        addControlledSubsystems(i);
+        addRequirements(i);
     }
 
     @Override

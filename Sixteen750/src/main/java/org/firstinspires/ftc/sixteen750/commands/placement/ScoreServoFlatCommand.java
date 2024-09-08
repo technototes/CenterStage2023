@@ -9,7 +9,7 @@ public class ScoreServoFlatCommand implements Command {
 
     public ScoreServoFlatCommand(PlacementSubsystem i) {
         placement = i;
-        addControlledSubsystems(i);
+        addRequirements(i);
     }
 
     @Override

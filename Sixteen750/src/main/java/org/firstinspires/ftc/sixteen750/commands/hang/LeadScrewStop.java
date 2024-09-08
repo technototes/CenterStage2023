@@ -9,7 +9,7 @@ public class LeadScrewStop implements Command {
 
     public LeadScrewStop(HangSubsystem j) {
         leadscrewDown = j;
-        addControlledSubsystems(j);
+        addRequirements(j);
     }
 
     @Override

@@ -9,7 +9,7 @@ public class ArmHoldCommand implements Command {
 
     public ArmHoldCommand(PlacementSubsystem i) {
         placement = i;
-        addControlledSubsystems(i);
+        addRequirements(i);
     }
 
     @Override

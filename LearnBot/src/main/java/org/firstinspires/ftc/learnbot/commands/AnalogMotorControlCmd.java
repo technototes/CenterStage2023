@@ -24,7 +24,7 @@ public class AnalogMotorControlCmd implements Command, Loggable {
     public AnalogMotorControlCmd(MotorTestSubsystem motorTest, DoubleSupplier axis) {
         sub = motorTest;
         ds = axis;
-        addControlledSubsystems(motorTest);
+        addRequirements(motorTest);
     }
 
     @Override

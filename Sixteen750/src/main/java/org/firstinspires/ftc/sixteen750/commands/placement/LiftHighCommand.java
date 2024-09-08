@@ -10,7 +10,7 @@ public class LiftHighCommand implements Command {
 
     public LiftHighCommand(PlacementSubsystem i) {
         placement = i;
-        addControlledSubsystems(i);
+        addRequirements(i);
     }
 
     @Override

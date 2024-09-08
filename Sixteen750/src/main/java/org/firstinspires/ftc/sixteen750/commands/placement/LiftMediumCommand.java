@@ -9,7 +9,7 @@ public class LiftMediumCommand implements Command {
 
     public LiftMediumCommand(PlacementSubsystem i) {
         placement = i;
-        addControlledSubsystems(i);
+        addRequirements(i);
     }
 
     @Override

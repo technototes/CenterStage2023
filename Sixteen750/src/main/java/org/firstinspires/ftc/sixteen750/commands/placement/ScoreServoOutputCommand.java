@@ -9,7 +9,7 @@ public class ScoreServoOutputCommand implements Command {
 
     public ScoreServoOutputCommand(PlacementSubsystem i) {
         placement = i;
-        addControlledSubsystems(i);
+        addRequirements(i);
     }
 
     @Override

@@ -9,7 +9,7 @@ public class DroneLaunch implements Command {
 
     public DroneLaunch(DroneSubsystem j) {
         DroneLaunch = j;
-        addControlledSubsystems(j);
+        addRequirements(j);
     }
 
     @Override

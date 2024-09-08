@@ -9,7 +9,7 @@ public class HangNeutral implements Command {
 
     public HangNeutral(HangSubsystem h) {
         hang = h;
-        addControlledSubsystems(h);
+        addRequirements(h);
     }
 
     @Override

@@ -9,7 +9,7 @@ public class StopCommand implements Command {
 
     public StopCommand(IntakeSubsystem i) {
         intake = i;
-        addControlledSubsystems(i);
+        addRequirements(i);
     }
 
     @Override

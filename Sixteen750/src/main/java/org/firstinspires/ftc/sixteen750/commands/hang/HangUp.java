@@ -10,7 +10,7 @@ public class HangUp implements Command {
 
     public HangUp(HangSubsystem h) {
         hang = h;
-        addControlledSubsystems(h);
+        addRequirements(h);
     }
 
     @Override

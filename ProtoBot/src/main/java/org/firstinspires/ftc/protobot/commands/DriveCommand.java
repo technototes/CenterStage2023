@@ -22,7 +22,7 @@ public class DriveCommand implements Command, Loggable {
         Stick stick2,
         DoubleSupplier strtDrive
     ) {
-        addControlledSubsystems(sub);
+        addRequirements(sub);
         subsystem = sub;
         x = stick1.getXSupplier();
         y = stick1.getYSupplier();

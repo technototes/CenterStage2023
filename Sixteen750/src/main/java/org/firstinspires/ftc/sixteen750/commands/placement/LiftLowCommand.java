@@ -9,7 +9,7 @@ public class LiftLowCommand implements Command {
 
     public LiftLowCommand(PlacementSubsystem i) {
         placement = i;
-        addControlledSubsystems(i);
+        addRequirements(i);
     }
 
     @Override

@@ -15,6 +15,6 @@ public class SafetyStartCommand implements Command {
 
     public SafetyStartCommand(SafetySubsystem d) {
         subsystem = d;
-        addControlledSubsystems(d);
+        addRequirements(d);
     }
 }
